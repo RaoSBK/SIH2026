@@ -1,0 +1,2 @@
+// caseStore.ts stub
+export {};

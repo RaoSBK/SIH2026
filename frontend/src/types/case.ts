@@ -1,0 +1,2 @@
+// case.ts stub
+export {};

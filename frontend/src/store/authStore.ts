@@ -1,0 +1,2 @@
+// authStore.ts stub
+export {};

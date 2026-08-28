@@ -1,0 +1,2 @@
+// authApi.ts stub
+export {};
