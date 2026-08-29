@@ -6,34 +6,34 @@
 <title>VERITAS — Investigator Console</title>
 <style>
   :root{
-    --ink:#12161D;
-    --graphite:#1B212B;
-    --graphite-2:#212836;
-    --hairline:rgba(255,255,255,0.08);
-    --hairline-strong:rgba(255,255,255,0.16);
-    --text:#ECEAE3;
-    --text-dim:#8F98AA;
-    --text-faint:#5C6577;
-    --paper:#F5F2EA;
-    --paper-dim:#DCD8CC;
-    --amber:#D98E3B;
-    --amber-dim:rgba(217,142,59,0.18);
-    --teal:#3F8C82;
-    --teal-dim:rgba(63,140,130,0.18);
-    --steel:#5B6478;
+    --ink:#F9FAFB;
+    --graphite:#FFFFFF;
+    --graphite-2:#F3F4F6;
+    --hairline:rgba(0,0,0,0.08);
+    --hairline-strong:rgba(0,0,0,0.16);
+    --text:#111827;
+    --text-dim:#4B5563;
+    --text-faint:#6B7280;
+    --paper:#FFFFFF;
+    --paper-dim:#E5E7EB;
+    --amber:#D97706;
+    --amber-dim:rgba(217,119,6,0.15);
+    --teal:#0F766E;
+    --teal-dim:rgba(15,118,110,0.15);
+    --steel:#9CA3AF;
     --radius:14px;
     font-size:16px;
   }
   @media (prefers-contrast: more){
-    :root{ --hairline:rgba(255,255,255,0.4); --text-dim:#C8CEDA; }
+    :root{ --hairline:rgba(0,0,0,0.2); --text-dim:#374151; }
   }
   *{ box-sizing:border-box; }
   html,body{ height:100%; }
   body{
     margin:0;
     background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(63,140,130,0.08), transparent 60%),
-      radial-gradient(1000px 500px at 100% 0%, rgba(217,142,59,0.06), transparent 55%),
+      radial-gradient(1200px 600px at 15% -10%, rgba(15,118,110,0.05), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(217,119,6,0.04), transparent 55%),
       var(--ink);
     color:var(--text);
     font:400 15px/1.5 -apple-system, ui-sans-serif, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
@@ -49,7 +49,7 @@
     display:flex; align-items:center; gap:22px;
     padding:14px 22px;
     border-bottom:1px solid var(--hairline);
-    background:rgba(27,33,43,0.7);
+    background:rgba(255,255,255,0.75);
     backdrop-filter: blur(20px) saturate(160%);
     -webkit-backdrop-filter: blur(20px) saturate(160%);
     flex-shrink:0;
@@ -117,7 +117,7 @@
     display:flex; align-items:center; gap:10px;
     padding:10px 10px; border-radius:10px;
     border:1px solid var(--hairline); margin-bottom:8px;
-    background:rgba(255,255,255,0.02);
+    background:rgba(0,0,0,0.015);
   }
   .source .icon{
     width:28px; height:28px; border-radius:7px; flex-shrink:0;
@@ -139,7 +139,7 @@
   }
   button.run:active{ transform:scale(0.97); }
   button.run:disabled{ opacity:0.45; cursor:default; }
-  button.run:not(:disabled):hover{ background:rgba(217,142,59,0.28); }
+  button.run:not(:disabled):hover{ background:rgba(217,119,6,0.22); }
 
   .log{ margin-top:16px; }
   .log-line{
@@ -152,7 +152,7 @@
 
   /* ---------- Graph ---------- */
   .graph-wrap{ position:relative; overflow:hidden; background:
-      radial-gradient(closest-side at 50% 45%, rgba(255,255,255,0.02), transparent);
+      radial-gradient(closest-side at 50% 45%, rgba(0,0,0,0.02), transparent);
   }
   .graph-caption{
     position:absolute; top:16px; left:18px; z-index:5;
@@ -237,7 +237,7 @@
     font-size:12.5px; cursor:pointer; transition:transform 100ms ease-out, background 150ms ease;
   }
   button.ghost:active{ transform:scale(0.97); }
-  button.ghost:hover{ background:rgba(255,255,255,0.04); }
+  button.ghost:hover{ background:rgba(0,0,0,0.04); }
 
   .empty-hint{ color:var(--text-faint); font-size:12.5px; line-height:1.6; }
 
@@ -245,14 +245,14 @@
   #modal-layer{
     position:fixed; inset:0; z-index:50;
     display:flex; align-items:center; justify-content:center;
-    background:rgba(9,11,15,0.55);
+    background:rgba(255,255,255,0.45);
     backdrop-filter: blur(6px);
     opacity:0; pointer-events:none;
   }
   #modal-layer.open{ opacity:1; pointer-events:auto; transition:opacity 220ms ease; }
   .modal{
     width:min(520px, 90vw);
-    background:var(--paper); color:#20242C;
+    background:var(--paper); color:var(--text);
     border-radius:16px; padding:22px 24px;
     box-shadow:0 30px 80px rgba(0,0,0,0.5);
     transform:translateY(14px) scale(0.98); opacity:0;
@@ -261,20 +261,20 @@
   .modal h3{ margin:0 0 4px 0; font-size:16px; letter-spacing:-0.01em; }
   .modal .doc-id{ font-family:ui-monospace,monospace; font-size:11px; color:#6B7280; margin-bottom:14px; }
   .modal .doc-body{
-    font-size:13px; line-height:1.6; color:#34394A; background:#EDEAE0;
-    border-radius:10px; padding:14px; margin-bottom:14px; border:1px solid #DCD8CC;
+    font-size:13px; line-height:1.6; color:#111827; background:#F9FAFB;
+    border-radius:10px; padding:14px; margin-bottom:14px; border:1px solid #E5E7EB;
   }
   .modal .verify-row{
-    display:flex; align-items:center; gap:8px; font-size:11.5px; color:#3F8C82; font-weight:600;
+    display:flex; align-items:center; gap:8px; font-size:11.5px; color:#0F766E; font-weight:600;
     margin-bottom:16px;
   }
   .modal .verify-row .check{
-    width:16px; height:16px; border-radius:50%; background:#3F8C82; color:white;
+    width:16px; height:16px; border-radius:50%; background:#0F766E; color:white;
     display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0;
   }
   .modal .hashrow{ font-family:ui-monospace,monospace; font-size:10.5px; color:#8A8F9C; margin-bottom:18px; word-break:break-all; }
   .modal button.close{
-    padding:9px 16px; border-radius:9px; border:none; background:#20242C; color:#F5F2EA;
+    padding:9px 16px; border-radius:9px; border:1px solid #E5E7EB; background:#F3F4F6; color:#111827;
     font-size:12.5px; cursor:pointer; transition:transform 100ms ease-out;
   }
   .modal button.close:active{ transform:scale(0.96); }
@@ -401,8 +401,8 @@
   NODES.forEach(n=>degree[n.id]=0);
   EDGES.forEach(e=>{ degree[e.from]++; degree[e.to]++; });
 
-  const TYPE_STROKE = { person:'#6FA79E', phone:'#8792A6', vehicle:'#8792A6', location:'#B98F52', account:'#8792A6', org:'#8792A6' };
-  const TYPE_FILL   = { person:'rgba(63,140,130,0.14)', phone:'rgba(135,146,166,0.10)', vehicle:'rgba(135,146,166,0.10)', location:'rgba(217,142,59,0.10)', account:'rgba(135,146,166,0.10)', org:'rgba(135,146,166,0.10)' };
+  const TYPE_STROKE = { person:'#0F766E', phone:'#6B7280', vehicle:'#6B7280', location:'#D97706', account:'#6B7280', org:'#6B7280' };
+  const TYPE_FILL   = { person:'rgba(15,118,110,0.15)', phone:'rgba(107,114,128,0.12)', vehicle:'rgba(107,114,128,0.12)', location:'rgba(217,119,6,0.15)', account:'rgba(107,114,128,0.12)', org:'rgba(107,114,128,0.12)' };
 
   /* ---------------- Stepper ---------------- */
   const stepperEl = document.getElementById('stepper');
