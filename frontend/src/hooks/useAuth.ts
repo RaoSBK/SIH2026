@@ -1,0 +1,2 @@
+// useAuth.ts stub
+export {};

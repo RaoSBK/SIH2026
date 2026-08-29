@@ -1,0 +1,2 @@
+// entity.ts stub
+export {};

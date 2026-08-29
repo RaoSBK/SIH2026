@@ -1,0 +1,2 @@
+// user.ts stub
+export {};

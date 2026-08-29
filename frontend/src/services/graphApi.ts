@@ -1,0 +1,2 @@
+// graphApi.ts stub
+export {};
