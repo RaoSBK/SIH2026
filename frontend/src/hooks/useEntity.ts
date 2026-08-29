@@ -1,2 +1,0 @@
-// useEntity.ts stub
-export {};
