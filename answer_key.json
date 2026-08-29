@@ -1,0 +1,621 @@
+{
+  "master_entities": [
+    {
+      "person_id": "P001",
+      "canonical_name": "Anil Patil",
+      "name_variants": [
+        "Anil Patil",
+        "A. Patil",
+        "Anil P.",
+        "ANIL PATIL"
+      ],
+      "phone": "9930059616",
+      "bank_account": "ACC86468",
+      "vehicle": null,
+      "home_location": "Location_9",
+      "organization": null
+    },
+    {
+      "person_id": "P002",
+      "canonical_name": "Ravi Mehta",
+      "name_variants": [
+        "Ravi Mehta",
+        "R. Mehta",
+        "Ravi M.",
+        "RAVI MEHTA"
+      ],
+      "phone": "9883716767",
+      "bank_account": "ACC70676",
+      "vehicle": "MH12XY5110",
+      "home_location": "Location_5",
+      "organization": null
+    },
+    {
+      "person_id": "P003",
+      "canonical_name": "Rahul Patil",
+      "name_variants": [
+        "Rahul Patil",
+        "R. Patil",
+        "Rahul P.",
+        "RAHUL PATIL"
+      ],
+      "phone": "9206683624",
+      "bank_account": "ACC95269",
+      "vehicle": null,
+      "home_location": "Location_14",
+      "organization": null
+    },
+    {
+      "person_id": "P004",
+      "canonical_name": "Neha Mehta",
+      "name_variants": [
+        "Neha Mehta",
+        "N. Mehta",
+        "Neha M.",
+        "NEHA MEHTA"
+      ],
+      "phone": "9776723706",
+      "bank_account": "ACC36019",
+      "vehicle": null,
+      "home_location": "Location_9",
+      "organization": null
+    },
+    {
+      "person_id": "P005",
+      "canonical_name": "Sunil Deshmukh",
+      "name_variants": [
+        "Sunil Deshmukh",
+        "S. Deshmukh",
+        "Sunil D.",
+        "SUNIL DESHMUKH"
+      ],
+      "phone": "9785122250",
+      "bank_account": "ACC45414",
+      "vehicle": null,
+      "home_location": "Location_3",
+      "organization": "Org_4"
+    },
+    {
+      "person_id": "P006",
+      "canonical_name": "Neha Rao",
+      "name_variants": [
+        "Neha Rao",
+        "N. Rao",
+        "Neha R.",
+        "NEHA RAO"
+      ],
+      "phone": "9455401597",
+      "bank_account": "ACC42336",
+      "vehicle": null,
+      "home_location": "Location_12",
+      "organization": null
+    },
+    {
+      "person_id": "P007",
+      "canonical_name": "Kiran Kumar",
+      "name_variants": [
+        "Kiran Kumar",
+        "K. Kumar",
+        "Kiran K.",
+        "KIRAN KUMAR"
+      ],
+      "phone": "9470943746",
+      "bank_account": "ACC25732",
+      "vehicle": null,
+      "home_location": "Location_7",
+      "organization": null
+    },
+    {
+      "person_id": "P008",
+      "canonical_name": "Suresh Das",
+      "name_variants": [
+        "Suresh Das",
+        "S. Das",
+        "Suresh D.",
+        "SURESH DAS"
+      ],
+      "phone": "9122330468",
+      "bank_account": "ACC92823",
+      "vehicle": null,
+      "home_location": "Location_5",
+      "organization": "Org_3"
+    },
+    {
+      "person_id": "P009",
+      "canonical_name": "Pooja Sharma",
+      "name_variants": [
+        "Pooja Sharma",
+        "P. Sharma",
+        "Pooja S.",
+        "POOJA SHARMA"
+      ],
+      "phone": "9101766480",
+      "bank_account": "ACC11326",
+      "vehicle": "MH12PQ8269",
+      "home_location": "Location_6",
+      "organization": null
+    },
+    {
+      "person_id": "P010",
+      "canonical_name": "Neha Kumar",
+      "name_variants": [
+        "Neha Kumar",
+        "N. Kumar",
+        "Neha K.",
+        "NEHA KUMAR"
+      ],
+      "phone": "9252679083",
+      "bank_account": "ACC38746",
+      "vehicle": null,
+      "home_location": "Location_10",
+      "organization": null
+    },
+    {
+      "person_id": "P011",
+      "canonical_name": "Ravi Kumar",
+      "name_variants": [
+        "Ravi Kumar",
+        "R. Kumar",
+        "Ravi K.",
+        "RAVI KUMAR"
+      ],
+      "phone": "9344234907",
+      "bank_account": "ACC47691",
+      "vehicle": "MH12AB7501",
+      "home_location": "Location_6",
+      "organization": null
+    },
+    {
+      "person_id": "P012",
+      "canonical_name": "Suresh Kumar",
+      "name_variants": [
+        "Suresh Kumar",
+        "S. Kumar",
+        "Suresh K.",
+        "SURESH KUMAR"
+      ],
+      "phone": "9223786821",
+      "bank_account": "ACC11308",
+      "vehicle": null,
+      "home_location": "Location_15",
+      "organization": "Org_2"
+    },
+    {
+      "person_id": "P013",
+      "canonical_name": "Suresh Verma",
+      "name_variants": [
+        "Suresh Verma",
+        "S. Verma",
+        "Suresh V.",
+        "SURESH VERMA"
+      ],
+      "phone": "9157334558",
+      "bank_account": "ACC99239",
+      "vehicle": null,
+      "home_location": "Location_15",
+      "organization": "Org_3"
+    },
+    {
+      "person_id": "P014",
+      "canonical_name": "Amit Reddy",
+      "name_variants": [
+        "Amit Reddy",
+        "A. Reddy",
+        "Amit R.",
+        "AMIT REDDY"
+      ],
+      "phone": "9416624250",
+      "bank_account": "ACC49296",
+      "vehicle": "MH12PQ4819",
+      "home_location": "Location_1",
+      "organization": "Org_1"
+    },
+    {
+      "person_id": "P015",
+      "canonical_name": "Sunil Mehta",
+      "name_variants": [
+        "Sunil Mehta",
+        "S. Mehta",
+        "Sunil M.",
+        "SUNIL MEHTA"
+      ],
+      "phone": "9507631359",
+      "bank_account": "ACC75932",
+      "vehicle": "MH12PQ3030",
+      "home_location": "Location_12",
+      "organization": "Org_3"
+    },
+    {
+      "person_id": "P016",
+      "canonical_name": "Sanjay Reddy",
+      "name_variants": [
+        "Sanjay Reddy",
+        "S. Reddy",
+        "Sanjay R.",
+        "SANJAY REDDY"
+      ],
+      "phone": "9251305036",
+      "bank_account": "ACC26064",
+      "vehicle": "MH12AB6902",
+      "home_location": "Location_4",
+      "organization": "Org_6"
+    },
+    {
+      "person_id": "P017",
+      "canonical_name": "Kiran Reddy",
+      "name_variants": [
+        "Kiran Reddy",
+        "K. Reddy",
+        "Kiran R.",
+        "KIRAN REDDY"
+      ],
+      "phone": "9992003135",
+      "bank_account": "ACC21189",
+      "vehicle": "MH12XY3580",
+      "home_location": "Location_1",
+      "organization": "Org_7"
+    },
+    {
+      "person_id": "P018",
+      "canonical_name": "Arun Joshi",
+      "name_variants": [
+        "Arun Joshi",
+        "A. Joshi",
+        "Arun J.",
+        "ARUN JOSHI"
+      ],
+      "phone": "9395894857",
+      "bank_account": "ACC94350",
+      "vehicle": "MH12XY1573",
+      "home_location": "Location_6",
+      "organization": "Org_3"
+    },
+    {
+      "person_id": "P019",
+      "canonical_name": "Priya Joshi",
+      "name_variants": [
+        "Priya Joshi",
+        "P. Joshi",
+        "Priya J.",
+        "PRIYA JOSHI"
+      ],
+      "phone": "9316044204",
+      "bank_account": "ACC89380",
+      "vehicle": "MH12AB5699",
+      "home_location": "Location_3",
+      "organization": null
+    },
+    {
+      "person_id": "P020",
+      "canonical_name": "Rahul Gupta",
+      "name_variants": [
+        "Rahul Gupta",
+        "R. Gupta",
+        "Rahul G.",
+        "RAHUL GUPTA"
+      ],
+      "phone": "9119325613",
+      "bank_account": "ACC75114",
+      "vehicle": null,
+      "home_location": "Location_9",
+      "organization": "Org_3"
+    },
+    {
+      "person_id": "P021",
+      "canonical_name": "Raj Patil",
+      "name_variants": [
+        "Raj Patil",
+        "R. Patil",
+        "Raj P.",
+        "RAJ PATIL"
+      ],
+      "phone": "9396524876",
+      "bank_account": "ACC63512",
+      "vehicle": "MH12AB6412",
+      "home_location": "Location_4",
+      "organization": null
+    },
+    {
+      "person_id": "P022",
+      "canonical_name": "Suresh Gupta",
+      "name_variants": [
+        "Suresh Gupta",
+        "S. Gupta",
+        "Suresh G.",
+        "SURESH GUPTA"
+      ],
+      "phone": "9658565490",
+      "bank_account": "ACC71050",
+      "vehicle": null,
+      "home_location": "Location_4",
+      "organization": "Org_3"
+    },
+    {
+      "person_id": "P023",
+      "canonical_name": "Kiran Joshi",
+      "name_variants": [
+        "Kiran Joshi",
+        "K. Joshi",
+        "Kiran J.",
+        "KIRAN JOSHI"
+      ],
+      "phone": "9485013618",
+      "bank_account": "ACC95685",
+      "vehicle": "MH12XY8501",
+      "home_location": "Location_12",
+      "organization": null
+    },
+    {
+      "person_id": "P024",
+      "canonical_name": "Rahul Mehta",
+      "name_variants": [
+        "Rahul Mehta",
+        "R. Mehta",
+        "Rahul M.",
+        "RAHUL MEHTA"
+      ],
+      "phone": "9507861547",
+      "bank_account": "ACC49790",
+      "vehicle": null,
+      "home_location": "Location_1",
+      "organization": null
+    },
+    {
+      "person_id": "P025",
+      "canonical_name": "Manoj Patil",
+      "name_variants": [
+        "Manoj Patil",
+        "M. Patil",
+        "Manoj P.",
+        "MANOJ PATIL"
+      ],
+      "phone": "9483778558",
+      "bank_account": "ACC15110",
+      "vehicle": "MH12AB6315",
+      "home_location": "Location_11",
+      "organization": null
+    },
+    {
+      "person_id": "P026",
+      "canonical_name": "Priya Gupta",
+      "name_variants": [
+        "Priya Gupta",
+        "P. Gupta",
+        "Priya G.",
+        "PRIYA GUPTA"
+      ],
+      "phone": "9645445371",
+      "bank_account": "ACC66269",
+      "vehicle": "MH12PQ4885",
+      "home_location": "Location_14",
+      "organization": null
+    },
+    {
+      "person_id": "P027",
+      "canonical_name": "Arun Rao",
+      "name_variants": [
+        "Arun Rao",
+        "A. Rao",
+        "Arun R.",
+        "ARUN RAO"
+      ],
+      "phone": "9515353101",
+      "bank_account": "ACC77348",
+      "vehicle": "MH12AB2462",
+      "home_location": "Location_6",
+      "organization": null
+    },
+    {
+      "person_id": "P028",
+      "canonical_name": "Suresh Deshmukh",
+      "name_variants": [
+        "Suresh Deshmukh",
+        "S. Deshmukh",
+        "Suresh D.",
+        "SURESH DESHMUKH"
+      ],
+      "phone": "9103521443",
+      "bank_account": "ACC23692",
+      "vehicle": "MH12AB1975",
+      "home_location": "Location_14",
+      "organization": "Org_7"
+    },
+    {
+      "person_id": "P029",
+      "canonical_name": "Vikram Mehta",
+      "name_variants": [
+        "Vikram Mehta",
+        "V. Mehta",
+        "Vikram M.",
+        "VIKRAM MEHTA"
+      ],
+      "phone": "9859601150",
+      "bank_account": "ACC70145",
+      "vehicle": null,
+      "home_location": "Location_14",
+      "organization": null
+    },
+    {
+      "person_id": "P030",
+      "canonical_name": "Vikram Rao",
+      "name_variants": [
+        "Vikram Rao",
+        "V. Rao",
+        "Vikram R.",
+        "VIKRAM RAO"
+      ],
+      "phone": "9356684463",
+      "bank_account": "ACC79057",
+      "vehicle": null,
+      "home_location": "Location_10",
+      "organization": null
+    },
+    {
+      "person_id": "P031",
+      "canonical_name": "Raj Das",
+      "name_variants": [
+        "Raj Das",
+        "R. Das",
+        "Raj D.",
+        "RAJ DAS"
+      ],
+      "phone": "9166012408",
+      "bank_account": "ACC51986",
+      "vehicle": "MH12PQ6473",
+      "home_location": "Location_4",
+      "organization": null
+    },
+    {
+      "person_id": "P032",
+      "canonical_name": "Amit Kumar",
+      "name_variants": [
+        "Amit Kumar",
+        "A. Kumar",
+        "Amit K.",
+        "AMIT KUMAR"
+      ],
+      "phone": "9440112039",
+      "bank_account": "ACC49194",
+      "vehicle": "MH12PQ7290",
+      "home_location": "Location_3",
+      "organization": null
+    },
+    {
+      "person_id": "P033",
+      "canonical_name": "Sunil Rao",
+      "name_variants": [
+        "Sunil Rao",
+        "S. Rao",
+        "Sunil R.",
+        "SUNIL RAO"
+      ],
+      "phone": "9633844632",
+      "bank_account": "ACC73206",
+      "vehicle": "MH12XY6393",
+      "home_location": "Location_6",
+      "organization": "Org_5"
+    },
+    {
+      "person_id": "P034",
+      "canonical_name": "Raj Mehta",
+      "name_variants": [
+        "Raj Mehta",
+        "R. Mehta",
+        "Raj M.",
+        "RAJ MEHTA"
+      ],
+      "phone": "9947866864",
+      "bank_account": "ACC28749",
+      "vehicle": "MH12PQ4547",
+      "home_location": "Location_11",
+      "organization": "Org_2"
+    },
+    {
+      "person_id": "P035",
+      "canonical_name": "Sunil Sharma",
+      "name_variants": [
+        "Sunil Sharma",
+        "S. Sharma",
+        "Sunil S.",
+        "SUNIL SHARMA"
+      ],
+      "phone": "9250703355",
+      "bank_account": "ACC28457",
+      "vehicle": null,
+      "home_location": "Location_15",
+      "organization": null
+    },
+    {
+      "person_id": "P036",
+      "canonical_name": "Vikram Das",
+      "name_variants": [
+        "Vikram Das",
+        "V. Das",
+        "Vikram D.",
+        "VIKRAM DAS"
+      ],
+      "phone": "9763553360",
+      "bank_account": "ACC24145",
+      "vehicle": null,
+      "home_location": "Location_4",
+      "organization": null
+    },
+    {
+      "person_id": "P037",
+      "canonical_name": "Sunil Gupta",
+      "name_variants": [
+        "Sunil Gupta",
+        "S. Gupta",
+        "Sunil G.",
+        "SUNIL GUPTA"
+      ],
+      "phone": "9834030738",
+      "bank_account": "ACC79214",
+      "vehicle": "MH12PQ2221",
+      "home_location": "Location_1",
+      "organization": "Org_3"
+    },
+    {
+      "person_id": "P038",
+      "canonical_name": "Pooja Kumar",
+      "name_variants": [
+        "Pooja Kumar",
+        "P. Kumar",
+        "Pooja K.",
+        "POOJA KUMAR"
+      ],
+      "phone": "9997208934",
+      "bank_account": "ACC64101",
+      "vehicle": "MH12AB1142",
+      "home_location": "Location_13",
+      "organization": null
+    },
+    {
+      "person_id": "P039",
+      "canonical_name": "Ravi Rao",
+      "name_variants": [
+        "Ravi Rao",
+        "R. Rao",
+        "Ravi R.",
+        "RAVI RAO"
+      ],
+      "phone": "9780075432",
+      "bank_account": "ACC44262",
+      "vehicle": "MH12XY1311",
+      "home_location": "Location_12",
+      "organization": "Org_1"
+    },
+    {
+      "person_id": "P040",
+      "canonical_name": "Vikram Gupta",
+      "name_variants": [
+        "Vikram Gupta",
+        "V. Gupta",
+        "Vikram G.",
+        "VIKRAM GUPTA"
+      ],
+      "phone": "9315220005",
+      "bank_account": "ACC24762",
+      "vehicle": "MH12AB3003",
+      "home_location": "Location_12",
+      "organization": "Org_1"
+    }
+  ],
+  "rings": [
+    [
+      "P023",
+      "P003",
+      "P035",
+      "P002",
+      "P020"
+    ],
+    [
+      "P023",
+      "P013",
+      "P026",
+      "P033",
+      "P012"
+    ]
+  ],
+  "bridge_person": "P023"
+}
