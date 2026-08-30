@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>VERITAS — Investigator Console</title>
+<link rel="stylesheet" href="./graph/graph.css">
 <style>
   :root{
     --ink:#F9FAFB;
@@ -150,42 +151,6 @@
   .log-line.in{ opacity:1; transform:translateY(0); transition:opacity 260ms ease, transform 260ms ease; }
   .log-line b{ color:var(--text); font-weight:600; }
 
-  /* ---------- Graph ---------- */
-  .graph-wrap{ position:relative; overflow:hidden; background:
-      radial-gradient(closest-side at 50% 45%, rgba(0,0,0,0.02), transparent);
-  }
-  .graph-caption{
-    position:absolute; top:16px; left:18px; z-index:5;
-    font-size:11px; color:var(--text-faint); letter-spacing:0.04em;
-    display:flex; align-items:center; gap:8px;
-  }
-  .graph-caption strong{ color:var(--text-dim); font-weight:600; }
-  .graph-hint{
-    position:absolute; bottom:16px; left:18px; z-index:5;
-    font-size:10.5px; color:var(--text-faint); opacity:0; transition:opacity 400ms ease;
-  }
-  .graph-hint.show{ opacity:1; }
-  svg#graph{ width:100%; height:100%; display:block; cursor:grab; touch-action:none; }
-  svg#graph.grabbing{ cursor:grabbing; }
-  .node{ cursor:pointer; }
-  .node circle.body{
-    stroke-width:1.4; transition:stroke 200ms ease, stroke-width 200ms ease;
-  }
-  .node.selected circle.body{ stroke-width:2.4; }
-  .node text{
-    fill:var(--text); font-size:11px; font-family:-apple-system, ui-sans-serif, sans-serif;
-    letter-spacing:0.01em; pointer-events:none;
-  }
-  .node text.sub{ fill:var(--text-faint); font-size:9px; }
-  .node.flagged .ring{ animation:pulse-ring 2.2s ease-in-out infinite; transform-origin:center; }
-  @keyframes pulse-ring{ 0%,100%{ opacity:0.55; r:26; } 50%{ opacity:0.05; r:34; } }
-  @media (prefers-reduced-motion: reduce){ .node.flagged .ring{ animation:none; opacity:0.25; } }
-
-  .edge{ stroke:var(--steel); stroke-width:1.2; fill:none; opacity:0.8; }
-  .edge.flagged{ stroke:var(--amber); stroke-width:1.6; }
-  .edge-label{ font-size:8.5px; fill:var(--text-faint); font-family:ui-monospace, monospace; }
-  .edge-label.flagged{ fill:var(--amber); }
-
   /* ---------- Right panel content ---------- */
   .stack{ transition:opacity 200ms ease; }
   .metric-row{
@@ -322,9 +287,8 @@
   <div class="modal" id="modalBody"></div>
 </div>
 
-<script>
-(function(){
-  "use strict";
+<script type="module">
+  import { MLGraph } from './graph/graph.js';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------------- Spring engine ---------------- */
@@ -368,41 +332,16 @@
   /* ---------------- Data model ---------------- */
   const PIPELINE = ["Ingest","Normalize","Extract","Resolve","Graph","Analyze","Explain","Verify"];
   const SOURCES = [
-    {id:'fir1', name:'FIR_001.pdf', tag:'FIR'},
-    {id:'fir2', name:'FIR_002.pdf', tag:'FIR'},
+    {id:'fir1', name:'FIR_001.txt', tag:'FIR'},
+    {id:'fir2', name:'FIR_002.txt', tag:'FIR'},
     {id:'cdr',  name:'CDR.csv', tag:'CDR'},
     {id:'txn',  name:'transactions.csv', tag:'TXN'},
   ];
 
-  const NODES = [
-    {id:'ravi',   label:'Ravi Kumar',            sub:'Person',   type:'person',  x:190, y:150},
-    {id:'phone',  label:'9876543210',             sub:'Phone',    type:'phone',   x:170, y:290},
-    {id:'vehicle',label:'TS09 AB 1234',           sub:'Vehicle',  type:'vehicle', x:60,  y:220},
-    {id:'loc',    label:'Hyderabad Rly Station',  sub:'Location', type:'location',x:460, y:440},
-    {id:'ahmed',  label:'Ahmed Sheikh',           sub:'Person',   type:'person',  x:540, y:150, flagged:true},
-    {id:'acc1',   label:'A/C ••4521',             sub:'Account',  type:'account', x:540, y:290},
-    {id:'org',    label:'Crescent Traders',       sub:'Organization', type:'org', x:690, y:90},
-    {id:'acc2',   label:'A/C ••7788',             sub:'Account',  type:'account', x:730, y:360},
-    {id:'faisal', label:'Faisal Khan',            sub:'Person',   type:'person',  x:800, y:460},
-  ];
-  const EDGES = [
-    {from:'ravi', to:'phone', label:'USES'},
-    {from:'ravi', to:'vehicle', label:'DRIVES'},
-    {from:'ravi', to:'ahmed', label:'CALLED', flagged:true},
-    {from:'ravi', to:'loc', label:'VISITED'},
-    {from:'faisal', to:'loc', label:'VISITED'},
-    {from:'ahmed', to:'acc1', label:'OWNS'},
-    {from:'ahmed', to:'org', label:'MEMBER_OF'},
-    {from:'acc1', to:'acc2', label:'TRANSFERRED ₹2.4L', flagged:true},
-    {from:'acc2', to:'faisal', label:'OWNED_BY'},
-  ];
-
-  const degree = {};
-  NODES.forEach(n=>degree[n.id]=0);
-  EDGES.forEach(e=>{ degree[e.from]++; degree[e.to]++; });
-
-  const TYPE_STROKE = { person:'#0F766E', phone:'#6B7280', vehicle:'#6B7280', location:'#D97706', account:'#6B7280', org:'#6B7280' };
-  const TYPE_FILL   = { person:'rgba(15,118,110,0.15)', phone:'rgba(107,114,128,0.12)', vehicle:'rgba(107,114,128,0.12)', location:'rgba(217,119,6,0.15)', account:'rgba(107,114,128,0.12)', org:'rgba(107,114,128,0.12)' };
+  let NODES = [];
+  let EDGES = [];
+  let degree = {};
+  let mlGraph = null;
 
   /* ---------------- Stepper ---------------- */
   const stepperEl = document.getElementById('stepper');
@@ -440,122 +379,9 @@
   }
   function wait(ms){ return new Promise(r=>setTimeout(r, reduced ? Math.min(ms,80) : ms)); }
 
-  /* ---------------- Graph rendering ---------------- */
-  const svgNS = "http://www.w3.org/2000/svg";
-  const viewport = document.getElementById('viewport');
-  const svg = document.getElementById('graph');
-  let selectedId = null;
+  /* ---------------- Graph rendering (delegated to MLGraph) ---------------- */
+  // The actual build/reveal/pan logic is handled by the MLGraph module
 
-  function el(tag, attrs){
-    const e = document.createElementNS(svgNS, tag);
-    for (const k in attrs) e.setAttribute(k, attrs[k]);
-    return e;
-  }
-
-  const nodeGroups = {};
-  function buildGraph(){
-    // edges first (under nodes)
-    EDGES.forEach(e=>{
-      const a = NODES.find(n=>n.id===e.from), b = NODES.find(n=>n.id===e.to);
-      const line = el('line', {x1:a.x, y1:a.y, x2:b.x, y2:b.y, class:'edge'+(e.flagged?' flagged':'')});
-      const len = Math.hypot(b.x-a.x, b.y-a.y);
-      line.style.strokeDasharray = len;
-      line.style.strokeDashoffset = len;
-      line.dataset.len = len;
-      viewport.appendChild(line);
-      e._el = line;
-      const mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
-      const t = el('text', {x:mx, y:my-4, class:'edge-label'+(e.flagged?' flagged':''), 'text-anchor':'middle'});
-      t.textContent = e.label; t.style.opacity=0;
-      viewport.appendChild(t);
-      e._label = t;
-    });
-    NODES.forEach(n=>{
-      const r = 14 + degree[n.id]*3;
-      const g = el('g', {class:'node'+(n.flagged?' flagged':''), transform:'translate('+n.x+','+n.y+') scale(0.4)', 'data-id':n.id});
-      g.style.opacity = 0;
-      if (n.flagged) g.appendChild(el('circle', {class:'ring', r:r+8, fill:'none', stroke:'var(--amber)', 'stroke-width':1.4}));
-      g.appendChild(el('circle', {class:'body', r:r, fill:TYPE_FILL[n.type], stroke:TYPE_STROKE[n.type]}));
-      const label = el('text', {y:r+15, 'text-anchor':'middle'});
-      label.textContent = n.label;
-      const sub = el('text', {class:'sub', y:r+27, 'text-anchor':'middle'});
-      sub.textContent = n.sub;
-      g.appendChild(label); g.appendChild(sub);
-      g.addEventListener('pointerdown', (ev)=>{ ev.stopPropagation(); });
-      g.addEventListener('click', (ev)=>{ ev.stopPropagation(); selectNode(n.id); });
-      viewport.appendChild(g);
-      nodeGroups[n.id] = g;
-    });
-  }
-  buildGraph();
-
-  function revealGraph(){
-    let i=0;
-    NODES.forEach(n=>{
-      const g = nodeGroups[n.id];
-      setTimeout(()=>{
-        g.style.transition = reduced ? 'opacity 200ms ease' : 'opacity 280ms ease, transform 480ms cubic-bezier(.2,.9,.3,1)';
-        g.style.opacity = 1;
-        g.setAttribute('transform', 'translate('+n.x+','+n.y+') scale(1)');
-      }, i*80);
-      i++;
-    });
-    EDGES.forEach((e,idx)=>{
-      setTimeout(()=>{
-        e._el.style.transition = 'stroke-dashoffset 420ms ease-out';
-        e._el.style.strokeDashoffset = 0;
-        e._label.style.transition = 'opacity 300ms ease';
-        e._label.style.opacity = 1;
-      }, 260 + idx*70);
-    });
-    setTimeout(()=>{ document.getElementById('graphHint').classList.add('show'); }, 900);
-  }
-
-  /* ----- pan (1:1 drag, momentum spring on release) ----- */
-  let panX=0, panY=0, dragging=false, startX=0, startY=0, baseX=0, baseY=0;
-  let history=[];
-  const bounds = {minX:-160, maxX:160, minY:-120, maxY:120};
-  const panSpringX = new Spring(0, {damping:1, response:0.5, onUpdate:v=>{ panX=v; applyPan(); }});
-  const panSpringY = new Spring(0, {damping:1, response:0.5, onUpdate:v=>{ panY=v; applyPan(); }});
-  function applyPan(){ viewport.setAttribute('transform', 'translate('+panX+','+panY+')'); }
-  function clampRubber(v, lo, hi){
-    if (v<lo) return lo - (lo-v)*0.35;
-    if (v>hi) return hi + (v-hi)*0.35;
-    return v;
-  }
-  svg.addEventListener('pointerdown', (ev)=>{
-    dragging = true; svg.classList.add('grabbing');
-    svg.setPointerCapture(ev.pointerId);
-    startX=ev.clientX; startY=ev.clientY; baseX=panX; baseY=panY;
-    history=[{x:ev.clientX,y:ev.clientY,t:performance.now()}];
-  });
-  svg.addEventListener('pointermove', (ev)=>{
-    if (!dragging) return;
-    const scale = 880/svg.getBoundingClientRect().width;
-    const dx=(ev.clientX-startX)*scale, dy=(ev.clientY-startY)*scale;
-    panX = clampRubber(baseX+dx, bounds.minX, bounds.maxX);
-    panY = clampRubber(baseY+dy, bounds.minY, bounds.maxY);
-    applyPan();
-    history.push({x:ev.clientX,y:ev.clientY,t:performance.now()});
-    if (history.length>5) history.shift();
-  });
-  function endDrag(ev){
-    if (!dragging) return;
-    dragging=false; svg.classList.remove('grabbing');
-    let vx=0, vy=0;
-    if (history.length>=2){
-      const a=history[0], b=history[history.length-1];
-      const dt=(b.t-a.t)||16;
-      const scale = 880/svg.getBoundingClientRect().width;
-      vx = (b.x-a.x)*scale/dt*16; vy=(b.y-a.y)*scale/dt*16;
-    }
-    const targetX = Math.min(Math.max(panX + vx*4, bounds.minX), bounds.maxX);
-    const targetY = Math.min(Math.max(panY + vy*4, bounds.minY), bounds.maxY);
-    panSpringX.value=panX; panSpringX.set(targetX, vx*8);
-    panSpringY.value=panY; panSpringY.set(targetY, vy*8);
-  }
-  svg.addEventListener('pointerup', endDrag);
-  svg.addEventListener('pointercancel', endDrag);
 
   /* ---------------- Right panel ---------------- */
   const rightPanel = document.getElementById('rightPanel');
@@ -582,55 +408,33 @@
   function row(k,n){ return '<div class="metric-row"><span class="k">'+k+'</span><span class="n mono">'+n+'</span></div>'; }
 
   function renderPlainNode(n){
+    const connections = mlGraph ? mlGraph.degree[n.id] : 0;
     rightPanel.innerHTML =
-      '<div class="detail-title">'+n.label+'</div>'+
-      '<div class="detail-sub">'+n.sub+' &middot; '+degree[n.id]+' connection'+(degree[n.id]===1?'':'s')+'</div>'+
-      '<p class="empty-hint">No anomaly indicators for this entity. It appears in the case record but was not flagged by the analytics engine.</p>'+
-      '<table class="indicator-table"><tr><td>Appears in</td><td>CDR-882</td></tr><tr><td>Confidence</td><td>0.94</td></tr></table>';
+      '<div class="detail-title">'+(n.name || n.label || n.id)+'</div>'+
+      '<div class="detail-sub">Entity &middot; '+connections+' connection(s)</div>'+
+      '<p class="empty-hint">No anomaly indicators for this entity. It appears in the case record but was not flagged by the analytics engine.</p>';
   }
 
-  function renderFlaggedNode(){
+  function renderFlaggedNode(n){
+    const risk = n.risk_color || 'none';
+    const firs = n.historical_firs || 0;
+    
     rightPanel.innerHTML =
-      '<div class="badge">Flagged &middot; bridge entity</div>'+
-      '<div class="detail-title">Ahmed Sheikh</div>'+
-      '<div class="detail-sub">Person &middot; connects 3 communities</div>'+
-      '<table class="indicator-table">'+
-        indicatorRow('Betweenness centrality','0.82')+
-        indicatorRow('Connections','47')+
-        indicatorRow('Communities connected','3')+
-        indicatorRow('Transaction anomaly','+320%',true)+
-        indicatorRow('Communication spike','+180%',true)+
-        indicatorRow('Evidence sources','12')+
-      '</table>'+
-      '<h2>Evidence Path</h2>'+
-      '<div class="evidence-path" id="evidencePath"></div>'+
-      '<button class="ghost" id="viewSourceBtn">View source documents</button>';
+      '<div class="badge">REVIEW REQUIRED</div>'+
+      '<div class="detail-title">'+(n.name || n.label || n.id)+'</div>'+
+      '<div class="detail-sub" style="text-transform:capitalize">Risk Level: '+risk+' &middot; '+firs+' Historical FIR(s)</div>'+
+      '<p class="empty-hint">This entity is involved in ambiguous data (dotted links) or has been flagged for historical criminal activity.</p>'+
+      '<button class="ghost" id="viewSourceBtn">View Consent / Manual Review</button>';
 
-    const hops = [
-      {stamp:'①', flag:false, rel:'USES', text:'Ravi Kumar → Phone 9876543210'},
-      {stamp:'②', flag:true,  rel:'CALLED', text:'Phone 9876543210 → Ahmed Sheikh'},
-      {stamp:'③', flag:false, rel:'OWNS', text:'Ahmed Sheikh → A/C ••4521'},
-      {stamp:'④', flag:true,  rel:'TRANSFERRED ₹2.4L', text:'A/C ••4521 → A/C ••7788'},
-      {stamp:'⑤', flag:false, rel:'OWNED BY', text:'A/C ••7788 → Faisal Khan'},
-    ];
-    const wrap = document.getElementById('evidencePath');
-    hops.forEach((h,i)=>{
-      const d = document.createElement('div');
-      d.className = 'hop'+(h.flag?' flag':'');
-      d.innerHTML = '<div class="stamp">'+h.stamp+'</div><div class="txt"><div class="rel">'+h.rel+'</div>'+h.text+'</div>';
-      wrap.appendChild(d);
-      setTimeout(()=>d.classList.add('in'), 120*i);
-    });
     document.getElementById('viewSourceBtn').addEventListener('click', openModal);
   }
-  function indicatorRow(k,v,up){ return '<tr><td>'+k+'</td><td class="'+(up?'up':'')+'">'+v+'</td></tr>'; }
 
+  let selectedId = null;
   function selectNode(id){
-    if (selectedId){ nodeGroups[selectedId].classList.remove('selected'); }
     selectedId = id;
-    nodeGroups[id].classList.add('selected');
     const n = NODES.find(x=>x.id===id);
-    swapPanel(()=> n.flagged ? renderFlaggedNode() : renderPlainNode(n));
+    if(!n) return;
+    swapPanel(()=> n.status === 'REVIEW_REQUIRED' || n.flagged ? renderFlaggedNode(n) : renderPlainNode(n));
   }
 
   renderIdlePanel();
@@ -674,36 +478,57 @@
     await wait(500);
 
     setStage(2);
-    log('Running multilingual NER — <b>9</b> candidate entities extracted.');
+    log('Running multilingual NER — candidate entities extracted.');
     await wait(600);
 
     setStage(3);
-    log('Resolving "R. Kumar" → <b>Ravi Kumar</b> (score 0.91, high confidence).');
+    log('Fetching resolved graph from ER Module...');
+    try {
+       const res = await fetch('data/resolved_graph.json');
+       const mlData = await res.json();
+       NODES = mlData.nodes;
+       EDGES = mlData.links;
+       
+       mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
+       mlGraph.buildGraph();
+       
+       log(`Building knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
+    } catch(e) {
+       log('<span style="color:red">Failed to load resolved_graph.json. Did you run the ER script?</span>');
+       console.error(e);
+       runBtn.disabled = false; runBtn.textContent = 'Run pipeline';
+       return;
+    }
     await wait(550);
 
     setStage(4);
-    log('Building knowledge graph — <b>9</b> nodes, <b>9</b> relationships.');
-    await wait(500);
-    revealGraph();
+    mlGraph.revealGraph();
     await wait(900);
 
     setStage(5);
-    log('Computing betweenness centrality — <b>Ahmed Sheikh</b> bridges 3 communities.');
+    log('Analyzing subnetworks for high-risk flags...');
     await wait(650);
 
     setStage(6);
-    log('Explainability layer attached — indicators + evidence path generated.');
+    log('Explainability layer attached — indicators generated.');
     await wait(500);
 
     setStage(7);
-    log('Verifying integrity — Merkle root anchored to ledger. ✓');
+    log('Pipeline completed. Awaiting investigator review.');
     await wait(400);
 
     runBtn.textContent = 'Pipeline complete';
-    setTimeout(()=>{ selectNode('ahmed'); }, 300);
+    document.getElementById('graphCount').textContent = NODES.length;
+    // Auto-select a flagged node if one exists
+    const flagged = NODES.find(n => n.status === 'REVIEW_REQUIRED');
+    if (flagged) {
+        setTimeout(()=>{ 
+            mlGraph.selectNodeUI(flagged.id);
+            selectNode(flagged.id); 
+        }, 300);
+    }
   });
 
-})();
 </script>
 </body>
 </html>
