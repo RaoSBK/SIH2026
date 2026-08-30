@@ -1,8 +1,20 @@
 import json
 import uuid
+import os
 import numpy as np
 from collections import defaultdict
 from sklearn.ensemble import IsolationForest
+
+def get_workspace_root():
+    current = os.path.dirname(os.path.abspath(__file__))
+    while current:
+        if os.path.exists(os.path.join(current, "docker-compose.yml")) or os.path.exists(os.path.join(current, ".git")):
+            return current
+        parent = os.path.dirname(current)
+        if parent == current:
+            break
+        current = parent
+    return r"d:\SIH2026"
 
 def load_graph(file_path):
     with open(file_path, 'r') as f:
@@ -104,6 +116,8 @@ def run_ml_engine(graph_data):
     return alerts
 
 if __name__ == "__main__":
-    graph = load_graph(r"c:\Users\sahid\Desktop\SIH\data\mock_graph.json")
+    workspace_root = get_workspace_root()
+    graph_path = os.path.join(workspace_root, "data", "mock_graph.json")
+    graph = load_graph(graph_path)
     alerts = run_ml_engine(graph)
     print(json.dumps(alerts, indent=2))

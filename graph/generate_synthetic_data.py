@@ -4,8 +4,21 @@ import csv
 import random
 from datetime import datetime, timedelta
 
+def get_workspace_root():
+    current = os.path.dirname(os.path.abspath(__file__))
+    while current:
+        if os.path.exists(os.path.join(current, "docker-compose.yml")) or os.path.exists(os.path.join(current, ".git")):
+            return current
+        parent = os.path.dirname(current)
+        if parent == current:
+            break
+        current = parent
+    return r"d:\SIH2026"
+
 def generate_data():
-    base_dir = r"c:\Users\sahid\Desktop\SIH\data"
+    workspace_root = get_workspace_root()
+    base_dir = os.path.join(workspace_root, "data")
+    
     os.makedirs(os.path.join(base_dir, "fir"), exist_ok=True)
     os.makedirs(os.path.join(base_dir, "cdr"), exist_ok=True)
     os.makedirs(os.path.join(base_dir, "financial"), exist_ok=True)
@@ -63,7 +76,8 @@ def generate_data():
         "bridge_person": bridge["person_id"]
     }
     
-    with open(r"c:\Users\sahid\Desktop\SIH\answer_key.json", "w") as f:
+    answer_key_path = os.path.join(workspace_root, "answer_key.json")
+    with open(answer_key_path, "w") as f:
         json.dump(answer_key, f, indent=2)
 
     # Generate FIRs
