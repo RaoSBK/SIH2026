@@ -7,21 +7,21 @@
 <link rel="stylesheet" href="./graph/graph.css">
 <style>
   :root{
-    --ink:#F9FAFB;
-    --graphite:#FFFFFF;
-    --graphite-2:#F3F4F6;
-    --hairline:rgba(0,0,0,0.08);
-    --hairline-strong:rgba(0,0,0,0.16);
-    --text:#111827;
-    --text-dim:#4B5563;
-    --text-faint:#6B7280;
-    --paper:#FFFFFF;
-    --paper-dim:#E5E7EB;
-    --amber:#D97706;
-    --amber-dim:rgba(217,119,6,0.15);
+    --ink:#F3F4F6; /* Softer, slightly darker background */
+    --graphite:#FAFAFA; /* Less harsh white for panels */
+    --graphite-2:#E5E7EB;
+    --hairline:rgba(0,0,0,0.15); /* Stronger borders */
+    --hairline-strong:rgba(0,0,0,0.28); /* Much stronger prominent borders */
+    --text:#030712; /* Pitch black for maximum contrast */
+    --text-dim:#1F2937; /* Darker dim text */
+    --text-faint:#4B5563; /* Darker faint text */
+    --paper:#FAFAFA; 
+    --paper-dim:#D1D5DB;
+    --amber:#B45309; /* Deeper amber for better contrast */
+    --amber-dim:rgba(180,83,9,0.15);
     --teal:#0F766E;
     --teal-dim:rgba(15,118,110,0.15);
-    --steel:#9CA3AF;
+    --steel:#6B7280; /* Darker steel for graph edges */
     --radius:14px;
     font-size:16px;
   }
@@ -436,14 +436,23 @@
   }
 
   function renderIdlePanel(){
+    const persons = NODES.filter(n => n.type === 'Person').length;
+    const phones = NODES.filter(n => n.type === 'Phone').length;
+    const locations = NODES.filter(n => n.type === 'Location').length;
+    const orgs = NODES.filter(n => n.type === 'Organization').length;
+    const accounts = NODES.filter(n => n.type === 'Account').length;
+    const vehicles = NODES.filter(n => n.type === 'Vehicle').length;
+    
     rightPanel.innerHTML =
       '<h2>Case Metrics</h2>'+
-      row('Entities discovered','438')+
-      row('Persons','126')+
-      row('Phones','94')+
-      row('Locations','31')+
-      row('Organizations','12')+
-      row('Relationships','1,842')+
+      row('Entities discovered', NODES.length)+
+      row('Relationships', EDGES.length)+
+      row('Persons', persons)+
+      row('Phones', phones)+
+      row('Bank Accounts', accounts)+
+      row('Locations', locations)+
+      row('Organizations', orgs)+
+      row('Vehicles', vehicles)+
       '<p class="empty-hint" style="margin-top:16px;">Select any node in the graph to inspect its connections and, where flagged, the full evidence trail behind it.</p>';
   }
   function row(k,n){ return '<div class="metric-row"><span class="k">'+k+'</span><span class="n mono">'+n+'</span></div>'; }
@@ -453,7 +462,10 @@
     rightPanel.innerHTML =
       '<div class="detail-title">'+(n.name || n.label || n.id)+'</div>'+
       '<div class="detail-sub">Entity &middot; '+connections+' connection(s)</div>'+
-      '<p class="empty-hint">No anomaly indicators for this entity. It appears in the case record but was not flagged by the analytics engine.</p>';
+      '<p class="empty-hint">No anomaly indicators for this entity. It appears in the case record but was not flagged by the analytics engine.</p>'+
+      '<button class="ghost" id="viewSourceBtn">View source documents</button>';
+      
+    document.getElementById('viewSourceBtn').addEventListener('click', () => openModal(n));
   }
 
   function renderFlaggedNode(n){
@@ -467,7 +479,7 @@
       '<p class="empty-hint">This entity is involved in ambiguous data (dotted links) or has been flagged for historical criminal activity.</p>'+
       '<button class="ghost" id="viewSourceBtn">View Consent / Manual Review</button>';
 
-    document.getElementById('viewSourceBtn').addEventListener('click', openModal);
+    document.getElementById('viewSourceBtn').addEventListener('click', () => openModal(n));
   }
 
   let selectedId = null;
@@ -483,11 +495,15 @@
   /* ---------------- Modal ---------------- */
   const modalLayer = document.getElementById('modal-layer');
   const modalBody = document.getElementById('modalBody');
-  function openModal(){
+  function openModal(n){
+    const evidenceText = n.evidence || "No textual evidence available. Inferred from graph structure.";
+    const sourceDoc = n.source || "Unknown Source";
+    const typeLabel = n.type || "Entity";
+    
     modalBody.innerHTML =
-      '<h3>TX-219 &middot; Transaction Record</h3>'+
-      '<div class="doc-id mono">EV-041 &middot; extracted from transactions.csv</div>'+
-      '<div class="doc-body">Transfer of ₹2,40,000 from account ending 4521 to account ending 7788, timestamped two days before the FIR-104 filing. Flagged by the rule engine for an amount and frequency well above the sender\'s historical baseline.</div>'+
+      '<h3>' + (n.name || n.id) + ' &middot; ' + typeLabel + ' Record</h3>'+
+      '<div class="doc-id mono">EV-041 &middot; extracted from ' + sourceDoc + '</div>'+
+      '<div class="doc-body"><strong>Excerpt from Source Document:</strong><br><br><i>"...' + evidenceText + '..."</i></div>'+
       '<div class="verify-row"><span class="check">✓</span> Integrity verified &middot; Merkle root matches ledger</div>'+
       '<div class="hashrow">sha256 · 9f2a1c…e0b47d &middot; model NER-v1.4 &middot; pipeline v2.1</div>'+
       '<button class="close" id="closeModal">Close</button>';

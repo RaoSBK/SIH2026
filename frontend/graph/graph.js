@@ -193,8 +193,8 @@ export class MLGraph {
       const g = this.el('g', {class: 'node' + statusClass, transform: `translate(${n.x},${n.y}) scale(0.4)`, 'data-id': n.id});
       g.style.opacity = 0;
       
-      const strokeColor = riskColors[n.risk_color] || '#9CA3AF'; // Darker grey for normal nodes
-      const fillColor = '#F9FAFB'; // Clean white/grey fill like screenshot
+      const strokeColor = riskColors[n.risk_color] || '#0F766E'; // Teal for normal nodes
+      const fillColor = strokeColor + '22'; // Colorful alpha fill
       
       if (n.status === 'REVIEW_REQUIRED') {
          g.appendChild(this.el('circle', {class: 'ring', r: r + 8, fill: 'none', stroke: strokeColor, 'stroke-width': 1.4}));
@@ -305,7 +305,7 @@ export class MLGraph {
     this.svg.addEventListener('wheel', (ev) => {
       ev.preventDefault();
       let z = this.zoomSpring.target;
-      const zoomFactor = ev.deltaY > 0 ? 0.9 : 1.1;
+      const zoomFactor = Math.exp(ev.deltaY * -0.002);
       z *= zoomFactor;
       z = Math.max(0.1, Math.min(z, 4)); 
       
