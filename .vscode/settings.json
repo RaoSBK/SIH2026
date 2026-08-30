@@ -1,4 +1,8 @@
 {
   "css.lint.unknownAtRules": "ignore",
-  "tailwindcss.experimental.configFile": "frontend/index.css"
+  "tailwindcss.experimental.configFile": "frontend/index.css",
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports": "none",
+    "reportMissingModuleSource": "none"
+  }
 }
