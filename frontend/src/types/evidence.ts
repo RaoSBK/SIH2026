@@ -1,2 +1,0 @@
-// evidence.ts stub
-export {};

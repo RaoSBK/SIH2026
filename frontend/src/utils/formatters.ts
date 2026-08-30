@@ -1,2 +1,0 @@
-// formatters.ts stub
-export {};

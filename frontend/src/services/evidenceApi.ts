@@ -1,2 +1,0 @@
-// evidenceApi.ts stub
-export {};

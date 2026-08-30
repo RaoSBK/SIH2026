@@ -1,2 +1,0 @@
-// main.tsx stub
-export {};
