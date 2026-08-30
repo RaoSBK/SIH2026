@@ -1,0 +1,147 @@
+import json
+from datetime import datetime
+from collections import defaultdict
+import uuid
+
+def load_graph(file_path):
+    with open(file_path, 'r') as f:
+        return json.load(f)
+
+def run_rule_engine(graph_data):
+    """
+    Stage 1: Transparent, heuristic rules for anomaly detection.
+    """
+    alerts = []
+    edges = graph_data.get("edges", [])
+    
+    # Organize data by entity
+    tx_by_entity = defaultdict(list)
+    call_by_entity = defaultdict(list)
+    neighbors_by_entity = defaultdict(set)
+    
+    for edge in edges:
+        source = edge["source"]
+        target = edge["target"]
+        timestamp = datetime.fromisoformat(edge["timestamp"])
+        
+        neighbors_by_entity[source].add(target)
+        neighbors_by_entity[target].add(source)
+        
+        if edge["type"] == "TRANSACTION":
+            tx_by_entity[source].append({"id": edge["id"], "amount": edge["amount"], "time": timestamp})
+        elif edge["type"] == "CALL":
+            call_by_entity[source].append({"id": edge["id"], "duration": edge["duration"], "time": timestamp})
+            
+    # Rule 1: Transaction Spike
+    for entity, txs in tx_by_entity.items():
+        if len(txs) < 5:
+            continue
+            
+        # Sort by time
+        txs.sort(key=lambda x: x["time"])
+        
+        # Calculate baseline (everything except last 7 days)
+        last_tx_time = txs[-1]["time"]
+        cutoff_time = last_tx_time - datetime.timedelta(days=7) if hasattr(datetime, 'timedelta') else last_tx_time
+        import datetime as dt
+        cutoff_time = last_tx_time - dt.timedelta(days=7)
+        
+        baseline_txs = [tx for tx in txs if tx["time"] < cutoff_time]
+        recent_txs = [tx for tx in txs if tx["time"] >= cutoff_time]
+        
+        if not baseline_txs or not recent_txs:
+            continue
+            
+        baseline_avg = sum(t["amount"] for t in baseline_txs) / len(baseline_txs)
+        recent_avg = sum(t["amount"] for t in recent_txs) / len(recent_txs)
+        
+        if baseline_avg > 0 and (recent_avg / baseline_avg) > 3.0 and len(recent_txs) >= 3:
+            # Anomaly!
+            increase_pct = int(((recent_avg / baseline_avg) - 1) * 100)
+            alerts.append({
+                "alert_id": f"ANOM-{str(uuid.uuid4())[:8]}",
+                "entity_id": entity,
+                "signal_type": "Analytical Signal",
+                "reason": f"Transaction volume increased {increase_pct}% over past 7 days compared to baseline.",
+                "method": "rule:transaction_spike",
+                "confidence": 0.85,
+                "evidence": [t["id"] for t in recent_txs]
+            })
+
+    # Rule 2: Communication Spike
+    for entity, calls in call_by_entity.items():
+        if len(calls) < 5:
+            continue
+            
+        calls.sort(key=lambda x: x["time"])
+        import datetime as dt
+        last_call_time = calls[-1]["time"]
+        cutoff_time = last_call_time - dt.timedelta(days=2)
+        
+        baseline_calls = [c for c in calls if c["time"] < cutoff_time]
+        recent_calls = [c for c in calls if c["time"] >= cutoff_time]
+        
+        if not baseline_calls or not recent_calls:
+            continue
+            
+        baseline_freq = len(baseline_calls) / max(1, (cutoff_time - calls[0]["time"]).days)
+        recent_freq = len(recent_calls) / 2.0 # 2 days window
+        
+        if baseline_freq > 0 and (recent_freq / baseline_freq) > 5.0 and len(recent_calls) >= 10:
+            increase_pct = int(((recent_freq / baseline_freq) - 1) * 100)
+            alerts.append({
+                "alert_id": f"ANOM-{str(uuid.uuid4())[:8]}",
+                "entity_id": entity,
+                "signal_type": "Analytical Signal",
+                "reason": f"Communication frequency increased {increase_pct}% in a short window.",
+                "method": "rule:communication_spike",
+                "confidence": 0.80,
+                "evidence": [c["id"] for c in recent_calls[-5:]] # top 5 recent calls
+            })
+            
+    # Rule 3: Bridge Node Heuristic (simplified for mock graph)
+    # If an entity suddenly forms connections with nodes that have zero overlap with its previous neighborhood
+    for entity, calls in call_by_entity.items():
+        if len(calls) < 4:
+            continue
+            
+        import datetime as dt
+        calls.sort(key=lambda x: x["time"])
+        last_call_time = calls[-1]["time"]
+        cutoff_time = last_call_time - dt.timedelta(days=2)
+        
+        # Get historical neighbors vs recent neighbors (from edges directly)
+        hist_neighbors = set()
+        recent_neighbors = set()
+        
+        recent_evidence = []
+        for edge in edges:
+            if edge["source"] == entity or edge["target"] == entity:
+                other = edge["target"] if edge["source"] == entity else edge["source"]
+                edge_time = datetime.fromisoformat(edge["timestamp"])
+                
+                if edge_time < cutoff_time:
+                    hist_neighbors.add(other)
+                else:
+                    recent_neighbors.add(other)
+                    if edge["type"] == "CALL":
+                        recent_evidence.append(edge["id"])
+                        
+        # If recent neighbors are completely disjoint from hist neighbors and there are multiple
+        if hist_neighbors and len(recent_neighbors - hist_neighbors) >= 3:
+            alerts.append({
+                "alert_id": f"ANOM-{str(uuid.uuid4())[:8]}",
+                "entity_id": entity,
+                "signal_type": "Analytical Signal",
+                "reason": f"Entity rapidly connected to {len(recent_neighbors - hist_neighbors)} new, previously disconnected entities.",
+                "method": "rule:bridge_node",
+                "confidence": 0.75,
+                "evidence": recent_evidence[:5]
+            })
+
+    return alerts
+
+if __name__ == "__main__":
+    graph = load_graph(r"c:\Users\sahid\Desktop\SIH\data\mock_graph.json")
+    alerts = run_rule_engine(graph)
+    print(json.dumps(alerts, indent=2))

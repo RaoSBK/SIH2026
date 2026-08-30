@@ -38,7 +38,7 @@ def generate_data():
             "canonical_name": canonical,
             "name_variants": variants,
             "phone": f"9{random.randint(100000000, 999999999)}",
-            "bank_account": f"ACC{random.randint(10000, 99999)}",
+            "account": f"ACC{random.randint(10000, 99999)}",
             "vehicle": f"MH12{random.choice(['AB','XY','PQ'])}{random.randint(1000,9999)}" if random.random() > 0.5 else None,
             "home_location": random.choice(locations),
             "organization": random.choice(organizations) if random.random() > 0.5 else None
@@ -55,11 +55,11 @@ def generate_data():
 
     # Ground truth
     answer_key = {
-        "master_entities": people,
-        "rings": [
-            [p["person_id"] for p in ring1],
-            [p["person_id"] for p in ring2]
-        ],
+        "people": people,
+        "hidden_rings": {
+            "ring_1": [p["person_id"] for p in ring1],
+            "ring_2": [p["person_id"] for p in ring2]
+        },
         "bridge_person": bridge["person_id"]
     }
     
@@ -138,21 +138,21 @@ def generate_data():
             timestamp = (start_date + timedelta(days=random.randint(0, 90), hours=random.randint(0, 23))).isoformat()
             
         fin_rows.append({
-            "sender": sender["bank_account"],
-            "receiver": receiver["bank_account"],
+            "sender": sender["account"],
+            "receiver": receiver["account"],
             "amount": amt,
             "timestamp": timestamp,
-            "account": sender["bank_account"]
+            "account": sender["account"]
         })
         
     # Noise transfer
     n1, n2 = random.sample(people, 2)
     fin_rows.append({
-        "sender": n1["bank_account"],
-        "receiver": n2["bank_account"],
+        "sender": n1["account"],
+        "receiver": n2["account"],
         "amount": 9999999,
         "timestamp": start_date.isoformat(),
-        "account": n1["bank_account"]
+        "account": n1["account"]
     })
     
     with open(os.path.join(base_dir, "financial", "transactions.csv"), "w", newline="") as f:
