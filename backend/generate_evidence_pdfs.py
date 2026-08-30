@@ -79,6 +79,7 @@ def main():
             "An investigation into 'Glob Tech Solutions' revealed that",
             "R. Kumar is the primary shareholder.",
             "Contact number provided is 9876543210.",
+            "Vehicle seen near premises: MH-12 AB 1234.",
             "It is suspected to be a shell company for routing illegal funds.",
             "Another associate, A. Singh, is linked to the operations.",
         ]

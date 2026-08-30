@@ -77,16 +77,73 @@ export class MLGraph {
   
   // Basic Circular Layout since ML nodes don't have x,y
   initLayout() {
-    const cx = 440; // Center X of 880 width SVG
-    const cy = 260; // Center Y of 520 height SVG
-    const radius = 180;
+    const cx = 440;
+    const cy = 260;
     
-    const n = this.nodes.length;
+    // Initial random placement
     this.nodes.forEach((node, i) => {
-      const angle = (i / n) * 2 * Math.PI;
-      node.x = cx + radius * Math.cos(angle);
-      node.y = cy + radius * Math.sin(angle);
+      node.x = cx + (Math.random() - 0.5) * 200;
+      node.y = cy + (Math.random() - 0.5) * 200;
+      node.vx = 0;
+      node.vy = 0;
     });
+
+    // Simple Force Directed Layout (Fruchterman-Reingold inspired)
+    const iterations = 80;
+    const area = 600 * 400;
+    const k = Math.sqrt(area / this.nodes.length) * 0.8;
+    const repulse = (dist) => (k * k) / dist;
+    const attract = (dist) => (dist * dist) / k;
+    
+    let temp = cx * 0.15; // Initial temperature
+
+    for (let iter = 0; iter < iterations; iter++) {
+      // Repulsion
+      for (let i = 0; i < this.nodes.length; i++) {
+        const u = this.nodes[i];
+        u.dx = 0; u.dy = 0;
+        for (let j = 0; j < this.nodes.length; j++) {
+          if (i === j) continue;
+          const v = this.nodes[j];
+          let dx = u.x - v.x;
+          let dy = u.y - v.y;
+          let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+          const f = repulse(dist) * 1.5;
+          u.dx += (dx / dist) * f;
+          u.dy += (dy / dist) * f;
+        }
+      }
+      
+      // Attraction
+      this.links.forEach(link => {
+        const u = this.nodes.find(n => n.id === link.source);
+        const v = this.nodes.find(n => n.id === link.target);
+        if(!u || !v) return;
+        let dx = u.x - v.x;
+        let dy = u.y - v.y;
+        let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        const f = attract(dist) * 0.05;
+        const fx = (dx / dist) * f;
+        const fy = (dy / dist) * f;
+        u.dx -= fx; u.dy -= fy;
+        v.dx += fx; v.dy += fy;
+      });
+      
+      // Apply forces
+      this.nodes.forEach(u => {
+        let dx = u.dx;
+        let dy = u.dy;
+        let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        u.x += (dx / dist) * Math.min(dist, temp);
+        u.y += (dy / dist) * Math.min(dist, temp);
+        
+        // Push towards center slightly to keep it compact
+        u.x += (cx - u.x) * 0.01;
+        u.y += (cy - u.y) * 0.01;
+      });
+      
+      temp *= 0.95; // Cool down
+    }
   }
 
   buildGraph() {
@@ -101,6 +158,9 @@ export class MLGraph {
       const lineClass = 'edge ' + (e.line_type === 'dotted' ? 'dotted' : 'solid');
       const line = this.el('line', {x1: a.x, y1: a.y, x2: b.x, y2: b.y, class: lineClass});
       
+      // Override stroke color to match screenshot
+      line.style.stroke = '#F97316'; // Orange links
+      
       const len = Math.hypot(b.x - a.x, b.y - a.y);
       line.style.strokeDasharray = e.line_type === 'dotted' ? '4 4' : len;
       if (e.line_type !== 'dotted') {
@@ -111,8 +171,10 @@ export class MLGraph {
       
       const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
       const t = this.el('text', {x: mx, y: my - 4, class: 'edge-label', 'text-anchor': 'middle'});
-      t.textContent = e.confidence ? (e.confidence * 100).toFixed(0) + '%' : 'LINK';
+      t.textContent = e.type || (e.confidence ? (e.confidence * 100).toFixed(0) + '%' : 'LINK');
       t.style.opacity = 0;
+      t.style.fill = '#F97316'; // Orange edge label
+      t.style.fontWeight = '600';
       this.viewport.appendChild(t);
       e._label = t;
     });
@@ -131,20 +193,20 @@ export class MLGraph {
       const g = this.el('g', {class: 'node' + statusClass, transform: `translate(${n.x},${n.y}) scale(0.4)`, 'data-id': n.id});
       g.style.opacity = 0;
       
-      const strokeColor = riskColors[n.risk_color] || '#0F766E';
-      const fillColor = strokeColor + '22'; // add alpha
+      const strokeColor = riskColors[n.risk_color] || '#9CA3AF'; // Darker grey for normal nodes
+      const fillColor = '#F9FAFB'; // Clean white/grey fill like screenshot
       
       if (n.status === 'REVIEW_REQUIRED') {
          g.appendChild(this.el('circle', {class: 'ring', r: r + 8, fill: 'none', stroke: strokeColor, 'stroke-width': 1.4}));
       }
       
-      g.appendChild(this.el('circle', {class: 'body', r: r, fill: fillColor, stroke: strokeColor}));
+      g.appendChild(this.el('circle', {class: 'body', r: r, fill: fillColor, stroke: strokeColor, 'stroke-width': 2}));
       
       const label = this.el('text', {y: r + 15, 'text-anchor': 'middle'});
-      label.textContent = n.name || n.id;
+      label.textContent = n.name || n.label || n.id;
       
       const sub = this.el('text', {class: 'sub', y: r + 27, 'text-anchor': 'middle'});
-      sub.textContent = n.historical_firs > 0 ? `${n.historical_firs} FIRs` : 'Clean';
+      sub.textContent = n.type || (n.historical_firs > 0 ? `${n.historical_firs} FIRs` : 'Clean');
       
       g.appendChild(label);
       g.appendChild(sub);
@@ -191,31 +253,79 @@ export class MLGraph {
       }, 260 + idx * 70);
     });
     setTimeout(() => { 
+        this.fitGraphToScreen();
         const hint = document.getElementById('graphHint');
         if(hint) hint.classList.add('show'); 
     }, 900);
   }
 
-  /* ----- Pan Logic ----- */
+  fitGraphToScreen() {
+    if(this.nodes.length === 0) return;
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    this.nodes.forEach(n => {
+      if(n.x < minX) minX = n.x;
+      if(n.x > maxX) maxX = n.x;
+      if(n.y < minY) minY = n.y;
+      if(n.y > maxY) maxY = n.y;
+    });
+    
+    const padding = 120;
+    const width = maxX - minX + padding * 2;
+    const height = maxY - minY + padding * 2;
+    
+    const scaleX = 880 / (width || 1);
+    const scaleY = 520 / (height || 1);
+    const targetZoom = Math.min(scaleX, scaleY, 1.2); 
+    
+    const cx = (minX + maxX) / 2;
+    const cy = (minY + maxY) / 2;
+    
+    const targetPanX = 880/2 - cx * targetZoom;
+    const targetPanY = 520/2 - cy * targetZoom;
+    
+    this.panSpringX.set(targetPanX);
+    this.panSpringY.set(targetPanY);
+    this.zoomSpring.set(targetZoom);
+  }
+
+  /* ----- Pan & Zoom Logic ----- */
   initPanning() {
-    let panX = 0, panY = 0, dragging = false, startX = 0, startY = 0, baseX = 0, baseY = 0;
+    this.panX = 0; this.panY = 0; this.zoom = 1;
+    let dragging = false, startX = 0, startY = 0, baseX = 0, baseY = 0;
     let history = [];
-    const bounds = {minX: -400, maxX: 400, minY: -400, maxY: 400};
     
-    const applyPan = () => { this.viewport.setAttribute('transform', `translate(${panX},${panY})`); };
-    const panSpringX = new Spring(0, {damping: 1, response: 0.5, onUpdate: v => { panX = v; applyPan(); }});
-    const panSpringY = new Spring(0, {damping: 1, response: 0.5, onUpdate: v => { panY = v; applyPan(); }});
-    
-    const clampRubber = (v, lo, hi) => {
-      if (v < lo) return lo - (lo - v) * 0.35;
-      if (v > hi) return hi + (v - hi) * 0.35;
-      return v;
+    this.applyTransform = () => { 
+        this.viewport.setAttribute('transform', `translate(${this.panX},${this.panY}) scale(${this.zoom})`); 
     };
     
+    this.panSpringX = new Spring(0, {damping: 1, response: 0.5, onUpdate: v => { this.panX = v; this.applyTransform(); }});
+    this.panSpringY = new Spring(0, {damping: 1, response: 0.5, onUpdate: v => { this.panY = v; this.applyTransform(); }});
+    this.zoomSpring = new Spring(1, {damping: 1, response: 0.5, onUpdate: v => { this.zoom = v; this.applyTransform(); }});
+    
+    this.svg.addEventListener('wheel', (ev) => {
+      ev.preventDefault();
+      let z = this.zoomSpring.target;
+      const zoomFactor = ev.deltaY > 0 ? 0.9 : 1.1;
+      z *= zoomFactor;
+      z = Math.max(0.1, Math.min(z, 4)); 
+      
+      const rect = this.svg.getBoundingClientRect();
+      const scale = 880 / rect.width;
+      const mx = (ev.clientX - rect.left) * scale;
+      const my = (ev.clientY - rect.top) * scale;
+      
+      const newPanX = mx - (mx - this.panSpringX.target) * (z / this.zoomSpring.target);
+      const newPanY = my - (my - this.panSpringY.target) * (z / this.zoomSpring.target);
+      
+      this.panSpringX.set(newPanX);
+      this.panSpringY.set(newPanY);
+      this.zoomSpring.set(z);
+    });
+
     this.svg.addEventListener('pointerdown', (ev) => {
       dragging = true; this.svg.classList.add('grabbing');
       this.svg.setPointerCapture(ev.pointerId);
-      startX = ev.clientX; startY = ev.clientY; baseX = panX; baseY = panY;
+      startX = ev.clientX; startY = ev.clientY; baseX = this.panX; baseY = this.panY;
       history = [{x: ev.clientX, y: ev.clientY, t: performance.now()}];
     });
     
@@ -223,9 +333,9 @@ export class MLGraph {
       if (!dragging) return;
       const scale = 880 / this.svg.getBoundingClientRect().width;
       const dx = (ev.clientX - startX) * scale, dy = (ev.clientY - startY) * scale;
-      panX = clampRubber(baseX + dx, bounds.minX, bounds.maxX);
-      panY = clampRubber(baseY + dy, bounds.minY, bounds.maxY);
-      applyPan();
+      this.panX = baseX + dx;
+      this.panY = baseY + dy;
+      this.applyTransform();
       history.push({x: ev.clientX, y: ev.clientY, t: performance.now()});
       if (history.length > 5) history.shift();
     });
@@ -240,10 +350,8 @@ export class MLGraph {
         const scale = 880 / this.svg.getBoundingClientRect().width;
         vx = (b.x - a.x) * scale / dt * 16; vy = (b.y - a.y) * scale / dt * 16;
       }
-      const targetX = Math.min(Math.max(panX + vx * 4, bounds.minX), bounds.maxX);
-      const targetY = Math.min(Math.max(panY + vy * 4, bounds.minY), bounds.maxY);
-      panSpringX.value = panX; panSpringX.set(targetX, vx * 8);
-      panSpringY.value = panY; panSpringY.set(targetY, vy * 8);
+      this.panSpringX.value = this.panX; this.panSpringX.set(this.panX + vx * 4, vx * 8);
+      this.panSpringY.value = this.panY; this.panSpringY.set(this.panY + vy * 4, vy * 8);
     };
     
     this.svg.addEventListener('pointerup', endDrag);
