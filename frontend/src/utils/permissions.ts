@@ -1,2 +1,0 @@
-// permissions.ts stub
-export {};

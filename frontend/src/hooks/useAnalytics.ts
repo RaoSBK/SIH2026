@@ -1,2 +1,0 @@
-// useAnalytics.ts stub
-export {};
