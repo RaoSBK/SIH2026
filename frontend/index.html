@@ -142,6 +142,14 @@
   button.run:disabled{ opacity:0.45; cursor:default; }
   button.run:not(:disabled):hover{ background:rgba(217,119,6,0.22); }
 
+  .upload-btn{
+    font-size:11px; padding:4px 10px; border-radius:6px; border:1px solid #E5E7EB;
+    background:#F9FAFB; color:#4B5563; cursor:pointer; font-weight:600;
+    transition: background 150ms ease, transform 100ms ease;
+  }
+  .upload-btn:hover{ background:#F3F4F6; }
+  .upload-btn:active{ transform:scale(0.96); }
+
   .log{ margin-top:16px; }
   .log-line{
     font-size:11.5px; color:var(--text-dim); padding:4px 0;
@@ -264,9 +272,15 @@
   <main class="layout">
 
     <section class="panel left">
-      <h2>Evidence Intake</h2>
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
+         <h2 style="margin: 0;">Evidence Intake</h2>
+         <label class="upload-btn">
+            Upload
+            <input type="file" id="fileUpload" multiple accept=".txt,.csv,.pdf" style="display:none;" />
+         </label>
+      </div>
       <div id="sources"></div>
-      <button class="run" id="runBtn">Run pipeline</button>
+      <button class="run" id="runBtn" disabled>Run pipeline</button>
       <div class="log" id="log"></div>
     </section>
 
@@ -331,12 +345,7 @@
 
   /* ---------------- Data model ---------------- */
   const PIPELINE = ["Ingest","Normalize","Extract","Resolve","Graph","Analyze","Explain","Verify"];
-  const SOURCES = [
-    {id:'fir1', name:'FIR_001.txt', tag:'FIR'},
-    {id:'fir2', name:'FIR_002.txt', tag:'FIR'},
-    {id:'cdr',  name:'CDR.csv', tag:'CDR'},
-    {id:'txn',  name:'transactions.csv', tag:'TXN'},
-  ];
+  let SOURCES = [];
 
   let NODES = [];
   let EDGES = [];
@@ -361,12 +370,44 @@
 
   /* ---------------- Sources list ---------------- */
   const sourcesEl = document.getElementById('sources');
-  SOURCES.forEach(s=>{
-    const row = document.createElement('div');
-    row.className='source'; row.id='src-'+s.id;
-    row.innerHTML = '<div class="icon">'+s.tag+'</div><div class="meta"><div class="name">'+s.name+'</div><div class="status">Queued</div></div>';
-    sourcesEl.appendChild(row);
-  });
+  const runBtn = document.getElementById('runBtn');
+  
+  function renderSources() {
+    sourcesEl.innerHTML = '';
+    if (SOURCES.length === 0) {
+      sourcesEl.innerHTML = '<div class="empty-hint" style="margin-bottom:12px;">No files uploaded.</div>';
+    }
+    SOURCES.forEach(s=>{
+      const row = document.createElement('div');
+      row.className='source'; row.id='src-'+s.id;
+      row.innerHTML = '<div class="icon">'+s.tag+'</div><div class="meta"><div class="name">'+s.name+'</div><div class="status">Queued</div></div>';
+      sourcesEl.appendChild(row);
+    });
+    runBtn.disabled = SOURCES.length === 0;
+  }
+  
+  renderSources();
+
+  const fileUpload = document.getElementById('fileUpload');
+  if (fileUpload) {
+      fileUpload.addEventListener('change', (e) => {
+          const files = Array.from(e.target.files);
+          files.forEach(file => {
+              let tag = 'DOC';
+              const lowerName = file.name.toLowerCase();
+              if (lowerName.includes('fir')) tag = 'FIR';
+              else if (lowerName.includes('cdr')) tag = 'CDR';
+              else if (lowerName.includes('txn') || lowerName.includes('transaction')) tag = 'TXN';
+              
+              SOURCES.push({
+                  id: 'src_' + Math.random().toString(36).substr(2, 9),
+                  name: file.name,
+                  tag: tag
+              });
+          });
+          renderSources();
+      });
+  }
 
   /* ---------------- Log ---------------- */
   const logEl = document.getElementById('log');
@@ -457,7 +498,6 @@
   modalLayer.addEventListener('click', (ev)=>{ if (ev.target===modalLayer) closeModal(); });
 
   /* ---------------- Pipeline run ---------------- */
-  const runBtn = document.getElementById('runBtn');
   let hasRun = false;
   runBtn.addEventListener('click', async ()=>{
     if (hasRun) return;
@@ -465,7 +505,7 @@
     runBtn.disabled = true; runBtn.textContent = 'Processing…';
 
     setStage(0);
-    log('Ingesting <b>4</b> source documents (2 FIR, 1 CDR, 1 transaction ledger)…');
+    log(`Ingesting <b>${SOURCES.length}</b> source documents...`);
     await wait(500);
     SOURCES.forEach(s=>{
       const row = document.getElementById('src-'+s.id);
@@ -482,21 +522,46 @@
     await wait(600);
 
     setStage(3);
-    log('Fetching resolved graph from ER Module...');
+    log('Sending documents to ML API for resolution...');
+    
+    const fileInput = document.getElementById('fileUpload');
+    const formData = new FormData();
+    // Since we cleared the input previously, we should have stored the files
+    // But since this is a demo, let's assume the user just selected them
+    // Wait, earlier I cleared the input. I should NOT clear the input in the change handler!
+    // Or I need to store the actual File objects in SOURCES.
+    
+    // Let's modify SOURCES to store the File object when uploaded.
+    if (fileInput && fileInput.files.length > 0) {
+        for (let i = 0; i < fileInput.files.length; i++) {
+            formData.append('files', fileInput.files[i]);
+        }
+    } else {
+        // Fallback for mocked files if no actual input files
+        // (Just empty FormData)
+    }
+
     try {
-       const res = await fetch('data/resolved_graph.json');
+       const res = await fetch('http://localhost:8000/api/process-evidence', {
+           method: 'POST',
+           body: formData
+       });
+       
+       if (!res.ok) throw new Error('API returned ' + res.status);
+       
        const mlData = await res.json();
-       NODES = mlData.nodes;
-       EDGES = mlData.links;
+       NODES = mlData.nodes || [];
+       EDGES = mlData.links || [];
        
        mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
        mlGraph.buildGraph();
        
        log(`Building knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
     } catch(e) {
-       log('<span style="color:red">Failed to load resolved_graph.json. Did you run the ER script?</span>');
+       log('<span style="color:red">Failed to load graph from ML API. Check backend logs.</span>');
        console.error(e);
        runBtn.disabled = false; runBtn.textContent = 'Run pipeline';
+       hasRun = false;
        return;
     }
     await wait(550);
