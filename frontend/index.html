@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VERITAS — Investigator Console</title>
+<link rel="stylesheet" href="./graph/graph.css">
+<style>
+  :root{
+    --ink:#F9FAFB;
+    --graphite:#FFFFFF;
+    --graphite-2:#F3F4F6;
+    --hairline:rgba(0,0,0,0.08);
+    --hairline-strong:rgba(0,0,0,0.16);
+    --text:#111827;
+    --text-dim:#4B5563;
+    --text-faint:#6B7280;
+    --paper:#FFFFFF;
+    --paper-dim:#E5E7EB;
+    --amber:#D97706;
+    --amber-dim:rgba(217,119,6,0.15);
+    --teal:#0F766E;
+    --teal-dim:rgba(15,118,110,0.15);
+    --steel:#9CA3AF;
+    --radius:14px;
+    font-size:16px;
+  }
+  @media (prefers-contrast: more){
+    :root{ --hairline:rgba(0,0,0,0.2); --text-dim:#374151; }
+  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(15,118,110,0.05), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(217,119,6,0.04), transparent 55%),
+      var(--ink);
+    color:var(--text);
+    font:400 15px/1.5 -apple-system, ui-sans-serif, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  .mono{ font-family: ui-monospace, "SF Mono", "Menlo", "Cascadia Code", monospace; letter-spacing:0.01em; }
+
+  /* ---------- App shell ---------- */
+  #app{ display:flex; flex-direction:column; height:100vh; }
+
+  header.topbar{
+    display:flex; align-items:center; gap:22px;
+    padding:14px 22px;
+    border-bottom:1px solid var(--hairline);
+    background:rgba(255,255,255,0.75);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    flex-shrink:0;
+    z-index:10;
+  }
+  @media (prefers-transparency: reduce){
+    header.topbar{ background:var(--graphite); backdrop-filter:none; }
+  }
+  .brand{ display:flex; align-items:baseline; gap:9px; }
+  .brand .mark{
+    width:9px; height:9px; border-radius:2px;
+    background:var(--amber);
+    box-shadow:0 0 0 3px var(--amber-dim);
+  }
+  .brand h1{
+    margin:0; font-size:15px; font-weight:700;
+    letter-spacing:0.14em; text-transform:uppercase;
+  }
+  .brand .case{
+    font-size:12px; color:var(--text-faint);
+    letter-spacing:0.04em;
+  }
+
+  .stepper{ display:flex; align-items:center; gap:0; flex:1; overflow:hidden; }
+  .step{
+    display:flex; align-items:center; gap:8px;
+    padding:0 14px 0 0; position:relative;
+    color:var(--text-faint); font-size:12px; letter-spacing:0.06em; white-space:nowrap;
+  }
+  .step .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--steel); flex-shrink:0;
+    transition:background 320ms ease, box-shadow 320ms ease;
+  }
+  .step.done .dot{ background:var(--teal); box-shadow:0 0 0 3px var(--teal-dim); }
+  .step.active .dot{ background:var(--amber); box-shadow:0 0 0 3px var(--amber-dim); animation:pulse-dot 1.6s ease-in-out infinite; }
+  .step.done, .step.active{ color:var(--text); }
+  .step:not(:last-child)::after{
+    content:""; width:22px; height:1px; background:var(--hairline-strong); margin:0 10px;
+  }
+  @keyframes pulse-dot{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.35);} }
+  @media (prefers-reduced-motion: reduce){ .step.active .dot{ animation:none; } }
+
+  main.layout{
+    flex:1; display:grid;
+    grid-template-columns: 272px 1fr 340px;
+    min-height:0;
+  }
+
+  .panel{
+    border-right:1px solid var(--hairline);
+    padding:18px 16px;
+    overflow-y:auto;
+    min-height:0;
+  }
+  .panel.right{ border-right:none; border-left:1px solid var(--hairline); }
+
+  .panel h2{
+    font-size:11px; text-transform:uppercase; letter-spacing:0.12em;
+    color:var(--text-faint); margin:0 0 12px 0; font-weight:600;
+  }
+
+  /* ---------- Source intake ---------- */
+  .source{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 10px; border-radius:10px;
+    border:1px solid var(--hairline); margin-bottom:8px;
+    background:rgba(0,0,0,0.015);
+  }
+  .source .icon{
+    width:28px; height:28px; border-radius:7px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--graphite-2); color:var(--text-dim); font-size:10px; font-weight:700;
+  }
+  .source .meta{ min-width:0; flex:1; }
+  .source .meta .name{ font-size:12.5px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .source .meta .status{ font-size:10.5px; color:var(--text-faint); margin-top:1px; }
+  .source.processed .icon{ background:var(--teal-dim); color:var(--teal); }
+  .source.processed .status{ color:var(--teal); }
+
+  button.run{
+    width:100%; margin-top:14px; padding:11px 14px;
+    border-radius:10px; border:1px solid var(--amber);
+    background:var(--amber-dim); color:var(--amber);
+    font-size:13px; font-weight:600; letter-spacing:0.03em;
+    cursor:pointer; transition:transform 100ms ease-out, background 150ms ease;
+  }
+  button.run:active{ transform:scale(0.97); }
+  button.run:disabled{ opacity:0.45; cursor:default; }
+  button.run:not(:disabled):hover{ background:rgba(217,119,6,0.22); }
+
+  .log{ margin-top:16px; }
+  .log-line{
+    font-size:11.5px; color:var(--text-dim); padding:4px 0;
+    border-bottom:1px dashed var(--hairline); opacity:0;
+    transform:translateY(4px);
+  }
+  .log-line.in{ opacity:1; transform:translateY(0); transition:opacity 260ms ease, transform 260ms ease; }
+  .log-line b{ color:var(--text); font-weight:600; }
+
+  /* ---------- Right panel content ---------- */
+  .stack{ transition:opacity 200ms ease; }
+  .metric-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:7px 0; border-bottom:1px solid var(--hairline);
+    font-size:12.5px;
+  }
+  .metric-row .n{ font-family:ui-monospace, monospace; color:var(--text); font-weight:600; font-size:13px; }
+  .metric-row .k{ color:var(--text-dim); }
+
+  .detail-title{ font-size:16px; font-weight:700; letter-spacing:-0.01em; margin:0 0 2px 0; }
+  .detail-sub{ font-size:11.5px; color:var(--text-faint); margin-bottom:14px; }
+  .badge{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:10.5px; letter-spacing:0.05em; text-transform:uppercase;
+    padding:3px 8px; border-radius:100px; border:1px solid var(--amber);
+    color:var(--amber); background:var(--amber-dim); margin-bottom:12px; font-weight:600;
+  }
+  .indicator-table{ width:100%; border-collapse:collapse; margin-bottom:16px; }
+  .indicator-table tr td{ padding:6px 0; border-bottom:1px solid var(--hairline); font-size:12px; }
+  .indicator-table tr td:first-child{ color:var(--text-dim); }
+  .indicator-table tr td:last-child{ text-align:right; font-family:ui-monospace,monospace; color:var(--text); font-weight:600; }
+  .indicator-table tr td:last-child.up{ color:var(--amber); }
+
+  .evidence-path{ margin-top:6px; margin-bottom:16px; }
+  .hop{
+    display:flex; align-items:flex-start; gap:10px;
+    opacity:0; transform:translateX(-6px) scale(0.97);
+    padding-bottom:12px; position:relative;
+  }
+  .hop.in{ opacity:1; transform:translateX(0) scale(1); transition:opacity 320ms ease, transform 320ms cubic-bezier(.2,.9,.3,1); }
+  .hop:not(:last-child)::before{
+    content:""; position:absolute; left:9px; top:22px; bottom:-2px; width:1px;
+    background:repeating-linear-gradient(to bottom, var(--hairline-strong) 0 4px, transparent 4px 8px);
+  }
+  .hop .stamp{
+    width:19px; height:19px; border-radius:5px; flex-shrink:0; margin-top:1px;
+    background:var(--graphite-2); border:1px solid var(--hairline-strong);
+    display:flex; align-items:center; justify-content:center;
+    font-size:9px; color:var(--text-dim);
+  }
+  .hop.flag .stamp{ background:var(--amber-dim); border-color:var(--amber); color:var(--amber); }
+  .hop .txt{ font-size:12px; color:var(--text); line-height:1.4; }
+  .hop .txt .rel{ color:var(--text-faint); font-size:10.5px; text-transform:uppercase; letter-spacing:0.04em; }
+
+  button.ghost{
+    width:100%; padding:9px 12px; border-radius:9px;
+    border:1px solid var(--hairline-strong); background:transparent; color:var(--text);
+    font-size:12.5px; cursor:pointer; transition:transform 100ms ease-out, background 150ms ease;
+  }
+  button.ghost:active{ transform:scale(0.97); }
+  button.ghost:hover{ background:rgba(0,0,0,0.04); }
+
+  .empty-hint{ color:var(--text-faint); font-size:12.5px; line-height:1.6; }
+
+  /* ---------- Modal (source viewer) ---------- */
+  #modal-layer{
+    position:fixed; inset:0; z-index:50;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.45);
+    backdrop-filter: blur(6px);
+    opacity:0; pointer-events:none;
+  }
+  #modal-layer.open{ opacity:1; pointer-events:auto; transition:opacity 220ms ease; }
+  .modal{
+    width:min(520px, 90vw);
+    background:var(--paper); color:var(--text);
+    border-radius:16px; padding:22px 24px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.5);
+    transform:translateY(14px) scale(0.98); opacity:0;
+  }
+  #modal-layer.open .modal{ transform:translateY(0) scale(1); opacity:1; transition:transform 280ms cubic-bezier(.2,.9,.3,1), opacity 240ms ease; }
+  .modal h3{ margin:0 0 4px 0; font-size:16px; letter-spacing:-0.01em; }
+  .modal .doc-id{ font-family:ui-monospace,monospace; font-size:11px; color:#6B7280; margin-bottom:14px; }
+  .modal .doc-body{
+    font-size:13px; line-height:1.6; color:#111827; background:#F9FAFB;
+    border-radius:10px; padding:14px; margin-bottom:14px; border:1px solid #E5E7EB;
+  }
+  .modal .verify-row{
+    display:flex; align-items:center; gap:8px; font-size:11.5px; color:#0F766E; font-weight:600;
+    margin-bottom:16px;
+  }
+  .modal .verify-row .check{
+    width:16px; height:16px; border-radius:50%; background:#0F766E; color:white;
+    display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0;
+  }
+  .modal .hashrow{ font-family:ui-monospace,monospace; font-size:10.5px; color:#8A8F9C; margin-bottom:18px; word-break:break-all; }
+  .modal button.close{
+    padding:9px 16px; border-radius:9px; border:1px solid #E5E7EB; background:#F3F4F6; color:#111827;
+    font-size:12.5px; cursor:pointer; transition:transform 100ms ease-out;
+  }
+  .modal button.close:active{ transform:scale(0.96); }
+
+  ::-webkit-scrollbar{ width:9px; }
+  ::-webkit-scrollbar-thumb{ background:var(--hairline-strong); border-radius:10px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="mark"></span>
+      <h1>Veritas</h1>
+      <span class="case mono">CASE-102</span>
+    </div>
+    <div class="stepper" id="stepper"></div>
+  </header>
+
+  <main class="layout">
+
+    <section class="panel left">
+      <h2>Evidence Intake</h2>
+      <div id="sources"></div>
+      <button class="run" id="runBtn">Run pipeline</button>
+      <div class="log" id="log"></div>
+    </section>
+
+    <section class="graph-wrap">
+      <div class="graph-caption"><strong id="graphCount">6</strong>&nbsp;of&nbsp;438 entities shown &middot; flagged subnetwork</div>
+      <svg id="graph" viewBox="0 0 880 520" preserveAspectRatio="xMidYMid meet">
+        <g id="viewport"></g>
+      </svg>
+      <div class="graph-hint" id="graphHint">Drag to pan &middot; click a node to inspect</div>
+    </section>
+
+    <section class="panel right" id="rightPanel"></section>
+
+  </main>
+</div>
+
+<div id="modal-layer">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<script type="module">
+  import { MLGraph } from './graph/graph.js';
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------- Spring engine ---------------- */
+  class Spring{
+    constructor(value, opts={}){
+      this.value=value; this.velocity=opts.velocity||0; this.target=value;
+      this.damping = opts.damping ?? 1.0;
+      this.response = opts.response ?? 0.35;
+      this.onUpdate = opts.onUpdate || (()=>{});
+      this.onSettle = opts.onSettle || (()=>{});
+      this._raf=null;
+    }
+    jump(v){ this.value=v; this.target=v; this.velocity=0; this.onUpdate(this.value); }
+    set(target, velocityBoost){
+      this.target = target;
+      if (velocityBoost !== undefined) this.velocity = velocityBoost;
+      if (reduced){ this.jump(target); this.onSettle(); return; }
+      this._run();
+    }
+    _run(){
+      if (this._raf) return;
+      let last = performance.now();
+      const step = (now) => {
+        const dt = Math.min((now-last)/1000, 0.032); last = now;
+        const w = 2*Math.PI/this.response;
+        const F = -2*this.damping*w*this.velocity - w*w*(this.value-this.target);
+        this.velocity += F*dt;
+        this.value += this.velocity*dt;
+        this.onUpdate(this.value);
+        if (Math.abs(this.value-this.target) < 0.05 && Math.abs(this.velocity) < 0.05){
+          this.value = this.target; this.onUpdate(this.value);
+          this._raf = null; this.onSettle();
+          return;
+        }
+        this._raf = requestAnimationFrame(step);
+      };
+      this._raf = requestAnimationFrame(step);
+    }
+  }
+
+  /* ---------------- Data model ---------------- */
+  const PIPELINE = ["Ingest","Normalize","Extract","Resolve","Graph","Analyze","Explain","Verify"];
+  const SOURCES = [
+    {id:'fir1', name:'FIR_001.txt', tag:'FIR'},
+    {id:'fir2', name:'FIR_002.txt', tag:'FIR'},
+    {id:'cdr',  name:'CDR.csv', tag:'CDR'},
+    {id:'txn',  name:'transactions.csv', tag:'TXN'},
+  ];
+
+  let NODES = [];
+  let EDGES = [];
+  let degree = {};
+  let mlGraph = null;
+
+  /* ---------------- Stepper ---------------- */
+  const stepperEl = document.getElementById('stepper');
+  PIPELINE.forEach((name,i)=>{
+    const d = document.createElement('div');
+    d.className='step'; d.id='step-'+i;
+    d.innerHTML = '<span class="dot"></span><span>'+name+'</span>';
+    stepperEl.appendChild(d);
+  });
+  function setStage(i){
+    PIPELINE.forEach((_,idx)=>{
+      const el = document.getElementById('step-'+idx);
+      el.classList.toggle('done', idx < i);
+      el.classList.toggle('active', idx === i);
+    });
+  }
+
+  /* ---------------- Sources list ---------------- */
+  const sourcesEl = document.getElementById('sources');
+  SOURCES.forEach(s=>{
+    const row = document.createElement('div');
+    row.className='source'; row.id='src-'+s.id;
+    row.innerHTML = '<div class="icon">'+s.tag+'</div><div class="meta"><div class="name">'+s.name+'</div><div class="status">Queued</div></div>';
+    sourcesEl.appendChild(row);
+  });
+
+  /* ---------------- Log ---------------- */
+  const logEl = document.getElementById('log');
+  function log(html){
+    const line = document.createElement('div');
+    line.className='log-line'; line.innerHTML = html;
+    logEl.appendChild(line);
+    requestAnimationFrame(()=>line.classList.add('in'));
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+  function wait(ms){ return new Promise(r=>setTimeout(r, reduced ? Math.min(ms,80) : ms)); }
+
+  /* ---------------- Graph rendering (delegated to MLGraph) ---------------- */
+  // The actual build/reveal/pan logic is handled by the MLGraph module
+
+
+  /* ---------------- Right panel ---------------- */
+  const rightPanel = document.getElementById('rightPanel');
+  function swapPanel(renderFn){
+    rightPanel.style.transition = 'opacity 160ms ease';
+    rightPanel.style.opacity = 0;
+    setTimeout(()=>{
+      renderFn();
+      rightPanel.style.opacity = 1;
+    }, reduced ? 0 : 160);
+  }
+
+  function renderIdlePanel(){
+    rightPanel.innerHTML =
+      '<h2>Case Metrics</h2>'+
+      row('Entities discovered','438')+
+      row('Persons','126')+
+      row('Phones','94')+
+      row('Locations','31')+
+      row('Organizations','12')+
+      row('Relationships','1,842')+
+      '<p class="empty-hint" style="margin-top:16px;">Select any node in the graph to inspect its connections and, where flagged, the full evidence trail behind it.</p>';
+  }
+  function row(k,n){ return '<div class="metric-row"><span class="k">'+k+'</span><span class="n mono">'+n+'</span></div>'; }
+
+  function renderPlainNode(n){
+    const connections = mlGraph ? mlGraph.degree[n.id] : 0;
+    rightPanel.innerHTML =
+      '<div class="detail-title">'+(n.name || n.label || n.id)+'</div>'+
+      '<div class="detail-sub">Entity &middot; '+connections+' connection(s)</div>'+
+      '<p class="empty-hint">No anomaly indicators for this entity. It appears in the case record but was not flagged by the analytics engine.</p>';
+  }
+
+  function renderFlaggedNode(n){
+    const risk = n.risk_color || 'none';
+    const firs = n.historical_firs || 0;
+    
+    rightPanel.innerHTML =
+      '<div class="badge">REVIEW REQUIRED</div>'+
+      '<div class="detail-title">'+(n.name || n.label || n.id)+'</div>'+
+      '<div class="detail-sub" style="text-transform:capitalize">Risk Level: '+risk+' &middot; '+firs+' Historical FIR(s)</div>'+
+      '<p class="empty-hint">This entity is involved in ambiguous data (dotted links) or has been flagged for historical criminal activity.</p>'+
+      '<button class="ghost" id="viewSourceBtn">View Consent / Manual Review</button>';
+
+    document.getElementById('viewSourceBtn').addEventListener('click', openModal);
+  }
+
+  let selectedId = null;
+  function selectNode(id){
+    selectedId = id;
+    const n = NODES.find(x=>x.id===id);
+    if(!n) return;
+    swapPanel(()=> n.status === 'REVIEW_REQUIRED' || n.flagged ? renderFlaggedNode(n) : renderPlainNode(n));
+  }
+
+  renderIdlePanel();
+
+  /* ---------------- Modal ---------------- */
+  const modalLayer = document.getElementById('modal-layer');
+  const modalBody = document.getElementById('modalBody');
+  function openModal(){
+    modalBody.innerHTML =
+      '<h3>TX-219 &middot; Transaction Record</h3>'+
+      '<div class="doc-id mono">EV-041 &middot; extracted from transactions.csv</div>'+
+      '<div class="doc-body">Transfer of ₹2,40,000 from account ending 4521 to account ending 7788, timestamped two days before the FIR-104 filing. Flagged by the rule engine for an amount and frequency well above the sender\'s historical baseline.</div>'+
+      '<div class="verify-row"><span class="check">✓</span> Integrity verified &middot; Merkle root matches ledger</div>'+
+      '<div class="hashrow">sha256 · 9f2a1c…e0b47d &middot; model NER-v1.4 &middot; pipeline v2.1</div>'+
+      '<button class="close" id="closeModal">Close</button>';
+    modalLayer.classList.add('open');
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+  }
+  function closeModal(){ modalLayer.classList.remove('open'); }
+  modalLayer.addEventListener('click', (ev)=>{ if (ev.target===modalLayer) closeModal(); });
+
+  /* ---------------- Pipeline run ---------------- */
+  const runBtn = document.getElementById('runBtn');
+  let hasRun = false;
+  runBtn.addEventListener('click', async ()=>{
+    if (hasRun) return;
+    hasRun = true;
+    runBtn.disabled = true; runBtn.textContent = 'Processing…';
+
+    setStage(0);
+    log('Ingesting <b>4</b> source documents (2 FIR, 1 CDR, 1 transaction ledger)…');
+    await wait(500);
+    SOURCES.forEach(s=>{
+      const row = document.getElementById('src-'+s.id);
+      row.classList.add('processed');
+      row.querySelector('.status').textContent = 'Hashed & stored';
+    });
+
+    setStage(1);
+    log('Normalizing names, phone numbers and account identifiers…');
+    await wait(500);
+
+    setStage(2);
+    log('Running multilingual NER — candidate entities extracted.');
+    await wait(600);
+
+    setStage(3);
+    log('Fetching resolved graph from ER Module...');
+    try {
+       const res = await fetch('data/resolved_graph.json');
+       const mlData = await res.json();
+       NODES = mlData.nodes;
+       EDGES = mlData.links;
+       
+       mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
+       mlGraph.buildGraph();
+       
+       log(`Building knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
+    } catch(e) {
+       log('<span style="color:red">Failed to load resolved_graph.json. Did you run the ER script?</span>');
+       console.error(e);
+       runBtn.disabled = false; runBtn.textContent = 'Run pipeline';
+       return;
+    }
+    await wait(550);
+
+    setStage(4);
+    mlGraph.revealGraph();
+    await wait(900);
+
+    setStage(5);
+    log('Analyzing subnetworks for high-risk flags...');
+    await wait(650);
+
+    setStage(6);
+    log('Explainability layer attached — indicators generated.');
+    await wait(500);
+
+    setStage(7);
+    log('Pipeline completed. Awaiting investigator review.');
+    await wait(400);
+
+    runBtn.textContent = 'Pipeline complete';
+    document.getElementById('graphCount').textContent = NODES.length;
+    // Auto-select a flagged node if one exists
+    const flagged = NODES.find(n => n.status === 'REVIEW_REQUIRED');
+    if (flagged) {
+        setTimeout(()=>{ 
+            mlGraph.selectNodeUI(flagged.id);
+            selectNode(flagged.id); 
+        }, 300);
+    }
+  });
+
+</script>
+</body>
+</html>

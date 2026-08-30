@@ -1,2 +1,0 @@
-// useCase.ts stub
-export {};

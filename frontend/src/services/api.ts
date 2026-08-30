@@ -1,2 +1,0 @@
-// api.ts stub
-export {};
