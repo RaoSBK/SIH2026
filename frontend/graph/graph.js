@@ -1,0 +1,360 @@
+// ML Graph Component
+
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------------- Spring engine (for panning) ---------------- */
+export class Spring {
+  constructor(value, opts={}) {
+    this.value = value;
+    this.velocity = opts.velocity || 0;
+    this.target = value;
+    this.damping = opts.damping ?? 1.0;
+    this.response = opts.response ?? 0.35;
+    this.onUpdate = opts.onUpdate || (() => {});
+    this.onSettle = opts.onSettle || (() => {});
+    this._raf = null;
+  }
+  jump(v) { this.value = v; this.target = v; this.velocity = 0; this.onUpdate(this.value); }
+  set(target, velocityBoost) {
+    this.target = target;
+    if (velocityBoost !== undefined) this.velocity = velocityBoost;
+    if (reduced) { this.jump(target); this.onSettle(); return; }
+    this._run();
+  }
+  _run() {
+    if (this._raf) return;
+    let last = performance.now();
+    const step = (now) => {
+      const dt = Math.min((now - last) / 1000, 0.032);
+      last = now;
+      const w = 2 * Math.PI / this.response;
+      const F = -2 * this.damping * w * this.velocity - w * w * (this.value - this.target);
+      this.velocity += F * dt;
+      this.value += this.velocity * dt;
+      this.onUpdate(this.value);
+      if (Math.abs(this.value - this.target) < 0.05 && Math.abs(this.velocity) < 0.05) {
+        this.value = this.target; this.onUpdate(this.value);
+        this._raf = null;
+        this.onSettle();
+        return;
+      }
+      this._raf = requestAnimationFrame(step);
+    };
+    this._raf = requestAnimationFrame(step);
+  }
+}
+
+/* ---------------- ML Graph Engine ---------------- */
+export class MLGraph {
+  constructor(svgId, viewportId, nodes, links, onSelectNode) {
+    this.svgNS = "http://www.w3.org/2000/svg";
+    this.svg = document.getElementById(svgId);
+    this.viewport = document.getElementById(viewportId);
+    this.onSelectNode = onSelectNode;
+    
+    this.nodes = nodes;
+    this.links = links;
+    
+    // Process degrees for sizing
+    this.degree = {};
+    this.nodes.forEach(n => this.degree[n.id] = 0);
+    this.links.forEach(e => {
+      if(this.degree[e.source] !== undefined) this.degree[e.source]++;
+      if(this.degree[e.target] !== undefined) this.degree[e.target]++;
+    });
+
+    this.nodeGroups = {};
+    
+    this.initLayout();
+    this.initPanning();
+  }
+
+  el(tag, attrs) {
+    const e = document.createElementNS(this.svgNS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  
+  // Basic Circular Layout since ML nodes don't have x,y
+  initLayout() {
+    const cx = 440;
+    const cy = 260;
+    
+    // Initial random placement
+    this.nodes.forEach((node, i) => {
+      node.x = cx + (Math.random() - 0.5) * 200;
+      node.y = cy + (Math.random() - 0.5) * 200;
+      node.vx = 0;
+      node.vy = 0;
+    });
+
+    // Simple Force Directed Layout (Fruchterman-Reingold inspired)
+    const iterations = 80;
+    const area = 600 * 400;
+    const k = Math.sqrt(area / this.nodes.length) * 0.8;
+    const repulse = (dist) => (k * k) / dist;
+    const attract = (dist) => (dist * dist) / k;
+    
+    let temp = cx * 0.15; // Initial temperature
+
+    for (let iter = 0; iter < iterations; iter++) {
+      // Repulsion
+      for (let i = 0; i < this.nodes.length; i++) {
+        const u = this.nodes[i];
+        u.dx = 0; u.dy = 0;
+        for (let j = 0; j < this.nodes.length; j++) {
+          if (i === j) continue;
+          const v = this.nodes[j];
+          let dx = u.x - v.x;
+          let dy = u.y - v.y;
+          let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+          const f = repulse(dist) * 1.5;
+          u.dx += (dx / dist) * f;
+          u.dy += (dy / dist) * f;
+        }
+      }
+      
+      // Attraction
+      this.links.forEach(link => {
+        const u = this.nodes.find(n => n.id === link.source);
+        const v = this.nodes.find(n => n.id === link.target);
+        if(!u || !v) return;
+        let dx = u.x - v.x;
+        let dy = u.y - v.y;
+        let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        const f = attract(dist) * 0.05;
+        const fx = (dx / dist) * f;
+        const fy = (dy / dist) * f;
+        u.dx -= fx; u.dy -= fy;
+        v.dx += fx; v.dy += fy;
+      });
+      
+      // Apply forces
+      this.nodes.forEach(u => {
+        let dx = u.dx;
+        let dy = u.dy;
+        let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        u.x += (dx / dist) * Math.min(dist, temp);
+        u.y += (dy / dist) * Math.min(dist, temp);
+        
+        // Push towards center slightly to keep it compact
+        u.x += (cx - u.x) * 0.01;
+        u.y += (cy - u.y) * 0.01;
+      });
+      
+      temp *= 0.95; // Cool down
+    }
+  }
+
+  buildGraph() {
+    this.viewport.innerHTML = ''; // clear
+    
+    // Render Edges
+    this.links.forEach(e => {
+      const a = this.nodes.find(n => n.id === e.source);
+      const b = this.nodes.find(n => n.id === e.target);
+      if (!a || !b) return;
+      
+      const lineClass = 'edge ' + (e.line_type === 'dotted' ? 'dotted' : 'solid');
+      const line = this.el('line', {x1: a.x, y1: a.y, x2: b.x, y2: b.y, class: lineClass});
+      
+      // Override stroke color to match screenshot
+      line.style.stroke = '#F97316'; // Orange links
+      
+      const len = Math.hypot(b.x - a.x, b.y - a.y);
+      line.style.strokeDasharray = e.line_type === 'dotted' ? '4 4' : len;
+      if (e.line_type !== 'dotted') {
+         line.style.strokeDashoffset = len;
+      }
+      this.viewport.appendChild(line);
+      e._el = line;
+      
+      const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+      const t = this.el('text', {x: mx, y: my - 4, class: 'edge-label', 'text-anchor': 'middle'});
+      t.textContent = e.type || (e.confidence ? (e.confidence * 100).toFixed(0) + '%' : 'LINK');
+      t.style.opacity = 0;
+      t.style.fill = '#F97316'; // Orange edge label
+      t.style.fontWeight = '600';
+      this.viewport.appendChild(t);
+      e._label = t;
+    });
+
+    // Render Nodes
+    const riskColors = {
+      'red': '#EF4444',
+      'orange': '#F97316',
+      'yellow': '#EAB308',
+      'none': '#0F766E'
+    };
+    
+    this.nodes.forEach(n => {
+      const r = 14 + (this.degree[n.id] || 0) * 3;
+      const statusClass = n.status === 'REVIEW_REQUIRED' ? ' REVIEW_REQUIRED' : '';
+      const g = this.el('g', {class: 'node' + statusClass, transform: `translate(${n.x},${n.y}) scale(0.4)`, 'data-id': n.id});
+      g.style.opacity = 0;
+      
+      const strokeColor = riskColors[n.risk_color] || '#0F766E'; // Teal for normal nodes
+      const fillColor = strokeColor + '22'; // Colorful alpha fill
+      
+      if (n.status === 'REVIEW_REQUIRED') {
+         g.appendChild(this.el('circle', {class: 'ring', r: r + 8, fill: 'none', stroke: strokeColor, 'stroke-width': 1.4}));
+      }
+      
+      g.appendChild(this.el('circle', {class: 'body', r: r, fill: fillColor, stroke: strokeColor, 'stroke-width': 2}));
+      
+      const label = this.el('text', {y: r + 15, 'text-anchor': 'middle'});
+      label.textContent = n.name || n.label || n.id;
+      
+      const sub = this.el('text', {class: 'sub', y: r + 27, 'text-anchor': 'middle'});
+      sub.textContent = n.type || (n.historical_firs > 0 ? `${n.historical_firs} FIRs` : 'Clean');
+      
+      g.appendChild(label);
+      g.appendChild(sub);
+      
+      g.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); });
+      g.addEventListener('click', (ev) => { 
+        ev.stopPropagation(); 
+        if(this.onSelectNode) this.onSelectNode(n); 
+        this.selectNodeUI(n.id);
+      });
+      
+      this.viewport.appendChild(g);
+      this.nodeGroups[n.id] = g;
+    });
+  }
+
+  selectNodeUI(id) {
+     Object.values(this.nodeGroups).forEach(g => g.classList.remove('selected'));
+     if(this.nodeGroups[id]) {
+         this.nodeGroups[id].classList.add('selected');
+     }
+  }
+
+  revealGraph() {
+    let i = 0;
+    this.nodes.forEach(n => {
+      const g = this.nodeGroups[n.id];
+      setTimeout(() => {
+        g.style.transition = reduced ? 'opacity 200ms ease' : 'opacity 280ms ease, transform 480ms cubic-bezier(.2,.9,.3,1)';
+        g.style.opacity = 1;
+        g.setAttribute('transform', `translate(${n.x},${n.y}) scale(1)`);
+      }, i * 80);
+      i++;
+    });
+    
+    this.links.forEach((e, idx) => {
+      setTimeout(() => {
+        if (e.line_type !== 'dotted') {
+            e._el.style.transition = 'stroke-dashoffset 420ms ease-out';
+            e._el.style.strokeDashoffset = 0;
+        }
+        e._label.style.transition = 'opacity 300ms ease';
+        e._label.style.opacity = 1;
+      }, 260 + idx * 70);
+    });
+    setTimeout(() => { 
+        this.fitGraphToScreen();
+        const hint = document.getElementById('graphHint');
+        if(hint) hint.classList.add('show'); 
+    }, 900);
+  }
+
+  fitGraphToScreen() {
+    if(this.nodes.length === 0) return;
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    this.nodes.forEach(n => {
+      if(n.x < minX) minX = n.x;
+      if(n.x > maxX) maxX = n.x;
+      if(n.y < minY) minY = n.y;
+      if(n.y > maxY) maxY = n.y;
+    });
+    
+    const padding = 120;
+    const width = maxX - minX + padding * 2;
+    const height = maxY - minY + padding * 2;
+    
+    const scaleX = 880 / (width || 1);
+    const scaleY = 520 / (height || 1);
+    const targetZoom = Math.min(scaleX, scaleY, 1.2); 
+    
+    const cx = (minX + maxX) / 2;
+    const cy = (minY + maxY) / 2;
+    
+    const targetPanX = 880/2 - cx * targetZoom;
+    const targetPanY = 520/2 - cy * targetZoom;
+    
+    this.panSpringX.set(targetPanX);
+    this.panSpringY.set(targetPanY);
+    this.zoomSpring.set(targetZoom);
+  }
+
+  /* ----- Pan & Zoom Logic ----- */
+  initPanning() {
+    this.panX = 0; this.panY = 0; this.zoom = 1;
+    let dragging = false, startX = 0, startY = 0, baseX = 0, baseY = 0;
+    let history = [];
+    
+    this.applyTransform = () => { 
+        this.viewport.setAttribute('transform', `translate(${this.panX},${this.panY}) scale(${this.zoom})`); 
+    };
+    
+    this.panSpringX = new Spring(0, {damping: 1, response: 0.5, onUpdate: v => { this.panX = v; this.applyTransform(); }});
+    this.panSpringY = new Spring(0, {damping: 1, response: 0.5, onUpdate: v => { this.panY = v; this.applyTransform(); }});
+    this.zoomSpring = new Spring(1, {damping: 1, response: 0.5, onUpdate: v => { this.zoom = v; this.applyTransform(); }});
+    
+    this.svg.addEventListener('wheel', (ev) => {
+      ev.preventDefault();
+      let z = this.zoomSpring.target;
+      const zoomFactor = Math.exp(ev.deltaY * -0.002);
+      z *= zoomFactor;
+      z = Math.max(0.1, Math.min(z, 4)); 
+      
+      const rect = this.svg.getBoundingClientRect();
+      const scale = 880 / rect.width;
+      const mx = (ev.clientX - rect.left) * scale;
+      const my = (ev.clientY - rect.top) * scale;
+      
+      const newPanX = mx - (mx - this.panSpringX.target) * (z / this.zoomSpring.target);
+      const newPanY = my - (my - this.panSpringY.target) * (z / this.zoomSpring.target);
+      
+      this.panSpringX.set(newPanX);
+      this.panSpringY.set(newPanY);
+      this.zoomSpring.set(z);
+    });
+
+    this.svg.addEventListener('pointerdown', (ev) => {
+      dragging = true; this.svg.classList.add('grabbing');
+      this.svg.setPointerCapture(ev.pointerId);
+      startX = ev.clientX; startY = ev.clientY; baseX = this.panX; baseY = this.panY;
+      history = [{x: ev.clientX, y: ev.clientY, t: performance.now()}];
+    });
+    
+    this.svg.addEventListener('pointermove', (ev) => {
+      if (!dragging) return;
+      const scale = 880 / this.svg.getBoundingClientRect().width;
+      const dx = (ev.clientX - startX) * scale, dy = (ev.clientY - startY) * scale;
+      this.panX = baseX + dx;
+      this.panY = baseY + dy;
+      this.applyTransform();
+      history.push({x: ev.clientX, y: ev.clientY, t: performance.now()});
+      if (history.length > 5) history.shift();
+    });
+    
+    const endDrag = (ev) => {
+      if (!dragging) return;
+      dragging = false; this.svg.classList.remove('grabbing');
+      let vx = 0, vy = 0;
+      if (history.length >= 2) {
+        const a = history[0], b = history[history.length - 1];
+        const dt = (b.t - a.t) || 16;
+        const scale = 880 / this.svg.getBoundingClientRect().width;
+        vx = (b.x - a.x) * scale / dt * 16; vy = (b.y - a.y) * scale / dt * 16;
+      }
+      this.panSpringX.value = this.panX; this.panSpringX.set(this.panX + vx * 4, vx * 8);
+      this.panSpringY.value = this.panY; this.panSpringY.set(this.panY + vy * 4, vy * 8);
+    };
+    
+    this.svg.addEventListener('pointerup', endDrag);
+    this.svg.addEventListener('pointercancel', endDrag);
+  }
+}

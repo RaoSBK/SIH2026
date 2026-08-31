@@ -1,0 +1,1724 @@
+{
+  "nodes": [
+    {
+      "id": "fir_1_E1",
+      "name": "Priya Joshi",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 1,
+      "risk_color": "yellow"
+    },
+    {
+      "id": "fir_1_E2",
+      "name": "S. Rao",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 4,
+      "risk_color": "orange"
+    },
+    {
+      "id": "fir_1_E3",
+      "name": "A. Reddy",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 2,
+      "risk_color": "yellow"
+    },
+    {
+      "id": "fir_1_E4",
+      "name": "Vikram G.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 8,
+      "risk_color": "red"
+    },
+    {
+      "id": "fir_10_E1",
+      "name": "S. Sharma",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_10_E2",
+      "name": "Rahul Patil",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_10_E3",
+      "name": "V. Mehta",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_10_E4",
+      "name": "Priya Gupta",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_11_E1",
+      "name": "Raj D.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_11_E2",
+      "name": "S. Deshmukh",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_11_E3",
+      "name": "Kiran Kumar",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_11_E4",
+      "name": "P. Gupta",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_12_E1",
+      "name": "Neha Rao",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_12_E2",
+      "name": "Kiran Joshi",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_12_E3",
+      "name": "Kiran Kumar",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_12_E4",
+      "name": "SURESH DAS",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_13_E1",
+      "name": "RAHUL PATIL",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_13_E2",
+      "name": "K. Reddy",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_14_E1",
+      "name": "MANOJ PATIL",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_14_E2",
+      "name": "Raj Patil",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_15_E1",
+      "name": "RAHUL GUPTA",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_15_E2",
+      "name": "Neha Rao",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_16_E1",
+      "name": "Raj M.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_16_E2",
+      "name": "VIKRAM DAS",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_17_E1",
+      "name": "POOJA SHARMA",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_17_E2",
+      "name": "N. Rao",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_18_E1",
+      "name": "A. Patil",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_18_E2",
+      "name": "A. Joshi",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_18_E3",
+      "name": "Sunil D.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_19_E1",
+      "name": "Amit Kumar",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_19_E2",
+      "name": "Amit R.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_19_E3",
+      "name": "RAJ DAS",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_2_E1",
+      "name": "Rahul M.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_2_E2",
+      "name": "Suresh Deshmukh",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_2_E3",
+      "name": "Suresh K.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_20_E1",
+      "name": "S. Reddy",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_20_E2",
+      "name": "PRIYA JOSHI",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 1,
+      "risk_color": "yellow"
+    },
+    {
+      "id": "fir_20_E3",
+      "name": "Neha Kumar",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_21_E1",
+      "name": "Suresh D.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_21_E2",
+      "name": "Priya J.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_21_E3",
+      "name": "MANOJ PATIL",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_21_E4",
+      "name": "Raj M.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_22_E1",
+      "name": "Kiran J.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_22_E2",
+      "name": "Sunil M.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_22_E3",
+      "name": "Amit Reddy",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_22_E4",
+      "name": "Kiran R.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_23_E1",
+      "name": "SUNIL RAO",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_23_E2",
+      "name": "Raj Patil",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_23_E3",
+      "name": "K. Reddy",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_23_E4",
+      "name": "Neha K.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_24_E1",
+      "name": "POOJA SHARMA",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_24_E2",
+      "name": "S. Mehta",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_24_E3",
+      "name": "A. Reddy",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 2,
+      "risk_color": "yellow"
+    },
+    {
+      "id": "fir_25_E1",
+      "name": "R. Mehta",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_25_E2",
+      "name": "Manoj Patil",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_25_E3",
+      "name": "KIRAN REDDY",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_3_E1",
+      "name": "Vikram Rao",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_3_E2",
+      "name": "Ravi K.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_3_E3",
+      "name": "Rahul Patil",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_3_E4",
+      "name": "N. Mehta",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_4_E1",
+      "name": "Rahul Gupta",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_4_E2",
+      "name": "Manoj P.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_4_E3",
+      "name": "R. Mehta",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_5_E1",
+      "name": "VIKRAM DAS",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_5_E2",
+      "name": "Ravi Mehta",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_5_E3",
+      "name": "R. Patil",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_6_E1",
+      "name": "Rahul Patil",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_6_E2",
+      "name": "R. Gupta",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_7_E1",
+      "name": "Neha M.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_7_E2",
+      "name": "Sunil M.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_7_E3",
+      "name": "Vikram M.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_8_E1",
+      "name": "Sunil R.",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_8_E2",
+      "name": "P. Joshi",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_8_E3",
+      "name": "PRIYA GUPTA",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_8_E4",
+      "name": "ARUN JOSHI",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_9_E1",
+      "name": "Sunil Mehta",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_9_E2",
+      "name": "Suresh Verma",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    },
+    {
+      "id": "fir_9_E3",
+      "name": "Kiran Joshi",
+      "cluster_id": "fir_9_E2",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 0,
+      "risk_color": "none"
+    }
+  ],
+  "links": [
+    {
+      "source": "fir_1_E1",
+      "target": "fir_1_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_1_E1",
+      "target": "fir_1_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_1_E1",
+      "target": "fir_1_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_1_E1",
+      "target": "fir_18_E2",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_1_E1",
+      "target": "fir_20_E2",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_1_E1",
+      "target": "fir_21_E2",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_1_E2",
+      "target": "fir_1_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_1_E2",
+      "target": "fir_1_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_1_E3",
+      "target": "fir_1_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_1_E3",
+      "target": "fir_24_E3",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_10_E1",
+      "target": "fir_10_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_10_E1",
+      "target": "fir_10_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_10_E1",
+      "target": "fir_10_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_10_E2",
+      "target": "fir_10_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_10_E2",
+      "target": "fir_10_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_10_E2",
+      "target": "fir_13_E1",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_10_E2",
+      "target": "fir_3_E3",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_10_E2",
+      "target": "fir_6_E1",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_10_E3",
+      "target": "fir_10_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_10_E4",
+      "target": "fir_8_E3",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_11_E1",
+      "target": "fir_11_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_11_E1",
+      "target": "fir_11_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_11_E1",
+      "target": "fir_11_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_11_E1",
+      "target": "fir_19_E3",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_11_E2",
+      "target": "fir_11_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_11_E2",
+      "target": "fir_11_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_11_E3",
+      "target": "fir_11_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_11_E3",
+      "target": "fir_12_E3",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_12_E1",
+      "target": "fir_12_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_12_E1",
+      "target": "fir_12_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_12_E1",
+      "target": "fir_12_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_12_E1",
+      "target": "fir_15_E2",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_12_E2",
+      "target": "fir_12_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_12_E2",
+      "target": "fir_12_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_12_E2",
+      "target": "fir_22_E1",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_12_E2",
+      "target": "fir_9_E3",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_12_E3",
+      "target": "fir_12_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_12_E4",
+      "target": "fir_21_E1",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_13_E1",
+      "target": "fir_13_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_13_E1",
+      "target": "fir_3_E3",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_13_E1",
+      "target": "fir_6_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_13_E1",
+      "target": "fir_6_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_13_E2",
+      "target": "fir_23_E3",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_13_E2",
+      "target": "fir_6_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_13_E2",
+      "target": "fir_6_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_14_E1",
+      "target": "fir_14_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_14_E1",
+      "target": "fir_21_E3",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_14_E1",
+      "target": "fir_25_E2",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_14_E1",
+      "target": "fir_4_E2",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_14_E2",
+      "target": "fir_23_E2",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_15_E1",
+      "target": "fir_15_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_15_E1",
+      "target": "fir_4_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_15_E1",
+      "target": "fir_4_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_15_E1",
+      "target": "fir_4_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_15_E2",
+      "target": "fir_4_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_15_E2",
+      "target": "fir_4_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_15_E2",
+      "target": "fir_4_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_16_E1",
+      "target": "fir_16_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_16_E1",
+      "target": "fir_21_E4",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_16_E2",
+      "target": "fir_5_E1",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_17_E1",
+      "target": "fir_17_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_17_E1",
+      "target": "fir_24_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_17_E1",
+      "target": "fir_24_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_17_E1",
+      "target": "fir_24_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_17_E2",
+      "target": "fir_24_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_17_E2",
+      "target": "fir_24_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_17_E2",
+      "target": "fir_24_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_18_E1",
+      "target": "fir_18_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_18_E1",
+      "target": "fir_18_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_18_E2",
+      "target": "fir_18_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_18_E2",
+      "target": "fir_20_E2",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_19_E1",
+      "target": "fir_19_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_19_E1",
+      "target": "fir_19_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_19_E2",
+      "target": "fir_19_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_19_E2",
+      "target": "fir_22_E3",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_2_E1",
+      "target": "fir_2_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_2_E1",
+      "target": "fir_2_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_2_E1",
+      "target": "fir_25_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_2_E1",
+      "target": "fir_25_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_2_E1",
+      "target": "fir_25_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_2_E2",
+      "target": "fir_2_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_2_E2",
+      "target": "fir_21_E1",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_2_E2",
+      "target": "fir_25_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_2_E2",
+      "target": "fir_25_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_2_E2",
+      "target": "fir_25_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_2_E3",
+      "target": "fir_25_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_2_E3",
+      "target": "fir_25_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_2_E3",
+      "target": "fir_25_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_20_E1",
+      "target": "fir_20_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_20_E1",
+      "target": "fir_20_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_20_E2",
+      "target": "fir_20_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_20_E2",
+      "target": "fir_21_E2",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_20_E3",
+      "target": "fir_23_E4",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_21_E1",
+      "target": "fir_21_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_21_E1",
+      "target": "fir_21_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_21_E1",
+      "target": "fir_21_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_21_E2",
+      "target": "fir_21_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_21_E2",
+      "target": "fir_21_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_21_E3",
+      "target": "fir_21_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_21_E3",
+      "target": "fir_25_E2",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_21_E3",
+      "target": "fir_4_E2",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_22_E1",
+      "target": "fir_22_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_22_E1",
+      "target": "fir_22_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_22_E1",
+      "target": "fir_22_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_22_E1",
+      "target": "fir_9_E3",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_22_E2",
+      "target": "fir_22_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_22_E2",
+      "target": "fir_22_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_22_E2",
+      "target": "fir_7_E2",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_22_E2",
+      "target": "fir_9_E1",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_22_E3",
+      "target": "fir_22_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_22_E4",
+      "target": "fir_25_E3",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_23_E1",
+      "target": "fir_23_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E1",
+      "target": "fir_23_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E1",
+      "target": "fir_23_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E1",
+      "target": "fir_8_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E1",
+      "target": "fir_8_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E1",
+      "target": "fir_8_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E1",
+      "target": "fir_8_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E2",
+      "target": "fir_23_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E2",
+      "target": "fir_23_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E2",
+      "target": "fir_8_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E2",
+      "target": "fir_8_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E2",
+      "target": "fir_8_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E2",
+      "target": "fir_8_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E3",
+      "target": "fir_23_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E3",
+      "target": "fir_8_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E3",
+      "target": "fir_8_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E3",
+      "target": "fir_8_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E3",
+      "target": "fir_8_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E4",
+      "target": "fir_8_E1",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E4",
+      "target": "fir_8_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E4",
+      "target": "fir_8_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_23_E4",
+      "target": "fir_8_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_24_E1",
+      "target": "fir_24_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_24_E1",
+      "target": "fir_24_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_24_E2",
+      "target": "fir_24_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_25_E1",
+      "target": "fir_25_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_25_E1",
+      "target": "fir_25_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_25_E1",
+      "target": "fir_4_E3",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_25_E2",
+      "target": "fir_25_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_25_E2",
+      "target": "fir_4_E2",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_3_E1",
+      "target": "fir_3_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_3_E1",
+      "target": "fir_3_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_3_E1",
+      "target": "fir_3_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_3_E2",
+      "target": "fir_3_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_3_E2",
+      "target": "fir_3_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_3_E3",
+      "target": "fir_3_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_3_E3",
+      "target": "fir_6_E1",
+      "confidence": 0.88,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_4_E1",
+      "target": "fir_4_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_4_E1",
+      "target": "fir_4_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_4_E2",
+      "target": "fir_4_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_5_E1",
+      "target": "fir_5_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_5_E1",
+      "target": "fir_5_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_5_E2",
+      "target": "fir_5_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_6_E1",
+      "target": "fir_6_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_7_E1",
+      "target": "fir_7_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_7_E1",
+      "target": "fir_7_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_7_E2",
+      "target": "fir_7_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_7_E2",
+      "target": "fir_9_E1",
+      "confidence": 0.7,
+      "line_type": "dotted"
+    },
+    {
+      "source": "fir_8_E1",
+      "target": "fir_8_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_8_E1",
+      "target": "fir_8_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_8_E1",
+      "target": "fir_8_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_8_E2",
+      "target": "fir_8_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_8_E2",
+      "target": "fir_8_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_8_E3",
+      "target": "fir_8_E4",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_9_E1",
+      "target": "fir_9_E2",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_9_E1",
+      "target": "fir_9_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    },
+    {
+      "source": "fir_9_E2",
+      "target": "fir_9_E3",
+      "confidence": 0.95,
+      "line_type": "solid"
+    }
+  ],
+  "clusters": [
+    {
+      "cluster_id": "fir_9_E2",
+      "members": [
+        "fir_1_E1",
+        "fir_1_E2",
+        "fir_1_E3",
+        "fir_1_E4",
+        "fir_10_E1",
+        "fir_10_E2",
+        "fir_10_E3",
+        "fir_10_E4",
+        "fir_11_E1",
+        "fir_11_E2",
+        "fir_11_E3",
+        "fir_11_E4",
+        "fir_12_E1",
+        "fir_12_E2",
+        "fir_12_E3",
+        "fir_12_E4",
+        "fir_13_E1",
+        "fir_13_E2",
+        "fir_14_E1",
+        "fir_14_E2",
+        "fir_15_E1",
+        "fir_15_E2",
+        "fir_16_E1",
+        "fir_16_E2",
+        "fir_17_E1",
+        "fir_17_E2",
+        "fir_18_E1",
+        "fir_18_E2",
+        "fir_18_E3",
+        "fir_19_E1",
+        "fir_19_E2",
+        "fir_19_E3",
+        "fir_2_E1",
+        "fir_2_E2",
+        "fir_2_E3",
+        "fir_20_E1",
+        "fir_20_E2",
+        "fir_20_E3",
+        "fir_21_E1",
+        "fir_21_E2",
+        "fir_21_E3",
+        "fir_21_E4",
+        "fir_22_E1",
+        "fir_22_E2",
+        "fir_22_E3",
+        "fir_22_E4",
+        "fir_23_E1",
+        "fir_23_E2",
+        "fir_23_E3",
+        "fir_23_E4",
+        "fir_24_E1",
+        "fir_24_E2",
+        "fir_24_E3",
+        "fir_25_E1",
+        "fir_25_E2",
+        "fir_25_E3",
+        "fir_3_E1",
+        "fir_3_E2",
+        "fir_3_E3",
+        "fir_3_E4",
+        "fir_4_E1",
+        "fir_4_E2",
+        "fir_4_E3",
+        "fir_5_E1",
+        "fir_5_E2",
+        "fir_5_E3",
+        "fir_6_E1",
+        "fir_6_E2",
+        "fir_7_E1",
+        "fir_7_E2",
+        "fir_7_E3",
+        "fir_8_E1",
+        "fir_8_E2",
+        "fir_8_E3",
+        "fir_8_E4",
+        "fir_9_E1",
+        "fir_9_E2",
+        "fir_9_E3"
+      ],
+      "status": "HIGH_CONFIDENCE"
+    }
+  ]
+}

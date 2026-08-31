@@ -1,7 +1,19 @@
 import json
+import os
 from datetime import datetime
 from collections import defaultdict
 import uuid
+
+def get_workspace_root():
+    current = os.path.dirname(os.path.abspath(__file__))
+    while current:
+        if os.path.exists(os.path.join(current, "docker-compose.yml")) or os.path.exists(os.path.join(current, ".git")):
+            return current
+        parent = os.path.dirname(current)
+        if parent == current:
+            break
+        current = parent
+    return r"d:\SIH2026"
 
 def load_graph(file_path):
     with open(file_path, 'r') as f:
@@ -42,7 +54,6 @@ def run_rule_engine(graph_data):
         
         # Calculate baseline (everything except last 7 days)
         last_tx_time = txs[-1]["time"]
-        cutoff_time = last_tx_time - datetime.timedelta(days=7) if hasattr(datetime, 'timedelta') else last_tx_time
         import datetime as dt
         cutoff_time = last_tx_time - dt.timedelta(days=7)
         
@@ -142,6 +153,8 @@ def run_rule_engine(graph_data):
     return alerts
 
 if __name__ == "__main__":
-    graph = load_graph(r"c:\Users\sahid\Desktop\SIH\data\mock_graph.json")
+    workspace_root = get_workspace_root()
+    graph_path = os.path.join(workspace_root, "data", "mock_graph.json")
+    graph = load_graph(graph_path)
     alerts = run_rule_engine(graph)
     print(json.dumps(alerts, indent=2))

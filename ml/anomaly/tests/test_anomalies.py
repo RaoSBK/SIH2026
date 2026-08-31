@@ -1,11 +1,23 @@
 import json
 import os
-from generate_anomaly_data import generate_mock_graph
-from anomaly_rules import load_graph, run_rule_engine
-from anomaly_ml import run_ml_engine
+from graph.generate_anomaly_data import generate_mock_graph
+from ml.anomaly.anomaly_rules import load_graph, run_rule_engine
+from ml.anomaly.anomaly_ml import run_ml_engine
+
+def get_workspace_root():
+    current = os.path.dirname(os.path.abspath(__file__))
+    while current:
+        if os.path.exists(os.path.join(current, "docker-compose.yml")) or os.path.exists(os.path.join(current, ".git")):
+            return current
+        parent = os.path.dirname(current)
+        if parent == current:
+            break
+        current = parent
+    return r"d:\SIH2026"
 
 def test_pipeline():
-    data_dir = r"c:\Users\sahid\Desktop\SIH\data"
+    workspace_root = get_workspace_root()
+    data_dir = os.path.join(workspace_root, "data")
     graph_path = os.path.join(data_dir, "mock_graph.json")
     
     # 1. Generate fresh data with seeded anomalies

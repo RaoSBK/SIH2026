@@ -3,6 +3,17 @@ import random
 from datetime import datetime, timedelta
 import os
 
+def get_workspace_root():
+    current = os.path.dirname(os.path.abspath(__file__))
+    while current:
+        if os.path.exists(os.path.join(current, "docker-compose.yml")) or os.path.exists(os.path.join(current, ".git")):
+            return current
+        parent = os.path.dirname(current)
+        if parent == current:
+            break
+        current = parent
+    return r"d:\SIH2026"
+
 def generate_mock_graph(output_dir):
     """
     Generates a synthetic graph of entities, transactions, and communications.
@@ -74,9 +85,6 @@ def generate_mock_graph(output_dir):
         })
 
     # 4. Seed Anomaly 3: Bridge Node (PERSON_030 connects two isolated groups)
-    # Group A: PERSON_001 to PERSON_005
-    # Group B: PERSON_045 to PERSON_050
-    # PERSON_030 suddenly talks to both
     bridge_date = datetime.now() - timedelta(days=1)
     for target in ["PERSON_002", "PERSON_004", "PERSON_046", "PERSON_049"]:
         edges.append({
@@ -102,4 +110,6 @@ def generate_mock_graph(output_dir):
     print("Seeded anomalies: PERSON_042 (Tx Spike), PERSON_015 (Call Spike), PERSON_030 (Bridge Node)")
 
 if __name__ == "__main__":
-    generate_mock_graph(r"c:\Users\sahid\Desktop\SIH\data")
+    workspace_root = get_workspace_root()
+    default_dir = os.path.join(workspace_root, "data")
+    generate_mock_graph(default_dir)
