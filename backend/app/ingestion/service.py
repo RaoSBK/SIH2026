@@ -1,12 +1,12 @@
 import os
-from app.ingestion.parsers.pdf_parser import parse_pdf
-from app.ingestion.parsers.docx_parser import parse_docx
-from app.ingestion.parsers.csv_parser import parse_csv
-from app.ingestion.parsers.json_parser import parse_json
-from app.ingestion.parsers.txt_parser import parse_txt
-from app.ingestion.ner import extract_entities
-from app.ingestion.resolver import resolve_entities
-from app.audit.logger import log_ingestion
+from .parsers.pdf_parser import parse_pdf
+from .parsers.docx_parser import parse_docx
+from .parsers.csv_parser import parse_csv
+from .parsers.json_parser import parse_json
+from .parsers.txt_parser import parse_txt
+from .ner import extract_entities
+from .resolver import resolve_entities
+from ..audit.logger import log_ingestion
 
 def process_file(file_path: str, file_type: str = None, source_label: str = "unknown", case_id: str = None) -> dict:
     """

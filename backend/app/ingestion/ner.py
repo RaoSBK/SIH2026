@@ -31,10 +31,15 @@ def _get_nlp():
             sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
             sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
             import spacy
-            _NLP = spacy.load("en_core_web_sm")
+            fine_tuned_path = "ml/nlp/models/fine_tuned"
+            if os.path.exists(fine_tuned_path) and os.listdir(fine_tuned_path):
+                print(f"Loading custom fine-tuned NER model from {fine_tuned_path}...")
+                _NLP = spacy.load(fine_tuned_path)
+            else:
+                _NLP = spacy.load("en_core_web_sm")
         except OSError:
             raise RuntimeError(
-                "spaCy model 'en_core_web_sm' not found. "
+                "spaCy model not found. "
                 "Run: python -m spacy download en_core_web_sm"
             )
     return _NLP
