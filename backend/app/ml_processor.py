@@ -1,6 +1,5 @@
 import re
 import io
-import PyPDF2
 from rapidfuzz import process, fuzz
 import json
 import hashlib
@@ -104,59 +103,3 @@ def infer_relationships(document_entities):
             
     return links
 
-def process_pdf_files(upload_files):
-    global_nodes = {}
-    global_links = []
-    
-    for file in upload_files:
-        try:
-            reader = PyPDF2.PdfReader(io.BytesIO(file.file.read()))
-            text = ""
-            for page in reader.pages:
-                text += page.extract_text() + "\n"
-            
-            cleaned_text = clean_ocr_noise(text)
-            doc_entities = extract_entities_from_text(cleaned_text, file.filename)
-            
-            # Merge entities
-            for k, v in doc_entities.items():
-                if k not in global_nodes:
-                    global_nodes[k] = v
-                
-            # Infer links for this document
-            doc_links = infer_relationships(doc_entities)
-            global_links.extend(doc_links)
-            
-        except Exception as e:
-            print(f"Error processing {file.filename}: {e}")
-            
-    # Deduplicate Links
-    unique_links = []
-    seen_links = set()
-    for l in global_links:
-        # Sort to treat A->B and B->A as the same if we want undirected, but here we keep directed.
-        link_hash = f"{l['source']}-{l['target']}-{l['type']}"
-        if link_hash not in seen_links:
-            seen_links.add(link_hash)
-            unique_links.append(l)
-
-    nodes = list(global_nodes.values())
-    
-    # Flagging logic: if a node has >= 3 connections, flag it
-    degrees = {n['id']: 0 for n in nodes}
-    for l in unique_links:
-        if l['source'] in degrees: degrees[l['source']] += 1
-        if l['target'] in degrees: degrees[l['target']] += 1
-        
-    for n in nodes:
-        if degrees[n['id']] >= 3:
-            n['status'] = 'REVIEW_REQUIRED'
-            n['risk_color'] = 'orange'
-        if degrees[n['id']] >= 5:
-            n['risk_color'] = 'red'
-            n['historical_firs'] = 1
-
-    return {
-        "nodes": nodes,
-        "links": unique_links
-    }

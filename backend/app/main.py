@@ -21,17 +21,62 @@ app.add_middleware(
 def read_root():
     return {"status": "ok", "service": "Veritas ML Backend"}
 
+from .ingestion.service import process_file
+import os
+import shutil
+
 @app.post("/api/process-evidence")
 async def process_evidence(files: List[UploadFile] = File(...)):
-    print(f"Received {len(files)} files for processing.")
+    print(f"Received {len(files)} files for processing via new ingestion layer.")
     
-    # Process files
-    try:
-        # In a real app we would save these to a temp dir or process in memory
-        # Here we process them in memory using PyPDF2
-        graph_data = process_pdf_files(files)
-        return graph_data
-    except Exception as e:
-        print(f"Error processing files: {e}")
-        traceback.print_exc()
-        return {"nodes": [], "links": []}
+    global_nodes = {}
+    global_links = []
+    statuses = []
+
+    # Ensure temp dir exists
+    os.makedirs("temp_uploads", exist_ok=True)
+    
+    for file in files:
+        temp_path = os.path.join("temp_uploads", file.filename)
+        
+        try:
+            # Save uploaded file to disk
+            with open(temp_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+                
+            # Run through universal ingestion layer
+            result = process_file(
+                file_path=temp_path,
+                source_label="investigator_upload"
+            )
+            
+            statuses.append({"filename": file.filename, "status": result["status"], "message": result.get("message")})
+            
+            if result["status"] == "success":
+                # Merge graph data
+                data = result.get("data", {"nodes": [], "links": []})
+                for n in data["nodes"]:
+                    global_nodes[n["id"]] = n
+                global_links.extend(data["links"])
+                
+        except Exception as e:
+            statuses.append({"filename": file.filename, "status": "error", "message": str(e)})
+        finally:
+            # Cleanup temp file
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+                
+    # Basic deduplication of links
+    unique_links = []
+    seen = set()
+    for l in global_links:
+        h = f"{l['source']}-{l['target']}-{l['type']}"
+        if h not in seen:
+            seen.add(h)
+            unique_links.append(l)
+
+    return {
+        "nodes": list(global_nodes.values()),
+        "links": unique_links,
+        "ingestion_statuses": statuses
+    }
