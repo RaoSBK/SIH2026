@@ -28,20 +28,23 @@ def _get_nlp():
         try:
             import sys, os
             import io
-            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
             sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
             import spacy
-            _NLP = spacy.load("en_core_web_sm")
-        except OSError:
+            try:
+                _NLP = spacy.load("en_core_web_sm")
+            except OSError:
+                from spacy.cli import download
+                download("en_core_web_sm")
+                _NLP = spacy.load("en_core_web_sm")
+        except Exception as e:
             raise RuntimeError(
-                "spaCy model 'en_core_web_sm' not found. "
-                "Run: python -m spacy download en_core_web_sm"
+                f"Failed to load spaCy model: {e}"
             )
     return _NLP
 
 
 # ─── Regex patterns ────────────────────────────────────────────────────────────
-PHONE_RE    = re.compile(r'\b(?:\+91[\-\s]?)?[6-9]\d{9}\b')
+PHONE_RE    = re.compile(r'(?<!\w)(?:\+91[\-\s]?)?[6-9]\d{9}\b')
 VEHICLE_RE  = re.compile(r'\b[A-Z]{2}[\s\-]?\d{1,2}[\s\-]?[A-Z]{1,3}[\s\-]?\d{4}\b')
 FIR_RE      = re.compile(r'\bFIR[\s\-]?(?:No\.?|Number)?\s*[\d/]+\b', re.IGNORECASE)
 AADHAAR_RE  = re.compile(r'\b\d{4}[\s\-]\d{4}[\s\-]\d{4}\b')
@@ -227,6 +230,10 @@ def _extract_unstructured(text: str, source_label: str = "") -> tuple[list, list
         entities[e["id"]] = e
 
     # ── 2. spaCy — ONE call for the whole document ───────────────────────────
+    # Remove text length limit boundaries so large documents process seamlessly
+    if len(text) > nlp.max_length:
+        nlp.max_length = len(text) + 100000
+    
     doc = nlp(text)
 
     spacy_entities = {}  # span_text → entity dict
@@ -295,6 +302,20 @@ def _extract_unstructured(text: str, source_label: str = "") -> tuple[list, list
                     status     = "suggested — needs investigator confirmation"
                 )
                 relationships.append(rel)
+
+        # Phone to Phone linking (catches embedded CDR tables in PDFs)
+        if len(phones) >= 2:
+            for i in range(len(phones)):
+                for j in range(i + 1, len(phones)):
+                    rel = _make_rel(
+                        rtype      = "COMMUNICATED_WITH",
+                        source     = phones[i]["id"],
+                        target     = phones[j]["id"],
+                        confidence = 0.5,
+                        evidence   = sent_text,
+                        status     = "suggested — needs investigator confirmation"
+                    )
+                    relationships.append(rel)
 
         # Relationship cue detection (verb triggers between any two entities)
         ent_list = list(sent_entities.values())

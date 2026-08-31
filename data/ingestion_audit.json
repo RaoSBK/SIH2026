@@ -88,5 +88,325 @@
     "message": "Extracted 0 entities.",
     "entities_count": 0,
     "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:30:32.014842Z",
+    "file_name": "BankStatement_Apex_Holdings_1.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model 'en_core_web_sm' not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:30:32.062171Z",
+    "file_name": "BankStatement_Apex_Holdings_2.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model 'en_core_web_sm' not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:30:32.101213Z",
+    "file_name": "BankStatement_GlobalTech.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model 'en_core_web_sm' not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:30:32.139197Z",
+    "file_name": "CDR_Analysis_001.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "I/O operation on closed file",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:30:32.172076Z",
+    "file_name": "CDR_Analysis_March2024.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "I/O operation on closed file",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:30:32.200305Z",
+    "file_name": "FIR_001_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "I/O operation on closed file",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:30:32.229866Z",
+    "file_name": "FIR_001_Ravi_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "I/O operation on closed file",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:30:32.260937Z",
+    "file_name": "FIR_002_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "I/O operation on closed file",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:30:32.290316Z",
+    "file_name": "FIR_002_R_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "I/O operation on closed file",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:30:32.319454Z",
+    "file_name": "Intel_Report_Amit.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "I/O operation on closed file",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:32:44.208722Z",
+    "file_name": "test.txt",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model 'en_core_web_sm' not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T12:49:30.193004Z",
+    "file_name": "BankStatement_Apex_Holdings_1.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 1 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 1,
+    "new_nodes": 1
+  },
+  {
+    "timestamp": "2026-08-31T12:49:30.277712Z",
+    "file_name": "BankStatement_Apex_Holdings_2.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 3 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 3,
+    "new_nodes": 3
+  },
+  {
+    "timestamp": "2026-08-31T12:49:30.363326Z",
+    "file_name": "BankStatement_GlobalTech.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 3 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 3,
+    "new_nodes": 3
+  },
+  {
+    "timestamp": "2026-08-31T12:49:30.501774Z",
+    "file_name": "CDR_Analysis_001.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 6 entities, 2 relationships. Shape: unstructured.",
+    "entities_count": 6,
+    "new_nodes": 6
+  },
+  {
+    "timestamp": "2026-08-31T12:49:30.660210Z",
+    "file_name": "CDR_Analysis_March2024.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 3 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-08-31T12:49:30.820546Z",
+    "file_name": "FIR_001_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-08-31T12:49:31.005718Z",
+    "file_name": "FIR_001_Ravi_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-08-31T12:49:31.185724Z",
+    "file_name": "FIR_002_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-08-31T12:49:31.352432Z",
+    "file_name": "FIR_002_R_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 8 entities, 1 relationships. Shape: unstructured.",
+    "entities_count": 8,
+    "new_nodes": 8
+  },
+  {
+    "timestamp": "2026-08-31T12:49:31.477138Z",
+    "file_name": "Intel_Report_Amit.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 4 entities, 3 relationships. Shape: unstructured.",
+    "entities_count": 4,
+    "new_nodes": 4
+  },
+  {
+    "timestamp": "2026-08-31T12:50:26.958220Z",
+    "file_name": "test.txt",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 2 entities, 1 relationships. Shape: unstructured.",
+    "entities_count": 2,
+    "new_nodes": 2
+  },
+  {
+    "timestamp": "2026-08-31T15:04:13.678905Z",
+    "file_name": "BankStatement_Apex_Holdings_1.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 1 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 1,
+    "new_nodes": 1
+  },
+  {
+    "timestamp": "2026-08-31T15:04:13.775195Z",
+    "file_name": "BankStatement_Apex_Holdings_2.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 3 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 3,
+    "new_nodes": 3
+  },
+  {
+    "timestamp": "2026-08-31T15:04:13.874699Z",
+    "file_name": "BankStatement_GlobalTech.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 3 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 3,
+    "new_nodes": 3
+  },
+  {
+    "timestamp": "2026-08-31T15:04:14.106306Z",
+    "file_name": "CDR_Analysis_001.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 6 entities, 2 relationships. Shape: unstructured.",
+    "entities_count": 6,
+    "new_nodes": 6
+  },
+  {
+    "timestamp": "2026-08-31T15:04:14.270777Z",
+    "file_name": "CDR_Analysis_March2024.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 4 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-08-31T15:04:14.393208Z",
+    "file_name": "FIR_001_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-08-31T15:04:14.563548Z",
+    "file_name": "FIR_001_Ravi_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-08-31T15:04:14.706490Z",
+    "file_name": "FIR_002_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-08-31T15:04:14.857243Z",
+    "file_name": "FIR_002_R_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 8 entities, 1 relationships. Shape: unstructured.",
+    "entities_count": 8,
+    "new_nodes": 8
+  },
+  {
+    "timestamp": "2026-08-31T15:04:15.026414Z",
+    "file_name": "Intel_Report_Amit.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 5 entities, 8 relationships. Shape: unstructured.",
+    "entities_count": 5,
+    "new_nodes": 5
   }
 ]
