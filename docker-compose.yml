@@ -1,10 +1,10 @@
 services:
   backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: cias_backend
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8000:8000"
     environment:
@@ -13,7 +13,8 @@ services:
       - NEO4J_USER=neo4j
       - NEO4J_PASSWORD=password
     volumes:
-      - ./backend:/app
+      - ./backend:/app/backend
+      - ./ml:/app/ml
     depends_on:
       postgres:
         condition: service_healthy

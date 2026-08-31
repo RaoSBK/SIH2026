@@ -8,13 +8,18 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies separately for better caching
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install both backend and ML dependencies
+COPY backend/requirements.txt backend_reqs.txt
+COPY ml/requirements.txt ml_reqs.txt
+RUN pip install --no-cache-dir -r backend_reqs.txt -r ml_reqs.txt
 
 # Copy application code
-COPY . .
+COPY backend /app/backend
+COPY ml /app/ml
+
+# Add /app to PYTHONPATH so backend can resolve absolute imports
+ENV PYTHONPATH=/app
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

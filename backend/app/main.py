@@ -1,17 +1,17 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
-import json
-import traceback
+import os
+import shutil
 
-from .ml_processor import process_pdf_files
+from .ingestion.service import process_file
 
-app = FastAPI(title="Veritas ML Backend")
+app = FastAPI(title="CIAS ML Backend")
 
 # Allow frontend requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Since it's local dev
+    allow_origins=["*"],  # Local dev — restrict in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -19,54 +19,52 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"status": "ok", "service": "Veritas ML Backend"}
-
-from .ingestion.service import process_file
-import os
-import shutil
+    return {"status": "ok", "service": "CIAS ML Backend"}
 
 @app.post("/api/process-evidence")
 async def process_evidence(files: List[UploadFile] = File(...)):
-    print(f"Received {len(files)} files for processing via new ingestion layer.")
-    
+    print(f"Received {len(files)} files for processing via ingestion layer.")
+
     global_nodes = {}
     global_links = []
     statuses = []
+    all_needs_review = []
 
-    # Ensure temp dir exists
     os.makedirs("temp_uploads", exist_ok=True)
-    
+
     for file in files:
         temp_path = os.path.join("temp_uploads", file.filename)
-        
+
         try:
-            # Save uploaded file to disk
             with open(temp_path, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
-                
-            # Run through universal ingestion layer
+
             result = process_file(
                 file_path=temp_path,
                 source_label="investigator_upload"
             )
-            
-            statuses.append({"filename": file.filename, "status": result["status"], "message": result.get("message")})
-            
+
+            statuses.append({
+                "filename": file.filename,
+                "status": result["status"],
+                "message": result.get("message"),
+                "resolution_stats": result.get("resolution_stats", {})
+            })
+
             if result["status"] == "success":
-                # Merge graph data
                 data = result.get("data", {"nodes": [], "links": []})
                 for n in data["nodes"]:
                     global_nodes[n["id"]] = n
                 global_links.extend(data["links"])
-                
+                all_needs_review.extend(result.get("needs_review", []))
+
         except Exception as e:
             statuses.append({"filename": file.filename, "status": "error", "message": str(e)})
         finally:
-            # Cleanup temp file
             if os.path.exists(temp_path):
                 os.remove(temp_path)
-                
-    # Basic deduplication of links
+
+    # Deduplicate links
     unique_links = []
     seen = set()
     for l in global_links:
@@ -78,5 +76,28 @@ async def process_evidence(files: List[UploadFile] = File(...)):
     return {
         "nodes": list(global_nodes.values()),
         "links": unique_links,
-        "ingestion_statuses": statuses
+        "ingestion_statuses": statuses,
+        "needs_review": all_needs_review
     }
+
+@app.get("/api/ingestion-audit")
+def get_ingestion_audit():
+    """Returns the ingestion audit log for the data history UI screen."""
+    audit_path = os.path.join(os.path.dirname(__file__), "../../data/ingestion_audit.json")
+    try:
+        with open(audit_path, "r", encoding="utf-8") as f:
+            import json
+            return json.load(f)
+    except Exception:
+        return []
+
+@app.get("/api/needs-review")
+def get_needs_review():
+    """Returns all ambiguous entity matches pending investigator confirmation."""
+    registry_path = os.path.join(os.path.dirname(__file__), "../../data/entity_registry.json")
+    try:
+        with open(registry_path, "r", encoding="utf-8") as f:
+            import json
+            return json.load(f)
+    except Exception:
+        return {"entities": {}}
