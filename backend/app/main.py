@@ -4,7 +4,7 @@ from typing import List
 import json
 import traceback
 
-from .ml_processor import process_pdf_files
+from ml.processor import process_pdf_files
 
 app = FastAPI(title="Veritas ML Backend")
 
