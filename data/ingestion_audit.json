@@ -1,0 +1,92 @@
+[
+  {
+    "timestamp": "2026-08-31T04:33:06.327024Z",
+    "file_name": "anomaly_alerts.json",
+    "source_label": "seed_loader",
+    "case_id": "SEED_DATA",
+    "status": "success",
+    "message": "Extracted 0 entities.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T04:33:06.340373Z",
+    "file_name": "mock_graph.json",
+    "source_label": "seed_loader",
+    "case_id": "SEED_DATA",
+    "status": "success",
+    "message": "Extracted 0 entities.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T04:33:06.356330Z",
+    "file_name": "README.md",
+    "source_label": "seed_loader",
+    "case_id": "SEED_DATA",
+    "status": "error",
+    "message": "Unsupported file type: md",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T04:33:06.384834Z",
+    "file_name": "resolved_graph.json",
+    "source_label": "seed_loader",
+    "case_id": "SEED_DATA",
+    "status": "success",
+    "message": "Extracted 0 entities.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T04:33:23.635188Z",
+    "file_name": "anomaly_alerts.json",
+    "source_label": "seed_loader",
+    "case_id": "SEED_DATA",
+    "status": "success",
+    "message": "Extracted 0 entities.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T04:33:23.651695Z",
+    "file_name": "ingestion_audit.json",
+    "source_label": "seed_loader",
+    "case_id": "SEED_DATA",
+    "status": "success",
+    "message": "Extracted 0 entities.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T04:33:23.667132Z",
+    "file_name": "mock_graph.json",
+    "source_label": "seed_loader",
+    "case_id": "SEED_DATA",
+    "status": "success",
+    "message": "Extracted 0 entities.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T04:33:23.686114Z",
+    "file_name": "README.md",
+    "source_label": "seed_loader",
+    "case_id": "SEED_DATA",
+    "status": "error",
+    "message": "Unsupported file type: md",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-08-31T04:33:23.709261Z",
+    "file_name": "resolved_graph.json",
+    "source_label": "seed_loader",
+    "case_id": "SEED_DATA",
+    "status": "success",
+    "message": "Extracted 0 entities.",
+    "entities_count": 0,
+    "new_nodes": 0
+  }
+]
