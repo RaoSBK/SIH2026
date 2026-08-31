@@ -11,14 +11,16 @@ RUN apt-get update && apt-get install -y \
 # Install both backend and ML dependencies
 COPY backend/requirements.txt backend_reqs.txt
 COPY ml/requirements.txt ml_reqs.txt
-RUN pip install --no-cache-dir -r backend_reqs.txt -r ml_reqs.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
+    pip install -r backend_reqs.txt -r ml_reqs.txt
 
 # Copy application code
 COPY backend /app/backend
 COPY ml /app/ml
 
 # Add /app to PYTHONPATH so backend can resolve absolute imports
-ENV PYTHONPATH=/app
+ENV PYTHONPATH=/app:/app/backend
 
 EXPOSE 8000
 
