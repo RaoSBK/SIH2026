@@ -52,3 +52,6 @@ pipfile.lock
 # OS metadata
 .DS_Store
 Thumbs.db
+data/synthetic/training/models/
+data/synthetic/training/spacy/
+ml/nlp/models/fine_tuned/
