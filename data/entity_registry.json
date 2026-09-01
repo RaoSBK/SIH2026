@@ -10,7 +10,8 @@
       "source_files": [
         "BankStatement_Apex_Holdings_1.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "org:50fa14ba": {
       "id": "org:50fa14ba",
@@ -22,7 +23,8 @@
       "source_files": [
         "BankStatement_Apex_Holdings_2.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "org:c4787145": {
       "id": "org:c4787145",
@@ -34,7 +36,8 @@
       "source_files": [
         "BankStatement_Apex_Holdings_2.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "org:a7c07c28": {
       "id": "org:a7c07c28",
@@ -46,7 +49,8 @@
       "source_files": [
         "BankStatement_GlobalTech.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "org:54b2434c": {
       "id": "org:54b2434c",
@@ -58,7 +62,8 @@
       "source_files": [
         "BankStatement_GlobalTech.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "phone:a8e02cb3": {
       "id": "phone:a8e02cb3",
@@ -71,7 +76,8 @@
         "CDR_Analysis_001.pdf",
         "FIR_002_Faisal_Khan.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "phone:a00688a3": {
       "id": "phone:a00688a3",
@@ -84,7 +90,8 @@
         "CDR_Analysis_001.pdf",
         "FIR_001_Faisal_Khan.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "org:04f968a5": {
       "id": "org:04f968a5",
@@ -97,7 +104,8 @@
         "CDR_Analysis_001.pdf",
         "CDR_Analysis_March2024.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "org:3f5694c3": {
       "id": "org:3f5694c3",
@@ -110,7 +118,8 @@
         "CDR_Analysis_001.pdf",
         "CDR_Analysis_March2024.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "phone:f3a47ce5": {
       "id": "phone:f3a47ce5",
@@ -123,9 +132,11 @@
         "CDR_Analysis_March2024.pdf",
         "FIR_001_Faisal_Khan.pdf",
         "FIR_001_Ravi_Kumar.pdf",
-        "FIR_002_R_Kumar.pdf"
+        "FIR_002_R_Kumar.pdf",
+        "test_fir.txt"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "phone:95d5509e": {
       "id": "phone:95d5509e",
@@ -139,7 +150,8 @@
         "FIR_001_Ravi_Kumar.pdf",
         "Intel_Report_Amit.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "phone:55ae7bd3": {
       "id": "phone:55ae7bd3",
@@ -152,7 +164,8 @@
         "CDR_Analysis_March2024.pdf",
         "FIR_002_Faisal_Khan.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "fir:e9da98ed": {
       "id": "fir:e9da98ed",
@@ -164,7 +177,8 @@
       "source_files": [
         "CDR_Analysis_March2024.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "vehicle:f2fbb2f6": {
       "id": "vehicle:f2fbb2f6",
@@ -177,9 +191,11 @@
         "FIR_001_Faisal_Khan.pdf",
         "FIR_002_Faisal_Khan.pdf",
         "FIR_002_R_Kumar.pdf",
-        "test.txt"
+        "test.txt",
+        "test_fir.txt"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "org:61ef8cb5": {
       "id": "org:61ef8cb5",
@@ -194,7 +210,8 @@
         "FIR_002_Faisal_Khan.pdf",
         "FIR_002_R_Kumar.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
     "org:16ae7b20": {
       "id": "org:16ae7b20",
@@ -206,18 +223,240 @@
       "source_files": [
         "Intel_Report_Amit.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "none",
+      "needs_reprocess": true
     },
-    "person:5b002c3b": {
-      "id": "person:5b002c3b",
+    "person:ed203a23": {
+      "id": "person:ed203a23",
       "type": "PERSON",
-      "value": "Faisal Khan",
+      "value": "involv?ng Faisal Khan",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Faisal_Khan.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "person:a2dd3aca": {
+      "id": "person:a2dd3aca",
+      "type": "PERSON",
+      "value": "Jane Smith",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Faisal_Khan.pdf",
+        "test_fir.txt"
+      ],
+      "needs_reprocess": true
+    },
+    "person:e9d46690": {
+      "id": "person:e9d46690",
+      "type": "PERSON",
+      "value": "Andheri West\nSubject",
       "confidence": 0.85,
       "attributes": {},
       "aliases": [],
       "source_files": [
         "FIR_002_Faisal_Khan.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "person:ddd7f9c9": {
+      "id": "person:ddd7f9c9",
+      "type": "PERSON",
+      "value": "Andheri West",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_R_Kumar.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "person:b41892b7": {
+      "id": "person:b41892b7",
+      "type": "PERSON",
+      "value": "Glob Tech",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_R_Kumar.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "person:ba6aeb68": {
+      "id": "person:ba6aeb68",
+      "type": "PERSON",
+      "value": "R. Kumar",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_R_Kumar.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "person:a62394ba": {
+      "id": "person:a62394ba",
+      "type": "PERSON",
+      "value": "Vehicle",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_R_Kumar.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "person:ee4a805f": {
+      "id": "person:ee4a805f",
+      "type": "PERSON",
+      "value": "Amit Singh",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Ravi_Kumar.pdf",
+        "test_fir.txt"
+      ],
+      "needs_reprocess": true
+    },
+    "location:7d1550b8": {
+      "id": "location:7d1550b8",
+      "type": "LOCATION",
+      "value": "Delhi",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Ravi_Kumar.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "person:dde8bef7": {
+      "id": "person:dde8bef7",
+      "type": "PERSON",
+      "value": "Transfer",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_Apex_Holdings_2.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "person:8f3036f8": {
+      "id": "person:8f3036f8",
+      "type": "PERSON",
+      "value": "Ravi K.",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_March2024.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "person:8208fc8f": {
+      "id": "person:8208fc8f",
+      "type": "PERSON",
+      "value": "A. Singh",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Intel_Report_Amit.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "person:a7ca11a0": {
+      "id": "person:a7ca11a0",
+      "type": "PERSON",
+      "value": "Ravi Kumar",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Intel_Report_Amit.pdf",
+        "test_fir.txt"
+      ],
+      "needs_reprocess": true
+    },
+    "person:6cea57c2": {
+      "id": "person:6cea57c2",
+      "type": "PERSON",
+      "value": "John Doe",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_001.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "person:658ae050": {
+      "id": "person:658ae050",
+      "type": "PERSON",
+      "value": "Timest@mp",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_001.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "phone:9f301783": {
+      "id": "phone:9f301783",
+      "type": "PHONE",
+      "value": "+919123456780",
+      "confidence": 0.9,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "test_fir.txt"
+      ]
+    },
+    "location:4998c9c6": {
+      "id": "location:4998c9c6",
+      "type": "LOCATION",
+      "value": "Mg Road",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "test_fir.txt"
+      ]
+    },
+    "fir:9a90fa97": {
+      "id": "fir:9a90fa97",
+      "type": "FIR",
+      "value": "FIR/2024/089",
+      "confidence": 0.9,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "test_fir.txt"
+      ]
+    },
+    "org:37fbcc81": {
+      "id": "org:37fbcc81",
+      "type": "ORG",
+      "value": "First Information Report - Case No",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "test_fir.txt"
       ]
     }
-  }
+  },
+  "schema_version": "1.1"
 }

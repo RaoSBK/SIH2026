@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 import os
 import shutil
+import asyncio
+import json
 
 from .ingestion.service import process_file
 
@@ -43,9 +45,13 @@ async def process_evidence(files: List[UploadFile] = File(...)):
             with open(temp_path, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
 
-            result = process_file(
-                file_path=temp_path,
-                source_label="investigator_upload"
+            # Run synchronous (blocking) NLP work off the event loop thread
+            result = await asyncio.to_thread(
+                process_file,
+                temp_path,
+                None,           # file_type: auto-detect from extension
+                "investigator_upload",
+                None,           # case_id: TODO wire from request param
             )
 
             statuses.append({
@@ -107,7 +113,6 @@ def get_ingestion_audit():
     audit_path = os.path.join(os.path.dirname(__file__), "../../data/ingestion_audit.json")
     try:
         with open(audit_path, "r", encoding="utf-8") as f:
-            import json
             return json.load(f)
     except Exception:
         return []
@@ -118,7 +123,41 @@ def get_needs_review():
     registry_path = os.path.join(os.path.dirname(__file__), "../../data/entity_registry.json")
     try:
         with open(registry_path, "r", encoding="utf-8") as f:
-            import json
             return json.load(f)
     except Exception:
         return {"entities": {}}
+
+@app.get("/api/filtered-edges")
+def get_filtered_edges():
+    """
+    Returns the full audit trail of every edge removed from the graph
+    (self-loops, phone conflicts, etc.) with the source document reference.
+    Nothing is silently deleted — supervisors can audit all dropped edges here.
+    """
+    path = os.path.join(os.path.dirname(__file__), "../../data/filtered_edges.json")
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+@app.get("/api/review-queue")
+def get_review_queue():
+    """
+    Aggregates all pending REVIEW_REQUIRED items from the entity registry.
+    Used by the investigator UI to display the review queue badge and list.
+    Includes: PERSON_NAME_AMBIGUITY (high-sim, no corroboration) and
+              PHONE_CONFLICT (one phone → multiple distinct identities).
+    """
+    # The registry stores needs_review items from all past ingestion runs
+    registry_path = os.path.join(os.path.dirname(__file__), "../../data/entity_registry.json")
+    try:
+        with open(registry_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return {
+            "pending_review": data.get("needs_review", []),
+            "total": len(data.get("needs_review", [])),
+        }
+    except Exception:
+        return {"pending_review": [], "total": 0}
+

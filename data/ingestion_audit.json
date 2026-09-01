@@ -408,5 +408,245 @@
     "message": "Extracted 5 entities, 8 relationships. Shape: unstructured.",
     "entities_count": 5,
     "new_nodes": 5
+  },
+  {
+    "timestamp": "2026-09-01T18:18:58.992912Z",
+    "file_name": "FIR_001_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:18:59.067982Z",
+    "file_name": "FIR_002_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:18:59.112747Z",
+    "file_name": "FIR_002_R_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:18:59.162014Z",
+    "file_name": "FIR_001_Ravi_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:18:59.208452Z",
+    "file_name": "BankStatement_GlobalTech.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:18:59.257058Z",
+    "file_name": "BankStatement_Apex_Holdings_1.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:18:59.298247Z",
+    "file_name": "BankStatement_Apex_Holdings_2.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:18:59.353358Z",
+    "file_name": "CDR_Analysis_March2024.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:18:59.407003Z",
+    "file_name": "Intel_Report_Amit.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:18:59.459212Z",
+    "file_name": "CDR_Analysis_001.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:21:28.053768Z",
+    "file_name": "test.txt",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "Failed to parse TXT: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:21:52.118537Z",
+    "file_name": "test_utf8.txt",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "error",
+    "message": "spaCy model not found. Run: python -m spacy download en_core_web_sm",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-01T18:23:14.271999Z",
+    "file_name": "test_utf8.txt",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 1 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 1,
+    "new_nodes": 1
+  },
+  {
+    "timestamp": "2026-09-01T18:24:47.735467Z",
+    "file_name": "FIR_001_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-09-01T18:24:48.070156Z",
+    "file_name": "FIR_002_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-09-01T18:24:48.648680Z",
+    "file_name": "FIR_002_R_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 8 entities, 1 relationships. Shape: unstructured.",
+    "entities_count": 8,
+    "new_nodes": 8
+  },
+  {
+    "timestamp": "2026-09-01T18:24:48.895321Z",
+    "file_name": "FIR_001_Ravi_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-09-01T18:24:49.096167Z",
+    "file_name": "BankStatement_GlobalTech.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 3 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 3,
+    "new_nodes": 3
+  },
+  {
+    "timestamp": "2026-09-01T18:24:49.190472Z",
+    "file_name": "BankStatement_Apex_Holdings_1.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 1 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 1,
+    "new_nodes": 1
+  },
+  {
+    "timestamp": "2026-09-01T18:24:49.315405Z",
+    "file_name": "BankStatement_Apex_Holdings_2.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 3 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 3,
+    "new_nodes": 3
+  },
+  {
+    "timestamp": "2026-09-01T18:24:49.944089Z",
+    "file_name": "CDR_Analysis_March2024.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 7 entities, 4 relationships. Shape: unstructured.",
+    "entities_count": 7,
+    "new_nodes": 7
+  },
+  {
+    "timestamp": "2026-09-01T18:24:50.315250Z",
+    "file_name": "Intel_Report_Amit.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 5 entities, 8 relationships. Shape: unstructured.",
+    "entities_count": 5,
+    "new_nodes": 5
+  },
+  {
+    "timestamp": "2026-09-01T18:24:50.573044Z",
+    "file_name": "CDR_Analysis_001.pdf",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 6 entities, 2 relationships. Shape: unstructured.",
+    "entities_count": 6,
+    "new_nodes": 6
+  },
+  {
+    "timestamp": "2026-09-01T19:01:40.254334Z",
+    "file_name": "test_fir.txt",
+    "source_label": "investigator_upload",
+    "case_id": null,
+    "status": "success",
+    "message": "Extracted 9 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 9,
+    "new_nodes": 4
   }
 ]

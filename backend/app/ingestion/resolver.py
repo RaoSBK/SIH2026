@@ -7,18 +7,30 @@ appears across multiple ingested files.
 Resolution rules:
   Phones / Accounts → Exact match on normalized value (deterministic, confidence=1.0)
   Persons          → rapidfuzz token_sort_ratio:
-                       ≥ 90 → auto-merge    (confidence=1.0)
-                       70–89 → needs_review  (confidence=0.0, investigator must confirm)
-                       < 70 → new node      (confidence=1.0)
+                       ≥ 90 AND ≥ 1 corroborating signal → auto-merge (confidence=1.0)
+                       ≥ 90, name-only (no corroboration) → REVIEW_REQUIRED
+                       70–89 → needs_review (investigator must confirm)
+                       < 70 → new node
   Locations        → Normalize abbreviations → fuzzy match ≥ 85 → auto-merge
-                     Optional geocode stub for lat/long enrichment (Phase 2)
+
+Corroborating signals (required for name-based auto-merge):
+  - Shared phone number (already in the registry linking both persons)
+  - Shared bank account
+  - Same case_id
+  - Shared location (same document)
+
+  Rationale: merging on name alone is catastrophic at real scale.
+  "Ravi Kumar" and "R. Kumar" share "Kumar" but so do thousands of
+  unrelated people with common surnames (Kumar, Singh, Khan).
+  Without corroboration, name overlap downgrades to REVIEW_REQUIRED.
+  See: feedback point in fix_pipeline.py review.
 
 Outputs:
   {
-    "resolved_entities":      [...],      # deduplicated, with aliases
-    "resolved_relationships": [...],      # relationship IDs rewritten after merge
-    "merge_log":              [...],      # audit trail of every merge decision
-    "needs_review":           [...],      # ambiguous person matches for investigator UI
+    "resolved_entities":      [...],
+    "resolved_relationships": [...],
+    "merge_log":              [...],
+    "needs_review":           [...],
     "stats": { "new": int, "merged": int, "flagged": int }
   }
 
@@ -41,6 +53,9 @@ from rapidfuzz import fuzz
 _REGISTRY_PATH = os.path.join(
     os.path.dirname(__file__), "../../../data/entity_registry.json"
 )
+
+# Current extraction version (must match ner.py::EXTRACTION_VERSION)
+_RESOLVER_VERSION = "1.1"
 
 # ── Location abbreviation normalization map ────────────────────────────────────
 LOCATION_ABBREV = {
@@ -96,12 +111,19 @@ class EntityRegistry:
                 with open(self._path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     self._entities = data.get("entities", {})
+                    # Tag legacy entities (pre-versioning) for reprocessing
+                    for eid, entity in self._entities.items():
+                        if "extraction_version" not in entity:
+                            entity["needs_reprocess"] = True
             except (json.JSONDecodeError, IOError):
                 self._entities = {}
 
     def _save(self):
         with open(self._path, 'w', encoding='utf-8') as f:
-            json.dump({"entities": self._entities}, f, indent=2, ensure_ascii=False)
+            json.dump(
+                {"entities": self._entities, "schema_version": _RESOLVER_VERSION},
+                f, indent=2, ensure_ascii=False
+            )
 
     def get(self, entity_id: str) -> Optional[dict]:
         return self._entities.get(entity_id)
@@ -237,18 +259,32 @@ def _resolve_persons(
     merge_log: list,
     needs_review: list,
     auto_threshold: int = 90,
-    review_threshold: int = 70
+    review_threshold: int = 70,
+    corroborating_signals: Optional[dict] = None,
 ) -> tuple[list[dict], dict[str, str]]:
     """
     Fuzzy name resolution using rapidfuzz.token_sort_ratio.
-    
-    auto_threshold (90): auto-merge — similarity strong enough to be safe
-    review_threshold (70): flag for investigator — don't silently merge
-    below review_threshold: new node
+
+    CRITICAL FIX: name-only similarity >= auto_threshold NO LONGER auto-merges.
+    At least one corroborating signal is required to confirm identity before
+    auto-merging.  Without corroboration, high similarity is still ambiguous
+    (common surnames: Kumar, Singh, Khan, Shah, etc.).
+
+    Signal hierarchy:
+      similarity >= auto_threshold AND signals overlap >= 1  → auto-merge
+      similarity >= auto_threshold, no corroboration         → REVIEW_REQUIRED
+      similarity in [review_threshold, auto_threshold)       → REVIEW_REQUIRED
+      similarity < review_threshold                          → new node
+
+    Args:
+        corroborating_signals: dict mapping entity_id -> set of signal strings
+            (e.g., phone IDs, account IDs, case_id, location IDs).  Built by
+            the caller from already-resolved relationships for this upload batch.
     """
     resolved = []
     id_map: dict[str, str] = {}
     known_persons = registry.all_of_type("PERSON")
+    signals = corroborating_signals or {}
 
     for entity in entities:
         name = entity["value"]
@@ -261,9 +297,15 @@ def _resolve_persons(
                 best_score  = score
                 best_entity = known
 
-        if best_score >= auto_threshold and best_entity:
-            # ── Auto-merge ──────────────────────────────────────────────────
-            # Register incoming first so it appears in registry, then merge
+        # ── Determine if we have a corroborating signal ───────────────────────────
+        has_corroboration = False
+        if best_entity and best_score >= auto_threshold:
+            incoming_sigs = signals.get(entity["id"], set())
+            known_sigs    = signals.get(best_entity["id"], set())
+            has_corroboration = bool(incoming_sigs & known_sigs)
+
+        if best_score >= auto_threshold and best_entity and has_corroboration:
+            # ── Auto-merge: high similarity + confirmed shared signal ─────────
             registry.register(entity, source_file)
             canonical = registry.merge_into(entity["id"], best_entity["id"])
             id_map[entity["id"]] = canonical["id"]
@@ -274,12 +316,24 @@ def _resolve_persons(
                 "incoming":   name,
                 "canonical":  canonical["value"],
                 "similarity": best_score,
+                "corroborated_by": list(incoming_sigs & known_sigs),
                 "result":     f"merged into {canonical['id']}"
             })
 
         elif best_score >= review_threshold and best_entity:
-            # ── Flag for investigator — do NOT merge ────────────────────────
-            canonical = registry.register(entity, source_file)  # keep as separate node
+            # ── Flag for investigator (includes: high-sim name-only, medium-sim)
+            # Do NOT merge — silently merging common surnames is dangerous.
+            reason = (
+                f"Names are {best_score:.0f}% similar but no corroborating "
+                f"signal (shared phone/account/case) was found. "
+                f"Could be the same person or someone with a common surname. "
+                f"Investigator confirmation required."
+            ) if best_score >= auto_threshold else (
+                f"Names are {best_score:.0f}% similar. "
+                f"Could be the same person or a different individual. "
+                f"Investigator confirmation required before merging."
+            )
+            canonical = registry.register(entity, source_file)
             id_map[entity["id"]] = entity["id"]
             resolved.append(canonical)
             needs_review.append({
@@ -296,11 +350,8 @@ def _resolve_persons(
                     "source_files": best_entity.get("source_files", [])
                 },
                 "similarity":     best_score,
-                "reason":         (
-                    f"Names are {best_score:.0f}% similar. "
-                    f"Could be the same person or a different individual with a similar name. "
-                    f"Investigator confirmation required before merging."
-                ),
+                "corroboration_found": has_corroboration,
+                "reason":         reason,
                 "merge_action":   "pending"
             })
             merge_log.append({
@@ -309,13 +360,13 @@ def _resolve_persons(
                 "incoming":   name,
                 "possible_match": best_entity["value"],
                 "similarity": best_score,
+                "corroboration_found": has_corroboration,
                 "result":     "separate node created, flagged"
             })
-            # Keep known persons list current
             known_persons = registry.all_of_type("PERSON")
 
         else:
-            # ── New node ────────────────────────────────────────────────────
+            # ── New node ────────────────────────────────────────────────────────────
             canonical = registry.register(entity, source_file)
             id_map[entity["id"]] = canonical["id"]
             resolved.append(canonical)
@@ -413,16 +464,101 @@ def _rewrite_relationship_ids(
     """
     After merges, update all relationship source/target to canonical IDs.
     Any relationship whose source OR target was merged gets its pointer rewritten.
+    Self-loops (source == target after merge) are written to the filtered-edge
+    audit log rather than silently dropped — nothing disappears without a trace.
     """
     rewritten = []
     for rel in relationships:
         r = copy.deepcopy(rel)
         r["source"] = id_map.get(r["source"], r["source"])
         r["target"] = id_map.get(r["target"], r["target"])
-        # Drop self-loops that result from merging (e.g., A→A after merge)
-        if r["source"] != r["target"]:
-            rewritten.append(r)
+        if r["source"] == r["target"]:
+            # Audit the dropped self-loop — do NOT silently delete
+            try:
+                from ..audit.logger import log_filtered_edge
+                log_filtered_edge(
+                    edge=r,
+                    reason="self_loop",
+                    source_doc=r.get("evidence", "")[:80],
+                )
+            except Exception:
+                pass
+            continue  # still excluded from graph, but now audited
+        rewritten.append(r)
     return rewritten
+
+
+def _detect_phone_conflicts(
+    resolved_entities: list[dict],
+    resolved_relationships: list[dict],
+    needs_review: list,
+) -> list[dict]:
+    """
+    Detects cases where a single phone number is linked (via HAS_PHONE) to
+    two or more distinctly different names (similarity < 70).  This commonly
+    indicates:
+      - A shared/prepaid SIM used by different people across different cases
+      - OCR misread of a digit that confused two real numbers
+
+    When detected:
+      - The phone node is flagged with status='PHONE_CONFLICT'
+      - All HAS_PHONE edges touching it get confidence=0.3, status='conflicted'
+      - A review item is added to needs_review for the investigator UI
+
+    Nothing is deleted — the conflict is surfaced, not resolved silently.
+    """
+    # Build phone_id → [person names] map from HAS_PHONE relationships
+    phone_to_persons: dict[str, list[str]] = {}
+    entity_by_id = {e["id"]: e for e in resolved_entities}
+
+    for rel in resolved_relationships:
+        if rel.get("type") == "HAS_PHONE":
+            phone_id  = rel["target"]
+            person_id = rel["source"]
+            person    = entity_by_id.get(person_id)
+            if person:
+                phone_to_persons.setdefault(phone_id, []).append(person["value"])
+
+    # Find conflicting phones (two distinct people)
+    conflict_phone_ids: set[str] = set()
+    for phone_id, names in phone_to_persons.items():
+        if len(names) < 2:
+            continue
+        # Check if the names are actually distinct (not just aliases)
+        max_sim = max(
+            fuzz.token_sort_ratio(a.lower(), b.lower())
+            for i, a in enumerate(names)
+            for b in names[i + 1:]
+        ) if len(names) >= 2 else 100
+
+        if max_sim < 70:  # genuinely different people
+            conflict_phone_ids.add(phone_id)
+            phone_entity = entity_by_id.get(phone_id)
+            if phone_entity:
+                phone_entity["status"]     = "PHONE_CONFLICT"
+                phone_entity["risk_color"] = "red"
+
+            needs_review.append({
+                "review_id": str(uuid.uuid4()),
+                "type":      "PHONE_CONFLICT",
+                "phone_id":  phone_id,
+                "names":     names,
+                "max_name_similarity": max_sim,
+                "reason":    (
+                    f"Phone {phone_id} is linked to {len(names)} distinctly "
+                    f"different names (max similarity {max_sim:.0f}%). "
+                    f"Possible shared SIM, OCR error, or identity fraud."
+                ),
+                "merge_action": "pending",
+            })
+
+    # Downgrade confidence on all HAS_PHONE edges touching conflicted phones
+    for rel in resolved_relationships:
+        if rel.get("type") == "HAS_PHONE" and rel["target"] in conflict_phone_ids:
+            rel["confidence"] = 0.3
+            rel["status"]     = "conflicted — pending investigator review"
+
+    return resolved_relationships
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -432,7 +568,8 @@ def _rewrite_relationship_ids(
 def resolve_entities(
     extracted: dict,
     source_file: str = "",
-    registry: Optional[EntityRegistry] = None
+    registry: Optional[EntityRegistry] = None,
+    case_id: Optional[str] = None,
 ) -> dict:
     """
     Deduplicates and resolves all entities from a single ner.py extraction pass.
@@ -441,6 +578,9 @@ def resolve_entities(
         extracted:   Output of ner.extract_entities()
         source_file: Originating file name (for provenance tracking)
         registry:    Optional custom registry (for testing); defaults to singleton
+        case_id:     Case identifier — used as a corroborating signal for
+                     name-based merge decisions. Two entities in the same case
+                     with high name similarity can be corroborated by case_id.
 
     Returns:
         {

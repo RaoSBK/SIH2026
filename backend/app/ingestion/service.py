@@ -1,4 +1,5 @@
 import os
+import asyncio
 from .parsers.pdf_parser import parse_pdf
 from .parsers.docx_parser import parse_docx
 from .parsers.csv_parser import parse_csv
@@ -14,6 +15,10 @@ def process_file(file_path: str, file_type: str = None, source_label: str = "unk
     Universal ingestion entry point enforcing strict data shape contract.
     Parses the file with the appropriate parser (Task 2), then extracts entities
     and relationships using ner.py (Task 3).
+
+    NOTE on async: heavy NLP work (spaCy + resolver) runs synchronously here.
+    Callers should invoke this via asyncio.to_thread() to avoid blocking the
+    FastAPI event loop.  Full queue-based async pipeline is a follow-up task.
     """
     file_name = os.path.basename(file_path)
 
@@ -40,7 +45,13 @@ def process_file(file_path: str, file_type: str = None, source_label: str = "unk
         extracted = extract_entities(parsed, source_label=source_label)
 
         # ── 3. Entity Resolution / Deduplication — resolver.py (Task 4) ────
-        resolved = resolve_entities(extracted, source_file=file_name)
+        # case_id is passed as a corroborating signal: two persons in the same
+        # case with similar names have a higher chance of being the same entity.
+        resolved = resolve_entities(
+            extracted,
+            source_file=file_name,
+            case_id=case_id,
+        )
         entities      = resolved["resolved_entities"]
         relationships = resolved["resolved_relationships"]
         needs_review  = resolved["needs_review"]
@@ -69,7 +80,7 @@ def process_file(file_path: str, file_type: str = None, source_label: str = "unk
             }
         }
 
-        # ── 4. Audit log ─────────────────────────────────────────────────────
+        # ── 6. Audit log ─────────────────────────────────────────────────────
         log_ingestion(
             file_name=file_name,
             source_label=source_label,
@@ -77,7 +88,7 @@ def process_file(file_path: str, file_type: str = None, source_label: str = "unk
             status="success",
             message=f"Extracted {len(entities)} entities, {len(relationships)} relationships. Shape: {parsed['data_shape']}.",
             entities_count=len(entities),
-            new_nodes=len(entities)
+            new_nodes=stats.get("new", 0),
         )
         return result
 
@@ -95,3 +106,4 @@ def process_file(file_path: str, file_type: str = None, source_label: str = "unk
             "stage":   "processing",
             "message": error_msg
         }
+

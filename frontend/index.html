@@ -608,6 +608,12 @@
          const mlData = await res.json();
          NODES = mlData.nodes || [];
          EDGES = mlData.links || [];
+         // Capture needs_review items from this batch for the review queue UI
+         const batchReview = mlData.needs_review || [];
+         if (batchReview.length) {
+           log(`<span style="color:#B45309">⚠ ${batchReview.length} item(s) added to review queue — see Review Queue below.</span>`);
+         }
+         window._pendingReview = (window._pendingReview || []).concat(batchReview);
          if (!NODES.length) {
            loadDemoGraph();
            log('ML API returned no graph data, so the demo graph was loaded instead.');
@@ -646,16 +652,62 @@
     log('Pipeline completed. Awaiting investigator review.');
     await wait(400);
 
-    runBtn.textContent = 'Pipeline complete';
-    document.getElementById('graphCount').textContent = NODES.length;
-    // Auto-select a flagged node if one exists
-    const flagged = NODES.find(n => n.status === 'REVIEW_REQUIRED');
-    if (flagged) {
-        setTimeout(()=>{ 
-            mlGraph.selectNodeUI(flagged.id);
-            selectNode(flagged.id); 
-        }, 300);
-    }
+     runBtn.textContent = 'Pipeline complete';
+     document.getElementById('graphCount').textContent = NODES.length;
+     // Auto-select a flagged node if one exists
+     const flagged = NODES.find(n => n.status === 'REVIEW_REQUIRED');
+     if (flagged) {
+         setTimeout(()=>{ 
+             mlGraph.selectNodeUI(flagged.id);
+             selectNode(flagged.id); 
+         }, 300);
+     }
+
+     // ── Review Queue UI (feedback point 4) ───────────────────────────────
+     // Surface all needs_review items in a visible panel so investigators
+     // see them rather than having them sit silently in the database.
+     const reviewItems = window._pendingReview || [];
+     if (reviewItems.length > 0) {
+       setTimeout(() => {
+         const reviewPanel = document.createElement('div');
+         reviewPanel.id = 'reviewQueue';
+         reviewPanel.style.cssText = [
+           'position:fixed', 'bottom:20px', 'right:20px', 'width:360px',
+           'max-height:420px', 'overflow-y:auto',
+           'background:rgba(255,255,255,0.97)', 'border:1.5px solid #B45309',
+           'border-radius:12px', 'box-shadow:0 8px 32px rgba(0,0,0,0.18)',
+           'padding:16px', 'z-index:9999', 'font-size:13px',
+         ].join(';');
+
+         const badge = reviewItems.length;
+         reviewPanel.innerHTML = `
+           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+             <strong style="color:#B45309">⚠ Review Queue <span style="background:#B45309;color:#fff;border-radius:10px;padding:1px 8px;font-size:11px">${badge}</span></strong>
+             <button onclick="document.getElementById('reviewQueue').remove()" 
+                     style="border:none;background:none;cursor:pointer;font-size:18px;color:#6B7280">×</button>
+           </div>
+           <p style="color:#4B5563;margin:0 0 10px">The following items require investigator review before entities are merged. No automatic merge occurred.</p>
+           ${reviewItems.map(item => {
+             if (item.type === 'PHONE_CONFLICT') {
+               return `<div style="border:1px solid #FCA5A5;border-radius:8px;padding:10px;margin-bottom:8px;background:#FEF2F2">
+                 <div style="font-weight:600;color:#991B1B">📵 Phone Conflict</div>
+                 <div style="color:#374151;margin-top:4px">Phone linked to <b>${item.names.join(', ')}</b></div>
+                 <div style="color:#6B7280;font-size:11px;margin-top:2px">${item.reason}</div>
+               </div>`;
+             } else {
+               return `<div style="border:1px solid #FDE68A;border-radius:8px;padding:10px;margin-bottom:8px;background:#FFFBEB">
+                 <div style="font-weight:600;color:#92400E">👤 Name Ambiguity</div>
+                 <div style="color:#374151;margin-top:4px"><b>${item.candidate?.value}</b> ↔ <b>${item.possible_match?.value}</b></div>
+                 <div style="color:#6B7280;font-size:11px;margin-top:2px">${item.reason}</div>
+                 <div style="color:#9CA3AF;font-size:11px;margin-top:2px">Similarity: ${item.similarity?.toFixed(0)}%${item.corroboration_found ? ' · Corroborated' : ' · Name-only (no shared signal)'}</div>
+               </div>`;
+             }
+           }).join('')}
+           <p style="color:#9CA3AF;font-size:11px;margin:8px 0 0">Use /api/review-queue to retrieve these programmatically.</p>
+         `;
+         document.body.appendChild(reviewPanel);
+       }, 600);
+     }
   });
 
 </script>
