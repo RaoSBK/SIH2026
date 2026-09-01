@@ -1,0 +1,514 @@
+[
+  {
+    "timestamp": "2026-09-01T19:07:32.735908Z",
+    "entity_value": "Andheri West\nSubject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002\nDate: 2O24-03-22\nLocation: Andheri West\nSubject: Suspicious Activity Report\nDetail5"
+  },
+  {
+    "timestamp": "2026-09-01T19:24:02.133057Z",
+    "entity_value": "Andheri West\nSubject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002\nDate: 2O24-03-22\nLocation: Andheri West\nSubject: Suspicious Activity Report\nDetail5"
+  },
+  {
+    "timestamp": "2026-09-01T19:29:30.661260Z",
+    "entity_value": "Andheri West Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002 Date: 2O24-03-22 Location: Andheri West Subject: Suspicious Activity Report Detail5"
+  },
+  {
+    "timestamp": "2026-09-01T19:34:41.236746Z",
+    "entity_value": "Andheri West Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002 Date: 2O24-03-22 Location: Andheri West Subject: Suspicious Activity Report Detail5"
+  },
+  {
+    "timestamp": "2026-09-01T19:44:35.965794Z",
+    "entity_value": "Andheri West Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002 Date: 2O24-03-22 Location: Andheri West Subject: Suspicious Activity Report Detail5"
+  },
+  {
+    "timestamp": "2026-09-01T19:54:01.933659Z",
+    "entity_value": "Andheri West Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002 Date: 2O24-03-22 Location: Andheri West Subject: Suspicious Activity Report Detail5"
+  },
+  {
+    "timestamp": "2026-09-01T20:16:36.283274Z",
+    "entity_value": "Andheri West Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002 Date: 2O24-03-22 Location: Andheri West Subject: Suspicious Activity Report Detail5"
+  },
+  {
+    "timestamp": "2026-09-01T20:22:00.636344Z",
+    "entity_value": "Andheri West Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002 Date: 2O24-03-22 Location: Andheri West Subject: Suspicious Activity Report Detail5"
+  },
+  {
+    "timestamp": "2026-09-01T20:23:58.805520Z",
+    "entity_value": "Andheri West Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002 Date: 2O24-03-22 Location: Andheri West Subject: Suspicious Activity Report Detail5"
+  },
+  {
+    "timestamp": "2026-09-01T20:32:13.151470Z",
+    "entity_value": "Andheri West Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002 Date: 2O24-03-22 Location: Andheri West Subject: Suspicious Activity Report Detail5"
+  },
+  {
+    "timestamp": "2026-09-01T20:32:37.241060Z",
+    "entity_value": "Andheri West Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002 Date: 2O24-03-22 Location: Andheri West Subject: Suspicious Activity Report Detail5"
+  },
+  {
+    "timestamp": "2026-09-01T20:34:35.204478Z",
+    "entity_value": "Andheri West Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "FIRST INFORMATION REPORT (FIR) - 002 Date: 2O24-03-22 Location: Andheri West Subject: Suspicious Activity Report Detail5"
+  },
+  {
+    "timestamp": "2026-09-01T20:46:26.285881Z",
+    "entity_value": "SURVEILLANCE REPORT Date",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "SURVEILLANCE REPORT Date: 2024-03-18 Location: Andheri West, Mumbai Case ID: CASE-102\n\nField team observed Faisal Khan m"
+  },
+  {
+    "timestamp": "2026-09-01T20:46:26.318103Z",
+    "entity_value": "Mumbai Case",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "SURVEILLANCE REPORT Date: 2024-03-18 Location: Andheri West, Mumbai Case ID: CASE-102\n\nField team observed Faisal Khan m"
+  },
+  {
+    "timestamp": "2026-09-01T20:46:26.351146Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T20:46:26.378098Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20."
+  },
+  {
+    "timestamp": "2026-09-01T20:50:11.055771Z",
+    "entity_value": "SURVEILLANCE REPORT Date",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "SURVEILLANCE REPORT Date: 2024-03-18 Location: Andheri West, Mumbai Case ID: CASE-102\n\nField team observed Faisal Khan m"
+  },
+  {
+    "timestamp": "2026-09-01T20:50:11.086464Z",
+    "entity_value": "Mumbai Case",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "SURVEILLANCE REPORT Date: 2024-03-18 Location: Andheri West, Mumbai Case ID: CASE-102\n\nField team observed Faisal Khan m"
+  },
+  {
+    "timestamp": "2026-09-01T20:50:11.119551Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T20:50:11.147753Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20."
+  },
+  {
+    "timestamp": "2026-09-01T20:57:02.882085Z",
+    "entity_value": "SURVEILLANCE REPORT Date",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "SURVEILLANCE REPORT Date: 2024-03-18 Location: Andheri West, Mumbai Case ID: CASE-102\n\nField team observed Faisal Khan m"
+  },
+  {
+    "timestamp": "2026-09-01T20:57:02.908505Z",
+    "entity_value": "Mumbai Case",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "SURVEILLANCE REPORT Date: 2024-03-18 Location: Andheri West, Mumbai Case ID: CASE-102\n\nField team observed Faisal Khan m"
+  },
+  {
+    "timestamp": "2026-09-01T20:57:02.938878Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T20:57:02.966863Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20."
+  },
+  {
+    "timestamp": "2026-09-01T21:02:12.867426Z",
+    "entity_value": "SURVEILLANCE REPORT Date",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "SURVEILLANCE REPORT Date: 2024-03-18 Location: Andheri West, Mumbai Case ID: CASE-102\n\nField team observed Faisal Khan m"
+  },
+  {
+    "timestamp": "2026-09-01T21:02:12.892466Z",
+    "entity_value": "Mumbai Case",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "SURVEILLANCE REPORT Date: 2024-03-18 Location: Andheri West, Mumbai Case ID: CASE-102\n\nField team observed Faisal Khan m"
+  },
+  {
+    "timestamp": "2026-09-01T21:02:12.916899Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:02:12.947603Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20."
+  },
+  {
+    "timestamp": "2026-09-01T21:04:33.641503Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:05:11.121406Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:09:08.373434Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:12:20.700170Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:12:21.829663Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:12:21.856590Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:15:25.936828Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:15:27.048934Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:15:27.067199Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:19:08.645475Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:19:10.101423Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:19:10.122629Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:21:45.410268Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:21:46.483280Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:21:46.507248Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:25:32.632802Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:25:33.621213Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:25:33.647093Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:28:42.272232Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:28:43.369660Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:28:43.393234Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:33:16.041126Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:33:19.291128Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:33:19.312613Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:35:57.521261Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:35:58.516848Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:35:58.546892Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:38:08.648035Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:38:09.782652Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:38:09.807010Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:40:44.533231Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:40:45.565416Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:40:45.590117Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:43:59.195291Z",
+    "entity_value": "Subject",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Subject is believed to be involved in cross-border financial irregularities.\n"
+  },
+  {
+    "timestamp": "2026-09-01T21:44:00.299248Z",
+    "entity_value": "Vehicle MH12AB1234",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Vehicle MH12AB1234, previously logged near the Ravi Kumar /"
+  },
+  {
+    "timestamp": "2026-09-01T21:44:00.324401Z",
+    "entity_value": "CDR",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
+  }
+]

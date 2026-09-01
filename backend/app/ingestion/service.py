@@ -59,7 +59,14 @@ def process_file(file_path: str, file_type: str = None, source_label: str = "unk
 
         # ── 4. Graph Database Insertion (Task 5) ─────────────────────────
         try:
-            insert_graph_data(entities, relationships)
+            # Clear stale data from any previous ingestion of this same file
+            from ..database.neo4j import delete_entities_by_source
+            delete_entities_by_source(file_name=file_name, case_id=case_id)
+        except Exception as e:
+            print(f"Warning: could not clear prior ingestion data for {file_name}: {e}")
+
+        try:
+            insert_graph_data(entities, relationships, file_name=file_name, case_id=case_id)
         except Exception as e:
             print(f"Neo4j insertion failed: {e}")
             parsed["warnings"].append(f"Failed to persist graph data to Neo4j: {str(e)}")

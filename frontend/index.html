@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>VERITAS — Investigator Console</title>
 <link rel="stylesheet" href="./graph/graph.css">
+<script src="https://d3js.org/d3.v7.min.js"></script>
 <style>
   :root{
     --ink:#F3F4F6; /* Softer, slightly darker background */
@@ -255,6 +256,23 @@
   ::-webkit-scrollbar{ width:9px; }
   ::-webkit-scrollbar-thumb{ background:var(--hairline-strong); border-radius:10px; }
   ::-webkit-scrollbar-track{ background:transparent; }
+
+  svg#graph.hide-orphans .node.orphan { display: none; }
+
+  /* ---------- Tabs ---------- */
+  .tabs-header { display:flex; border-bottom:1px solid #E5E7EB; margin-bottom:16px; }
+  .tab-btn { padding:10px 16px; cursor:pointer; color:#6B7280; font-weight:600; font-size:13px; border-bottom:2px solid transparent; }
+  .tab-btn:hover { color:#111827; }
+  .tab-btn.active { color:#0F766E; border-bottom-color:#0F766E; }
+  .badge-pill { background:#B45309; color:white; border-radius:10px; padding:2px 8px; font-size:11px; margin-left:6px; }
+  .review-card { border:1px solid #E5E7EB; border-radius:8px; padding:12px; margin-bottom:12px; background:white; }
+  .review-card.conflict { border-color:#FCA5A5; background:#FEF2F2; }
+  .review-card.ambiguity { border-color:#FDE68A; background:#FFFBEB; }
+  .review-actions { display:flex; gap:8px; margin-top:12px; }
+  .review-actions button { padding:6px 12px; border-radius:6px; font-size:11px; font-weight:600; cursor:pointer; border:1px solid transparent; }
+  .review-actions .btn-merge { background:#0F766E; color:white; }
+  .review-actions .btn-reject { background:#EF4444; color:white; }
+  .review-actions .btn-skip { background:#F3F4F6; color:#4B5563; border-color:#D1D5DB; }
 </style>
 </head>
 <body>
@@ -285,7 +303,13 @@
     </section>
 
     <section class="graph-wrap">
-      <div class="graph-caption"><strong id="graphCount">0</strong>&nbsp;entities shown &middot; flagged subnetwork</div>
+      <div class="graph-caption">
+          <strong id="graphCount">0</strong>&nbsp;entities shown &middot; flagged subnetwork
+          <label style="margin-left: 16px; font-size: 11px; cursor:pointer; user-select:none;">
+             <input type="checkbox" id="toggleOrphans" checked style="vertical-align:middle; margin-right:4px;"> 
+             <span id="orphanLabel">Show orphans</span>
+          </label>
+      </div>
       <svg id="graph" viewBox="0 0 880 520" preserveAspectRatio="xMidYMid meet">
         <g id="viewport"></g>
       </svg>
@@ -460,60 +484,134 @@
 
   /* ---------------- Right panel ---------------- */
   const rightPanel = document.getElementById('rightPanel');
-  function swapPanel(renderFn){
-    rightPanel.style.transition = 'opacity 160ms ease';
-    rightPanel.style.opacity = 0;
-    setTimeout(()=>{
-      renderFn();
-      rightPanel.style.opacity = 1;
-    }, reduced ? 0 : 160);
+  
+  window._currentTab = 'details';
+  window.switchTab = function(tab) {
+     window._currentTab = tab;
+     renderRightPanel();
+  }
+  
+  window.resolveReview = async function(reviewId, action) {
+     try {
+       const res = await fetch(`http://localhost:8000/api/review-queue/${reviewId}/resolve`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({action: action})
+       });
+       if(res.ok) {
+          // Optimistically remove from pending list
+          window._pendingReview = window._pendingReview.filter(item => {
+             const id = item.type === 'PHONE_CONFLICT' ? item.names.join('-') : `${item.candidate?.id}-${item.possible_match?.id}`;
+             return id !== reviewId;
+          });
+          renderRightPanel();
+       } else {
+          alert('Failed to resolve item');
+       }
+     } catch(e) {
+       console.error(e);
+     }
   }
 
-  function renderIdlePanel(){
-    const persons = NODES.filter(n => n.type === 'Person').length;
-    const phones = NODES.filter(n => n.type === 'Phone').length;
-    const locations = NODES.filter(n => n.type === 'Location').length;
-    const orgs = NODES.filter(n => n.type === 'Organization').length;
-    const accounts = NODES.filter(n => n.type === 'Account').length;
-    const vehicles = NODES.filter(n => n.type === 'Vehicle').length;
+  window.renderRightPanel = function() {
+    const reviewItems = window._pendingReview || [];
+    const badge = reviewItems.length;
     
-    rightPanel.innerHTML =
-      '<h2>Case Metrics</h2>'+
-      row('Entities discovered', NODES.length)+
-      row('Relationships', EDGES.length)+
-      row('Persons', persons)+
-      row('Phones', phones)+
-      row('Bank Accounts', accounts)+
-      row('Locations', locations)+
-      row('Organizations', orgs)+
-      row('Vehicles', vehicles)+
-      '<p class="empty-hint" style="margin-top:16px;">Select any node in the graph to inspect its connections and, where flagged, the full evidence trail behind it.</p>';
+    let html = `
+      <div class="tabs-header">
+        <div class="tab-btn ${window._currentTab === 'details' ? 'active' : ''}" onclick="switchTab('details')">Details</div>
+        <div class="tab-btn ${window._currentTab === 'review' ? 'active' : ''}" onclick="switchTab('review')">Review Queue ${badge > 0 ? `<span class="badge-pill">${badge}</span>` : ''}</div>
+      </div>
+      <div class="tab-content" id="tabContentWrapper">
+    `;
+    
+    if (window._currentTab === 'details') {
+       html += getDetailsHTML();
+    } else {
+       html += getReviewQueueHTML();
+    }
+    
+    html += `</div>`;
+    
+    rightPanel.innerHTML = html;
+    
+    // Reattach listeners if in details view
+    if (window._currentTab === 'details' && selectedId) {
+       const btn = document.getElementById('viewSourceBtn');
+       if(btn) {
+           const n = NODES.find(x=>x.id===selectedId);
+           btn.addEventListener('click', () => openModal(n));
+       }
+    }
   }
-  function row(k,n){ return '<div class="metric-row"><span class="k">'+k+'</span><span class="n mono">'+n+'</span></div>'; }
 
-  function renderPlainNode(n){
-    const connections = mlGraph ? mlGraph.degree[n.id] : 0;
-    rightPanel.innerHTML =
-      '<div class="detail-title">'+(n.name || n.label || n.id)+'</div>'+
-      '<div class="detail-sub">Entity &middot; '+connections+' connection(s)</div>'+
-      '<p class="empty-hint">No anomaly indicators for this entity. It appears in the case record but was not flagged by the analytics engine.</p>'+
-      '<button class="ghost" id="viewSourceBtn">View source documents</button>';
+  function getDetailsHTML() {
+    if (!selectedId) {
+      const persons = NODES.filter(n => n.type === 'Person').length;
+      const phones = NODES.filter(n => n.type === 'Phone').length;
+      const locations = NODES.filter(n => n.type === 'Location').length;
+      const orgs = NODES.filter(n => n.type === 'Organization').length;
+      const accounts = NODES.filter(n => n.type === 'Account').length;
       
-    document.getElementById('viewSourceBtn').addEventListener('click', () => openModal(n));
+      return `<h2>Case Metrics</h2>
+        <div class="metric-row"><span class="k">Entities discovered</span><span class="n mono">${NODES.length}</span></div>
+        <div class="metric-row"><span class="k">Relationships</span><span class="n mono">${EDGES.length}</span></div>
+        <div class="metric-row"><span class="k">Persons</span><span class="n mono">${persons}</span></div>
+        <div class="metric-row"><span class="k">Phones</span><span class="n mono">${phones}</span></div>
+        <div class="metric-row"><span class="k">Locations</span><span class="n mono">${locations}</span></div>
+        <p class="empty-hint" style="margin-top:16px;">Select any node in the graph to inspect its connections and, where flagged, the full evidence trail behind it.</p>`;
+    }
+
+    const n = NODES.find(x=>x.id===selectedId);
+    if (!n) return '';
+    const connections = mlGraph ? (mlGraph.degree[n.id] || 0) : 0;
+    
+    if (n.status === 'REVIEW_REQUIRED' || n.flagged) {
+        return `<div class="badge">REVIEW REQUIRED</div>
+          <div class="detail-title">${n.name || n.label || n.id}</div>
+          <div class="detail-sub" style="text-transform:capitalize">Risk Level: ${n.risk_color || 'none'} &middot; ${n.historical_firs || 0} Historical FIR(s)</div>
+          <p class="empty-hint">This entity is involved in ambiguous data (dotted links) or has been flagged for historical criminal activity.</p>
+          <button class="ghost" id="viewSourceBtn">View Consent / Manual Review</button>`;
+    } else {
+        return `<div class="detail-title">${n.name || n.label || n.id}</div>
+          <div class="detail-sub">Entity &middot; ${connections} connection(s)</div>
+          <p class="empty-hint">No anomaly indicators for this entity. It appears in the case record but was not flagged by the analytics engine.</p>
+          <button class="ghost" id="viewSourceBtn">View source documents</button>`;
+    }
   }
 
-  function renderFlaggedNode(n){
-    const risk = n.risk_color || 'none';
-    const firs = n.historical_firs || 0;
-    
-    rightPanel.innerHTML =
-      '<div class="badge">REVIEW REQUIRED</div>'+
-      '<div class="detail-title">'+(n.name || n.label || n.id)+'</div>'+
-      '<div class="detail-sub" style="text-transform:capitalize">Risk Level: '+risk+' &middot; '+firs+' Historical FIR(s)</div>'+
-      '<p class="empty-hint">This entity is involved in ambiguous data (dotted links) or has been flagged for historical criminal activity.</p>'+
-      '<button class="ghost" id="viewSourceBtn">View Consent / Manual Review</button>';
-
-    document.getElementById('viewSourceBtn').addEventListener('click', () => openModal(n));
+  function getReviewQueueHTML() {
+      const items = window._pendingReview || [];
+      if (items.length === 0) return `<p class="empty-hint">Queue is empty. All entities merged confidently.</p>`;
+      
+      return items.map(item => {
+         if (item.type === 'PHONE_CONFLICT') {
+             const id = item.names.join('-');
+             return `<div class="review-card conflict" id="review-card-${id}">
+                 <div style="font-weight:600;color:#991B1B">📵 Phone Conflict</div>
+                 <div style="color:#374151;margin-top:4px">Phone linked to <b>${item.names.join(', ')}</b></div>
+                 <div style="color:#6B7280;font-size:11px;margin-top:2px">${item.reason}</div>
+                 <div class="review-actions">
+                     <button class="btn-merge" onclick="resolveReview('${id}', 'merge')">Merge Entities</button>
+                     <button class="btn-reject" onclick="resolveReview('${id}', 'reject')">Keep Separate</button>
+                     <button class="btn-skip" onclick="resolveReview('${id}', 'skip')">Skip</button>
+                 </div>
+             </div>`;
+         } else {
+             const id = `${item.candidate?.id}-${item.possible_match?.id}`;
+             return `<div class="review-card ambiguity" id="review-card-${id}">
+                 <div style="font-weight:600;color:#92400E">👤 Name Ambiguity</div>
+                 <div style="color:#374151;margin-top:4px"><b>${item.candidate?.value}</b> ↔ <b>${item.possible_match?.value}</b></div>
+                 <div style="color:#6B7280;font-size:11px;margin-top:2px">${item.reason}</div>
+                 <div style="color:#9CA3AF;font-size:11px;margin-top:2px">Similarity: ${item.similarity?.toFixed(0)}%${item.corroboration_found ? ' · Corroborated' : ' · Name-only'}</div>
+                 <div class="review-actions">
+                     <button class="btn-merge" onclick="resolveReview('${id}', 'merge')">Merge Entities</button>
+                     <button class="btn-reject" onclick="resolveReview('${id}', 'reject')">Keep Separate</button>
+                     <button class="btn-skip" onclick="resolveReview('${id}', 'skip')">Skip</button>
+                 </div>
+             </div>`;
+         }
+      }).join('');
   }
 
   let selectedId = null;
@@ -521,10 +619,48 @@
     selectedId = id;
     const n = NODES.find(x=>x.id===id);
     if(!n) return;
-    swapPanel(()=> n.status === 'REVIEW_REQUIRED' || n.flagged ? renderFlaggedNode(n) : renderPlainNode(n));
+    
+    if (n.status === 'REVIEW_REQUIRED' || n.flagged) {
+        window._currentTab = 'review';
+        renderRightPanel();
+        
+        // Find which card corresponds to this entity and scroll to it
+        setTimeout(() => {
+           const items = window._pendingReview || [];
+           const match = items.find(item => {
+               if(item.type === 'PHONE_CONFLICT') return false;
+               return item.candidate?.id === id || item.possible_match?.id === id;
+           });
+           if (match) {
+               const cardId = `review-card-${match.candidate?.id}-${match.possible_match?.id}`;
+               const el = document.getElementById(cardId);
+               if(el) {
+                   el.scrollIntoView({behavior: 'smooth', block: 'start'});
+                   el.style.outline = '2px solid #0F766E';
+                   setTimeout(()=> el.style.outline = 'none', 1500);
+               }
+           }
+        }, 50);
+    } else {
+        window._currentTab = 'details';
+        renderRightPanel();
+    }
   }
 
-  renderIdlePanel();
+  renderRightPanel();
+  
+  // Orphan Toggle
+  document.getElementById('toggleOrphans').addEventListener('change', (e) => {
+     const svg = document.getElementById('graph');
+     const label = document.getElementById('orphanLabel');
+     if (e.target.checked) {
+         svg.classList.remove('hide-orphans');
+         label.textContent = 'Show orphans';
+     } else {
+         svg.classList.add('hide-orphans');
+         label.textContent = 'Hidden orphans';
+     }
+  });
 
   /* ---------------- Modal ---------------- */
   const modalLayer = document.getElementById('modal-layer');
@@ -578,6 +714,8 @@
     const formData = new FormData();
     const uploadedFiles = [];
 
+    let caseId = 'CASE-102';
+    
     if (fileInput && fileInput.files.length > 0) {
         for (let i = 0; i < fileInput.files.length; i++) {
             const file = fileInput.files[i];
@@ -593,38 +731,62 @@
 
     try {
        if (uploadedFiles.length === 0) {
-         loadDemoGraph();
-         mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
-         mlGraph.buildGraph();
-         log('No files uploaded. Loading demo graph for visualization.');
-       } else {
-         const res = await fetch('http://localhost:8000/api/process-evidence', {
-             method: 'POST',
-             body: formData
-         });
+         log('No files uploaded. Generating live test data to run through backend ML pipeline...');
+         const demoFiles = [
+            new File(["FIRST INFORMATION REPORT\n\nRavi Kumar was seen driving vehicle MH-12-AB-1234 near Hyderabad. Suspect is known to use phone number +91-9876543210."], "FIR_002_Andheri.txt", {type: "text/plain"}),
+            new File(["caller_number,callee_number,duration,timestamp\n+919876543210,+919998887776,120,2024-01-01T10:00:00"], "CDR_Ravi_Jan2024.csv", {type: "text/csv"}),
+            new File(["INTELLIGENCE REPORT - SUSPECT PROFILING\n\nSubject Ahmed Sheikh is associated with Crescent Traders. He uses phone number +91-9998887776. Faisal Khan was also seen in Hyderabad."], "Surveillance_Rep_03.txt", {type: "text/plain"}),
+            new File(["sender_account,receiver_account,amount,timestamp\nACC-AHMED-4521,ACC-FAISAL-7788,240000,2024-03-14T12:00:00"], "BankStatement_GlobalTech.csv", {type: "text/csv"}),
+            new File(["INTERROGATION SUMMARY\n\nAhmed Sheikh admitted that account ACC-AHMED-4521 belongs to him. Faisal Khan operates account ACC-FAISAL-7788."], "Interrogation_JohnDoe.txt", {type: "text/plain"}),
+         ];
+         demoFiles.forEach(f => formData.append('files', f));
+         caseId = 'CASE-' + Math.floor(Math.random() * 10000);
+         formData.set('case_id', caseId);
+       }
+       
+       const res = await fetch('http://localhost:8000/api/process-evidence', {
+           method: 'POST',
+           body: formData
+       });
          
          if (!res.ok) throw new Error('API returned ' + res.status);
          
          const mlData = await res.json();
-         NODES = mlData.nodes || [];
-         EDGES = mlData.links || [];
          // Capture needs_review items from this batch for the review queue UI
          const batchReview = mlData.needs_review || [];
          if (batchReview.length) {
            log(`<span style="color:#B45309">⚠ ${batchReview.length} item(s) added to review queue — see Review Queue below.</span>`);
          }
          window._pendingReview = (window._pendingReview || []).concat(batchReview);
+         
+         // Fetch the full graph from the database
+         log('Fetching complete graph from Neo4j...');
+         const graphRes = await fetch(`http://localhost:8000/api/cases/${caseId}/graph`);
+         if (!graphRes.ok) throw new Error('Graph API returned ' + graphRes.status);
+         const graphData = await graphRes.json();
+         
+         // Normalize: backend returns 'value' for display name; map it to 'name'
+         // so graph.js label renderer can find it consistently.
+         NODES = (graphData.nodes || []).map(n => ({
+             ...n,
+             name: n.name || n.value || n.label || n.id
+         }));
+         // Support both key names: process-evidence returns 'links', graph endpoint returns 'edges'
+         EDGES = graphData.links || graphData.edges || [];
+         
          if (!NODES.length) {
            loadDemoGraph();
-           log('ML API returned no graph data, so the demo graph was loaded instead.');
+           log('Neo4j returned no graph data, so the demo graph was loaded instead.');
          }
-       }
        
-       if (!mlGraph) {
-           mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
-           mlGraph.buildGraph();
+       // Always rebuild the graph with fresh data (supports re-uploads)
+       if (mlGraph) {
+           // Destroy old simulation before creating new one
+           try { mlGraph.simulation && mlGraph.simulation.stop(); } catch(e) {}
+           mlGraph = null;
        }
-       
+       mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
+       mlGraph.buildGraph();
        log(`Building knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
     } catch(e) {
        log('<span style="color:red">Failed to load graph from ML API. Loading the fallback network instead.</span>');
@@ -663,50 +825,10 @@
          }, 300);
      }
 
-     // ── Review Queue UI (feedback point 4) ───────────────────────────────
-     // Surface all needs_review items in a visible panel so investigators
-     // see them rather than having them sit silently in the database.
-     const reviewItems = window._pendingReview || [];
-     if (reviewItems.length > 0) {
-       setTimeout(() => {
-         const reviewPanel = document.createElement('div');
-         reviewPanel.id = 'reviewQueue';
-         reviewPanel.style.cssText = [
-           'position:fixed', 'bottom:20px', 'right:20px', 'width:360px',
-           'max-height:420px', 'overflow-y:auto',
-           'background:rgba(255,255,255,0.97)', 'border:1.5px solid #B45309',
-           'border-radius:12px', 'box-shadow:0 8px 32px rgba(0,0,0,0.18)',
-           'padding:16px', 'z-index:9999', 'font-size:13px',
-         ].join(';');
-
-         const badge = reviewItems.length;
-         reviewPanel.innerHTML = `
-           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-             <strong style="color:#B45309">⚠ Review Queue <span style="background:#B45309;color:#fff;border-radius:10px;padding:1px 8px;font-size:11px">${badge}</span></strong>
-             <button onclick="document.getElementById('reviewQueue').remove()" 
-                     style="border:none;background:none;cursor:pointer;font-size:18px;color:#6B7280">×</button>
-           </div>
-           <p style="color:#4B5563;margin:0 0 10px">The following items require investigator review before entities are merged. No automatic merge occurred.</p>
-           ${reviewItems.map(item => {
-             if (item.type === 'PHONE_CONFLICT') {
-               return `<div style="border:1px solid #FCA5A5;border-radius:8px;padding:10px;margin-bottom:8px;background:#FEF2F2">
-                 <div style="font-weight:600;color:#991B1B">📵 Phone Conflict</div>
-                 <div style="color:#374151;margin-top:4px">Phone linked to <b>${item.names.join(', ')}</b></div>
-                 <div style="color:#6B7280;font-size:11px;margin-top:2px">${item.reason}</div>
-               </div>`;
-             } else {
-               return `<div style="border:1px solid #FDE68A;border-radius:8px;padding:10px;margin-bottom:8px;background:#FFFBEB">
-                 <div style="font-weight:600;color:#92400E">👤 Name Ambiguity</div>
-                 <div style="color:#374151;margin-top:4px"><b>${item.candidate?.value}</b> ↔ <b>${item.possible_match?.value}</b></div>
-                 <div style="color:#6B7280;font-size:11px;margin-top:2px">${item.reason}</div>
-                 <div style="color:#9CA3AF;font-size:11px;margin-top:2px">Similarity: ${item.similarity?.toFixed(0)}%${item.corroboration_found ? ' · Corroborated' : ' · Name-only (no shared signal)'}</div>
-               </div>`;
-             }
-           }).join('')}
-           <p style="color:#9CA3AF;font-size:11px;margin:8px 0 0">Use /api/review-queue to retrieve these programmatically.</p>
-         `;
-         document.body.appendChild(reviewPanel);
-       }, 600);
+     // The review items are now rendered inside the Right Panel tabs instead of a floating card.
+     // Render the right panel to show the badge and trigger review tab if needed.
+     if (window._pendingReview && window._pendingReview.length > 0) {
+         renderRightPanel();
      }
   });
 

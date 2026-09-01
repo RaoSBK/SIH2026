@@ -141,12 +141,21 @@ class EntityRegistry:
             stored = copy.deepcopy(entity)
             stored.setdefault("aliases", [])
             stored["source_files"] = [source_file] if source_file else []
+            stored.setdefault("attributes", {})
             self._entities[eid] = stored
         else:
             # Enrich: add source file provenance
             stored = self._entities[eid]
             if source_file and source_file not in stored.get("source_files", []):
                 stored.setdefault("source_files", []).append(source_file)
+        
+        # Track case_ids as corroborating signals
+        case_id = entity.get("attributes", {}).get("case_id")
+        if case_id:
+            stored["attributes"].setdefault("case_ids", []).append(case_id)
+            # Deduplicate case_ids
+            stored["attributes"]["case_ids"] = list(set(stored["attributes"]["case_ids"]))
+            
         self._save()
         return self._entities[eid]
 
@@ -303,6 +312,10 @@ def _resolve_persons(
             incoming_sigs = signals.get(entity["id"], set())
             known_sigs    = signals.get(best_entity["id"], set())
             has_corroboration = bool(incoming_sigs & known_sigs)
+            
+            # Bug 2 Fix: 100% identical strings should auto-merge without corroboration
+            if best_score == 100:
+                has_corroboration = True
 
         if best_score >= auto_threshold and best_entity and has_corroboration:
             # ── Auto-merge: high similarity + confirmed shared signal ─────────
@@ -619,9 +632,29 @@ def resolve_entities(
     resolved_entities.extend(resolved_exact)
     id_map.update(map_exact)
 
+    # ── 1.5 Build corroborating signals ──────────────────────────────────────
+    # Names only auto-merge if they share a corroborating signal.
+    # Currently, we use case_id.
+    corroborating_signals = {}
+    
+    # 1.5a Incoming entities get the case_id signal
+    if case_id:
+        for p in person_types:
+            corroborating_signals.setdefault(p["id"], set()).add(f"case:{case_id}")
+            # Also store it in attributes so registry persists it
+            p.setdefault("attributes", {})["case_id"] = case_id
+            
+    # 1.5b Known entities in the registry supply their case_ids
+    for known_person in registry.all_of_type("PERSON"):
+        case_ids = known_person.get("attributes", {}).get("case_ids", [])
+        sigs = {f"case:{cid}" for cid in case_ids}
+        if sigs:
+            corroborating_signals[known_person["id"]] = sigs
+
     # ── 2. Fuzzy match: PERSON ───────────────────────────────────────────────
     resolved_persons, map_persons = _resolve_persons(
-        list(person_types), registry, source_file, merge_log, needs_review
+        list(person_types), registry, source_file, merge_log, needs_review,
+        corroborating_signals=corroborating_signals
     )
     resolved_entities.extend(resolved_persons)
     id_map.update(map_persons)
