@@ -1,8 +1,10 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 import os
 import shutil
+import asyncio
+import json
 
 from .ingestion.service import process_file
 
@@ -21,9 +23,61 @@ app.add_middleware(
 def read_root():
     return {"status": "ok", "service": "CIAS ML Backend"}
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+@app.get("/api/cases/{case_id}/graph")
+def get_case_graph(case_id: str):
+    """
+    Reads nodes and edges for a given case directly from Neo4j.
+    All IDs are keyed on the node's own custom `id` property (e.g. person:a7ca11a0),
+    never the Neo4j internal element_id — this guarantees edge source/target
+    always matches a node id on the frontend canvas.
+    """
+    from .database.neo4j import driver as neo4j_driver
+    try:
+        with neo4j_driver.session() as session:
+            nodes_result = session.run(
+                "MATCH (n)-[:EXTRACTED_FROM]->(:Document {case_id: $case_id}) "
+                "RETURN DISTINCT n.id AS id, n.value AS value, "
+                "       labels(n)[0] AS type, n.confidence AS confidence, "
+                "       n.status AS status, n.risk_color AS risk_color, "
+                "       n.historical_firs AS historical_firs",
+                case_id=case_id
+            )
+            nodes = [dict(r) for r in nodes_result]
+
+            edges_result = session.run(
+                "MATCH (a)-[:EXTRACTED_FROM]->(:Document {case_id: $case_id}) "
+                "MATCH (a)-[r]->(b) WHERE type(r) <> 'EXTRACTED_FROM' "
+                "RETURN a.id AS source, b.id AS target, type(r) AS type, "
+                "       r.confidence AS confidence, r.status AS status, r.evidence AS evidence",
+                case_id=case_id
+            )
+            edges = [dict(r) for r in edges_result]
+
+        # Drop edges whose endpoints don't exist in the node set
+        valid_ids = {n["id"] for n in nodes}
+        dropped = [e for e in edges if e["source"] not in valid_ids or e["target"] not in valid_ids]
+        if dropped:
+            logger.warning(f"[get_case_graph] Dropped {len(dropped)}/{len(edges)} edges — "
+                           f"source or target id not in node set:")
+            for e in dropped[:10]:
+                logger.warning(f"  {e['source']} --{e['type']}--> {e['target']}")
+        edges = [e for e in edges if e["source"] in valid_ids and e["target"] in valid_ids]
+
+        return {"nodes": nodes, "edges": edges, "case_id": case_id}
+    except Exception as e:
+        logger.error(f"[get_case_graph] Failed for case {case_id}: {e}")
+        return {"nodes": [], "edges": [], "case_id": case_id, "error": str(e)}
+
 @app.post("/api/process-evidence")
-async def process_evidence(files: List[UploadFile] = File(...)):
-    print(f"Received {len(files)} files for processing via ingestion layer.")
+async def process_evidence(
+    files: List[UploadFile] = File(...),
+    case_id: str = Form("CASE-102")
+):
+    logger.info(f"Received {len(files)} files for processing via ingestion layer. Case: {case_id}")
 
     global_nodes = {}
     global_links = []
@@ -39,9 +93,13 @@ async def process_evidence(files: List[UploadFile] = File(...)):
             with open(temp_path, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
 
-            result = process_file(
-                file_path=temp_path,
-                source_label="investigator_upload"
+            # Run synchronous (blocking) NLP work off the event loop thread
+            result = await asyncio.to_thread(
+                process_file,
+                temp_path,
+                None,           # file_type: auto-detect from extension
+                "investigator_upload",
+                case_id,        # Propagate case_id so resolver can use it as a corroborating signal
             )
 
             statuses.append({
@@ -103,7 +161,6 @@ def get_ingestion_audit():
     audit_path = os.path.join(os.path.dirname(__file__), "../../data/ingestion_audit.json")
     try:
         with open(audit_path, "r", encoding="utf-8") as f:
-            import json
             return json.load(f)
     except Exception:
         return []
@@ -114,7 +171,96 @@ def get_needs_review():
     registry_path = os.path.join(os.path.dirname(__file__), "../../data/entity_registry.json")
     try:
         with open(registry_path, "r", encoding="utf-8") as f:
-            import json
             return json.load(f)
     except Exception:
         return {"entities": {}}
+
+@app.get("/api/filtered-edges")
+def get_filtered_edges():
+    """
+    Returns the full audit trail of every edge removed from the graph
+    (self-loops, phone conflicts, etc.) with the source document reference.
+    Nothing is silently deleted — supervisors can audit all dropped edges here.
+    """
+    path = os.path.join(os.path.dirname(__file__), "../../data/filtered_edges.json")
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+@app.get("/api/review-queue")
+def get_review_queue():
+    """
+    Aggregates all pending REVIEW_REQUIRED items from the entity registry.
+    Used by the investigator UI to display the review queue badge and list.
+    Includes: PERSON_NAME_AMBIGUITY (high-sim, no corroboration) and
+              PHONE_CONFLICT (one phone → multiple distinct identities).
+    """
+    # The registry stores needs_review items from all past ingestion runs
+    registry_path = os.path.join(os.path.dirname(__file__), "../../data/entity_registry.json")
+    try:
+        with open(registry_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return {
+            "pending_review": data.get("needs_review", []),
+            "total": len(data.get("needs_review", [])),
+        }
+    except Exception:
+        return {"pending_review": [], "total": 0}
+
+from pydantic import BaseModel
+
+class ReviewAction(BaseModel):
+    action: str  # 'merge', 'reject', 'skip'
+
+@app.post("/api/review-queue/{review_id}/resolve")
+def resolve_review_item(review_id: str, payload: ReviewAction):
+    """
+    Resolves a pending review item.
+    In a full production environment, 'merge' would execute a graph refactoring algorithm
+    to combine the nodes and edges in Neo4j. For now, we clear the item from the queue
+    and log the investigator's decision.
+    """
+    registry_path = os.path.join(os.path.dirname(__file__), "../../data/entity_registry.json")
+    try:
+        with open(registry_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            
+        needs_review = data.get("needs_review", [])
+        
+        # We need a stable ID for review items. Since they don't have one intrinsically yet,
+        # we match on the stringified review_id (could be passed from frontend as an index or hash).
+        # For this prototype, we'll assume review_id matches the candidate ID or a hash.
+        # But to be safe, we'll just filter out any item whose candidate/names matches the review_id string loosely.
+        
+        updated_queue = []
+        resolved_item = None
+        
+        for item in needs_review:
+            # Create a simple unique-ish identifier for the item
+            item_id = ""
+            if item.get("type") == "PHONE_CONFLICT":
+                item_id = "-".join(item.get("names", []))
+            else:
+                c = item.get("candidate", {}).get("id", "")
+                p = item.get("possible_match", {}).get("id", "")
+                item_id = f"{c}-{p}"
+                
+            # If the frontend passes this item_id, we resolve it
+            if item_id == review_id:
+                resolved_item = item
+            else:
+                updated_queue.append(item)
+                
+        data["needs_review"] = updated_queue
+        
+        with open(registry_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+            
+        logger.info(f"Resolved review item {review_id} with action: {payload.action}")
+        return {"status": "success", "action": payload.action, "remaining": len(updated_queue)}
+        
+    except Exception as e:
+        logger.error(f"Failed to resolve review item: {e}")
+        return {"status": "error", "message": str(e)}

@@ -1,46 +1,160 @@
 {
   "entities": {
-    "org:59339f45": {
-      "id": "org:59339f45",
-      "type": "ORG",
-      "value": "Bank: National Bank of India\nSummary",
-      "confidence": 0.85,
+    "phone:f3a47ce5": {
+      "id": "phone:f3a47ce5",
+      "type": "PHONE",
+      "value": "+919876543210",
+      "confidence": 0.9,
+      "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
-        "BankStatement_Apex_Holdings_1.pdf"
+        "FIR_001_Faisal_Khan.pdf",
+        "FIR_002_R_Kumar.pdf",
+        "FIR_001_Ravi_Kumar.pdf",
+        "CDR_Analysis_March2024.pdf",
+        "CDR_Analysis_March2024.csv",
+        "FIR_003_R_Kumar.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "red",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 1
     },
-    "org:50fa14ba": {
-      "id": "org:50fa14ba",
-      "type": "ORG",
-      "value": "Apex Holdings\nAccount Number",
-      "confidence": 0.85,
+    "phone:a00688a3": {
+      "id": "phone:a00688a3",
+      "type": "PHONE",
+      "value": "+919998887776",
+      "confidence": 0.9,
+      "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
-        "BankStatement_Apex_Holdings_2.pdf"
+        "FIR_001_Faisal_Khan.pdf",
+        "CDR_Analysis_001.pdf",
+        "CDR_Analysis_001.csv",
+        "FIR_002_Faisal_Khan.pdf",
+        "FIR_004_Priya_Sharma.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "red",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 1
     },
-    "org:c4787145": {
-      "id": "org:c4787145",
-      "type": "ORG",
-      "value": "National Bank of #",
-      "confidence": 0.85,
+    "vehicle:f2fbb2f6": {
+      "id": "vehicle:f2fbb2f6",
+      "type": "VEHICLE",
+      "value": "MH12AB1234",
+      "confidence": 0.9,
+      "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
-        "BankStatement_Apex_Holdings_2.pdf"
+        "FIR_001_Faisal_Khan.pdf",
+        "FIR_002_Faisal_Khan.pdf",
+        "FIR_002_R_Kumar.pdf",
+        "Surveillance_Report_001.txt",
+        "FIR_001_Ravi_Kumar.pdf"
       ],
-      "risk_color": "none"
+      "risk_color": "orange",
+      "status": "REVIEW_REQUIRED"
+    },
+    "org:61ef8cb5": {
+      "id": "org:61ef8cb5",
+      "type": "ORG",
+      "value": "FIR",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Faisal_Khan.pdf",
+        "FIR_002_Faisal_Khan.pdf",
+        "FIR_002_R_Kumar.pdf",
+        "FIR_001_Ravi_Kumar.pdf",
+        "FIR_003_R_Kumar.pdf",
+        "FIR_004_Priya_Sharma.pdf"
+      ],
+      "risk_color": "red",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 1
+    },
+    "phone:a8e02cb3": {
+      "id": "phone:a8e02cb3",
+      "type": "PHONE",
+      "value": "+918887776665",
+      "confidence": 0.9,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_Faisal_Khan.pdf",
+        "CDR_Analysis_001.pdf",
+        "CDR_Analysis_March2024.csv",
+        "CDR_Analysis_001.csv"
+      ],
+      "risk_color": "orange",
+      "status": "REVIEW_REQUIRED"
+    },
+    "phone:55ae7bd3": {
+      "id": "phone:55ae7bd3",
+      "type": "PHONE",
+      "value": "+917654321098",
+      "confidence": 0.9,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_Faisal_Khan.pdf",
+        "CDR_Analysis_March2024.pdf",
+        "CDR_Analysis_March2024.csv",
+        "CDR_Analysis_001.csv",
+        "FIR_004_Priya_Sharma.pdf"
+      ],
+      "risk_color": "red",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 1
+    },
+    "person:a62394ba": {
+      "id": "person:a62394ba",
+      "type": "PERSON",
+      "value": "Vehicle",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "FIR_002_R_Kumar.pdf"
+      ]
+    },
+    "phone:95d5509e": {
+      "id": "phone:95d5509e",
+      "type": "PHONE",
+      "value": "+918765432109",
+      "confidence": 0.9,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Ravi_Kumar.pdf",
+        "CDR_Analysis_March2024.pdf",
+        "Intel_Report_Amit.pdf",
+        "CDR_Analysis_March2024.csv",
+        "Intel_Report_Amit_Singh.pdf"
+      ],
+      "status": "REVIEW_REQUIRED",
+      "risk_color": "red",
+      "historical_firs": 1
     },
     "org:a7c07c28": {
       "id": "org:a7c07c28",
       "type": "ORG",
       "value": "INR",
       "confidence": 0.85,
+      "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
@@ -53,6 +167,7 @@
       "type": "ORG",
       "value": "Shell Corp",
       "confidence": 0.85,
+      "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
@@ -60,29 +175,87 @@
       ],
       "risk_color": "none"
     },
-    "phone:a8e02cb3": {
-      "id": "phone:a8e02cb3",
-      "type": "PHONE",
-      "value": "+918887776665",
-      "confidence": 0.9,
+    "org:59339f45": {
+      "id": "org:59339f45",
+      "type": "ORG",
+      "value": "Bank: National Bank of India\nSummary",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
-        "CDR_Analysis_001.pdf",
-        "FIR_002_Faisal_Khan.pdf"
+        "BankStatement_Apex_Holdings_1.pdf"
+      ]
+    },
+    "person:dde8bef7": {
+      "id": "person:dde8bef7",
+      "type": "PERSON",
+      "value": "Transfer",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "BankStatement_Apex_Holdings_2.pdf"
+      ]
+    },
+    "org:50fa14ba": {
+      "id": "org:50fa14ba",
+      "type": "ORG",
+      "value": "Apex Holdings\nAccount Number",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_Apex_Holdings_2.pdf"
+      ]
+    },
+    "org:c4787145": {
+      "id": "org:c4787145",
+      "type": "ORG",
+      "value": "National Bank of #",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_Apex_Holdings_2.pdf"
       ],
       "risk_color": "none"
     },
-    "phone:a00688a3": {
-      "id": "phone:a00688a3",
-      "type": "PHONE",
-      "value": "+919998887776",
+    "person:8f3036f8": {
+      "id": "person:8f3036f8",
+      "type": "PERSON",
+      "value": "Ravi K.",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_March2024.pdf"
+      ]
+    },
+    "fir:e9da98ed": {
+      "id": "fir:e9da98ed",
+      "type": "FIR",
+      "value": "FIR 001",
       "confidence": 0.9,
+      "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
-        "CDR_Analysis_001.pdf",
-        "FIR_001_Faisal_Khan.pdf"
+        "CDR_Analysis_March2024.pdf"
       ],
       "risk_color": "none"
     },
@@ -91,11 +264,12 @@
       "type": "ORG",
       "value": "CALL DATA RECORD",
       "confidence": 0.85,
+      "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
-        "CDR_Analysis_001.pdf",
-        "CDR_Analysis_March2024.pdf"
+        "CDR_Analysis_March2024.pdf",
+        "CDR_Analysis_001.pdf"
       ],
       "risk_color": "none"
     },
@@ -104,95 +278,13 @@
       "type": "ORG",
       "value": "CDR",
       "confidence": 0.85,
+      "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
+        "CDR_Analysis_March2024.pdf",
         "CDR_Analysis_001.pdf",
-        "CDR_Analysis_March2024.pdf"
-      ],
-      "risk_color": "none"
-    },
-    "phone:f3a47ce5": {
-      "id": "phone:f3a47ce5",
-      "type": "PHONE",
-      "value": "+919876543210",
-      "confidence": 0.9,
-      "attributes": {},
-      "aliases": [],
-      "source_files": [
-        "CDR_Analysis_March2024.pdf",
-        "FIR_001_Faisal_Khan.pdf",
-        "FIR_001_Ravi_Kumar.pdf",
-        "FIR_002_R_Kumar.pdf"
-      ],
-      "risk_color": "none"
-    },
-    "phone:95d5509e": {
-      "id": "phone:95d5509e",
-      "type": "PHONE",
-      "value": "+918765432109",
-      "confidence": 0.9,
-      "attributes": {},
-      "aliases": [],
-      "source_files": [
-        "CDR_Analysis_March2024.pdf",
-        "FIR_001_Ravi_Kumar.pdf",
-        "Intel_Report_Amit.pdf"
-      ],
-      "risk_color": "none"
-    },
-    "phone:55ae7bd3": {
-      "id": "phone:55ae7bd3",
-      "type": "PHONE",
-      "value": "+917654321098",
-      "confidence": 0.9,
-      "attributes": {},
-      "aliases": [],
-      "source_files": [
-        "CDR_Analysis_March2024.pdf",
-        "FIR_002_Faisal_Khan.pdf"
-      ],
-      "risk_color": "none"
-    },
-    "fir:e9da98ed": {
-      "id": "fir:e9da98ed",
-      "type": "FIR",
-      "value": "FIR 001",
-      "confidence": 0.9,
-      "attributes": {},
-      "aliases": [],
-      "source_files": [
-        "CDR_Analysis_March2024.pdf"
-      ],
-      "risk_color": "none"
-    },
-    "vehicle:f2fbb2f6": {
-      "id": "vehicle:f2fbb2f6",
-      "type": "VEHICLE",
-      "value": "MH12AB1234",
-      "confidence": 0.9,
-      "attributes": {},
-      "aliases": [],
-      "source_files": [
-        "FIR_001_Faisal_Khan.pdf",
-        "FIR_002_Faisal_Khan.pdf",
-        "FIR_002_R_Kumar.pdf",
-        "test.txt"
-      ],
-      "risk_color": "none"
-    },
-    "org:61ef8cb5": {
-      "id": "org:61ef8cb5",
-      "type": "ORG",
-      "value": "FIR",
-      "confidence": 0.85,
-      "attributes": {},
-      "aliases": [],
-      "source_files": [
-        "FIR_001_Faisal_Khan.pdf",
-        "FIR_001_Ravi_Kumar.pdf",
-        "FIR_002_Faisal_Khan.pdf",
-        "FIR_002_R_Kumar.pdf"
+        "Surveillance_Report_001.txt"
       ],
       "risk_color": "none"
     },
@@ -201,6 +293,86 @@
       "type": "ORG",
       "value": "INTELLIGENCE REPORT - SUSPECT",
       "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Intel_Report_Amit.pdf",
+        "Intel_Report_Amit_Singh.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:c2419f87": {
+      "id": "org:c2419f87",
+      "type": "ORG",
+      "value": "Mumbai Subject",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_R_Kumar.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:7e1edb8c": {
+      "id": "org:7e1edb8c",
+      "type": "ORG",
+      "value": "Global Tech Solutions Account",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_GlobalTech.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:ce68ff1c": {
+      "id": "org:ce68ff1c",
+      "type": "ORG",
+      "value": "Apex Holdin%s",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_Apex_Holdings_1.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:8e1b9484": {
+      "id": "org:8e1b9484",
+      "type": "ORG",
+      "value": "Bank: National Bank of India Summary",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_Apex_Holdings_1.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:302972c0": {
+      "id": "org:302972c0",
+      "type": "ORG",
+      "value": "Apex Holdings Account",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_Apex_Holdings_2.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:70bf1aa7": {
+      "id": "org:70bf1aa7",
+      "type": "ORG",
+      "value": "INTELLIGENCE REPORT - SUSPECT PROFILING Subject",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
@@ -208,16 +380,365 @@
       ],
       "risk_color": "none"
     },
+    "person:a2dd3aca": {
+      "id": "person:a2dd3aca",
+      "type": "PERSON",
+      "value": "Jane Smith",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Faisal_Khan.pdf"
+      ]
+    },
+    "person:b41892b7": {
+      "id": "person:b41892b7",
+      "type": "PERSON",
+      "value": "Glob Tech",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "FIR_002_R_Kumar.pdf"
+      ]
+    },
+    "location:7d1550b8": {
+      "id": "location:7d1550b8",
+      "type": "LOCATION",
+      "value": "Delhi",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Ravi_Kumar.pdf"
+      ]
+    },
+    "person:24e25f38": {
+      "id": "person:24e25f38",
+      "type": "PERSON",
+      "value": "Trlnsfer to Ravi Kumar",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "BankStatement_GlobalTech.pdf"
+      ]
+    },
+    "person:658ae050": {
+      "id": "person:658ae050",
+      "type": "PERSON",
+      "value": "Timest@mp",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_001.pdf"
+      ]
+    },
+    "fir:c081a2ea": {
+      "id": "fir:c081a2ea",
+      "type": "FIR",
+      "value": "FIR-002",
+      "confidence": 0.9,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Surveillance_Report_001.txt"
+      ],
+      "risk_color": "red",
+      "status": "REVIEW_REQUIRED",
+      "historical_firs": 1
+    },
+    "org:1e4d119c": {
+      "id": "org:1e4d119c",
+      "type": "ORG",
+      "value": "Apex Holdings",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Surveillance_Report_001.txt",
+        "FIR_002_Faisal_Khan.pdf"
+      ],
+      "status": "REVIEW_REQUIRED",
+      "risk_color": "red",
+      "historical_firs": 1
+    },
+    "account:e78c1946": {
+      "id": "account:e78c1946",
+      "type": "ACCOUNT",
+      "value": "ACC-GLOBALTECH-1122334455",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Transactions_GlobalTech_March2024.csv"
+      ],
+      "status": "REVIEW_REQUIRED",
+      "risk_color": "orange"
+    },
+    "account:b6104c49": {
+      "id": "account:b6104c49",
+      "type": "ACCOUNT",
+      "value": "ACC-SHELLCORP-5544332211",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Transactions_GlobalTech_March2024.csv"
+      ],
+      "risk_color": "none"
+    },
+    "account:7feff3db": {
+      "id": "account:7feff3db",
+      "type": "ACCOUNT",
+      "value": "ACC-ASINGH-9988776655",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Transactions_GlobalTech_March2024.csv"
+      ],
+      "risk_color": "none"
+    },
+    "account:9a18cbbe": {
+      "id": "account:9a18cbbe",
+      "type": "ACCOUNT",
+      "value": "ACC-RKUMAR-3322114455",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Transactions_GlobalTech_March2024.csv"
+      ],
+      "risk_color": "none"
+    },
+    "account:2857d070": {
+      "id": "account:2857d070",
+      "type": "ACCOUNT",
+      "value": "ACC-APEXHOLDINGS-11223344",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Transactions_ApexHoldings_March2024.csv"
+      ],
+      "risk_color": "none"
+    },
+    "account:13568a7e": {
+      "id": "account:13568a7e",
+      "type": "ACCOUNT",
+      "value": "ACC-UNKNOWN-99001122",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Transactions_ApexHoldings_March2024.csv"
+      ],
+      "risk_color": "none"
+    },
+    "org:be6c7cdb": {
+      "id": "org:be6c7cdb",
+      "type": "ORG",
+      "value": "Global Tech Solutions",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Ravi_Kumar.pdf",
+        "FIR_003_R_Kumar.pdf",
+        "Intel_Report_Amit_Singh.pdf"
+      ],
+      "status": "REVIEW_REQUIRED",
+      "risk_color": "orange"
+    },
+    "fir:8fee2429": {
+      "id": "fir:8fee2429",
+      "type": "FIR",
+      "value": "FIR-001",
+      "confidence": 0.9,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_Faisal_Khan.pdf",
+        "FIR_003_R_Kumar.pdf"
+      ],
+      "status": "REVIEW_REQUIRED",
+      "risk_color": "red",
+      "historical_firs": 1
+    },
+    "person:fb074774": {
+      "id": "person:fb074774",
+      "type": "PERSON",
+      "value": "Bandra",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "FIR_004_Priya_Sharma.pdf"
+      ]
+    },
+    "person:22570597": {
+      "id": "person:22570597",
+      "type": "PERSON",
+      "value": "Vehicle MH12AB1234",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "Surveillance_Report_001.txt"
+      ]
+    },
+    "account:9260f889": {
+      "id": "account:9260f889",
+      "type": "ACCOUNT",
+      "value": "1122334455",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {
+        "display_name": "Global Tech Solutions"
+      },
+      "aliases": [],
+      "source_files": [
+        "BankStatement_GlobalTech.pdf"
+      ]
+    },
+    "account:4f9f10b3": {
+      "id": "account:4f9f10b3",
+      "type": "ACCOUNT",
+      "value": "11223344",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {
+        "display_name": "Apex Holdings"
+      },
+      "aliases": [],
+      "source_files": [
+        "BankStatement_ApexHoldings.pdf"
+      ]
+    },
+    "person:ee4a805f": {
+      "id": "person:ee4a805f",
+      "type": "PERSON",
+      "value": "Amit Singh",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Ravi_Kumar.pdf"
+      ]
+    },
+    "location:fb074774": {
+      "id": "location:fb074774",
+      "type": "LOCATION",
+      "value": "Bandra",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_004_Priya_Sharma.pdf"
+      ]
+    },
     "person:5b002c3b": {
       "id": "person:5b002c3b",
       "type": "PERSON",
       "value": "Faisal Khan",
       "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "Surveillance_Report_001.txt"
+      ]
+    },
+    "person:6cea57c2": {
+      "id": "person:6cea57c2",
+      "type": "PERSON",
+      "value": "John Doe",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "Surveillance_Report_001.txt"
+      ]
+    },
+    "location:ddd7f9c9": {
+      "id": "location:ddd7f9c9",
+      "type": "LOCATION",
+      "value": "Andheri West",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
-        "FIR_002_Faisal_Khan.pdf"
+        "Surveillance_Report_001.txt"
       ]
     }
-  }
+  },
+  "schema_version": "1.1"
 }

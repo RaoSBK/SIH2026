@@ -77,104 +77,133 @@ export class MLGraph {
   
   // Basic Circular Layout since ML nodes don't have x,y
   initLayout() {
-    const cx = 440;
-    const cy = 260;
+    if (!this.nodes || this.nodes.length === 0) return;
     
-    // Initial random placement
-    this.nodes.forEach((node, i) => {
-      node.x = cx + (Math.random() - 0.5) * 200;
-      node.y = cy + (Math.random() - 0.5) * 200;
-      node.vx = 0;
-      node.vy = 0;
+    const width = 2400;
+    const height = 1800;
+
+    // Use D3 for live force layout instead of static iteration
+    this.simulation = d3.forceSimulation(this.nodes)
+      .force("link", d3.forceLink(this.links).id(d => d.id).distance(380).strength(0.5))
+      .force("charge", d3.forceManyBody().strength(-5000))
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("x", d3.forceX(width / 2).strength(0.03))
+      .force("y", d3.forceY(height / 2).strength(0.03))
+      .force("collide", d3.forceCollide().radius(n => 60 + Math.min((this.degree[n.id] || 0) * 8, 80)).strength(1))
+      .on("tick", () => this.ticked());
+  }
+
+  ticked() {
+    this.nodes.forEach(n => {
+       const g = this.nodeGroups[n.id];
+       if (g) {
+          g.setAttribute('transform', `translate(${n.x},${n.y}) scale(1)`);
+       }
     });
-
-    // Simple Force Directed Layout (Fruchterman-Reingold inspired)
-    const iterations = 80;
-    const area = 600 * 400;
-    const k = Math.sqrt(area / this.nodes.length) * 0.8;
-    const repulse = (dist) => (k * k) / dist;
-    const attract = (dist) => (dist * dist) / k;
     
-    let temp = cx * 0.15; // Initial temperature
+    this.links.forEach(e => {
+       if (e._el) {
+          e._el.setAttribute('x1', e.source.x);
+          e._el.setAttribute('y1', e.source.y);
+          e._el.setAttribute('x2', e.target.x);
+          e._el.setAttribute('y2', e.target.y);
+          
+          if (e._label) {
+             const dx = e.target.x - e.source.x;
+             const dy = e.target.y - e.source.y;
+             const len = Math.hypot(dx, dy) || 1;
+             // Only show label if the edge is long enough to fit text cleanly
+             if (len < 80) {
+               e._label.style.display = 'none';
+             } else {
+               e._label.style.display = '';
+               // Perpendicular offset: shift the label 14px to the side of the line
+               const px = -dy / len * 14;
+               const py =  dx / len * 14;
+               const mx = (e.source.x + e.target.x) / 2 + px;
+               const my = (e.source.y + e.target.y) / 2 + py;
+               e._label.setAttribute('x', mx);
+               e._label.setAttribute('y', my);
+             }
+          }
+       }
+    });
+  }
 
-    for (let iter = 0; iter < iterations; iter++) {
-      // Repulsion
-      for (let i = 0; i < this.nodes.length; i++) {
-        const u = this.nodes[i];
-        u.dx = 0; u.dy = 0;
-        for (let j = 0; j < this.nodes.length; j++) {
-          if (i === j) continue;
-          const v = this.nodes[j];
-          let dx = u.x - v.x;
-          let dy = u.y - v.y;
-          let dist = Math.sqrt(dx*dx + dy*dy) || 1;
-          const f = repulse(dist) * 1.5;
-          u.dx += (dx / dist) * f;
-          u.dy += (dy / dist) * f;
-        }
-      }
-      
-      // Attraction
-      this.links.forEach(link => {
-        const u = this.nodes.find(n => n.id === link.source);
-        const v = this.nodes.find(n => n.id === link.target);
-        if(!u || !v) return;
-        let dx = u.x - v.x;
-        let dy = u.y - v.y;
-        let dist = Math.sqrt(dx*dx + dy*dy) || 1;
-        const f = attract(dist) * 0.05;
-        const fx = (dx / dist) * f;
-        const fy = (dy / dist) * f;
-        u.dx -= fx; u.dy -= fy;
-        v.dx += fx; v.dy += fy;
-      });
-      
-      // Apply forces
-      this.nodes.forEach(u => {
-        let dx = u.dx;
-        let dy = u.dy;
-        let dist = Math.sqrt(dx*dx + dy*dy) || 1;
-        u.x += (dx / dist) * Math.min(dist, temp);
-        u.y += (dy / dist) * Math.min(dist, temp);
-        
-        // Push towards center slightly to keep it compact
-        u.x += (cx - u.x) * 0.01;
-        u.y += (cy - u.y) * 0.01;
-      });
-      
-      temp *= 0.95; // Cool down
-    }
+  dragstarted(event, d) {
+    if (!event.active) this.simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+  
+  dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+  
+  dragended(event, d) {
+    if (!event.active) this.simulation.alphaTarget(0);
+    // Keep d.fx / d.fy set — node stays pinned exactly where dropped.
+    // To unpin a node the user can double-click it (see dblclick handler below).
   }
 
   buildGraph() {
     this.viewport.innerHTML = ''; // clear
     
     // Render Edges
+    const SKIP_EDGE_TYPES = new Set(['MENTIONED_IN', 'MENTIONED_NEAR', 'EXTRACTED_FROM']);
     this.links.forEach(e => {
-      const a = this.nodes.find(n => n.id === e.source);
-      const b = this.nodes.find(n => n.id === e.target);
+      // Skip structural provenance edges — they create a messy spider web without adding
+      // investigative value. Investigators care about CALLED, HAS_PHONE, TRANSFERRED_TO etc.
+      if (SKIP_EDGE_TYPES.has(e.type)) { e._el = null; e._label = null; return; }
+
+      // D3 forceLink mutates e.source and e.target into node object references
+      const a = typeof e.source === 'object' ? e.source : this.nodes.find(n => n.id === e.source);
+      const b = typeof e.target === 'object' ? e.target : this.nodes.find(n => n.id === e.target);
       if (!a || !b) return;
       
-      const lineClass = 'edge ' + (e.line_type === 'dotted' ? 'dotted' : 'solid');
+      // Dotted = low-confidence/suggested (e.g. NLP-inferred, needs investigator confirmation)
+      // Solid  = confirmed/deterministic (e.g. CDR row, financial transaction, FIR record)
+      const isUncertain = (e.confidence != null && e.confidence < 0.6) ||
+                          (typeof e.status === 'string' && e.status.includes('suggested'));
+      const lineClass = 'edge ' + (isUncertain ? 'dotted' : 'solid');
       const line = this.el('line', {x1: a.x, y1: a.y, x2: b.x, y2: b.y, class: lineClass});
       
-      // Override stroke color to match screenshot
-      line.style.stroke = '#F97316'; // Orange links
-      
-      const len = Math.hypot(b.x - a.x, b.y - a.y);
-      line.style.strokeDasharray = e.line_type === 'dotted' ? '4 4' : len;
-      if (e.line_type !== 'dotted') {
-         line.style.strokeDashoffset = len;
+      // Solid edges: strong orange. Dotted edges: thin, muted, light to signal uncertainty
+      if (isUncertain) {
+        line.setAttribute('stroke', '#fdba74');       // pale orange
+        line.setAttribute('stroke-width', '1');
+        line.setAttribute('stroke-dasharray', '5 5');
+        line.setAttribute('opacity', '0.5');
+      } else {
+        line.setAttribute('stroke', '#c2410c');       // strong dark orange
+        line.setAttribute('stroke-width', '2');
+        line.setAttribute('opacity', '0.9');
       }
       this.viewport.appendChild(line);
       e._el = line;
       
       const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
-      const t = this.el('text', {x: mx, y: my - 4, class: 'edge-label', 'text-anchor': 'middle'});
-      t.textContent = e.type || (e.confidence ? (e.confidence * 100).toFixed(0) + '%' : 'LINK');
+      
+      // Suppress noisy high-frequency labels to reduce visual clutter
+      const noisyTypes = new Set(['MENTIONED_IN', 'MENTIONED_NEAR', 'EXTRACTED_FROM']);
+      const showLabel = !noisyTypes.has(e.type);
+      
+      const t = this.el('text', {
+         x: mx, y: my - 6, 
+         class: 'edge-label', 
+         'text-anchor': 'middle',
+         'paint-order': 'stroke fill',
+         'stroke': '#F8FAFC',
+         'stroke-width': '4px',
+         'stroke-linejoin': 'round'
+      });
+      t.textContent = showLabel ? (e.type || 'LINK') : '';
       t.style.opacity = 0;
-      t.style.fill = '#F97316'; // Orange edge label
-      t.style.fontWeight = '600';
+      t.style.fill = '#c2410c';
+      t.style.fontWeight = '700';
+      t.style.fontSize = '11px';
+      t.style.letterSpacing = '0.5px';
       this.viewport.appendChild(t);
       e._label = t;
     });
@@ -188,9 +217,11 @@ export class MLGraph {
     };
     
     this.nodes.forEach(n => {
-      const r = 14 + (this.degree[n.id] || 0) * 3;
+      // Cap the max size so highly connected nodes don't overlap everything
+      const r = 8 + Math.min((this.degree[n.id] || 0) * 1.5, 30);
       const statusClass = n.status === 'REVIEW_REQUIRED' ? ' REVIEW_REQUIRED' : '';
-      const g = this.el('g', {class: 'node' + statusClass, transform: `translate(${n.x},${n.y}) scale(0.4)`, 'data-id': n.id});
+      const orphanClass = (this.degree[n.id] || 0) === 0 ? ' orphan' : '';
+      const g = this.el('g', {class: 'node' + statusClass + orphanClass, transform: `translate(${n.x},${n.y}) scale(0.4)`, 'data-id': n.id});
       g.style.opacity = 0;
       
       const strokeColor = riskColors[n.risk_color] || '#0F766E'; // Teal for normal nodes
@@ -202,13 +233,29 @@ export class MLGraph {
       
       g.appendChild(this.el('circle', {class: 'body', r: r, fill: fillColor, stroke: strokeColor, 'stroke-width': 2}));
       
-      const label = this.el('text', {y: r + 15, 'text-anchor': 'middle'});
-      label.textContent = n.name || n.label || n.id;
+      // White background pill behind node name so edge lines don't obscure it
+      const labelBg = this.el('rect', {
+        rx: 4, ry: 4,
+        fill: 'rgba(248,250,252,0.92)',
+        x: -38, y: r + 4,
+        width: 76, height: 14
+      });
+      const label = this.el('text', {y: r + 15, 'text-anchor': 'middle', 'font-size': '10', 'font-weight': '600', fill: '#1e293b'});
+      label.textContent = (n.name || n.value || n.id || '').slice(0, 14);
       
-      const sub = this.el('text', {class: 'sub', y: r + 27, 'text-anchor': 'middle'});
-      sub.textContent = n.type || (n.historical_firs > 0 ? `${n.historical_firs} FIRs` : 'Clean');
+      // Sub-label (type) with own background
+      const subBg = this.el('rect', {
+        rx: 3, ry: 3,
+        fill: 'rgba(248,250,252,0.85)',
+        x: -22, y: r + 18,
+        width: 44, height: 12
+      });
+      const sub = this.el('text', {class: 'sub', y: r + 28, 'text-anchor': 'middle', 'font-size': '8.5', fill: '#64748b'});
+      sub.textContent = n.type || '';
       
+      g.appendChild(labelBg);
       g.appendChild(label);
+      g.appendChild(subBg);
       g.appendChild(sub);
       
       g.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); });
@@ -217,6 +264,21 @@ export class MLGraph {
         if(this.onSelectNode) this.onSelectNode(n); 
         this.selectNodeUI(n.id);
       });
+      // Double-click releases the pin so node flows freely again
+      g.addEventListener('dblclick', (ev) => {
+        ev.stopPropagation();
+        n.fx = null;
+        n.fy = null;
+        this.simulation.alphaTarget(0.1).restart();
+        setTimeout(() => this.simulation.alphaTarget(0), 500);
+      });
+      
+      // Add D3 drag behavior
+      d3.select(g).call(d3.drag()
+        .on("start", (event) => this.dragstarted(event, n))
+        .on("drag", (event) => this.dragged(event, n))
+        .on("end", (event) => this.dragended(event, n))
+      );
       
       this.viewport.appendChild(g);
       this.nodeGroups[n.id] = g;
@@ -235,19 +297,16 @@ export class MLGraph {
     this.nodes.forEach(n => {
       const g = this.nodeGroups[n.id];
       setTimeout(() => {
-        g.style.transition = reduced ? 'opacity 200ms ease' : 'opacity 280ms ease, transform 480ms cubic-bezier(.2,.9,.3,1)';
+        g.style.transition = reduced ? 'opacity 200ms ease' : 'opacity 280ms ease'; // Removed transform transition to prevent fighting with D3
         g.style.opacity = 1;
         g.setAttribute('transform', `translate(${n.x},${n.y}) scale(1)`);
-      }, i * 80);
+      }, i * 10);
       i++;
     });
     
     this.links.forEach((e, idx) => {
       setTimeout(() => {
-        if (e.line_type !== 'dotted') {
-            e._el.style.transition = 'stroke-dashoffset 420ms ease-out';
-            e._el.style.strokeDashoffset = 0;
-        }
+        // Just fade in labels — no dashoffset animation needed anymore
         e._label.style.transition = 'opacity 300ms ease';
         e._label.style.opacity = 1;
       }, 260 + idx * 70);
