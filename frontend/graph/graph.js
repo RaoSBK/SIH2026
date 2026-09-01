@@ -77,6 +77,8 @@ export class MLGraph {
   
   // Basic Circular Layout since ML nodes don't have x,y
   initLayout() {
+    if (!this.nodes || this.nodes.length === 0) return;
+    
     const cx = 440;
     const cy = 260;
     
@@ -91,8 +93,8 @@ export class MLGraph {
     // Simple Force Directed Layout (Fruchterman-Reingold inspired)
     const iterations = 80;
     const area = 600 * 400;
-    const k = Math.sqrt(area / this.nodes.length) * 0.8;
-    const repulse = (dist) => (k * k) / dist;
+    const k = Math.sqrt(area / (this.nodes.length || 1)) * 0.8;
+    const repulse = (dist) => (k * k) / (dist || 0.1);
     const attract = (dist) => (dist * dist) / k;
     
     let temp = cx * 0.15; // Initial temperature

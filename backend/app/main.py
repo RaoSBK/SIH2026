@@ -21,9 +21,13 @@ app.add_middleware(
 def read_root():
     return {"status": "ok", "service": "CIAS ML Backend"}
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 @app.post("/api/process-evidence")
 async def process_evidence(files: List[UploadFile] = File(...)):
-    print(f"Received {len(files)} files for processing via ingestion layer.")
+    logger.info(f"Received {len(files)} files for processing via ingestion layer.")
 
     global_nodes = {}
     global_links = []
