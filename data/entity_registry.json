@@ -1,0 +1,223 @@
+{
+  "entities": {
+    "org:59339f45": {
+      "id": "org:59339f45",
+      "type": "ORG",
+      "value": "Bank: National Bank of India\nSummary",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_Apex_Holdings_1.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:50fa14ba": {
+      "id": "org:50fa14ba",
+      "type": "ORG",
+      "value": "Apex Holdings\nAccount Number",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_Apex_Holdings_2.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:c4787145": {
+      "id": "org:c4787145",
+      "type": "ORG",
+      "value": "National Bank of #",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_Apex_Holdings_2.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:a7c07c28": {
+      "id": "org:a7c07c28",
+      "type": "ORG",
+      "value": "INR",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_GlobalTech.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:54b2434c": {
+      "id": "org:54b2434c",
+      "type": "ORG",
+      "value": "Shell Corp",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_GlobalTech.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "phone:a8e02cb3": {
+      "id": "phone:a8e02cb3",
+      "type": "PHONE",
+      "value": "+918887776665",
+      "confidence": 0.9,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_001.pdf",
+        "FIR_002_Faisal_Khan.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "phone:a00688a3": {
+      "id": "phone:a00688a3",
+      "type": "PHONE",
+      "value": "+919998887776",
+      "confidence": 0.9,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_001.pdf",
+        "FIR_001_Faisal_Khan.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:04f968a5": {
+      "id": "org:04f968a5",
+      "type": "ORG",
+      "value": "CALL DATA RECORD",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_001.pdf",
+        "CDR_Analysis_March2024.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:3f5694c3": {
+      "id": "org:3f5694c3",
+      "type": "ORG",
+      "value": "CDR",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_001.pdf",
+        "CDR_Analysis_March2024.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "phone:f3a47ce5": {
+      "id": "phone:f3a47ce5",
+      "type": "PHONE",
+      "value": "+919876543210",
+      "confidence": 0.9,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_March2024.pdf",
+        "FIR_001_Faisal_Khan.pdf",
+        "FIR_001_Ravi_Kumar.pdf",
+        "FIR_002_R_Kumar.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "phone:95d5509e": {
+      "id": "phone:95d5509e",
+      "type": "PHONE",
+      "value": "+918765432109",
+      "confidence": 0.9,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_March2024.pdf",
+        "FIR_001_Ravi_Kumar.pdf",
+        "Intel_Report_Amit.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "phone:55ae7bd3": {
+      "id": "phone:55ae7bd3",
+      "type": "PHONE",
+      "value": "+917654321098",
+      "confidence": 0.9,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_March2024.pdf",
+        "FIR_002_Faisal_Khan.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "fir:e9da98ed": {
+      "id": "fir:e9da98ed",
+      "type": "FIR",
+      "value": "FIR 001",
+      "confidence": 0.9,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_March2024.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "vehicle:f2fbb2f6": {
+      "id": "vehicle:f2fbb2f6",
+      "type": "VEHICLE",
+      "value": "MH12AB1234",
+      "confidence": 0.9,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Faisal_Khan.pdf",
+        "FIR_002_Faisal_Khan.pdf",
+        "FIR_002_R_Kumar.pdf",
+        "test.txt"
+      ],
+      "risk_color": "none"
+    },
+    "org:61ef8cb5": {
+      "id": "org:61ef8cb5",
+      "type": "ORG",
+      "value": "FIR",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Faisal_Khan.pdf",
+        "FIR_001_Ravi_Kumar.pdf",
+        "FIR_002_Faisal_Khan.pdf",
+        "FIR_002_R_Kumar.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "org:16ae7b20": {
+      "id": "org:16ae7b20",
+      "type": "ORG",
+      "value": "INTELLIGENCE REPORT - SUSPECT",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Intel_Report_Amit.pdf"
+      ],
+      "risk_color": "none"
+    },
+    "person:5b002c3b": {
+      "id": "person:5b002c3b",
+      "type": "PERSON",
+      "value": "Faisal Khan",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_Faisal_Khan.pdf"
+      ]
+    }
+  }
+}

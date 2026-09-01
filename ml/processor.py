@@ -12,7 +12,12 @@ def get_nlp():
     global _nlp
     if _nlp is None:
         try:
-            _nlp = spacy.load("en_core_web_sm")
+            import os
+            if os.path.exists("ml/nlp/models/fine_tuned"):
+                print("Loading custom fine-tuned NER model...")
+                _nlp = spacy.load("ml/nlp/models/fine_tuned")
+            else:
+                _nlp = spacy.load("en_core_web_sm")
         except OSError:
             print("Downloading language model for the first time...")
             from spacy.cli import download

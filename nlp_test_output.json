@@ -1,0 +1,333 @@
+[
+  {
+    "document_id": "FIR-fir_1",
+    "entities": [
+      {
+        "id": "E1",
+        "text": "CASE-001",
+        "type": "CASE_ID",
+        "span": [
+          9,
+          17
+        ]
+      },
+      {
+        "id": "E3",
+        "text": "2026-08-25",
+        "type": "DATE",
+        "span": [
+          30,
+          40
+        ]
+      },
+      {
+        "id": "E4",
+        "text": "Subject Raj S.",
+        "type": "PERSON",
+        "span": [
+          81,
+          95
+        ]
+      },
+      {
+        "id": "E5",
+        "text": "MH12PQ3343",
+        "type": "VEHICLE",
+        "span": [
+          161,
+          171
+        ]
+      },
+      {
+        "id": "E6",
+        "text": "Subject P. Mehta",
+        "type": "PERSON",
+        "span": [
+          200,
+          216
+        ]
+      },
+      {
+        "id": "E7",
+        "text": "MH12XY8645",
+        "type": "VEHICLE",
+        "span": [
+          282,
+          292
+        ]
+      },
+      {
+        "id": "E8",
+        "text": "Location_1",
+        "type": "LOCATION",
+        "span": [
+          308,
+          318
+        ]
+      },
+      {
+        "id": "E9",
+        "text": "Subject Neha K.",
+        "type": "PERSON",
+        "span": [
+          320,
+          335
+        ]
+      },
+      {
+        "id": "E10",
+        "text": "MH12PQ7777",
+        "type": "VEHICLE",
+        "span": [
+          401,
+          411
+        ]
+      },
+      {
+        "id": "E11",
+        "text": "Subject S. Joshi",
+        "type": "PERSON",
+        "span": [
+          439,
+          455
+        ]
+      },
+      {
+        "id": "E12",
+        "text": "MH12XY5809",
+        "type": "VEHICLE",
+        "span": [
+          521,
+          531
+        ]
+      },
+      {
+        "id": "E13",
+        "text": "Location_8",
+        "type": "LOCATION",
+        "span": [
+          547,
+          557
+        ]
+      },
+      {
+        "id": "E14",
+        "text": "9273883328",
+        "type": "PHONE",
+        "span": [
+          574,
+          584
+        ]
+      }
+    ],
+    "relations": []
+  },
+  {
+    "document_id": "FIR-fir_10",
+    "entities": [
+      {
+        "id": "E1",
+        "text": "CASE-005",
+        "type": "CASE_ID",
+        "span": [
+          9,
+          17
+        ]
+      },
+      {
+        "id": "E3",
+        "text": "2026-07-13",
+        "type": "DATE",
+        "span": [
+          30,
+          40
+        ]
+      },
+      {
+        "id": "E4",
+        "text": "Subject V. Kumar",
+        "type": "PERSON",
+        "span": [
+          81,
+          97
+        ]
+      },
+      {
+        "id": "E5",
+        "text": "Location_9",
+        "type": "LOCATION",
+        "span": [
+          168,
+          178
+        ]
+      },
+      {
+        "id": "E6",
+        "text": "Subject S. Rao",
+        "type": "PERSON",
+        "span": [
+          180,
+          194
+        ]
+      },
+      {
+        "id": "E7",
+        "text": "MH12PQ2757",
+        "type": "VEHICLE",
+        "span": [
+          260,
+          270
+        ]
+      },
+      {
+        "id": "E8",
+        "text": "Subject N. Reddy",
+        "type": "PERSON",
+        "span": [
+          299,
+          315
+        ]
+      },
+      {
+        "id": "E9",
+        "text": "9636576237",
+        "type": "PHONE",
+        "span": [
+          413,
+          423
+        ]
+      }
+    ],
+    "relations": []
+  },
+  {
+    "document_id": "SURVEILLANCE-report_1",
+    "entities": [
+      {
+        "id": "E1",
+        "text": "Subject",
+        "type": "PERSON",
+        "span": [
+          0,
+          7
+        ]
+      },
+      {
+        "id": "E2",
+        "text": "Arun M..",
+        "type": "ORG",
+        "span": [
+          48,
+          56
+        ]
+      },
+      {
+        "id": "E3",
+        "text": "Subject",
+        "type": "PERSON",
+        "span": [
+          57,
+          64
+        ]
+      },
+      {
+        "id": "E4",
+        "text": "Vikram Das",
+        "type": "PERSON",
+        "span": [
+          79,
+          89
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "subject": "E1",
+        "predicate": "ASSOCIATED_WITH",
+        "object": "E2",
+        "confidence": 0.7
+      },
+      {
+        "subject": "E1",
+        "predicate": "IN_CONTACT_WITH",
+        "object": "E3",
+        "confidence": 0.6
+      },
+      {
+        "subject": "E1",
+        "predicate": "IN_CONTACT_WITH",
+        "object": "E4",
+        "confidence": 0.6
+      },
+      {
+        "subject": "E3",
+        "predicate": "ASSOCIATED_WITH",
+        "object": "E2",
+        "confidence": 0.7
+      },
+      {
+        "subject": "E4",
+        "predicate": "ASSOCIATED_WITH",
+        "object": "E2",
+        "confidence": 0.7
+      },
+      {
+        "subject": "E3",
+        "predicate": "IN_CONTACT_WITH",
+        "object": "E4",
+        "confidence": 0.6
+      }
+    ]
+  },
+  {
+    "document_id": "SURVEILLANCE-report_10",
+    "entities": [
+      {
+        "id": "E1",
+        "text": "Subject",
+        "type": "PERSON",
+        "span": [
+          0,
+          7
+        ]
+      },
+      {
+        "id": "E2",
+        "text": "POOJA DESHMUKH",
+        "type": "ORG",
+        "span": [
+          48,
+          62
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "subject": "E1",
+        "predicate": "ASSOCIATED_WITH",
+        "object": "E2",
+        "confidence": 0.7
+      }
+    ]
+  },
+  {
+    "document_id": "INTELLIGENCE-note_1",
+    "entities": [
+      {
+        "id": "E1",
+        "text": "Location_5",
+        "type": "PERSON",
+        "span": [
+          77,
+          87
+        ]
+      }
+    ],
+    "relations": []
+  },
+  {
+    "document_id": "INTELLIGENCE-note_10",
+    "entities": [],
+    "relations": []
+  }
+]

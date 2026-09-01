@@ -77,6 +77,23 @@ async def process_evidence(files: List[UploadFile] = File(...)):
             seen.add(h)
             unique_links.append(l)
 
+    # Anomaly Detection: Flag nodes with suspicious levels of connectivity
+    degrees = {n_id: 0 for n_id in global_nodes}
+    for l in unique_links:
+        if l['source'] in degrees: degrees[l['source']] += 1
+        if l['target'] in degrees: degrees[l['target']] += 1
+        
+    for n_id, n in global_nodes.items():
+        if degrees[n_id] >= 3:
+            n['status'] = 'REVIEW_REQUIRED'
+            n['risk_color'] = 'orange'
+        else:
+            n['risk_color'] = 'none'
+            
+        if degrees[n_id] >= 5:
+            n['risk_color'] = 'red'
+            n['historical_firs'] = 1
+
     return {
         "nodes": list(global_nodes.values()),
         "links": unique_links,

@@ -285,7 +285,7 @@
     </section>
 
     <section class="graph-wrap">
-      <div class="graph-caption"><strong id="graphCount">6</strong>&nbsp;of&nbsp;438 entities shown &middot; flagged subnetwork</div>
+      <div class="graph-caption"><strong id="graphCount">0</strong>&nbsp;entities shown &middot; flagged subnetwork</div>
       <svg id="graph" viewBox="0 0 880 520" preserveAspectRatio="xMidYMid meet">
         <g id="viewport"></g>
       </svg>
@@ -352,6 +352,39 @@
   let degree = {};
   let mlGraph = null;
 
+  const DEMO_NODES = [
+    {id:'ravi', name:'Ravi Kumar', type:'Person', x:180, y:170, status:'CLEAR'},
+    {id:'phone', name:'9876543210', type:'Phone', x:160, y:280, status:'CLEAR'},
+    {id:'vehicle', name:'MH 12 AB 1234', type:'Vehicle', x:60, y:220, status:'CLEAR'},
+    {id:'loc', name:'Hyderabad', type:'Location', x:430, y:420, status:'CLEAR'},
+    {id:'ahmed', name:'Ahmed Sheikh', type:'Person', x:520, y:140, status:'REVIEW_REQUIRED', flagged:true, risk_color:'orange'},
+    {id:'acc1', name:'A/C ••4521', type:'Account', x:540, y:280, status:'CLEAR'},
+    {id:'org', name:'Crescent Traders', type:'Organization', x:700, y:90, status:'CLEAR'},
+    {id:'acc2', name:'A/C ••7788', type:'Account', x:730, y:360, status:'REVIEW_REQUIRED', flagged:true, risk_color:'red'},
+    {id:'faisal', name:'Faisal Khan', type:'Person', x:800, y:460, status:'CLEAR'}
+  ];
+
+  const DEMO_EDGES = [
+    {source:'ravi', target:'phone', type:'USES'},
+    {source:'ravi', target:'vehicle', type:'DRIVES'},
+    {source:'ravi', target:'ahmed', type:'CALLED', flagged:true},
+    {source:'ravi', target:'loc', type:'VISITED'},
+    {source:'faisal', target:'loc', type:'VISITED'},
+    {source:'ahmed', target:'acc1', type:'OWNS'},
+    {source:'ahmed', target:'org', type:'MEMBER_OF'},
+    {source:'acc1', target:'acc2', type:'TRANSFERRED ₹2.4L', flagged:true},
+    {source:'acc2', target:'faisal', type:'OWNED_BY'}
+  ];
+
+  function loadDemoGraph() {
+    NODES = DEMO_NODES.map(node => ({ ...node, label: node.name }));
+    EDGES = DEMO_EDGES.map(edge => ({ ...edge, line_type: edge.flagged ? 'dotted' : 'solid' }));
+    degree = {};
+    NODES.forEach(n => degree[n.id] = 0);
+    EDGES.forEach(e => { degree[e.source] = (degree[e.source] || 0) + 1; degree[e.target] = (degree[e.target] || 0) + 1; });
+    document.getElementById('graphCount').textContent = NODES.length;
+  }
+
   /* ---------------- Stepper ---------------- */
   const stepperEl = document.getElementById('stepper');
   PIPELINE.forEach((name,i)=>{
@@ -398,11 +431,12 @@
               if (lowerName.includes('fir')) tag = 'FIR';
               else if (lowerName.includes('cdr')) tag = 'CDR';
               else if (lowerName.includes('txn') || lowerName.includes('transaction')) tag = 'TXN';
-              
+
               SOURCES.push({
                   id: 'src_' + Math.random().toString(36).substr(2, 9),
                   name: file.name,
-                  tag: tag
+                  tag: tag,
+                  file: file
               });
           });
           renderSources();
@@ -542,43 +576,57 @@
     
     const fileInput = document.getElementById('fileUpload');
     const formData = new FormData();
-    // Since we cleared the input previously, we should have stored the files
-    // But since this is a demo, let's assume the user just selected them
-    // Wait, earlier I cleared the input. I should NOT clear the input in the change handler!
-    // Or I need to store the actual File objects in SOURCES.
-    
-    // Let's modify SOURCES to store the File object when uploaded.
+    const uploadedFiles = [];
+
     if (fileInput && fileInput.files.length > 0) {
         for (let i = 0; i < fileInput.files.length; i++) {
-            formData.append('files', fileInput.files[i]);
+            const file = fileInput.files[i];
+            uploadedFiles.push(file);
+            formData.append('files', file);
         }
     } else {
-        // Fallback for mocked files if no actual input files
-        // (Just empty FormData)
+        SOURCES.filter(s => s.file).forEach(s => {
+            uploadedFiles.push(s.file);
+            formData.append('files', s.file);
+        });
     }
 
     try {
-       const res = await fetch('http://localhost:8000/api/process-evidence', {
-           method: 'POST',
-           body: formData
-       });
+       if (uploadedFiles.length === 0) {
+         loadDemoGraph();
+         mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
+         mlGraph.buildGraph();
+         log('No files uploaded. Loading demo graph for visualization.');
+       } else {
+         const res = await fetch('http://localhost:8000/api/process-evidence', {
+             method: 'POST',
+             body: formData
+         });
+         
+         if (!res.ok) throw new Error('API returned ' + res.status);
+         
+         const mlData = await res.json();
+         NODES = mlData.nodes || [];
+         EDGES = mlData.links || [];
+         if (!NODES.length) {
+           loadDemoGraph();
+           log('ML API returned no graph data, so the demo graph was loaded instead.');
+         }
+       }
        
-       if (!res.ok) throw new Error('API returned ' + res.status);
-       
-       const mlData = await res.json();
-       NODES = mlData.nodes || [];
-       EDGES = mlData.links || [];
-       
-       mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
-       mlGraph.buildGraph();
+       if (!mlGraph) {
+           mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
+           mlGraph.buildGraph();
+       }
        
        log(`Building knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
     } catch(e) {
-       log('<span style="color:red">Failed to load graph from ML API. Check backend logs.</span>');
+       log('<span style="color:red">Failed to load graph from ML API. Loading the fallback network instead.</span>');
        console.error(e);
-       runBtn.disabled = false; runBtn.textContent = 'Run pipeline';
-       hasRun = false;
-       return;
+       loadDemoGraph();
+       mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
+       mlGraph.buildGraph();
+       log(`Building fallback knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
     }
     await wait(550);
 
