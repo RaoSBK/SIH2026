@@ -651,13 +651,13 @@
     "location:fb074774": {
       "id": "location:fb074774",
       "type": "LOCATION",
-      "value": "Bandra",
+      "value": "Delhi",
       "confidence": 0.85,
       "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
-        "FIR_004_Priya_Sharma.pdf"
+        "FIR_001_Ravi_Kumar.pdf"
       ]
     },
     "aadhaar:5d5a70a2d78879834db3583f8d275582ece06eae78db0d400dda5a08957c6074": {
@@ -673,112 +673,17 @@
       "aliases": [],
       "source_files": [
         "BankStatement_GlobalTech.pdf"
-      ],
-      "risk_color": "none"
-    },
-    "aadhaar:b6a26ed0e429e954b926324b881077275e00b3bd5094ee75e5011e0a53aa2c2a": {
-      "id": "aadhaar:b6a26ed0e429e954b926324b881077275e00b3bd5094ee75e5011e0a53aa2c2a",
-      "type": "AADHAAR",
-      "value": "XXXX-XXXX-2109",
-      "confidence": 0.9,
-      "extraction_version": "1.1",
-      "attributes": {
-        "id_hash": "b6a26ed0e429e954b926324b881077275e00b3bd5094ee75e5011e0a53aa2c2a",
-        "display": "XXXX-XXXX-2109"
-      },
-      "aliases": [],
-      "source_files": [
-        "Intel_Report_Amit.pdf"
-      ],
-      "risk_color": "none"
-    },
-    "person:dde8bef7": {
-      "id": "person:dde8bef7",
-      "type": "PERSON",
-      "value": "Transfer",
-      "confidence": 0.85,
-      "extraction_version": "1.1",
-      "attributes": {
-        "case_id": "CASE-102",
-        "case_ids": [
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102"
-        ]
-      },
-      "aliases": [],
-      "source_files": [
-        "BankStatement_Apex_Holdings_2.pdf"
       ]
     },
-    "person:24e25f38": {
-      "id": "person:24e25f38",
+    "person:ed203a23": {
+      "id": "person:ed203a23",
       "type": "PERSON",
-      "value": "Trlnsfer to Ravi Kumar",
+      "value": "involv?ng Faisal Khan",
       "confidence": 0.85,
       "extraction_version": "1.1",
       "attributes": {
         "case_id": "CASE-102",
         "case_ids": [
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102"
-        ]
-      },
-      "aliases": [],
-      "source_files": [
-        "BankStatement_GlobalTech.pdf"
-      ]
-    },
-    "person:8f3036f8": {
-      "id": "person:8f3036f8",
-      "type": "PERSON",
-      "value": "Ravi K.",
-      "confidence": 0.85,
-      "extraction_version": "1.1",
-      "attributes": {
-        "case_id": "CASE-102",
-        "phones": [
-          "phone:f3a47ce5",
-          "phone:95d5509e",
-          "phone:f3a47ce5"
-        ],
-        "case_ids": [
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102"
-        ]
-      },
-      "aliases": [],
-      "source_files": [
-        "CDR_Analysis_March2024.pdf"
-      ]
-    },
-    "person:a2dd3aca": {
-      "id": "person:a2dd3aca",
-      "type": "PERSON",
-      "value": "Jane Smith",
-      "confidence": 0.85,
-      "extraction_version": "1.1",
-      "attributes": {
-        "case_id": "CASE-102",
-        "case_ids": [
-          "CASE-102",
-          "CASE-102",
           "CASE-102",
           "CASE-102",
           "CASE-102"
@@ -787,57 +692,6 @@
       "aliases": [],
       "source_files": [
         "FIR_001_Faisal_Khan.pdf"
-      ]
-    },
-    "person:ee4a805f": {
-      "id": "person:ee4a805f",
-      "type": "PERSON",
-      "value": "Amit Singh",
-      "confidence": 0.85,
-      "extraction_version": "1.1",
-      "attributes": {
-        "case_id": "CASE-102",
-        "case_ids": [
-          "CASE-102",
-          "CASE-102",
-          "CASE-102",
-          "CASE-102"
-        ]
-      },
-      "aliases": [],
-      "source_files": [
-        "FIR_001_Ravi_Kumar.pdf"
-      ]
-    },
-    "location:7d1550b8": {
-      "id": "location:7d1550b8",
-      "type": "LOCATION",
-      "value": "Delhi",
-      "confidence": 0.85,
-      "extraction_version": "1.1",
-      "attributes": {},
-      "aliases": [],
-      "source_files": [
-        "FIR_001_Ravi_Kumar.pdf"
-      ]
-    },
-    "person:5b002c3b": {
-      "id": "person:5b002c3b",
-      "type": "PERSON",
-      "value": "Faisal Khan",
-      "confidence": 0.85,
-      "extraction_version": "1.1",
-      "attributes": {
-        "case_id": "CASE-102",
-        "case_ids": [
-          "CASE-102",
-          "CASE-102",
-          "CASE-102"
-        ]
-      },
-      "aliases": [],
-      "source_files": [
-        "FIR_002_Faisal_Khan.pdf"
       ]
     },
     "person:6cea57c2": {
@@ -859,16 +713,15 @@
         "FIR_002_Faisal_Khan.pdf"
       ]
     },
-    "person:b41892b7": {
-      "id": "person:b41892b7",
+    "person:ba6aeb68": {
+      "id": "person:ba6aeb68",
       "type": "PERSON",
-      "value": "Glob Tech",
+      "value": "R. Kumar",
       "confidence": 0.85,
       "extraction_version": "1.1",
       "attributes": {
         "case_id": "CASE-102",
         "case_ids": [
-          "CASE-102",
           "CASE-102"
         ]
       },
@@ -877,16 +730,19 @@
         "FIR_002_R_Kumar.pdf"
       ]
     },
-    "location:ddd7f9c9": {
-      "id": "location:ddd7f9c9",
-      "type": "LOCATION",
-      "value": "Andheri West",
-      "confidence": 0.85,
+    "aadhaar:b6a26ed0e429e954b926324b881077275e00b3bd5094ee75e5011e0a53aa2c2a": {
+      "id": "aadhaar:b6a26ed0e429e954b926324b881077275e00b3bd5094ee75e5011e0a53aa2c2a",
+      "type": "AADHAAR",
+      "value": "XXXX-XXXX-2109",
+      "confidence": 0.9,
       "extraction_version": "1.1",
-      "attributes": {},
+      "attributes": {
+        "id_hash": "b6a26ed0e429e954b926324b881077275e00b3bd5094ee75e5011e0a53aa2c2a",
+        "display": "XXXX-XXXX-2109"
+      },
       "aliases": [],
       "source_files": [
-        "FIR_002_R_Kumar.pdf"
+        "Intel_Report_Amit.pdf"
       ]
     }
   },

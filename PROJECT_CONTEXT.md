@@ -3,28 +3,28 @@
 Last verified: 2026-09-04
 
 ## What CIAS is
-CIAS (Criminal Intelligence Analysis System / VERITAS) is a FastAPI-based web application and single-page HTML/D3.js visualization console for crime investigation data processing. It ingests unstructured case documents (PDF, DOCX, CSV, JSON, TXT), extracts entities (persons, phone numbers, vehicles, locations, events) and relationships via spaCy and regular expressions, deduplicates entities into a unified graph stored in Neo4j, runs ML anomaly detection (Isolation Forest & network rules), and renders an interactive force-directed graph canvas alongside investigator review queues.
+CIAS (Criminal Intelligence Analysis System / VERITAS) is a FastAPI-based web application and single-page HTML/D3.js visualization console for crime investigation data processing. It ingests unstructured case documents (PDF, DOCX, CSV, JSON, TXT), extracts entities (persons, phone numbers, vehicles, locations, events) and relationships via spaCy and regular expressions, deduplicates entities into a unified graph stored in Neo4j, and renders an interactive force-directed graph canvas alongside investigator review queues.
 
 ## What's actually working end-to-end today
 - **Multi-Format Document Ingestion**: Uploading PDF, DOCX, CSV, JSON, and TXT files via `POST /api/process-evidence` in [`backend/app/main.py`](file:///d:/SIH2026/backend/app/main.py#L75-L156). File handling is dispatched via [`backend/app/ingestion/service.py`](file:///d:/SIH2026/backend/app/ingestion/service.py#L13-L116) to parsers in [`pdf_parser.py`](file:///d:/SIH2026/backend/app/ingestion/parsers/pdf_parser.py), [`docx_parser.py`](file:///d:/SIH2026/backend/app/ingestion/parsers/docx_parser.py), [`csv_parser.py`](file:///d:/SIH2026/backend/app/ingestion/parsers/csv_parser.py), [`json_parser.py`](file:///d:/SIH2026/backend/app/ingestion/parsers/json_parser.py), and [`txt_parser.py`](file:///d:/SIH2026/backend/app/ingestion/parsers/txt_parser.py).
 - **Rule-based & spaCy Entity Extraction**: Text entity recognition (Person, Phone, Vehicle, Location, Event) and relationship linkage implemented in [`backend/app/ingestion/ner.py`](file:///d:/SIH2026/backend/app/ingestion/ner.py#L1-L629).
 - **Multi-Signal Entity Resolution & Review Queueing**: Phonetic/fuzzy name matching, phone number merging, case-corroborated deduplication, and flagging ambiguous identity matches into `needs_review` structures in [`backend/app/ingestion/resolver.py`](file:///d:/SIH2026/backend/app/ingestion/resolver.py#L1-L694).
-- **ML & Rule-Based Anomaly Detection Engine**: Integrated Isolation Forest ML scoring ([`ml/anomaly/anomaly_ml.py`](file:///d:/SIH2026/ml/anomaly/anomaly_ml.py)) and network rule engine ([`ml/anomaly/anomaly_rules.py`](file:///d:/SIH2026/ml/anomaly/anomaly_rules.py)) executing directly inside `process_evidence()` in [`backend/app/main.py`](file:///d:/SIH2026/backend/app/main.py#L136-L160) to flag high-risk transaction spikes, communication spikes, and bridge nodes.
-- **Neo4j Graph Database Persistence & Live Node Merging**: Node and edge persistence with document provenance linkage (`:EXTRACTED_FROM`) and graph refactoring (`merge_nodes_in_neo4j`) using official Cypher driver queries in [`backend/app/database/neo4j.py`](file:///d:/SIH2026/backend/app/database/neo4j.py#L10-L170).
+- **Neo4j Graph Database Persistence**: Node and edge persistence with document provenance linkage (`:EXTRACTED_FROM`) using official Cypher driver queries in [`backend/app/database/neo4j.py`](file:///d:/SIH2026/backend/app/database/neo4j.py#L10-L126).
 - **FastAPI Backend API**: Live routes in [`backend/app/main.py`](file:///d:/SIH2026/backend/app/main.py):
   - `GET /` (root status check)
   - `GET /api/cases/{case_id}/graph` (queries Neo4j for nodes and edges linked to a case)
-  - `POST /api/process-evidence` (file upload, ingestion pipeline, ML anomaly engine, Neo4j write)
+  - `POST /api/process-evidence` (file upload and ingestion pipeline execution)
   - `GET /api/ingestion-audit` (reads JSON audit log)
   - `GET /api/needs-review` & `GET /api/review-queue` (lists pending entity disambiguation items)
   - `GET /api/filtered-edges` (lists audit trail of removed self-loops or conflicted edges)
-  - `POST /api/review-queue/{review_id}/resolve` (resolves or dismisses pending review items in local registry and refactors Neo4j graph nodes)
+  - `POST /api/review-queue/{review_id}/resolve` (resolves or dismisses pending review items in local registry)
 - **JSON File-Based Audit Logging**: Ingestion logs, filtered edge logs, and entity registry state persisted to local JSON files (`data/ingestion_audit.json`, `data/filtered_edges.json`, `data/entity_registry.json`) via [`backend/app/audit/logger.py`](file:///d:/SIH2026/backend/app/audit/logger.py#L28-L90).
 - **Single-Page HTML/D3.js Investigator Console**: Static frontend dashboard rendering graph visualizer, case metrics, file uploader, and review queue in [`frontend/index.html`](file:///d:/SIH2026/frontend/index.html) (838 lines) and [`frontend/graph/graph.js`](file:///d:/SIH2026/frontend/graph/graph.js) (also replicated at root [`index.html`](file:///d:/SIH2026/index.html)).
 
 ## What exists as real code but is NOT connected to the app
-- **`ml/processor.py`** (238 lines) & **`ml/nlp/cias_nlp.py`** (166 lines): Integrated into canonical live ingestion engine [`backend/app/ingestion/ner.py`](file:///d:/SIH2026/backend/app/ingestion/ner.py) and [`backend/app/ingestion/service.py`](file:///d:/SIH2026/backend/app/ingestion/service.py). OCR noise cleaning rules and syntactic dependency verb extraction are now active during document ingestion.
-- **`cias_er/` module** ([`clustering.py`](file:///d:/SIH2026/cias_er/clustering.py) [105 lines], [`matcher.py`](file:///d:/SIH2026/cias_er/matcher.py) [74 lines], [`pipeline.py`](file:///d:/SIH2026/cias_er/pipeline.py) [43 lines], [`process_dataset.py`](file:///d:/SIH2026/cias_er/process_dataset.py) [76 lines]): Consolidated into canonical live resolver [`backend/app/ingestion/resolver.py`](file:///d:/SIH2026/backend/app/ingestion/resolver.py). Jaro-Winkler name scoring, address token_set_ratio, and criminal history risk lookups are integrated while preserving multi-signal corroboration rules.
+- **`ml/processor.py`** (238 lines) & **`ml/nlp/cias_nlp.py`** (166 lines): Legacy standalone ML pipeline for spaCy NER, OCR noise cleaning, and RapidFuzz entity matching. Dropped during backend unification in commit `056c837` in favor of `backend/app/ingestion/`. *To wire in*: Replace calls in `backend/app/ingestion/service.py` to import `ml.processor` functions.
+- **`ml/anomaly/anomaly_ml.py`** (123 lines) & **`ml/anomaly/anomaly_rules.py`** (160 lines): Anomaly detection pipeline implementing Isolation Forest models and network rule scoring. Not called by `main.py` (which uses a basic connection-count heuristic on lines 135-149 of `main.py`). *To wire in*: Import `anomaly_ml` or `anomaly_rules` into `main.py` during graph post-processing.
+- **`cias_er/` module** ([`clustering.py`](file:///d:/SIH2026/cias_er/clustering.py) [105 lines], [`matcher.py`](file:///d:/SIH2026/cias_er/matcher.py) [74 lines], [`pipeline.py`](file:///d:/SIH2026/cias_er/pipeline.py) [43 lines], [`process_dataset.py`](file:///d:/SIH2026/cias_er/process_dataset.py) [76 lines]): Separate Python package for entity resolution using Jaro-Winkler scoring and agglomerative clustering. Has its own test (`cias_er/tests/test_pipeline.py`) but is not imported anywhere in `backend/app/`. *To wire in*: Replace `resolve_entities` in `backend/app/ingestion/resolver.py` with `cias_er.pipeline.resolve_entities`.
 - **`graph/generate_anomaly_data.py`** (115 lines), **`graph/generate_synthetic_data.py`** (195 lines), **`graph/validate_synthetic_data.py`** (165 lines): Offline synthetic graph generation and validation scripts. Not connected to FastAPI endpoints.
 - **`scripts/generate_evidence_pdfs.py`** (140 lines) & **`scripts/generate_training_data.py`** (103 lines): Standalone synthetic PDF and training data generators.
 
@@ -76,8 +76,16 @@ Three distinct entity resolution / NLP extraction implementations exist in the r
 
 ## Test & CI status
 - **Test File Inventory**: 27 test files exist across the workspace. 22 of 27 test files are 6-line empty stubs.
-- **Active Test Suites**: 4 active test files exist (`backend/tests/test_pipeline.py`, `cias_er/tests/test_pipeline.py`, `ml/anomaly/tests/test_anomalies.py`, `ml/nlp/tests/test_nlp.py`).
-- **Empirical Execution Result**: `python -m pytest` yields **18 passed, 0 failed** (100% pass rate).
+- **Active Test Suites**:
+  - [`backend/tests/test_pipeline.py`](file:///d:/SIH2026/backend/tests/test_pipeline.py) (285 lines, 15 tests)
+  - [`cias_er/tests/test_pipeline.py`](file:///d:/SIH2026/cias_er/tests/test_pipeline.py) (41 lines, 1 test)
+  - [`ml/anomaly/tests/test_anomalies.py`](file:///d:/SIH2026/ml/anomaly/tests/test_anomalies.py) (55 lines, 1 test)
+  - [`ml/nlp/tests/test_nlp.py`](file:///d:/SIH2026/ml/nlp/tests/test_nlp.py) (58 lines, 1 test)
+- **Empirical Execution Result**: `python -m pytest` yielded **9 passed, 9 failed**. Failures stem from:
+  - Refactored function names in `ner.py` (`_is_probable_name` moved/removed)
+  - Missing mock target in `resolver.py` (`log_filtered_edge`)
+  - RapidFuzz version mismatch in `cias_er/matcher.py` (`fuzz.jaro_winkler_similarity`)
+  - Extra trailing data in `ml/anomaly/tests/mock_graph.json`
 - **CI Status**: `.github/workflows/` files (`backend-tests.yml`, `build.yml`, `frontend-tests.yml`, `ml-tests.yml`) are 2-line empty stubs. CI does not execute on GitHub Actions.
 
 ## Known gaps vs. the pitched design
@@ -86,3 +94,4 @@ Three distinct entity resolution / NLP extraction implementations exist in the r
 - **Relational PostgreSQL Persistence**: `backend/app/database/postgres.py` is a stub. Ingestion audit logs, entity registries, and review queues are saved to flat JSON files (`data/ingestion_audit.json`, `data/entity_registry.json`).
 - **Authentication & RBAC**: `backend/app/auth/` (JWT, RBAC, ABAC) and `backend/app/users/` are 100% stubs. API routes in `main.py` are open without authentication or role verification.
 - **Modular FastAPI Router Architecture**: All active endpoints are defined directly inside `backend/app/main.py`. The modular router structure in `backend/app/api/` is entirely stubs.
+- **ML Anomaly Service**: `ml/anomaly/anomaly_ml.py` (Isolation Forest) is disconnected from the running app; `main.py` flags anomalies using a static node degree count threshold instead.

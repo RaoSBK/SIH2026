@@ -512,7 +512,7 @@
     "context": "Recommend continued surveillance and cross-reference with CDR data for the period 2024-03-12 to 2024-03-20.\n"
   },
   {
-    "timestamp": "2026-09-04T04:30:01.646618Z",
+    "timestamp": "2026-09-03T19:25:31.271041Z",
     "entity_value": "Andheri West\nSubject",
     "verdict": "rejected",
     "score": 0.0,
@@ -520,7 +520,7 @@
     "context": "\nDate: 2O24-03-22\nLocation: Andheri West\nSubject: Suspicious Activity Report\nDetail5:\n"
   },
   {
-    "timestamp": "2026-09-04T04:30:02.236121Z",
+    "timestamp": "2026-09-03T19:25:31.637318Z",
     "entity_value": "Vehicle",
     "verdict": "rejected",
     "score": 0.0,
@@ -528,35 +528,11 @@
     "context": "Vehicle seen near premises: MH-12 AB 1234.\n"
   },
   {
-    "timestamp": "2026-09-04T04:36:57.872906Z",
-    "entity_value": "Andheri West\nSubject",
+    "timestamp": "2026-09-04T03:22:48.668747Z",
+    "entity_value": "Andheri Station",
     "verdict": "rejected",
     "score": 0.0,
-    "source_doc": "investigator_upload",
-    "context": "\nDate: 2O24-03-22\nLocation: Andheri West\nSubject: Suspicious Activity Report\nDetail5:\n"
-  },
-  {
-    "timestamp": "2026-09-04T04:36:58.239881Z",
-    "entity_value": "Vehicle",
-    "verdict": "rejected",
-    "score": 0.0,
-    "source_doc": "investigator_upload",
-    "context": "Vehicle seen near premises: MH-12 AB 1234.\n"
-  },
-  {
-    "timestamp": "2026-09-04T04:37:42.508352Z",
-    "entity_value": "Subject Ravi Kumar",
-    "verdict": "rejected",
-    "score": 0.0,
-    "source_doc": "",
-    "context": "Subject Ravi Kumar visited Mumbai Police Station."
-  },
-  {
-    "timestamp": "2026-09-04T04:37:42.510363Z",
-    "entity_value": "Mumbai Police Station",
-    "verdict": "rejected",
-    "score": 0.0,
-    "source_doc": "",
-    "context": "Subject Ravi Kumar visited Mumbai Police Station."
+    "source_doc": "test",
+    "context": "\nFIR No. 145/2026\nOn 29-Aug-2026, accused Ravi Kumar met Farhan Sheikh at Andheri Station.\n"
   }
 ]
