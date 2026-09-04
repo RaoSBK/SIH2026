@@ -60,7 +60,7 @@
   @media (prefers-transparency: reduce){
     header.topbar{ background:var(--graphite); backdrop-filter:none; }
   }
-  .brand{ display:flex; align-items:baseline; gap:9px; }
+  .brand{ display:flex; align-items:center; gap:9px; }
   .brand .mark{
     width:9px; height:9px; border-radius:2px;
     background:var(--amber);
@@ -70,10 +70,46 @@
     margin:0; font-size:15px; font-weight:700;
     letter-spacing:0.14em; text-transform:uppercase;
   }
-  .brand .case{
-    font-size:12px; color:var(--text-faint);
-    letter-spacing:0.04em;
+  
+  .sidebar-toggle-btn{
+    width:28px; height:28px; border-radius:7px;
+    border:1px solid var(--hairline-strong);
+    background:#F9FAFB; color:var(--text-dim);
+    display:inline-flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:13px;
+    transition: background 150ms ease, transform 100ms ease;
+    margin-right:2px;
   }
+  .sidebar-toggle-btn:hover{ background:#F3F4F6; color:var(--text); }
+  .sidebar-toggle-btn:active{ transform:scale(0.95); }
+
+  .case-selector-wrap{ position:relative; display:inline-flex; align-items:center; }
+  .case-badge-btn{
+    font-family:ui-monospace, "SF Mono", "Menlo", monospace;
+    font-size:12px; color:var(--text);
+    background:rgba(0,0,0,0.04);
+    border:1px solid var(--hairline-strong);
+    border-radius:6px; padding:3px 8px;
+    cursor:pointer; display:flex; align-items:center; gap:5px;
+    transition: background 150ms ease;
+  }
+  .case-badge-btn:hover{ background:rgba(0,0,0,0.08); }
+  .case-dropdown{
+    position:absolute; top:calc(100% + 6px); left:0; z-index:60;
+    background:var(--paper); border:1px solid var(--hairline-strong);
+    border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    width:240px; padding:6px; display:none;
+  }
+  .case-dropdown.open{ display:block; animation:dropdown-in 160ms ease-out; }
+  @keyframes dropdown-in{ from{ opacity:0; transform:translateY(-4px); } to{ opacity:1; transform:translateY(0); } }
+  .case-item{
+    padding:8px 10px; border-radius:6px; cursor:pointer;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:12px; color:var(--text); transition:background 120ms ease;
+  }
+  .case-item:hover{ background:var(--graphite-2); }
+  .case-item.active{ background:var(--teal-dim); color:var(--teal); font-weight:600; }
+  .case-item .case-count{ font-size:10.5px; color:var(--text-faint); font-family:ui-monospace, monospace; }
 
   .stepper{ display:flex; align-items:center; gap:0; flex:1; overflow:hidden; }
   .step{
@@ -99,6 +135,10 @@
     flex:1; display:grid;
     grid-template-columns: 272px 1fr 340px;
     min-height:0;
+    transition: grid-template-columns 220ms cubic-bezier(.2,.9,.3,1);
+  }
+  main.layout.sidebar-collapsed{
+    grid-template-columns: 0px 1fr 340px;
   }
 
   .panel{
@@ -106,6 +146,10 @@
     padding:18px 16px;
     overflow-y:auto;
     min-height:0;
+    transition: opacity 180ms ease, padding 220ms ease;
+  }
+  main.layout.sidebar-collapsed .panel.left{
+    padding-left:0; padding-right:0; overflow:hidden; opacity:0; pointer-events:none; border-right:none;
   }
   .panel.right{ border-right:none; border-left:1px solid var(--hairline); }
 
@@ -303,9 +347,18 @@
 
   <header class="topbar">
     <div class="brand">
+      <button class="sidebar-toggle-btn" id="toggleSidebarBtn" title="Toggle Evidence Intake Sidebar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+      </button>
       <span class="mark"></span>
       <h1>Veritas</h1>
-      <span class="case mono">CASE-102</span>
+      <div class="case-selector-wrap">
+        <button class="case-badge-btn" id="caseSelectorBtn" title="Select or Switch Case">
+          <span id="currentCaseLabel">CASE-102</span>
+          <span style="font-size:9px;color:var(--text-faint);margin-left:2px;">▼</span>
+        </button>
+        <div class="case-dropdown" id="caseDropdown"></div>
+      </div>
     </div>
     <div class="stepper" id="stepper"></div>
   </header>
@@ -440,6 +493,127 @@
     EDGES.forEach(e => { degree[e.source] = (degree[e.source] || 0) + 1; degree[e.target] = (degree[e.target] || 0) + 1; });
     updateHeaderCounts();
   }
+
+  /* ---------------- Sidebar Show/Hide Toggle (Task 5) ---------------- */
+  const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+  const layoutEl = document.querySelector('main.layout');
+  if (toggleSidebarBtn && layoutEl) {
+    toggleSidebarBtn.addEventListener('click', () => {
+      layoutEl.classList.toggle('sidebar-collapsed');
+      setTimeout(() => {
+        if (mlGraph) mlGraph.fitGraphToScreen();
+      }, 250);
+    });
+  }
+
+  /* ---------------- Case History & Switcher (Task 6) ---------------- */
+  let CURRENT_CASE = 'CASE-102';
+  let KNOWN_CASES = [];
+
+  function saveCaseHistory(cases) {
+    try {
+      localStorage.setItem('cias_cases_history', JSON.stringify(cases));
+    } catch(e) {}
+  }
+
+  function loadLocalCaseHistory() {
+    try {
+      const stored = localStorage.getItem('cias_cases_history');
+      if (stored) return JSON.parse(stored);
+    } catch(e) {}
+    return [
+      {case_id: 'CASE-102', document_count: 5, files: ['FIR_002_Andheri.txt', 'CDR_Ravi_Jan2024.csv', 'Surveillance_Rep_03.txt', 'BankStatement_GlobalTech.csv', 'Interrogation_JohnDoe.txt']},
+      {case_id: 'CASE-101', document_count: 2, files: ['FIR_001_Bandra.txt', 'CDR_Suresh_Nov2023.csv']}
+    ];
+  }
+
+  async function fetchCases() {
+    try {
+      const res = await fetch('http://localhost:8000/api/cases');
+      if (res.ok) {
+        const data = await res.json();
+        KNOWN_CASES = data.cases || [];
+        saveCaseHistory(KNOWN_CASES);
+      } else {
+        KNOWN_CASES = loadLocalCaseHistory();
+      }
+    } catch(e) {
+      KNOWN_CASES = loadLocalCaseHistory();
+    }
+    renderCaseDropdown();
+  }
+
+  function renderCaseDropdown() {
+    const dropdown = document.getElementById('caseDropdown');
+    if (!dropdown) return;
+    dropdown.innerHTML = '';
+
+    KNOWN_CASES.forEach(c => {
+      const item = document.createElement('div');
+      item.className = 'case-item' + (c.case_id === CURRENT_CASE ? ' active' : '');
+      item.innerHTML = `
+        <span style="font-weight:600;">${c.case_id}</span>
+        <span class="case-count">${c.document_count || 0} doc(s)</span>
+      `;
+      item.addEventListener('click', () => {
+        switchCase(c.case_id);
+        dropdown.classList.remove('open');
+      });
+      dropdown.appendChild(item);
+    });
+  }
+
+  async function switchCase(newCaseId) {
+    CURRENT_CASE = newCaseId;
+    const label = document.getElementById('currentCaseLabel');
+    if (label) label.textContent = newCaseId;
+    renderCaseDropdown();
+
+    log(`Switching active case context to <b>${newCaseId}</b>...`);
+    try {
+      const res = await fetch(`http://localhost:8000/api/cases/${newCaseId}/graph`);
+      if (res.ok) {
+        const graphData = await res.json();
+        NODES = (graphData.nodes || []).map(n => ({
+          ...n,
+          name: n.name || n.value || n.label || n.id,
+          flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
+        }));
+        EDGES = graphData.links || graphData.edges || [];
+      }
+    } catch(e) {
+      console.warn(e);
+    }
+
+    if (!NODES.length) {
+      loadDemoGraph();
+    } else {
+      if (mlGraph) {
+        try { mlGraph.simulation && mlGraph.simulation.stop(); } catch(e) {}
+        mlGraph = null;
+      }
+      mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
+      mlGraph.buildGraph();
+      mlGraph.revealGraph();
+      updateHeaderCounts();
+    }
+  }
+
+  const caseSelectorBtn = document.getElementById('caseSelectorBtn');
+  const caseDropdown = document.getElementById('caseDropdown');
+  if (caseSelectorBtn && caseDropdown) {
+    caseSelectorBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      caseDropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', (e) => {
+      if (!caseDropdown.contains(e.target) && e.target !== caseSelectorBtn) {
+        caseDropdown.classList.remove('open');
+      }
+    });
+  }
+
+  fetchCases();
 
   /* ---------------- Stepper ---------------- */
   const stepperEl = document.getElementById('stepper');
@@ -845,7 +1019,7 @@
     const formData = new FormData();
     const uploadedFiles = [];
 
-    let caseId = 'CASE-102';
+    let caseId = CURRENT_CASE || 'CASE-102';
     
     SOURCES.filter(s => s.file).forEach(s => {
         uploadedFiles.push(s.file);
@@ -863,7 +1037,9 @@
             new File(["INTERROGATION SUMMARY\n\nAhmed Sheikh admitted that account ACC-AHMED-4521 belongs to him. Faisal Khan operates account ACC-FAISAL-7788."], "Interrogation_JohnDoe.txt", {type: "text/plain"}),
          ];
          demoFiles.forEach(f => formData.append('files', f));
-         caseId = 'CASE-' + Math.floor(Math.random() * 10000);
+         caseId = CURRENT_CASE || ('CASE-' + Math.floor(Math.random() * 10000));
+         formData.set('case_id', caseId);
+       } else {
          formData.set('case_id', caseId);
        }
        
@@ -875,6 +1051,8 @@
          if (!res.ok) throw new Error('API returned ' + res.status);
          
          const mlData = await res.json();
+         // Refresh cases history
+         fetchCases();
          // Capture needs_review items from this batch for the review queue UI
          const batchReview = mlData.needs_review || [];
          if (batchReview.length) {
