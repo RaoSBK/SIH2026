@@ -2998,5 +2998,105 @@
     "message": "Extracted 2 entities, 3 relationships. Shape: structured.",
     "entities_count": 2,
     "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-03T19:25:27.809527Z",
+    "file_name": "BankStatement_Apex_Holdings_1.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-03T19:25:28.759190Z",
+    "file_name": "BankStatement_Apex_Holdings_2.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 2 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 2,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-03T19:25:29.289245Z",
+    "file_name": "BankStatement_GlobalTech.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 5 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 5,
+    "new_nodes": 1
+  },
+  {
+    "timestamp": "2026-09-03T19:25:29.693722Z",
+    "file_name": "CDR_Analysis_001.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 3 entities, 1 relationships. Shape: unstructured.",
+    "entities_count": 3,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-03T19:25:30.171549Z",
+    "file_name": "CDR_Analysis_March2024.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 4 entities, 4 relationships. Shape: unstructured.",
+    "entities_count": 4,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-03T19:25:30.706653Z",
+    "file_name": "FIR_001_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 6 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 6,
+    "new_nodes": 2
+  },
+  {
+    "timestamp": "2026-09-03T19:25:31.188336Z",
+    "file_name": "FIR_001_Ravi_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 6 entities, 1 relationships. Shape: unstructured.",
+    "entities_count": 6,
+    "new_nodes": 1
+  },
+  {
+    "timestamp": "2026-09-03T19:25:31.550611Z",
+    "file_name": "FIR_002_Faisal_Khan.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 5 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 5,
+    "new_nodes": 1
+  },
+  {
+    "timestamp": "2026-09-03T19:25:32.052181Z",
+    "file_name": "FIR_002_R_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 6 entities, 4 relationships. Shape: unstructured.",
+    "entities_count": 6,
+    "new_nodes": 1
+  },
+  {
+    "timestamp": "2026-09-03T19:25:32.391920Z",
+    "file_name": "Intel_Report_Amit.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 4 entities, 5 relationships. Shape: unstructured.",
+    "entities_count": 4,
+    "new_nodes": 1
   }
 ]
