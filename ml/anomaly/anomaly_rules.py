@@ -32,17 +32,31 @@ def run_rule_engine(graph_data):
     neighbors_by_entity = defaultdict(set)
     
     for edge in edges:
-        source = edge["source"]
-        target = edge["target"]
-        timestamp = datetime.fromisoformat(edge["timestamp"])
+        source = edge.get("source")
+        target = edge.get("target")
+        if not source or not target:
+            continue
+
+        ts_val = edge.get("timestamp")
+        if ts_val:
+            try:
+                timestamp = datetime.fromisoformat(str(ts_val))
+            except Exception:
+                timestamp = datetime.now()
+        else:
+            timestamp = datetime.now()
         
         neighbors_by_entity[source].add(target)
         neighbors_by_entity[target].add(source)
         
-        if edge["type"] == "TRANSACTION":
-            tx_by_entity[source].append({"id": edge["id"], "amount": edge["amount"], "time": timestamp})
-        elif edge["type"] == "CALL":
-            call_by_entity[source].append({"id": edge["id"], "duration": edge["duration"], "time": timestamp})
+        edge_type = str(edge.get("type", "")).upper()
+        edge_id = edge.get("id", str(uuid.uuid4()))
+        if edge_type in ("TRANSACTION", "TRANSFERRED_TO"):
+            amount = float(edge.get("amount", edge.get("attributes", {}).get("amount", 1000)))
+            tx_by_entity[source].append({"id": edge_id, "amount": amount, "time": timestamp})
+        elif edge_type in ("CALL", "CALLED", "COMMUNICATED_WITH"):
+            duration = float(edge.get("duration", edge.get("attributes", {}).get("duration", 60)))
+            call_by_entity[source].append({"id": edge_id, "duration": duration, "time": timestamp})
             
     # Rule 1: Transaction Spike
     for entity, txs in tx_by_entity.items():

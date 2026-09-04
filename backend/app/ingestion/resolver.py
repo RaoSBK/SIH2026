@@ -49,6 +49,9 @@ from typing import Optional
 
 from rapidfuzz import fuzz
 
+from cias_er.matcher import calculate_name_score, calculate_address_score
+from cias_er.clustering import check_criminal_history
+
 # ── Registry file location (JSON-backed, replaced by Neo4j in Phase 2) ────────
 _REGISTRY_PATH = os.path.join(
     os.path.dirname(__file__), "../../../data/entity_registry.json"
@@ -155,6 +158,14 @@ class EntityRegistry:
             stored["attributes"].setdefault("case_ids", []).append(case_id)
             # Deduplicate case_ids
             stored["attributes"]["case_ids"] = list(set(stored["attributes"]["case_ids"]))
+
+        # Track phones as corroborating signals
+        phones = entity.get("attributes", {}).get("phones", [])
+        if phones:
+            stored["attributes"].setdefault("phones", [])
+            for ph in phones:
+                if ph not in stored["attributes"]["phones"]:
+                    stored["attributes"]["phones"].append(ph)
             
         self._save()
         return self._entities[eid]
@@ -297,27 +308,46 @@ def _resolve_persons(
 
     for entity in entities:
         name = entity["value"]
+        # Enrich with criminal history risk attributes from cias_er
+        history = check_criminal_history(name)
+        if history.get("firs", 0) > 0:
+            entity.setdefault("attributes", {})["historical_firs"] = history["firs"]
+            entity.setdefault("attributes", {})["risk_color"] = history["risk_color"]
+
         best_entity = None
         best_score  = 0
 
         for known in known_persons:
-            score = fuzz.token_sort_ratio(name.lower(), known["value"].lower())
+            token_score = fuzz.token_sort_ratio(name.lower(), known["value"].lower())
+            jw_score = calculate_name_score(name, known["value"]) * 100.0
+            score = max(token_score, jw_score)
             if score > best_score:
                 best_score  = score
                 best_entity = known
 
         # ── Determine if we have a corroborating signal ───────────────────────────
         has_corroboration = False
-        if best_entity and best_score >= auto_threshold:
+        if best_entity and best_score >= review_threshold:
             incoming_sigs = signals.get(entity["id"], set())
             known_sigs    = signals.get(best_entity["id"], set())
-            has_corroboration = bool(incoming_sigs & known_sigs)
-            
-            # Bug 2 Fix: 100% identical strings should auto-merge without corroboration
-            if best_score == 100:
-                has_corroboration = True
+            common_sigs   = incoming_sigs & known_sigs
 
-        if best_score >= auto_threshold and best_entity and has_corroboration:
+            has_phone_signal = any(s.startswith("phone:") for s in common_sigs)
+            has_case_signal  = any(s.startswith("case:") for s in common_sigs)
+
+            if best_score >= auto_threshold and (has_phone_signal or has_case_signal):
+                has_corroboration = True
+            elif best_score >= review_threshold and has_phone_signal:
+                has_corroboration = True
+            elif best_score == 100:
+                inc_case = entity.get("attributes", {}).get("case_id")
+                known_case = best_entity.get("attributes", {}).get("case_id")
+                if inc_case and known_case and inc_case != known_case:
+                    has_corroboration = False
+                else:
+                    has_corroboration = True
+
+        if best_score >= review_threshold and best_entity and has_corroboration:
             # ── Auto-merge: high similarity + confirmed shared signal ─────────
             registry.register(entity, source_file)
             canonical = registry.merge_into(entity["id"], best_entity["id"])
@@ -424,7 +454,9 @@ def _resolve_locations(
         best_score  = 0
 
         for known in known_locs:
-            score = fuzz.token_sort_ratio(normalized.lower(), known["value"].lower())
+            token_score = fuzz.token_sort_ratio(normalized.lower(), known["value"].lower())
+            addr_score = calculate_address_score(normalized, known["value"]) * 100.0
+            score = max(token_score, addr_score)
             if score > best_score:
                 best_score  = score
                 best_entity = known
@@ -633,23 +665,36 @@ def resolve_entities(
     id_map.update(map_exact)
 
     # ── 1.5 Build corroborating signals ──────────────────────────────────────
-    # Names only auto-merge if they share a corroborating signal.
-    # Currently, we use case_id.
     corroborating_signals = {}
     
-    # 1.5a Incoming entities get the case_id signal
+    # 1.5a Case ID signals
     if case_id:
         for p in person_types:
             corroborating_signals.setdefault(p["id"], set()).add(f"case:{case_id}")
-            # Also store it in attributes so registry persists it
             p.setdefault("attributes", {})["case_id"] = case_id
             
-    # 1.5b Known entities in the registry supply their case_ids
+    # 1.5b Known entities in registry supply case_ids and phone signals
     for known_person in registry.all_of_type("PERSON"):
-        case_ids = known_person.get("attributes", {}).get("case_ids", [])
-        sigs = {f"case:{cid}" for cid in case_ids}
+        attrs = known_person.get("attributes", {})
+        cids = attrs.get("case_ids", [])
+        cid = attrs.get("case_id")
+        if cid:
+            cids.append(cid)
+        sigs = {f"case:{c}" for c in cids if c}
+        phones = attrs.get("phones", [])
+        sigs.update({f"phone:{ph}" for ph in phones})
         if sigs:
             corroborating_signals[known_person["id"]] = sigs
+
+    # 1.5c Batch relationships supply phone signals
+    for rel in raw_relationships:
+        if rel.get("type") in ("HAS_PHONE", "HAS_ACCOUNT"):
+            src = rel["source"]
+            tgt = rel["target"]
+            corroborating_signals.setdefault(src, set()).add(f"phone:{tgt}")
+            for p in person_types:
+                if p["id"] == src:
+                    p.setdefault("attributes", {}).setdefault("phones", []).append(tgt)
 
     # ── 2. Fuzzy match: PERSON ───────────────────────────────────────────────
     resolved_persons, map_persons = _resolve_persons(

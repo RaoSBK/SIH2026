@@ -122,6 +122,26 @@
       "attributes": {
         "case_id": "CASE-102",
         "case_ids": [
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },
@@ -197,7 +217,8 @@
       "aliases": [],
       "source_files": [
         "BankStatement_Apex_Holdings_2.pdf"
-      ]
+      ],
+      "risk_color": "none"
     },
     "org:c4787145": {
       "id": "org:c4787145",
@@ -355,6 +376,26 @@
       "attributes": {
         "case_id": "CASE-102",
         "case_ids": [
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },
@@ -514,6 +555,26 @@
       "attributes": {
         "case_id": "CASE-102",
         "case_ids": [
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },
@@ -531,6 +592,26 @@
       "attributes": {
         "case_id": "CASE-102",
         "case_ids": [
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },
@@ -570,13 +651,13 @@
     "location:fb074774": {
       "id": "location:fb074774",
       "type": "LOCATION",
-      "value": "Bandra",
+      "value": "Delhi",
       "confidence": 0.85,
       "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
       "source_files": [
-        "FIR_004_Priya_Sharma.pdf"
+        "FIR_001_Ravi_Kumar.pdf"
       ]
     },
     "aadhaar:5d5a70a2d78879834db3583f8d275582ece06eae78db0d400dda5a08957c6074": {
@@ -603,6 +684,8 @@
       "attributes": {
         "case_id": "CASE-102",
         "case_ids": [
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },
@@ -620,6 +703,8 @@
       "attributes": {
         "case_id": "CASE-102",
         "case_ids": [
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },

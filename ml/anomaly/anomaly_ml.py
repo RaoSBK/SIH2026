@@ -38,18 +38,23 @@ def extract_features(graph_data):
     evidence_map = defaultdict(list)
     
     for edge in edges:
-        source = edge["source"]
-        target = edge["target"]
+        source = edge.get("source")
+        target = edge.get("target")
+        if not source or not target:
+            continue
         unique_targets[source].add(target)
         
-        # Collect evidence (edges)
-        evidence_map[source].append(edge["id"])
+        edge_id = edge.get("id", str(uuid.uuid4()))
+        evidence_map[source].append(edge_id)
         
-        if edge["type"] == "TRANSACTION":
-            features[source][0] += edge["amount"]
+        edge_type = str(edge.get("type", "")).upper()
+        if edge_type in ("TRANSACTION", "TRANSFERRED_TO"):
+            amount = float(edge.get("amount", edge.get("attributes", {}).get("amount", 1000)))
+            features[source][0] += amount
             features[source][1] += 1
-        elif edge["type"] == "CALL":
-            features[source][2] += edge["duration"]
+        elif edge_type in ("CALL", "CALLED", "COMMUNICATED_WITH"):
+            duration = float(edge.get("duration", edge.get("attributes", {}).get("duration", 60)))
+            features[source][2] += duration
             
     for source in features:
         features[source][3] = float(len(unique_targets[source]))
