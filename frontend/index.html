@@ -132,6 +132,29 @@
   .source.processed .icon{ background:var(--teal-dim); color:var(--teal); }
   .source.processed .status{ color:var(--teal); }
 
+  .source .actions{ display:flex; align-items:center; margin-left:auto; padding-left:6px; }
+  .source-del-btn{
+    width:22px; height:22px; border-radius:6px; border:1px solid var(--hairline-strong);
+    background:transparent; color:var(--text-faint); font-size:15px; line-height:1;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition: background 150ms ease, color 150ms ease, transform 100ms ease;
+  }
+  .source-del-btn:hover{ background:#FEE2E2; color:#DC2626; border-color:#FCA5A5; }
+  .source-del-btn:active{ transform:scale(0.92); }
+  .source-locked-icon{ font-size:12px; color:var(--teal); opacity:0.85; cursor:help; padding-right:2px; }
+
+  .drop-zone-hint{
+    border:1.5px dashed var(--hairline-strong); border-radius:10px;
+    padding:16px 10px; text-align:center; color:var(--text-faint);
+    font-size:11.5px; margin-bottom:12px; transition:all 180ms ease;
+    background:rgba(0,0,0,0.015);
+  }
+  .drop-zone-hint.drag-over,
+  .panel.left.drag-over{
+    border-color:var(--amber) !important;
+    background:var(--amber-dim) !important;
+  }
+
   button.run{
     width:100%; margin-top:14px; padding:11px 14px;
     border-radius:10px; border:1px solid var(--amber);
@@ -304,7 +327,7 @@
 
     <section class="graph-wrap">
       <div class="graph-caption">
-          <strong id="graphCount">0</strong>&nbsp;entities shown &middot; flagged subnetwork
+          <strong id="graphCount">0</strong>&nbsp;entities shown &middot; <strong id="flaggedCount" style="color:var(--amber);">0</strong>&nbsp;flagged subnetwork
           <label style="margin-left: 16px; font-size: 11px; cursor:pointer; user-select:none;">
              <input type="checkbox" id="toggleOrphans" checked style="vertical-align:middle; margin-right:4px;"> 
              <span id="orphanLabel">Show orphans</span>
@@ -377,21 +400,21 @@
   let mlGraph = null;
 
   const DEMO_NODES = [
-    {id:'ravi', name:'Ravi Kumar', type:'Person', x:180, y:170, status:'CLEAR'},
-    {id:'phone', name:'9876543210', type:'Phone', x:160, y:280, status:'CLEAR'},
+    {id:'ravi', name:'Ravi Kumar', type:'Person', phone:'+91 9876543210', x:180, y:170, status:'CLEAR'},
+    {id:'phone', name:'9876543210', type:'Phone', phone:'+91 9876543210', x:160, y:280, status:'CLEAR'},
     {id:'vehicle', name:'MH 12 AB 1234', type:'Vehicle', x:60, y:220, status:'CLEAR'},
     {id:'loc', name:'Hyderabad', type:'Location', x:430, y:420, status:'CLEAR'},
-    {id:'ahmed', name:'Ahmed Sheikh', type:'Person', x:520, y:140, status:'REVIEW_REQUIRED', flagged:true, risk_color:'orange'},
+    {id:'ahmed', name:'Ahmed Sheikh', type:'Person', phone:'+91 9998887776', x:520, y:140, status:'REVIEW_REQUIRED', flagged:true, risk_color:'red', historical_firs:2, anomaly_reasons:['Repeatedly implicated across 3 distinct evidence types (CDR, Banking, Surveillance)'], evidence_trail:['Named in Surveillance Report: Subject operates Crescent Traders', 'CDR: Inbound 120s call from +91 9876543210 (Ravi Kumar)', 'Banking Ledger: ₹2.4L transfer to ACC-FAISAL-7788']},
     {id:'acc1', name:'A/C ••4521', type:'Account', x:540, y:280, status:'CLEAR'},
     {id:'org', name:'Crescent Traders', type:'Organization', x:700, y:90, status:'CLEAR'},
-    {id:'acc2', name:'A/C ••7788', type:'Account', x:730, y:360, status:'REVIEW_REQUIRED', flagged:true, risk_color:'red'},
-    {id:'faisal', name:'Faisal Khan', type:'Person', x:800, y:460, status:'CLEAR'}
+    {id:'acc2', name:'A/C ••7788', type:'Account', x:730, y:360, status:'REVIEW_REQUIRED', flagged:true, risk_color:'red', historical_firs:1, anomaly_reasons:['High-risk recipient account with disputed ownership'], evidence_trail:['Banking Ledger: Received ₹2.4L from suspect account ACC-AHMED-4521', 'Interrogation: Faisal Khan admitted control of account ACC-FAISAL-7788']},
+    {id:'faisal', name:'Faisal Khan', type:'Person', phone:'+91 9811223344', x:800, y:460, status:'CLEAR'}
   ];
 
   const DEMO_EDGES = [
     {source:'ravi', target:'phone', type:'USES'},
     {source:'ravi', target:'vehicle', type:'DRIVES'},
-    {source:'ravi', target:'ahmed', type:'CALLED', flagged:true},
+    {source:'ravi', target:'ahmed', type:'calling', relationship_type:'calling', flagged:true},
     {source:'ravi', target:'loc', type:'VISITED'},
     {source:'faisal', target:'loc', type:'VISITED'},
     {source:'ahmed', target:'acc1', type:'OWNS'},
@@ -400,13 +423,22 @@
     {source:'acc2', target:'faisal', type:'OWNED_BY'}
   ];
 
+  function updateHeaderCounts() {
+    const totalCount = NODES.length;
+    const flaggedCount = NODES.filter(n => n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red').length;
+    const gc = document.getElementById('graphCount');
+    const fc = document.getElementById('flaggedCount');
+    if (gc) gc.textContent = totalCount;
+    if (fc) fc.textContent = flaggedCount;
+  }
+
   function loadDemoGraph() {
     NODES = DEMO_NODES.map(node => ({ ...node, label: node.name }));
     EDGES = DEMO_EDGES.map(edge => ({ ...edge, line_type: edge.flagged ? 'dotted' : 'solid' }));
     degree = {};
     NODES.forEach(n => degree[n.id] = 0);
     EDGES.forEach(e => { degree[e.source] = (degree[e.source] || 0) + 1; degree[e.target] = (degree[e.target] || 0) + 1; });
-    document.getElementById('graphCount').textContent = NODES.length;
+    updateHeaderCounts();
   }
 
   /* ---------------- Stepper ---------------- */
@@ -432,39 +464,106 @@
   function renderSources() {
     sourcesEl.innerHTML = '';
     if (SOURCES.length === 0) {
-      sourcesEl.innerHTML = '<div class="empty-hint" style="margin-bottom:12px;">No files uploaded.</div>';
+      sourcesEl.innerHTML = '<div class="drop-zone-hint" id="dropZoneHint">Drag &amp; drop evidence files here<br><span style="font-size:10px;color:var(--text-faint);">(or click Upload above)</span></div>';
+    } else {
+      SOURCES.forEach(s => {
+        const row = document.createElement('div');
+        row.className = 'source' + (s.processed ? ' processed' : '');
+        row.id = 'src-' + s.id;
+        
+        const deleteAffordance = s.processed
+          ? `<span class="source-locked-icon" title="Ingested into graph (retraction requires ledger rollback)">🔒</span>`
+          : `<button class="source-del-btn" data-id="${s.id}" title="Remove from upload queue">&times;</button>`;
+
+        row.innerHTML = `
+          <div class="icon">${s.tag}</div>
+          <div class="meta">
+            <div class="name" title="${s.name}">${s.name}</div>
+            <div class="status">${s.status || 'Queued'}</div>
+          </div>
+          <div class="actions">${deleteAffordance}</div>
+        `;
+        sourcesEl.appendChild(row);
+      });
+
+      // Attach delete click listeners (Task 2)
+      sourcesEl.querySelectorAll('.source-del-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const delId = btn.getAttribute('data-id');
+          SOURCES = SOURCES.filter(item => item.id !== delId);
+          renderSources();
+        });
+      });
     }
-    SOURCES.forEach(s=>{
-      const row = document.createElement('div');
-      row.className='source'; row.id='src-'+s.id;
-      row.innerHTML = '<div class="icon">'+s.tag+'</div><div class="meta"><div class="name">'+s.name+'</div><div class="status">Queued</div></div>';
-      sourcesEl.appendChild(row);
-    });
-    runBtn.disabled = SOURCES.length === 0;
+    runBtn.disabled = SOURCES.length === 0 || hasRun;
   }
   
   renderSources();
 
+  // Shared intake handler for click & drag-and-drop (Task 1)
+  function handleFiles(fileList) {
+    const files = Array.from(fileList || []);
+    if (!files.length) return;
+    files.forEach(file => {
+      // Avoid exact duplicates in current list
+      if (SOURCES.some(s => s.name === file.name)) return;
+      let tag = 'DOC';
+      const lowerName = file.name.toLowerCase();
+      if (lowerName.includes('fir')) tag = 'FIR';
+      else if (lowerName.includes('cdr')) tag = 'CDR';
+      else if (lowerName.includes('txn') || lowerName.includes('transaction') || lowerName.includes('bank')) tag = 'TXN';
+      else if (lowerName.includes('surveillance') || lowerName.includes('intel')) tag = 'INTEL';
+      else if (lowerName.includes('interrogation')) tag = 'DOC';
+
+      SOURCES.push({
+        id: 'src_' + Math.random().toString(36).substr(2, 9),
+        name: file.name,
+        tag: tag,
+        file: file,
+        status: 'Queued',
+        processed: false
+      });
+    });
+    renderSources();
+  }
+
   const fileUpload = document.getElementById('fileUpload');
   if (fileUpload) {
-      fileUpload.addEventListener('change', (e) => {
-          const files = Array.from(e.target.files);
-          files.forEach(file => {
-              let tag = 'DOC';
-              const lowerName = file.name.toLowerCase();
-              if (lowerName.includes('fir')) tag = 'FIR';
-              else if (lowerName.includes('cdr')) tag = 'CDR';
-              else if (lowerName.includes('txn') || lowerName.includes('transaction')) tag = 'TXN';
+    fileUpload.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+      fileUpload.value = '';
+    });
+  }
 
-              SOURCES.push({
-                  id: 'src_' + Math.random().toString(36).substr(2, 9),
-                  name: file.name,
-                  tag: tag,
-                  file: file
-              });
-          });
-          renderSources();
+  // Drag & drop listeners on Left Panel (Task 1)
+  const leftPanel = document.querySelector('.panel.left');
+  if (leftPanel) {
+    ['dragenter', 'dragover'].forEach(eventName => {
+      leftPanel.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        leftPanel.classList.add('drag-over');
+        const hint = document.getElementById('dropZoneHint');
+        if (hint) hint.classList.add('drag-over');
       });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      leftPanel.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        leftPanel.classList.remove('drag-over');
+        const hint = document.getElementById('dropZoneHint');
+        if (hint) hint.classList.remove('drag-over');
+      });
+    });
+
+    leftPanel.addEventListener('drop', (e) => {
+      if (e.dataTransfer && e.dataTransfer.files) {
+        handleFiles(e.dataTransfer.files);
+      }
+    });
   }
 
   /* ---------------- Log ---------------- */
@@ -477,10 +576,6 @@
     logEl.scrollTop = logEl.scrollHeight;
   }
   function wait(ms){ return new Promise(r=>setTimeout(r, reduced ? Math.min(ms,80) : ms)); }
-
-  /* ---------------- Graph rendering (delegated to MLGraph) ---------------- */
-  // The actual build/reveal/pan logic is handled by the MLGraph module
-
 
   /* ---------------- Right panel ---------------- */
   const rightPanel = document.getElementById('rightPanel');
@@ -547,15 +642,15 @@
 
   function getDetailsHTML() {
     if (!selectedId) {
-      const persons = NODES.filter(n => n.type === 'Person').length;
-      const phones = NODES.filter(n => n.type === 'Phone').length;
-      const locations = NODES.filter(n => n.type === 'Location').length;
-      const orgs = NODES.filter(n => n.type === 'Organization').length;
-      const accounts = NODES.filter(n => n.type === 'Account').length;
+      const persons = NODES.filter(n => n.type === 'Person' || n.type === 'PERSON').length;
+      const phones = NODES.filter(n => n.type === 'Phone' || n.type === 'PHONE').length;
+      const locations = NODES.filter(n => n.type === 'Location' || n.type === 'LOCATION').length;
+      const flagged = NODES.filter(n => n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red').length;
       
       return `<h2>Case Metrics</h2>
         <div class="metric-row"><span class="k">Entities discovered</span><span class="n mono">${NODES.length}</span></div>
         <div class="metric-row"><span class="k">Relationships</span><span class="n mono">${EDGES.length}</span></div>
+        <div class="metric-row"><span class="k">Flagged Subnetwork</span><span class="n mono" style="color:var(--amber);">${flagged}</span></div>
         <div class="metric-row"><span class="k">Persons</span><span class="n mono">${persons}</span></div>
         <div class="metric-row"><span class="k">Phones</span><span class="n mono">${phones}</span></div>
         <div class="metric-row"><span class="k">Locations</span><span class="n mono">${locations}</span></div>
@@ -565,16 +660,46 @@
     const n = NODES.find(x=>x.id===selectedId);
     if (!n) return '';
     const connections = mlGraph ? (mlGraph.degree[n.id] || 0) : 0;
-    
-    if (n.status === 'REVIEW_REQUIRED' || n.flagged) {
-        return `<div class="badge">REVIEW REQUIRED</div>
+    const phoneRow = n.phone ? `<div class="metric-row"><span class="k">Phone</span><span class="n mono">${n.phone}</span></div>` : '';
+    const typeRow = `<div class="metric-row"><span class="k">Entity Type</span><span class="n mono">${n.type || 'Entity'}</span></div>`;
+    const connRow = `<div class="metric-row"><span class="k">Connections</span><span class="n mono">${connections}</span></div>`;
+
+    // Evidence trail list for flagged entities (Task 4)
+    let evidenceTrailHTML = '';
+    const trails = n.evidence_trail || [];
+    if (trails.length > 0) {
+      evidenceTrailHTML = `
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-faint);margin-top:14px;margin-bottom:8px;">Evidence Trail (${trails.length})</div>
+        <div class="evidence-path">
+          ${trails.map((item, idx) => `
+            <div class="hop flag in" style="opacity:1;transform:none;">
+              <div class="stamp">${idx + 1}</div>
+              <div class="txt">${item}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    if (n.status === 'REVIEW_REQUIRED' || n.flagged || n.risk_color === 'red') {
+        return `<div class="badge" style="background:rgba(239,68,68,0.15);color:#EF4444;border-color:#EF4444;">FLAGGED SUBNETWORK</div>
           <div class="detail-title">${n.name || n.label || n.id}</div>
-          <div class="detail-sub" style="text-transform:capitalize">Risk Level: ${n.risk_color || 'none'} &middot; ${n.historical_firs || 0} Historical FIR(s)</div>
-          <p class="empty-hint">This entity is involved in ambiguous data (dotted links) or has been flagged for historical criminal activity.</p>
-          <button class="ghost" id="viewSourceBtn">View Consent / Manual Review</button>`;
+          <div class="detail-sub" style="text-transform:capitalize">Risk Level: ${n.risk_color || 'red'} &middot; ${n.historical_firs || 1} Incident Indicator(s)</div>
+          <div style="margin-bottom:12px;">
+            ${typeRow}
+            ${phoneRow}
+            ${connRow}
+          </div>
+          ${evidenceTrailHTML || '<p class="empty-hint">This entity has been flagged across multiple investigative sources in the subnetwork.</p>'}
+          <button class="ghost" id="viewSourceBtn">View source documents</button>`;
     } else {
         return `<div class="detail-title">${n.name || n.label || n.id}</div>
           <div class="detail-sub">Entity &middot; ${connections} connection(s)</div>
+          <div style="margin-bottom:12px;">
+            ${typeRow}
+            ${phoneRow}
+            ${connRow}
+          </div>
           <p class="empty-hint">No anomaly indicators for this entity. It appears in the case record but was not flagged by the analytics engine.</p>
           <button class="ghost" id="viewSourceBtn">View source documents</button>`;
     }
@@ -621,10 +746,10 @@
     if(!n) return;
     
     if (n.status === 'REVIEW_REQUIRED' || n.flagged) {
-        window._currentTab = 'review';
+        window._currentTab = 'details';
         renderRightPanel();
         
-        // Find which card corresponds to this entity and scroll to it
+        // If there's an active review item matching this node, highlight in review tab if user switches
         setTimeout(() => {
            const items = window._pendingReview || [];
            const match = items.find(item => {
@@ -666,14 +791,14 @@
   const modalLayer = document.getElementById('modal-layer');
   const modalBody = document.getElementById('modalBody');
   function openModal(n){
-    const evidenceText = n.evidence || "No textual evidence available. Inferred from graph structure.";
-    const sourceDoc = n.source || "Unknown Source";
+    const evidenceText = n.evidence || (n.evidence_trail ? n.evidence_trail.join('<br>&bull; ') : "No textual evidence available. Inferred from graph structure.");
+    const sourceDoc = n.source || (n.source_files ? n.source_files.join(', ') : "Case Repository");
     const typeLabel = n.type || "Entity";
     
     modalBody.innerHTML =
       '<h3>' + (n.name || n.id) + ' &middot; ' + typeLabel + ' Record</h3>'+
       '<div class="doc-id mono">EV-041 &middot; extracted from ' + sourceDoc + '</div>'+
-      '<div class="doc-body"><strong>Excerpt from Source Document:</strong><br><br><i>"...' + evidenceText + '..."</i></div>'+
+      '<div class="doc-body"><strong>Excerpt from Source Document / Evidence Trail:</strong><br><br><i>' + evidenceText + '</i></div>'+
       '<div class="verify-row"><span class="check">✓</span> Integrity verified &middot; Merkle root matches ledger</div>'+
       '<div class="hashrow">sha256 · 9f2a1c…e0b47d &middot; model NER-v1.4 &middot; pipeline v2.1</div>'+
       '<button class="close" id="closeModal">Close</button>';
@@ -694,9 +819,16 @@
     log(`Ingesting <b>${SOURCES.length}</b> source documents...`);
     await wait(500);
     SOURCES.forEach(s=>{
+      s.processed = true;
+      s.status = 'Hashed & stored';
       const row = document.getElementById('src-'+s.id);
-      row.classList.add('processed');
-      row.querySelector('.status').textContent = 'Hashed & stored';
+      if (row) {
+        row.classList.add('processed');
+        const st = row.querySelector('.status');
+        if (st) st.textContent = 'Hashed & stored';
+        const actions = row.querySelector('.actions');
+        if (actions) actions.innerHTML = '<span class="source-locked-icon" title="Ingested into graph (retraction requires ledger rollback)">🔒</span>';
+      }
     });
 
     setStage(1);
@@ -710,24 +842,15 @@
     setStage(3);
     log('Sending documents to ML API for resolution...');
     
-    const fileInput = document.getElementById('fileUpload');
     const formData = new FormData();
     const uploadedFiles = [];
 
     let caseId = 'CASE-102';
     
-    if (fileInput && fileInput.files.length > 0) {
-        for (let i = 0; i < fileInput.files.length; i++) {
-            const file = fileInput.files[i];
-            uploadedFiles.push(file);
-            formData.append('files', file);
-        }
-    } else {
-        SOURCES.filter(s => s.file).forEach(s => {
-            uploadedFiles.push(s.file);
-            formData.append('files', s.file);
-        });
-    }
+    SOURCES.filter(s => s.file).forEach(s => {
+        uploadedFiles.push(s.file);
+        formData.append('files', s.file);
+    });
 
     try {
        if (uploadedFiles.length === 0) {
@@ -769,7 +892,8 @@
          // so graph.js label renderer can find it consistently.
          NODES = (graphData.nodes || []).map(n => ({
              ...n,
-             name: n.name || n.value || n.label || n.id
+             name: n.name || n.value || n.label || n.id,
+             flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
          }));
          // Support both key names: process-evidence returns 'links', graph endpoint returns 'edges'
          EDGES = graphData.links || graphData.edges || [];
@@ -787,6 +911,7 @@
        }
        mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
        mlGraph.buildGraph();
+       updateHeaderCounts();
        log(`Building knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
     } catch(e) {
        log('<span style="color:red">Failed to load graph from ML API. Loading the fallback network instead.</span>');
@@ -794,6 +919,7 @@
        loadDemoGraph();
        mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
        mlGraph.buildGraph();
+       updateHeaderCounts();
        log(`Building fallback knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
     }
     await wait(550);
@@ -815,9 +941,10 @@
     await wait(400);
 
      runBtn.textContent = 'Pipeline complete';
-     document.getElementById('graphCount').textContent = NODES.length;
+     updateHeaderCounts();
+     
      // Auto-select a flagged node if one exists
-     const flagged = NODES.find(n => n.status === 'REVIEW_REQUIRED');
+     const flagged = NODES.find(n => n.status === 'REVIEW_REQUIRED' || n.flagged);
      if (flagged) {
          setTimeout(()=>{ 
              mlGraph.selectNodeUI(flagged.id);
@@ -825,8 +952,6 @@
          }, 300);
      }
 
-     // The review items are now rendered inside the Right Panel tabs instead of a floating card.
-     // Render the right panel to show the badge and trigger review tab if needed.
      if (window._pendingReview && window._pendingReview.length > 0) {
          renderRightPanel();
      }
