@@ -58,6 +58,24 @@ def list_cases():
             ]
         }
 
+from pydantic import BaseModel
+from typing import Optional
+
+class CaseCreatePayload(BaseModel):
+    case_id: str
+    description: Optional[str] = ""
+
+@app.post("/api/cases")
+def create_case(payload: CaseCreatePayload):
+    """
+    Registers a new case so investigators can upload evidence to it.
+    """
+    case_id = payload.case_id.strip().upper()
+    if not case_id.startswith("CASE-"):
+        case_id = f"CASE-{case_id}"
+    logger.info(f"Registered new case context: {case_id}")
+    return {"status": "success", "case_id": case_id, "document_count": 0, "files": []}
+
 @app.get("/api/cases/{case_id}/graph")
 def get_case_graph(case_id: str):
     """

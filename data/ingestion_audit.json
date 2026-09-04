@@ -3208,5 +3208,145 @@
     "message": "Extracted 2 entities, 2 relationships. Shape: unstructured.",
     "entities_count": 2,
     "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:47:10.561921Z",
+    "file_name": "CDR_Analysis_March2024.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:47:10.753861Z",
+    "file_name": "BankStatement_GlobalTech.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:47:10.900756Z",
+    "file_name": "Intel_Report_Amit.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:47:11.024994Z",
+    "file_name": "FIR_002_R_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:47:11.153310Z",
+    "file_name": "FIR_001_Ravi_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:48:53.265118Z",
+    "file_name": "CDR_Analysis_March2024.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:48:53.391727Z",
+    "file_name": "BankStatement_GlobalTech.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:48:53.480836Z",
+    "file_name": "Intel_Report_Amit.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:48:53.577504Z",
+    "file_name": "FIR_002_R_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:48:53.669346Z",
+    "file_name": "FIR_001_Ravi_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:49:43.007992Z",
+    "file_name": "CDR_Analysis_March2024.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:49:43.110394Z",
+    "file_name": "Intel_Report_Amit.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T19:49:43.208859Z",
+    "file_name": "FIR_002_R_Kumar.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-102",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
+  },
+  {
+    "timestamp": "2026-09-04T20:08:52.414021Z",
+    "file_name": "CDR_Analysis_March2024.pdf",
+    "source_label": "investigator_upload",
+    "case_id": "CASE-961",
+    "status": "success",
+    "message": "Extracted 0 entities, 0 relationships. Shape: unstructured.",
+    "entities_count": 0,
+    "new_nodes": 0
   }
 ]

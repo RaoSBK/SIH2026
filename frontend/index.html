@@ -111,6 +111,24 @@
   .case-item.active{ background:var(--teal-dim); color:var(--teal); font-weight:600; }
   .case-item .case-count{ font-size:10.5px; color:var(--text-faint); font-family:ui-monospace, monospace; }
 
+  .case-item-new{
+    margin-top:4px; padding:7px 10px; border-top:1px solid var(--hairline);
+    border-radius:6px; cursor:pointer; font-size:11.5px; font-weight:600;
+    color:var(--teal); display:flex; align-items:center; gap:6px;
+    transition:background 120ms ease;
+  }
+  .case-item-new:hover{ background:var(--teal-dim); }
+
+  .new-case-btn{
+    display:inline-flex; align-items:center; gap:4px;
+    font-size:11px; font-weight:600; color:var(--teal);
+    background:var(--teal-dim); border:1px solid rgba(15,118,110,0.25);
+    border-radius:6px; padding:3px 8px; cursor:pointer;
+    transition:background 150ms ease, transform 100ms ease;
+  }
+  .new-case-btn:hover{ background:rgba(15,118,110,0.22); }
+  .new-case-btn:active{ transform:scale(0.96); }
+
   .stepper{ display:flex; align-items:center; gap:0; flex:1; overflow:hidden; }
   .step{
     display:flex; align-items:center; gap:8px;
@@ -561,7 +579,48 @@
       });
       dropdown.appendChild(item);
     });
+
+    const newCaseItem = document.createElement('div');
+    newCaseItem.className = 'case-item-new';
+    newCaseItem.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>Create New Case</span>`;
+    newCaseItem.addEventListener('click', () => {
+      dropdown.classList.remove('open');
+      openNewCasePrompt();
+    });
+    dropdown.appendChild(newCaseItem);
   }
+
+  window.openNewCasePrompt = async function() {
+    const caseName = prompt("Enter new Case ID (e.g. CASE-103 or 103):", `CASE-${Math.floor(100 + Math.random() * 900)}`);
+    if (!caseName || !caseName.trim()) return;
+    let formattedCaseId = caseName.trim().toUpperCase();
+    if (!formattedCaseId.startsWith("CASE-")) {
+      formattedCaseId = `CASE-${formattedCaseId}`;
+    }
+
+    try {
+      await fetch('http://localhost:8000/api/cases', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({case_id: formattedCaseId})
+      });
+    } catch(e) {
+      console.warn("Backend offline, saving locally:", e);
+    }
+
+    if (!KNOWN_CASES.some(c => c.case_id === formattedCaseId)) {
+      KNOWN_CASES.push({case_id: formattedCaseId, document_count: 0, files: []});
+      saveCaseHistory(KNOWN_CASES);
+    }
+
+    SOURCES = [];
+    hasRun = false;
+    runBtn.textContent = 'Run pipeline';
+    runBtn.disabled = true;
+    renderSources();
+    switchCase(formattedCaseId);
+    log(`Initialized new case workspace <b>${formattedCaseId}</b>. Drag &amp; drop evidence files to begin investigation.`);
+  };
 
   async function switchCase(newCaseId) {
     CURRENT_CASE = newCaseId;
@@ -787,9 +846,15 @@
     const badge = reviewItems.length;
     
     let html = `
-      <div class="tabs-header">
-        <div class="tab-btn ${window._currentTab === 'details' ? 'active' : ''}" onclick="switchTab('details')">Details</div>
-        <div class="tab-btn ${window._currentTab === 'review' ? 'active' : ''}" onclick="switchTab('review')">Review Queue ${badge > 0 ? `<span class="badge-pill">${badge}</span>` : ''}</div>
+      <div class="tabs-header" style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; align-items:center;">
+          <div class="tab-btn ${window._currentTab === 'details' ? 'active' : ''}" onclick="switchTab('details')">Details</div>
+          <div class="tab-btn ${window._currentTab === 'review' ? 'active' : ''}" onclick="switchTab('review')">Review Queue ${badge > 0 ? `<span class="badge-pill">${badge}</span>` : ''}</div>
+        </div>
+        <button class="new-case-btn" id="newCaseBtn" title="Create New Case" onclick="openNewCasePrompt()">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>New Case</span>
+        </button>
       </div>
       <div class="tab-content" id="tabContentWrapper">
     `;
