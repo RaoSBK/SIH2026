@@ -52,7 +52,8 @@
         "FIR_002_Faisal_Khan.pdf",
         "FIR_002_R_Kumar.pdf",
         "Surveillance_Report_001.txt",
-        "FIR_001_Ravi_Kumar.pdf"
+        "FIR_001_Ravi_Kumar.pdf",
+        "test.txt"
       ],
       "risk_color": "orange",
       "status": "REVIEW_REQUIRED"
@@ -439,7 +440,7 @@
       "id": "account:e78c1946",
       "type": "ACCOUNT",
       "value": "ACC-GLOBALTECH-1122334455",
-      "confidence": 1.0,
+      "confidence": 1,
       "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
@@ -453,7 +454,7 @@
       "id": "account:b6104c49",
       "type": "ACCOUNT",
       "value": "ACC-SHELLCORP-5544332211",
-      "confidence": 1.0,
+      "confidence": 1,
       "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
@@ -466,7 +467,7 @@
       "id": "account:7feff3db",
       "type": "ACCOUNT",
       "value": "ACC-ASINGH-9988776655",
-      "confidence": 1.0,
+      "confidence": 1,
       "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
@@ -479,7 +480,7 @@
       "id": "account:9a18cbbe",
       "type": "ACCOUNT",
       "value": "ACC-RKUMAR-3322114455",
-      "confidence": 1.0,
+      "confidence": 1,
       "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
@@ -492,7 +493,7 @@
       "id": "account:2857d070",
       "type": "ACCOUNT",
       "value": "ACC-APEXHOLDINGS-11223344",
-      "confidence": 1.0,
+      "confidence": 1,
       "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
@@ -505,7 +506,7 @@
       "id": "account:13568a7e",
       "type": "ACCOUNT",
       "value": "ACC-UNKNOWN-99001122",
-      "confidence": 1.0,
+      "confidence": 1,
       "extraction_version": "1.1",
       "attributes": {},
       "aliases": [],
@@ -624,7 +625,7 @@
       "id": "account:9260f889",
       "type": "ACCOUNT",
       "value": "1122334455",
-      "confidence": 1.0,
+      "confidence": 1,
       "extraction_version": "1.1",
       "attributes": {
         "display_name": "Global Tech Solutions"
@@ -638,7 +639,7 @@
       "id": "account:4f9f10b3",
       "type": "ACCOUNT",
       "value": "11223344",
-      "confidence": 1.0,
+      "confidence": 1,
       "extraction_version": "1.1",
       "attributes": {
         "display_name": "Apex Holdings"
@@ -744,7 +745,117 @@
       "source_files": [
         "Intel_Report_Amit.pdf"
       ]
+    },
+    "person:dde8bef7": {
+      "id": "person:dde8bef7",
+      "type": "PERSON",
+      "value": "Transfer",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "BankStatement_Apex_Holdings_2.pdf"
+      ]
+    },
+    "person:8f3036f8": {
+      "id": "person:8f3036f8",
+      "type": "PERSON",
+      "value": "Ravi K.",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR_Analysis_March2024.pdf"
+      ]
+    },
+    "person:a2dd3aca": {
+      "id": "person:a2dd3aca",
+      "type": "PERSON",
+      "value": "Jane Smith",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Faisal_Khan.pdf"
+      ]
+    },
+    "person:ee4a805f": {
+      "id": "person:ee4a805f",
+      "type": "PERSON",
+      "value": "Amit Singh",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Ravi_Kumar.pdf"
+      ]
+    },
+    "location:7d1550b8": {
+      "id": "location:7d1550b8",
+      "type": "LOCATION",
+      "value": "Delhi",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_001_Ravi_Kumar.pdf"
+      ]
+    },
+    "person:e9d46690": {
+      "id": "person:e9d46690",
+      "type": "PERSON",
+      "value": "Andheri West\nSubject",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_Faisal_Khan.pdf"
+      ]
+    },
+    "person:ddd7f9c9": {
+      "id": "person:ddd7f9c9",
+      "type": "PERSON",
+      "value": "Andheri West",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_R_Kumar.pdf"
+      ]
+    },
+    "person:b41892b7": {
+      "id": "person:b41892b7",
+      "type": "PERSON",
+      "value": "Glob Tech",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "FIR_002_R_Kumar.pdf"
+      ]
+    },
+    "person:8208fc8f": {
+      "id": "person:8208fc8f",
+      "type": "PERSON",
+      "value": "A. Singh",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Intel_Report_Amit.pdf"
+      ]
+    },
+    "person:a7ca11a0": {
+      "id": "person:a7ca11a0",
+      "type": "PERSON",
+      "value": "Ravi Kumar",
+      "confidence": 0.85,
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Intel_Report_Amit.pdf"
+      ]
     }
   },
-  "schema_version": "1.1"
+  "relationships": []
 }
