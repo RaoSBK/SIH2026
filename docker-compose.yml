@@ -15,6 +15,7 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./ml:/app/ml
+      - ./cias_er:/app/cias_er
       - ./data:/app/data
     depends_on:
       postgres:

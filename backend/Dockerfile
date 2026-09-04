@@ -18,6 +18,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 # Copy application code
 COPY backend /app/backend
 COPY ml /app/ml
+COPY cias_er /app/cias_er
 
 # Add /app to PYTHONPATH so backend can resolve absolute imports
 ENV PYTHONPATH=/app:/app/backend

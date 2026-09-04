@@ -4,6 +4,14 @@ Append-only. Newest entries at the top. Never edit or delete a past entry — if
 
 ---
 
+## 2026-09-05 — Docker Container Packaging Fix for `cias_er` Package Dependency
+**Decision:** Added `COPY cias_er /app/cias_er` to `backend/Dockerfile` and mounted `./cias_er:/app/cias_er` as a volume in `docker-compose.yml`.
+**Why:** `backend/app/ingestion/resolver.py` imported `cias_er.matcher` and `cias_er.clustering`, but `cias_er` was omitted from the Docker build context and volume mounts, causing a `ModuleNotFoundError: No module named 'cias_er'` crash loop on backend startup.
+**Affected areas:** `backend/Dockerfile`, `docker-compose.yml`, `backend/app/ingestion/resolver.py`
+**Supersedes:** N/A
+
+---
+
 ## 2026-09-04 — Creation of Project Context, Architecture, Database Schema, and Graph Schema Single Source of Truth Files
 **Decision:** Audited the entire repository and generated four canonical documentation files at the repo root: `PROJECT_CONTEXT.md`, `ARCHITECTURE.md`, `DATABASE_SCHEMA.md`, and `GRAPH_SCHEMA.md`.
 **Why:** Establishes explicit ground truth for all working API routes, active ingestion pipelines, container configurations, and database/Cypher schemas, preventing AI agents and contributors from guessing or hallucinating non-existent models or fields in future sessions.
