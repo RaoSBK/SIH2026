@@ -106,9 +106,39 @@ _OCR_FIXES = [
 
 def _normalize_ocr(text: str) -> str:
     """Apply conservative OCR artifact corrections to free text."""
+    try:
+        from ml.processor import clean_ocr_noise
+        text = clean_ocr_noise(text)
+    except Exception:
+        pass
     for pattern, replacement in _OCR_FIXES:
         text = pattern.sub(replacement, text)
     return text
+
+
+def _extract_syntactic_verb(sent, name_a: str, name_b: str) -> Optional[str]:
+    """
+    Extract common action verb linking two entities in a sentence dependency tree.
+    Adapted from ml.processor.infer_relationships.
+    """
+    if not sent or not name_a or not name_b:
+        return None
+    try:
+        u_tokens = [t for t in sent if t.text.lower() in name_a.lower() and len(t.text) > 2]
+        v_tokens = [t for t in sent if t.text.lower() in name_b.lower() and len(t.text) > 2]
+        if u_tokens and v_tokens:
+            u_tok = u_tokens[0]
+            v_tok = v_tokens[0]
+            lca_set = set(u_tok.ancestors)
+            for anc in v_tok.ancestors:
+                if anc in lca_set and anc.pos_ == "VERB":
+                    verb = anc.lemma_.upper()
+                    if verb and len(verb) > 2:
+                        return verb
+    except Exception:
+        pass
+    return None
+
 
 
 _HEADER_LINE_RE = re.compile(
@@ -524,21 +554,23 @@ def _extract_unstructured(text: str, source_label: str = "") -> tuple[list, list
                 ))
             # PERSON ↔ ORG (same sentence)
             for org in orgs:
+                verb = _extract_syntactic_verb(sent, person["value"], org["value"])
                 relationships.append(_make_rel(
-                    rtype      = "ASSOCIATED_WITH",
+                    rtype      = verb or "ASSOCIATED_WITH",
                     source     = person["id"],
                     target     = org["id"],
-                    confidence = 0.4,
+                    confidence = 0.6 if verb else 0.4,
                     evidence   = sent_text,
                     status     = "suggested — needs investigator confirmation",
                 ))
             # PERSON ↔ LOCATION (same sentence)
             for loc in locations:
+                verb = _extract_syntactic_verb(sent, person["value"], loc["value"])
                 relationships.append(_make_rel(
-                    rtype      = "MENTIONED_NEAR",
+                    rtype      = verb or "MENTIONED_NEAR",
                     source     = person["id"],
                     target     = loc["id"],
-                    confidence = 0.4,
+                    confidence = 0.6 if verb else 0.4,
                     evidence   = sent_text,
                     status     = "suggested — needs investigator confirmation",
                 ))

@@ -7,6 +7,8 @@ import asyncio
 import json
 
 from .ingestion.service import process_file
+from ml.anomaly.anomaly_rules import run_rule_engine
+from ml.anomaly.anomaly_ml import run_ml_engine
 
 app = FastAPI(title="CIAS ML Backend")
 
@@ -131,22 +133,46 @@ async def process_evidence(
             seen.add(h)
             unique_links.append(l)
 
-    # Anomaly Detection: Flag nodes with suspicious levels of connectivity
+    # Anomaly Detection: Stage 1 (Rule Engine) & Stage 2 (ML Isolation Forest)
+    graph_payload = {"nodes": list(global_nodes.values()), "edges": unique_links}
+    try:
+        rule_alerts = run_rule_engine(graph_payload)
+        ml_alerts = run_ml_engine(graph_payload)
+        all_alerts = rule_alerts + ml_alerts
+        
+        for alert in all_alerts:
+            ent_id = alert.get("entity_id")
+            if ent_id in global_nodes:
+                node = global_nodes[ent_id]
+                node.setdefault("anomaly_reasons", []).append(alert.get("reason"))
+                conf = alert.get("confidence", 0.7)
+                if conf >= 0.8:
+                    node["status"] = "REVIEW_REQUIRED"
+                    node["risk_color"] = "red"
+                    node["historical_firs"] = 1
+                elif node.get("risk_color") != "red":
+                    node["status"] = "REVIEW_REQUIRED"
+                    node["risk_color"] = "orange"
+    except Exception as e:
+        logger.warning(f"Anomaly detection engine execution warning: {e}")
+
+    # Connectivity baseline fallback for unflagged nodes
     degrees = {n_id: 0 for n_id in global_nodes}
     for l in unique_links:
         if l['source'] in degrees: degrees[l['source']] += 1
         if l['target'] in degrees: degrees[l['target']] += 1
         
     for n_id, n in global_nodes.items():
-        if degrees[n_id] >= 3:
-            n['status'] = 'REVIEW_REQUIRED'
-            n['risk_color'] = 'orange'
-        else:
-            n['risk_color'] = 'none'
-            
-        if degrees[n_id] >= 5:
-            n['risk_color'] = 'red'
-            n['historical_firs'] = 1
+        if "risk_color" not in n or n["risk_color"] == "none":
+            if degrees[n_id] >= 5:
+                n['status'] = 'REVIEW_REQUIRED'
+                n['risk_color'] = 'red'
+                n['historical_firs'] = 1
+            elif degrees[n_id] >= 3:
+                n['status'] = 'REVIEW_REQUIRED'
+                n['risk_color'] = 'orange'
+            else:
+                n['risk_color'] = 'none'
 
     return {
         "nodes": list(global_nodes.values()),
@@ -257,6 +283,16 @@ def resolve_review_item(review_id: str, payload: ReviewAction):
         
         with open(registry_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
+
+        if payload.action == "merge" and resolved_item and resolved_item.get("type") == "PERSON_NAME_AMBIGUITY":
+            try:
+                from .database.neo4j import merge_nodes_in_neo4j
+                source_id = resolved_item.get("candidate", {}).get("id")
+                target_id = resolved_item.get("possible_match", {}).get("id")
+                if source_id and target_id:
+                    merge_nodes_in_neo4j(source_id, target_id)
+            except Exception as ex:
+                logger.warning(f"Neo4j merge notice: {ex}")
             
         logger.info(f"Resolved review item {review_id} with action: {payload.action}")
         return {"status": "success", "action": payload.action, "remaining": len(updated_queue)}

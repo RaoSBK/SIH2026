@@ -13,7 +13,7 @@
       },
       {
         "id": "E3",
-        "text": "2026-08-25",
+        "text": "2026-06-14",
         "type": "DATE",
         "span": [
           30,
@@ -22,101 +22,74 @@
       },
       {
         "id": "E4",
-        "text": "Subject Raj S.",
+        "text": "Subject Anil D.",
         "type": "PERSON",
         "span": [
           81,
-          95
+          96
         ]
       },
       {
         "id": "E5",
-        "text": "MH12PQ3343",
+        "text": "MH12XY9382",
         "type": "VEHICLE",
         "span": [
-          161,
-          171
+          162,
+          172
         ]
       },
       {
         "id": "E6",
-        "text": "Subject P. Mehta",
-        "type": "PERSON",
+        "text": "Location_9",
+        "type": "LOCATION",
         "span": [
-          200,
-          216
+          188,
+          198
         ]
       },
       {
         "id": "E7",
-        "text": "MH12XY8645",
-        "type": "VEHICLE",
+        "text": "Vikram Rao",
+        "type": "PERSON",
         "span": [
-          282,
-          292
+          208,
+          218
         ]
       },
       {
         "id": "E8",
-        "text": "Location_1",
-        "type": "LOCATION",
+        "text": "MH12AB7215",
+        "type": "VEHICLE",
         "span": [
-          308,
-          318
+          284,
+          294
         ]
       },
       {
         "id": "E9",
-        "text": "Subject Neha K.",
-        "type": "PERSON",
+        "text": "Location_8",
+        "type": "LOCATION",
         "span": [
-          320,
-          335
+          310,
+          320
         ]
       },
       {
         "id": "E10",
-        "text": "MH12PQ7777",
+        "text": "MH12XY8567",
         "type": "VEHICLE",
         "span": [
-          401,
-          411
+          405,
+          415
         ]
       },
       {
         "id": "E11",
-        "text": "Subject S. Joshi",
-        "type": "PERSON",
-        "span": [
-          439,
-          455
-        ]
-      },
-      {
-        "id": "E12",
-        "text": "MH12XY5809",
-        "type": "VEHICLE",
-        "span": [
-          521,
-          531
-        ]
-      },
-      {
-        "id": "E13",
-        "text": "Location_8",
-        "type": "LOCATION",
-        "span": [
-          547,
-          557
-        ]
-      },
-      {
-        "id": "E14",
-        "text": "9273883328",
+        "text": "9388629660",
         "type": "PHONE",
         "span": [
-          574,
-          584
+          459,
+          469
         ]
       }
     ],
@@ -127,7 +100,7 @@
     "entities": [
       {
         "id": "E1",
-        "text": "CASE-005",
+        "text": "CASE-002",
         "type": "CASE_ID",
         "span": [
           9,
@@ -135,8 +108,17 @@
         ]
       },
       {
+        "id": "E2",
+        "text": "Date",
+        "type": "PERSON",
+        "span": [
+          18,
+          22
+        ]
+      },
+      {
         "id": "E3",
-        "text": "2026-07-13",
+        "text": "2026-06-10",
         "type": "DATE",
         "span": [
           30,
@@ -145,56 +127,38 @@
       },
       {
         "id": "E4",
-        "text": "Subject V. Kumar",
-        "type": "PERSON",
+        "text": "MH12AB5985",
+        "type": "VEHICLE",
         "span": [
-          81,
-          97
+          169,
+          179
         ]
       },
       {
         "id": "E5",
-        "text": "Location_9",
+        "text": "Location_15",
         "type": "LOCATION",
         "span": [
-          168,
-          178
+          195,
+          206
         ]
       },
       {
         "id": "E6",
-        "text": "Subject S. Rao",
-        "type": "PERSON",
+        "text": "Location_6",
+        "type": "LOCATION",
         "span": [
-          180,
-          194
+          295,
+          305
         ]
       },
       {
         "id": "E7",
-        "text": "MH12PQ2757",
-        "type": "VEHICLE",
-        "span": [
-          260,
-          270
-        ]
-      },
-      {
-        "id": "E8",
-        "text": "Subject N. Reddy",
-        "type": "PERSON",
-        "span": [
-          299,
-          315
-        ]
-      },
-      {
-        "id": "E9",
-        "text": "9636576237",
+        "text": "9362197628",
         "type": "PHONE",
         "span": [
-          413,
-          423
+          322,
+          332
         ]
       }
     ],
@@ -214,70 +178,24 @@
       },
       {
         "id": "E2",
-        "text": "Arun M..",
-        "type": "ORG",
+        "text": "Subject",
+        "type": "PERSON",
         "span": [
-          48,
-          56
+          61,
+          68
         ]
       },
       {
         "id": "E3",
-        "text": "Subject",
+        "text": "V. Rao",
         "type": "PERSON",
         "span": [
-          57,
-          64
-        ]
-      },
-      {
-        "id": "E4",
-        "text": "Vikram Das",
-        "type": "PERSON",
-        "span": [
-          79,
+          83,
           89
         ]
       }
     ],
-    "relations": [
-      {
-        "subject": "E1",
-        "predicate": "ASSOCIATED_WITH",
-        "object": "E2",
-        "confidence": 0.7
-      },
-      {
-        "subject": "E1",
-        "predicate": "IN_CONTACT_WITH",
-        "object": "E3",
-        "confidence": 0.6
-      },
-      {
-        "subject": "E1",
-        "predicate": "IN_CONTACT_WITH",
-        "object": "E4",
-        "confidence": 0.6
-      },
-      {
-        "subject": "E3",
-        "predicate": "ASSOCIATED_WITH",
-        "object": "E2",
-        "confidence": 0.7
-      },
-      {
-        "subject": "E4",
-        "predicate": "ASSOCIATED_WITH",
-        "object": "E2",
-        "confidence": 0.7
-      },
-      {
-        "subject": "E3",
-        "predicate": "IN_CONTACT_WITH",
-        "object": "E4",
-        "confidence": 0.6
-      }
-    ]
+    "relations": []
   },
   {
     "document_id": "SURVEILLANCE-report_10",
@@ -293,33 +211,44 @@
       },
       {
         "id": "E2",
-        "text": "POOJA DESHMUKH",
-        "type": "ORG",
+        "text": "Subject",
+        "type": "PERSON",
         "span": [
-          48,
-          62
+          61,
+          68
+        ]
+      },
+      {
+        "id": "E3",
+        "text": "R. Reddy",
+        "type": "PERSON",
+        "span": [
+          83,
+          91
         ]
       }
     ],
-    "relations": [
-      {
-        "subject": "E1",
-        "predicate": "ASSOCIATED_WITH",
-        "object": "E2",
-        "confidence": 0.7
-      }
-    ]
+    "relations": []
   },
   {
     "document_id": "INTELLIGENCE-note_1",
     "entities": [
       {
         "id": "E1",
+        "text": "Sunil S.",
+        "type": "PERSON",
+        "span": [
+          19,
+          27
+        ]
+      },
+      {
+        "id": "E2",
         "text": "Location_5",
         "type": "PERSON",
         "span": [
-          77,
-          87
+          90,
+          100
         ]
       }
     ],
@@ -327,7 +256,17 @@
   },
   {
     "document_id": "INTELLIGENCE-note_10",
-    "entities": [],
+    "entities": [
+      {
+        "id": "E1",
+        "text": "Sunil M.",
+        "type": "PERSON",
+        "span": [
+          19,
+          27
+        ]
+      }
+    ],
     "relations": []
   }
 ]

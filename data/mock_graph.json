@@ -253,2715 +253,2715 @@
   ],
   "edges": [
     {
-      "id": "TX-7677",
-      "source": "PERSON_022",
-      "target": "PERSON_034",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-14T23:20:21.972005",
-      "amount": 1692
-    },
-    {
-      "id": "CALL-3543",
-      "source": "PERSON_038",
-      "target": "PERSON_039",
-      "type": "CALL",
-      "timestamp": "2026-08-14T19:20:21.972005",
-      "duration": 274
-    },
-    {
-      "id": "CALL-8876",
-      "source": "PERSON_021",
-      "target": "PERSON_046",
-      "type": "CALL",
-      "timestamp": "2026-08-07T01:20:21.972005",
-      "duration": 21
-    },
-    {
-      "id": "CALL-2737",
-      "source": "PERSON_044",
-      "target": "PERSON_032",
-      "type": "CALL",
-      "timestamp": "2026-08-04T09:20:21.972005",
-      "duration": 159
-    },
-    {
-      "id": "CALL-2561",
-      "source": "PERSON_006",
-      "target": "PERSON_040",
-      "type": "CALL",
-      "timestamp": "2026-08-19T16:20:21.972005",
-      "duration": 116
-    },
-    {
-      "id": "TX-7858",
-      "source": "PERSON_038",
-      "target": "PERSON_044",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-11T23:20:21.972005",
-      "amount": 3757
-    },
-    {
-      "id": "CALL-3396",
-      "source": "PERSON_004",
-      "target": "PERSON_029",
-      "type": "CALL",
-      "timestamp": "2026-08-05T13:20:21.972005",
-      "duration": 181
-    },
-    {
-      "id": "CALL-6867",
-      "source": "PERSON_045",
-      "target": "PERSON_042",
-      "type": "CALL",
-      "timestamp": "2026-08-15T20:20:21.972005",
-      "duration": 143
-    },
-    {
-      "id": "TX-6744",
-      "source": "PERSON_010",
-      "target": "PERSON_033",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-17T06:20:21.972005",
-      "amount": 3716
-    },
-    {
-      "id": "CALL-5029",
-      "source": "PERSON_037",
-      "target": "PERSON_001",
-      "type": "CALL",
-      "timestamp": "2026-08-22T07:20:21.972005",
-      "duration": 120
-    },
-    {
-      "id": "TX-4763",
-      "source": "PERSON_003",
-      "target": "PERSON_046",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T07:20:21.972005",
-      "amount": 4709
-    },
-    {
-      "id": "TX-3924",
-      "source": "PERSON_004",
-      "target": "PERSON_046",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-10T09:20:21.972005",
-      "amount": 2639
-    },
-    {
-      "id": "TX-5686",
-      "source": "PERSON_027",
-      "target": "PERSON_013",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-04T07:20:21.972005",
-      "amount": 760
-    },
-    {
-      "id": "TX-7119",
-      "source": "PERSON_036",
-      "target": "PERSON_012",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T13:20:21.972005",
-      "amount": 3072
-    },
-    {
-      "id": "TX-5882",
-      "source": "PERSON_034",
-      "target": "PERSON_016",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-06T07:20:21.972005",
-      "amount": 1069
-    },
-    {
-      "id": "CALL-9398",
-      "source": "PERSON_036",
-      "target": "PERSON_034",
-      "type": "CALL",
-      "timestamp": "2026-08-06T05:20:21.972005",
-      "duration": 249
-    },
-    {
-      "id": "TX-6407",
-      "source": "PERSON_046",
-      "target": "PERSON_036",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-20T20:20:21.972005",
-      "amount": 3571
-    },
-    {
-      "id": "CALL-1967",
-      "source": "PERSON_001",
-      "target": "PERSON_018",
-      "type": "CALL",
-      "timestamp": "2026-08-08T09:20:21.972005",
-      "duration": 42
-    },
-    {
-      "id": "TX-3595",
-      "source": "PERSON_042",
-      "target": "PERSON_019",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-07T19:20:21.972005",
-      "amount": 4565
-    },
-    {
-      "id": "TX-6120",
-      "source": "PERSON_048",
-      "target": "PERSON_043",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-07T22:20:21.972005",
-      "amount": 3668
-    },
-    {
-      "id": "CALL-5463",
-      "source": "PERSON_046",
-      "target": "PERSON_049",
-      "type": "CALL",
-      "timestamp": "2026-08-21T16:20:21.972005",
-      "duration": 242
-    },
-    {
-      "id": "CALL-5883",
-      "source": "PERSON_034",
-      "target": "PERSON_049",
-      "type": "CALL",
-      "timestamp": "2026-08-08T22:20:21.972005",
-      "duration": 225
-    },
-    {
-      "id": "TX-4996",
-      "source": "PERSON_032",
-      "target": "PERSON_001",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-13T19:20:21.972005",
-      "amount": 1502
-    },
-    {
-      "id": "TX-7816",
-      "source": "PERSON_023",
-      "target": "PERSON_021",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-18T09:20:21.972005",
-      "amount": 3145
-    },
-    {
-      "id": "TX-2227",
-      "source": "PERSON_041",
-      "target": "PERSON_050",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-22T00:20:21.972005",
-      "amount": 1385
-    },
-    {
-      "id": "TX-1512",
-      "source": "PERSON_007",
-      "target": "PERSON_019",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-09T17:20:21.972005",
-      "amount": 2043
-    },
-    {
-      "id": "TX-1533",
-      "source": "PERSON_050",
-      "target": "PERSON_015",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-17T15:20:21.972005",
-      "amount": 722
-    },
-    {
-      "id": "CALL-5654",
-      "source": "PERSON_033",
-      "target": "PERSON_011",
-      "type": "CALL",
-      "timestamp": "2026-08-02T22:20:21.972005",
-      "duration": 39
-    },
-    {
-      "id": "TX-4470",
-      "source": "PERSON_018",
-      "target": "PERSON_045",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-14T23:20:21.972005",
-      "amount": 546
-    },
-    {
-      "id": "CALL-3681",
-      "source": "PERSON_020",
-      "target": "PERSON_002",
-      "type": "CALL",
-      "timestamp": "2026-08-07T23:20:21.972005",
-      "duration": 219
-    },
-    {
-      "id": "TX-6747",
-      "source": "PERSON_044",
-      "target": "PERSON_048",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-12T21:20:21.972005",
-      "amount": 3411
-    },
-    {
-      "id": "TX-7119",
-      "source": "PERSON_010",
-      "target": "PERSON_019",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T01:20:21.972005",
-      "amount": 4403
-    },
-    {
-      "id": "TX-4439",
-      "source": "PERSON_032",
-      "target": "PERSON_004",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-10T09:20:21.972005",
-      "amount": 1341
-    },
-    {
-      "id": "CALL-9376",
-      "source": "PERSON_010",
-      "target": "PERSON_013",
-      "type": "CALL",
-      "timestamp": "2026-08-15T06:20:21.972005",
-      "duration": 44
-    },
-    {
-      "id": "CALL-8461",
-      "source": "PERSON_039",
-      "target": "PERSON_027",
-      "type": "CALL",
-      "timestamp": "2026-08-06T09:20:21.972005",
-      "duration": 45
-    },
-    {
-      "id": "TX-9758",
-      "source": "PERSON_016",
-      "target": "PERSON_050",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-05T14:20:21.972005",
-      "amount": 1605
-    },
-    {
-      "id": "CALL-5127",
-      "source": "PERSON_009",
-      "target": "PERSON_024",
-      "type": "CALL",
-      "timestamp": "2026-08-03T21:20:21.972005",
-      "duration": 218
-    },
-    {
-      "id": "TX-5123",
-      "source": "PERSON_003",
-      "target": "PERSON_007",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-17T06:20:21.972005",
-      "amount": 1673
-    },
-    {
-      "id": "CALL-3158",
-      "source": "PERSON_007",
-      "target": "PERSON_017",
-      "type": "CALL",
-      "timestamp": "2026-08-14T00:20:21.972005",
-      "duration": 42
-    },
-    {
-      "id": "TX-1138",
-      "source": "PERSON_038",
-      "target": "PERSON_042",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-12T14:20:21.972005",
-      "amount": 4452
-    },
-    {
-      "id": "TX-1061",
-      "source": "PERSON_043",
-      "target": "PERSON_021",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T01:20:21.972005",
-      "amount": 1845
-    },
-    {
-      "id": "CALL-3093",
-      "source": "PERSON_032",
-      "target": "PERSON_044",
-      "type": "CALL",
-      "timestamp": "2026-08-21T02:20:21.972005",
-      "duration": 227
-    },
-    {
-      "id": "CALL-4143",
-      "source": "PERSON_006",
-      "target": "PERSON_005",
-      "type": "CALL",
-      "timestamp": "2026-08-22T05:20:21.972005",
-      "duration": 191
-    },
-    {
-      "id": "CALL-8809",
-      "source": "PERSON_023",
-      "target": "PERSON_020",
-      "type": "CALL",
-      "timestamp": "2026-08-18T11:20:21.972005",
-      "duration": 171
-    },
-    {
-      "id": "CALL-9051",
-      "source": "PERSON_020",
-      "target": "PERSON_039",
-      "type": "CALL",
-      "timestamp": "2026-08-06T21:20:21.972005",
-      "duration": 34
-    },
-    {
-      "id": "TX-2868",
-      "source": "PERSON_040",
-      "target": "PERSON_047",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-11T07:20:21.972005",
-      "amount": 4678
-    },
-    {
-      "id": "TX-2526",
-      "source": "PERSON_022",
-      "target": "PERSON_012",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-10T15:20:21.972005",
-      "amount": 2418
-    },
-    {
-      "id": "TX-4716",
-      "source": "PERSON_031",
-      "target": "PERSON_013",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-08T21:20:21.972005",
-      "amount": 1710
-    },
-    {
-      "id": "TX-6213",
-      "source": "PERSON_001",
-      "target": "PERSON_026",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-19T21:20:21.972005",
-      "amount": 3723
-    },
-    {
-      "id": "TX-2870",
-      "source": "PERSON_009",
-      "target": "PERSON_035",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-05T13:20:21.972005",
-      "amount": 1858
-    },
-    {
-      "id": "CALL-3469",
-      "source": "PERSON_049",
-      "target": "PERSON_013",
-      "type": "CALL",
-      "timestamp": "2026-08-02T17:20:21.972005",
-      "duration": 22
-    },
-    {
-      "id": "TX-2579",
-      "source": "PERSON_047",
-      "target": "PERSON_003",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-22T21:20:21.972005",
-      "amount": 2644
-    },
-    {
-      "id": "TX-1166",
-      "source": "PERSON_020",
-      "target": "PERSON_048",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-13T00:20:21.972005",
-      "amount": 1736
-    },
-    {
-      "id": "TX-7480",
-      "source": "PERSON_019",
-      "target": "PERSON_005",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T21:20:21.972005",
-      "amount": 4382
-    },
-    {
-      "id": "CALL-7514",
-      "source": "PERSON_025",
-      "target": "PERSON_048",
-      "type": "CALL",
-      "timestamp": "2026-08-03T14:20:21.972005",
-      "duration": 86
-    },
-    {
-      "id": "CALL-1667",
-      "source": "PERSON_008",
-      "target": "PERSON_047",
-      "type": "CALL",
-      "timestamp": "2026-08-16T23:20:21.972005",
-      "duration": 26
-    },
-    {
-      "id": "TX-7300",
-      "source": "PERSON_036",
-      "target": "PERSON_034",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-16T05:20:21.972005",
-      "amount": 2998
-    },
-    {
-      "id": "TX-3746",
-      "source": "PERSON_042",
-      "target": "PERSON_025",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T14:20:21.972005",
-      "amount": 1621
-    },
-    {
-      "id": "TX-8895",
-      "source": "PERSON_021",
-      "target": "PERSON_017",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-11T11:20:21.972005",
-      "amount": 2927
-    },
-    {
-      "id": "CALL-8940",
-      "source": "PERSON_029",
-      "target": "PERSON_037",
-      "type": "CALL",
-      "timestamp": "2026-08-13T21:20:21.972005",
-      "duration": 116
-    },
-    {
-      "id": "TX-6469",
-      "source": "PERSON_027",
-      "target": "PERSON_036",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-04T09:20:21.972005",
-      "amount": 971
-    },
-    {
-      "id": "TX-4513",
-      "source": "PERSON_001",
-      "target": "PERSON_018",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T14:20:21.972005",
-      "amount": 1351
-    },
-    {
-      "id": "TX-6408",
-      "source": "PERSON_039",
-      "target": "PERSON_010",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-09T22:20:21.972005",
-      "amount": 3289
-    },
-    {
-      "id": "CALL-8267",
-      "source": "PERSON_004",
-      "target": "PERSON_029",
-      "type": "CALL",
-      "timestamp": "2026-08-04T00:20:21.972005",
-      "duration": 277
-    },
-    {
-      "id": "CALL-7960",
-      "source": "PERSON_046",
-      "target": "PERSON_011",
-      "type": "CALL",
-      "timestamp": "2026-08-02T14:20:21.972005",
-      "duration": 168
-    },
-    {
-      "id": "TX-1582",
-      "source": "PERSON_031",
-      "target": "PERSON_037",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T01:20:21.972005",
-      "amount": 4266
-    },
-    {
-      "id": "TX-5309",
-      "source": "PERSON_050",
-      "target": "PERSON_015",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-13T09:20:21.972005",
-      "amount": 2828
-    },
-    {
-      "id": "CALL-1043",
-      "source": "PERSON_002",
-      "target": "PERSON_013",
-      "type": "CALL",
-      "timestamp": "2026-08-02T05:20:21.972005",
-      "duration": 59
-    },
-    {
-      "id": "CALL-6768",
-      "source": "PERSON_004",
-      "target": "PERSON_018",
-      "type": "CALL",
-      "timestamp": "2026-08-12T16:20:21.972005",
-      "duration": 40
-    },
-    {
-      "id": "CALL-7941",
-      "source": "PERSON_027",
-      "target": "PERSON_003",
-      "type": "CALL",
-      "timestamp": "2026-08-09T20:20:21.972005",
-      "duration": 59
-    },
-    {
-      "id": "TX-1617",
-      "source": "PERSON_039",
-      "target": "PERSON_043",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-19T21:20:21.972005",
-      "amount": 3467
-    },
-    {
-      "id": "TX-6163",
-      "source": "PERSON_033",
-      "target": "PERSON_034",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-02T10:20:21.972005",
-      "amount": 1945
-    },
-    {
-      "id": "TX-9358",
-      "source": "PERSON_032",
-      "target": "PERSON_044",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T16:20:21.972005",
-      "amount": 2932
-    },
-    {
-      "id": "CALL-8285",
-      "source": "PERSON_009",
-      "target": "PERSON_019",
-      "type": "CALL",
-      "timestamp": "2026-08-10T13:20:21.972005",
-      "duration": 290
-    },
-    {
-      "id": "TX-4141",
-      "source": "PERSON_022",
-      "target": "PERSON_003",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-07T06:20:21.972005",
-      "amount": 4043
-    },
-    {
-      "id": "TX-6456",
-      "source": "PERSON_020",
-      "target": "PERSON_019",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-18T10:20:21.972005",
-      "amount": 2051
-    },
-    {
-      "id": "CALL-3227",
-      "source": "PERSON_036",
-      "target": "PERSON_025",
-      "type": "CALL",
-      "timestamp": "2026-08-18T16:20:21.972005",
-      "duration": 214
-    },
-    {
-      "id": "TX-9754",
-      "source": "PERSON_050",
-      "target": "PERSON_047",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-17T02:20:21.972005",
-      "amount": 4794
-    },
-    {
-      "id": "TX-7744",
-      "source": "PERSON_038",
-      "target": "PERSON_001",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-14T18:20:21.972005",
-      "amount": 1077
-    },
-    {
-      "id": "TX-5346",
-      "source": "PERSON_037",
-      "target": "PERSON_005",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-13T23:20:21.972005",
-      "amount": 1028
-    },
-    {
-      "id": "TX-2422",
-      "source": "PERSON_011",
-      "target": "PERSON_018",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-08T05:20:21.972005",
-      "amount": 4340
-    },
-    {
-      "id": "TX-9413",
-      "source": "PERSON_006",
-      "target": "PERSON_035",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-04T13:20:21.972005",
-      "amount": 2338
-    },
-    {
-      "id": "TX-4203",
-      "source": "PERSON_032",
-      "target": "PERSON_036",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-14T16:20:21.972005",
-      "amount": 1245
-    },
-    {
-      "id": "CALL-1066",
-      "source": "PERSON_009",
-      "target": "PERSON_033",
-      "type": "CALL",
-      "timestamp": "2026-08-22T00:20:21.972005",
-      "duration": 32
-    },
-    {
-      "id": "TX-7730",
-      "source": "PERSON_027",
-      "target": "PERSON_037",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-12T12:20:21.972005",
-      "amount": 730
-    },
-    {
-      "id": "TX-5050",
-      "source": "PERSON_022",
-      "target": "PERSON_019",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-20T05:20:21.972005",
-      "amount": 740
-    },
-    {
-      "id": "CALL-2219",
-      "source": "PERSON_043",
-      "target": "PERSON_033",
-      "type": "CALL",
-      "timestamp": "2026-08-08T22:20:21.972005",
-      "duration": 280
-    },
-    {
-      "id": "CALL-8419",
-      "source": "PERSON_038",
-      "target": "PERSON_027",
-      "type": "CALL",
-      "timestamp": "2026-08-02T11:20:21.972005",
-      "duration": 265
-    },
-    {
-      "id": "CALL-3356",
-      "source": "PERSON_006",
-      "target": "PERSON_015",
-      "type": "CALL",
-      "timestamp": "2026-08-04T15:20:21.972005",
-      "duration": 12
-    },
-    {
-      "id": "CALL-6376",
-      "source": "PERSON_008",
-      "target": "PERSON_030",
-      "type": "CALL",
-      "timestamp": "2026-08-07T17:20:21.972005",
-      "duration": 107
-    },
-    {
-      "id": "TX-4066",
-      "source": "PERSON_022",
-      "target": "PERSON_011",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-04T00:20:21.972005",
-      "amount": 3216
-    },
-    {
-      "id": "TX-7825",
-      "source": "PERSON_040",
-      "target": "PERSON_041",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T18:20:21.972005",
-      "amount": 793
-    },
-    {
-      "id": "TX-4727",
-      "source": "PERSON_043",
-      "target": "PERSON_003",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T20:20:21.972005",
-      "amount": 3705
-    },
-    {
-      "id": "CALL-9552",
-      "source": "PERSON_040",
-      "target": "PERSON_014",
-      "type": "CALL",
-      "timestamp": "2026-08-12T23:20:21.972005",
-      "duration": 174
-    },
-    {
-      "id": "TX-6967",
-      "source": "PERSON_005",
-      "target": "PERSON_032",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-06T07:20:21.972005",
-      "amount": 2285
-    },
-    {
-      "id": "TX-8716",
-      "source": "PERSON_013",
-      "target": "PERSON_025",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-06T19:20:21.972005",
-      "amount": 1278
-    },
-    {
-      "id": "TX-5692",
-      "source": "PERSON_007",
-      "target": "PERSON_032",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-07T10:20:21.972005",
-      "amount": 973
-    },
-    {
-      "id": "CALL-7788",
-      "source": "PERSON_023",
-      "target": "PERSON_007",
-      "type": "CALL",
-      "timestamp": "2026-08-15T09:20:21.972005",
-      "duration": 42
-    },
-    {
-      "id": "CALL-7194",
-      "source": "PERSON_008",
-      "target": "PERSON_044",
-      "type": "CALL",
-      "timestamp": "2026-08-03T00:20:21.972005",
-      "duration": 191
-    },
-    {
-      "id": "CALL-9007",
-      "source": "PERSON_005",
-      "target": "PERSON_034",
-      "type": "CALL",
-      "timestamp": "2026-08-21T11:20:21.972005",
-      "duration": 209
-    },
-    {
-      "id": "TX-1160",
-      "source": "PERSON_032",
-      "target": "PERSON_049",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-18T12:20:21.972005",
-      "amount": 779
-    },
-    {
-      "id": "TX-6003",
-      "source": "PERSON_032",
-      "target": "PERSON_042",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-10T02:20:21.972005",
-      "amount": 2847
-    },
-    {
-      "id": "CALL-9047",
-      "source": "PERSON_015",
-      "target": "PERSON_030",
-      "type": "CALL",
-      "timestamp": "2026-08-15T10:20:21.972005",
-      "duration": 272
-    },
-    {
-      "id": "TX-9296",
-      "source": "PERSON_029",
-      "target": "PERSON_005",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-05T15:20:21.972005",
-      "amount": 3965
-    },
-    {
-      "id": "TX-3968",
-      "source": "PERSON_040",
-      "target": "PERSON_046",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-19T18:20:21.972005",
-      "amount": 4498
-    },
-    {
-      "id": "TX-1856",
-      "source": "PERSON_014",
-      "target": "PERSON_036",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-04T16:20:21.972005",
-      "amount": 2795
-    },
-    {
-      "id": "CALL-7606",
-      "source": "PERSON_025",
-      "target": "PERSON_001",
-      "type": "CALL",
-      "timestamp": "2026-08-14T04:20:21.972005",
-      "duration": 10
-    },
-    {
-      "id": "TX-3757",
-      "source": "PERSON_046",
-      "target": "PERSON_034",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-09T17:20:21.972005",
-      "amount": 3868
-    },
-    {
-      "id": "TX-2651",
-      "source": "PERSON_041",
-      "target": "PERSON_037",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-10T23:20:21.972005",
-      "amount": 2086
-    },
-    {
-      "id": "TX-8754",
-      "source": "PERSON_024",
-      "target": "PERSON_035",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-06T16:20:21.972005",
-      "amount": 2365
-    },
-    {
-      "id": "TX-2326",
-      "source": "PERSON_020",
-      "target": "PERSON_016",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-09T01:20:21.972005",
-      "amount": 3297
-    },
-    {
-      "id": "CALL-7074",
-      "source": "PERSON_046",
-      "target": "PERSON_028",
-      "type": "CALL",
-      "timestamp": "2026-08-02T08:20:21.972005",
-      "duration": 66
-    },
-    {
-      "id": "CALL-3250",
-      "source": "PERSON_022",
-      "target": "PERSON_011",
-      "type": "CALL",
-      "timestamp": "2026-08-09T19:20:21.972005",
-      "duration": 216
-    },
-    {
-      "id": "CALL-7898",
-      "source": "PERSON_002",
-      "target": "PERSON_034",
-      "type": "CALL",
-      "timestamp": "2026-08-04T22:20:21.972005",
-      "duration": 97
-    },
-    {
-      "id": "TX-4710",
-      "source": "PERSON_004",
-      "target": "PERSON_010",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-12T00:20:21.972005",
-      "amount": 3762
-    },
-    {
-      "id": "CALL-3484",
-      "source": "PERSON_005",
-      "target": "PERSON_044",
-      "type": "CALL",
-      "timestamp": "2026-08-15T00:20:21.972005",
-      "duration": 292
-    },
-    {
-      "id": "TX-6393",
-      "source": "PERSON_036",
-      "target": "PERSON_001",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T18:20:21.972005",
-      "amount": 1492
-    },
-    {
-      "id": "TX-4823",
-      "source": "PERSON_034",
-      "target": "PERSON_012",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-14T22:20:21.972005",
-      "amount": 3563
-    },
-    {
-      "id": "CALL-7831",
-      "source": "PERSON_028",
-      "target": "PERSON_004",
-      "type": "CALL",
-      "timestamp": "2026-08-12T15:20:21.972005",
-      "duration": 219
-    },
-    {
-      "id": "CALL-6504",
-      "source": "PERSON_035",
-      "target": "PERSON_031",
-      "type": "CALL",
-      "timestamp": "2026-08-18T16:20:21.972005",
-      "duration": 28
-    },
-    {
-      "id": "CALL-4516",
-      "source": "PERSON_003",
-      "target": "PERSON_014",
-      "type": "CALL",
-      "timestamp": "2026-08-17T02:20:21.972005",
-      "duration": 237
-    },
-    {
-      "id": "TX-9704",
-      "source": "PERSON_040",
-      "target": "PERSON_008",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-18T19:20:21.972005",
-      "amount": 590
-    },
-    {
-      "id": "CALL-2014",
-      "source": "PERSON_027",
-      "target": "PERSON_002",
-      "type": "CALL",
-      "timestamp": "2026-08-06T17:20:21.972005",
-      "duration": 44
-    },
-    {
-      "id": "TX-1915",
-      "source": "PERSON_031",
-      "target": "PERSON_023",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T04:20:21.972005",
-      "amount": 3407
-    },
-    {
-      "id": "TX-9089",
-      "source": "PERSON_016",
-      "target": "PERSON_031",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-19T11:20:21.972005",
-      "amount": 4506
-    },
-    {
-      "id": "CALL-9014",
-      "source": "PERSON_009",
-      "target": "PERSON_019",
-      "type": "CALL",
-      "timestamp": "2026-08-03T03:20:21.972005",
-      "duration": 199
-    },
-    {
-      "id": "TX-2288",
-      "source": "PERSON_043",
-      "target": "PERSON_004",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-22T11:20:21.972005",
-      "amount": 2615
-    },
-    {
-      "id": "TX-5947",
-      "source": "PERSON_030",
-      "target": "PERSON_015",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-20T10:20:21.972005",
-      "amount": 3989
-    },
-    {
-      "id": "CALL-9660",
-      "source": "PERSON_040",
-      "target": "PERSON_014",
-      "type": "CALL",
-      "timestamp": "2026-08-10T15:20:21.972005",
-      "duration": 102
-    },
-    {
-      "id": "TX-9473",
-      "source": "PERSON_035",
-      "target": "PERSON_045",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-14T12:20:21.972005",
-      "amount": 3330
-    },
-    {
-      "id": "TX-6880",
-      "source": "PERSON_033",
-      "target": "PERSON_042",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-07T17:20:21.972005",
-      "amount": 4609
-    },
-    {
-      "id": "CALL-8910",
-      "source": "PERSON_003",
-      "target": "PERSON_029",
-      "type": "CALL",
-      "timestamp": "2026-08-07T18:20:21.972005",
-      "duration": 254
-    },
-    {
-      "id": "TX-4350",
-      "source": "PERSON_032",
-      "target": "PERSON_043",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-06T20:20:21.972005",
-      "amount": 2078
-    },
-    {
-      "id": "TX-7334",
-      "source": "PERSON_008",
-      "target": "PERSON_043",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T11:20:21.972005",
-      "amount": 4385
-    },
-    {
-      "id": "CALL-1811",
-      "source": "PERSON_046",
-      "target": "PERSON_044",
-      "type": "CALL",
-      "timestamp": "2026-08-02T20:20:21.972005",
-      "duration": 216
-    },
-    {
-      "id": "TX-4799",
-      "source": "PERSON_006",
-      "target": "PERSON_038",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T01:20:21.972005",
-      "amount": 2486
-    },
-    {
-      "id": "TX-9853",
-      "source": "PERSON_035",
-      "target": "PERSON_005",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-08T08:20:21.972005",
-      "amount": 2221
-    },
-    {
-      "id": "CALL-2771",
-      "source": "PERSON_011",
-      "target": "PERSON_048",
-      "type": "CALL",
-      "timestamp": "2026-08-04T10:20:21.972005",
-      "duration": 36
-    },
-    {
-      "id": "CALL-9345",
-      "source": "PERSON_005",
-      "target": "PERSON_029",
-      "type": "CALL",
-      "timestamp": "2026-08-02T13:20:21.972005",
-      "duration": 299
-    },
-    {
-      "id": "CALL-6196",
-      "source": "PERSON_018",
-      "target": "PERSON_042",
-      "type": "CALL",
-      "timestamp": "2026-08-18T06:20:21.972005",
-      "duration": 214
-    },
-    {
-      "id": "CALL-5923",
-      "source": "PERSON_022",
-      "target": "PERSON_018",
-      "type": "CALL",
-      "timestamp": "2026-08-16T14:20:21.972005",
-      "duration": 257
-    },
-    {
-      "id": "CALL-2353",
-      "source": "PERSON_012",
-      "target": "PERSON_050",
-      "type": "CALL",
-      "timestamp": "2026-08-09T15:20:21.972005",
-      "duration": 238
-    },
-    {
-      "id": "CALL-7500",
-      "source": "PERSON_047",
-      "target": "PERSON_008",
-      "type": "CALL",
-      "timestamp": "2026-08-12T17:20:21.972005",
-      "duration": 223
-    },
-    {
-      "id": "CALL-9759",
-      "source": "PERSON_037",
-      "target": "PERSON_025",
-      "type": "CALL",
-      "timestamp": "2026-08-17T00:20:21.972005",
-      "duration": 277
-    },
-    {
-      "id": "CALL-4152",
-      "source": "PERSON_003",
-      "target": "PERSON_020",
-      "type": "CALL",
-      "timestamp": "2026-08-20T05:20:21.972005",
-      "duration": 113
-    },
-    {
-      "id": "TX-7343",
-      "source": "PERSON_021",
-      "target": "PERSON_025",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-14T04:20:21.972005",
-      "amount": 4719
-    },
-    {
-      "id": "TX-1867",
-      "source": "PERSON_025",
-      "target": "PERSON_027",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-08T02:20:21.972005",
-      "amount": 1986
-    },
-    {
-      "id": "TX-7455",
-      "source": "PERSON_013",
-      "target": "PERSON_015",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-04T19:20:21.972005",
-      "amount": 2365
-    },
-    {
-      "id": "CALL-8792",
-      "source": "PERSON_035",
-      "target": "PERSON_007",
-      "type": "CALL",
-      "timestamp": "2026-08-16T07:20:21.972005",
-      "duration": 282
-    },
-    {
-      "id": "CALL-5419",
-      "source": "PERSON_048",
-      "target": "PERSON_002",
-      "type": "CALL",
-      "timestamp": "2026-08-16T00:20:21.972005",
-      "duration": 217
-    },
-    {
-      "id": "TX-7704",
-      "source": "PERSON_009",
-      "target": "PERSON_027",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-08T11:20:21.972005",
-      "amount": 1290
-    },
-    {
-      "id": "CALL-4920",
-      "source": "PERSON_041",
-      "target": "PERSON_043",
-      "type": "CALL",
-      "timestamp": "2026-08-16T11:20:21.972005",
-      "duration": 157
-    },
-    {
-      "id": "CALL-9271",
-      "source": "PERSON_002",
-      "target": "PERSON_042",
-      "type": "CALL",
-      "timestamp": "2026-08-08T06:20:21.972005",
-      "duration": 50
-    },
-    {
-      "id": "CALL-3727",
-      "source": "PERSON_035",
-      "target": "PERSON_027",
-      "type": "CALL",
-      "timestamp": "2026-08-22T02:20:21.972005",
-      "duration": 181
-    },
-    {
-      "id": "CALL-8319",
-      "source": "PERSON_021",
-      "target": "PERSON_040",
-      "type": "CALL",
-      "timestamp": "2026-08-15T11:20:21.972005",
-      "duration": 264
-    },
-    {
-      "id": "CALL-6064",
-      "source": "PERSON_019",
-      "target": "PERSON_001",
-      "type": "CALL",
-      "timestamp": "2026-08-03T15:20:21.972005",
-      "duration": 101
-    },
-    {
-      "id": "TX-9575",
-      "source": "PERSON_012",
-      "target": "PERSON_017",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T21:20:21.972005",
-      "amount": 1469
-    },
-    {
-      "id": "CALL-2273",
-      "source": "PERSON_039",
-      "target": "PERSON_016",
-      "type": "CALL",
-      "timestamp": "2026-08-21T21:20:21.972005",
-      "duration": 76
-    },
-    {
-      "id": "CALL-6210",
-      "source": "PERSON_024",
-      "target": "PERSON_049",
-      "type": "CALL",
-      "timestamp": "2026-08-08T23:20:21.972005",
-      "duration": 99
-    },
-    {
-      "id": "CALL-6416",
-      "source": "PERSON_030",
-      "target": "PERSON_034",
-      "type": "CALL",
-      "timestamp": "2026-08-14T09:20:21.972005",
-      "duration": 278
-    },
-    {
-      "id": "TX-7104",
-      "source": "PERSON_018",
-      "target": "PERSON_037",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T15:20:21.972005",
-      "amount": 2868
-    },
-    {
-      "id": "TX-4398",
-      "source": "PERSON_025",
-      "target": "PERSON_021",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-07T14:20:21.972005",
-      "amount": 2821
-    },
-    {
-      "id": "TX-3208",
-      "source": "PERSON_043",
-      "target": "PERSON_048",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-18T04:20:21.972005",
-      "amount": 4654
-    },
-    {
-      "id": "CALL-2458",
-      "source": "PERSON_013",
-      "target": "PERSON_032",
-      "type": "CALL",
-      "timestamp": "2026-08-19T16:20:21.972005",
-      "duration": 50
-    },
-    {
-      "id": "TX-3194",
-      "source": "PERSON_044",
-      "target": "PERSON_029",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-06T18:20:21.972005",
-      "amount": 4776
-    },
-    {
-      "id": "CALL-2251",
-      "source": "PERSON_032",
-      "target": "PERSON_002",
-      "type": "CALL",
-      "timestamp": "2026-08-09T04:20:21.972005",
-      "duration": 125
-    },
-    {
-      "id": "CALL-5116",
-      "source": "PERSON_018",
-      "target": "PERSON_036",
-      "type": "CALL",
-      "timestamp": "2026-08-22T10:20:21.972005",
-      "duration": 86
-    },
-    {
-      "id": "TX-6564",
-      "source": "PERSON_045",
-      "target": "PERSON_010",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-07T14:20:21.972005",
-      "amount": 3441
-    },
-    {
-      "id": "CALL-1793",
-      "source": "PERSON_033",
-      "target": "PERSON_032",
-      "type": "CALL",
-      "timestamp": "2026-08-04T19:20:21.972005",
-      "duration": 158
-    },
-    {
-      "id": "TX-9632",
-      "source": "PERSON_003",
-      "target": "PERSON_012",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-18T14:20:21.972005",
-      "amount": 4098
-    },
-    {
-      "id": "TX-9604",
-      "source": "PERSON_049",
-      "target": "PERSON_007",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-02T11:20:21.972005",
-      "amount": 1451
-    },
-    {
-      "id": "CALL-7033",
-      "source": "PERSON_002",
-      "target": "PERSON_031",
-      "type": "CALL",
-      "timestamp": "2026-08-03T11:20:21.972005",
-      "duration": 258
-    },
-    {
-      "id": "CALL-8879",
-      "source": "PERSON_038",
-      "target": "PERSON_030",
-      "type": "CALL",
-      "timestamp": "2026-08-22T02:20:21.972005",
-      "duration": 185
-    },
-    {
-      "id": "TX-3396",
-      "source": "PERSON_020",
-      "target": "PERSON_050",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-14T23:20:21.972005",
-      "amount": 1981
-    },
-    {
-      "id": "CALL-1501",
-      "source": "PERSON_009",
-      "target": "PERSON_045",
-      "type": "CALL",
-      "timestamp": "2026-08-16T08:20:21.972005",
-      "duration": 183
-    },
-    {
-      "id": "CALL-6162",
-      "source": "PERSON_042",
-      "target": "PERSON_040",
-      "type": "CALL",
-      "timestamp": "2026-08-21T14:20:21.972005",
-      "duration": 67
-    },
-    {
-      "id": "TX-3073",
-      "source": "PERSON_014",
-      "target": "PERSON_025",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-12T01:20:21.972005",
-      "amount": 593
-    },
-    {
-      "id": "TX-1188",
-      "source": "PERSON_012",
-      "target": "PERSON_024",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-10T15:20:21.972005",
-      "amount": 1992
-    },
-    {
-      "id": "CALL-9230",
-      "source": "PERSON_022",
-      "target": "PERSON_035",
-      "type": "CALL",
-      "timestamp": "2026-08-09T02:20:21.972005",
-      "duration": 128
-    },
-    {
-      "id": "CALL-7977",
-      "source": "PERSON_008",
-      "target": "PERSON_012",
-      "type": "CALL",
-      "timestamp": "2026-08-15T18:20:21.972005",
-      "duration": 162
-    },
-    {
-      "id": "CALL-9748",
-      "source": "PERSON_016",
-      "target": "PERSON_010",
-      "type": "CALL",
-      "timestamp": "2026-08-15T09:20:21.972005",
-      "duration": 25
-    },
-    {
-      "id": "TX-4728",
-      "source": "PERSON_034",
-      "target": "PERSON_027",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-09T11:20:21.972005",
-      "amount": 2660
-    },
-    {
-      "id": "TX-8175",
-      "source": "PERSON_008",
-      "target": "PERSON_048",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-11T16:20:21.972005",
-      "amount": 704
-    },
-    {
-      "id": "CALL-5201",
-      "source": "PERSON_003",
-      "target": "PERSON_024",
-      "type": "CALL",
-      "timestamp": "2026-08-08T05:20:21.972005",
-      "duration": 279
-    },
-    {
-      "id": "CALL-8343",
-      "source": "PERSON_050",
-      "target": "PERSON_018",
-      "type": "CALL",
-      "timestamp": "2026-08-05T20:20:21.972005",
-      "duration": 153
-    },
-    {
-      "id": "TX-9010",
-      "source": "PERSON_041",
-      "target": "PERSON_031",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-15T23:20:21.972005",
-      "amount": 3668
-    },
-    {
-      "id": "CALL-4721",
-      "source": "PERSON_050",
-      "target": "PERSON_002",
-      "type": "CALL",
-      "timestamp": "2026-08-18T07:20:21.972005",
-      "duration": 273
-    },
-    {
-      "id": "TX-3092",
-      "source": "PERSON_046",
-      "target": "PERSON_049",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-18T10:20:21.972005",
-      "amount": 2647
-    },
-    {
-      "id": "TX-2028",
-      "source": "PERSON_030",
-      "target": "PERSON_032",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-22T18:20:21.972005",
-      "amount": 4089
-    },
-    {
-      "id": "CALL-7260",
-      "source": "PERSON_023",
-      "target": "PERSON_014",
-      "type": "CALL",
-      "timestamp": "2026-08-10T18:20:21.972005",
-      "duration": 167
-    },
-    {
-      "id": "CALL-8448",
-      "source": "PERSON_001",
-      "target": "PERSON_027",
-      "type": "CALL",
-      "timestamp": "2026-08-20T07:20:21.972005",
-      "duration": 262
-    },
-    {
-      "id": "CALL-6254",
-      "source": "PERSON_031",
-      "target": "PERSON_050",
-      "type": "CALL",
-      "timestamp": "2026-08-04T19:20:21.972005",
-      "duration": 163
-    },
-    {
-      "id": "CALL-9499",
-      "source": "PERSON_014",
-      "target": "PERSON_013",
-      "type": "CALL",
-      "timestamp": "2026-08-19T00:20:21.972005",
-      "duration": 260
-    },
-    {
-      "id": "TX-8207",
-      "source": "PERSON_027",
-      "target": "PERSON_040",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-22T19:20:21.972005",
-      "amount": 2277
-    },
-    {
-      "id": "TX-7316",
-      "source": "PERSON_050",
-      "target": "PERSON_006",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-05T18:20:21.972005",
-      "amount": 1524
-    },
-    {
-      "id": "CALL-2999",
-      "source": "PERSON_018",
-      "target": "PERSON_040",
-      "type": "CALL",
-      "timestamp": "2026-08-15T17:20:21.972005",
-      "duration": 286
-    },
-    {
-      "id": "CALL-5883",
-      "source": "PERSON_002",
-      "target": "PERSON_042",
-      "type": "CALL",
-      "timestamp": "2026-08-13T20:20:21.972005",
-      "duration": 118
-    },
-    {
-      "id": "CALL-5576",
-      "source": "PERSON_026",
-      "target": "PERSON_021",
-      "type": "CALL",
-      "timestamp": "2026-08-08T21:20:21.972005",
-      "duration": 296
-    },
-    {
-      "id": "TX-8511",
-      "source": "PERSON_044",
-      "target": "PERSON_033",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T06:20:21.972005",
-      "amount": 520
-    },
-    {
-      "id": "CALL-5782",
-      "source": "PERSON_033",
-      "target": "PERSON_031",
-      "type": "CALL",
-      "timestamp": "2026-08-07T21:20:21.972005",
-      "duration": 146
-    },
-    {
       "id": "TX-4150",
-      "source": "PERSON_049",
-      "target": "PERSON_036",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-08T00:20:21.972005",
-      "amount": 799
-    },
-    {
-      "id": "CALL-9308",
-      "source": "PERSON_013",
+      "source": "PERSON_008",
       "target": "PERSON_030",
-      "type": "CALL",
-      "timestamp": "2026-08-09T09:20:21.972005",
-      "duration": 37
-    },
-    {
-      "id": "TX-2502",
-      "source": "PERSON_033",
-      "target": "PERSON_042",
       "type": "TRANSACTION",
-      "timestamp": "2026-08-08T23:20:21.972005",
-      "amount": 2248
+      "timestamp": "2026-08-09T16:15:20.091590",
+      "amount": 2464
     },
     {
-      "id": "TX-1007",
-      "source": "PERSON_030",
-      "target": "PERSON_001",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-15T12:20:21.972005",
-      "amount": 1800
-    },
-    {
-      "id": "TX-1331",
-      "source": "PERSON_023",
-      "target": "PERSON_035",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-08T12:20:21.972005",
-      "amount": 4908
-    },
-    {
-      "id": "CALL-6570",
-      "source": "PERSON_025",
-      "target": "PERSON_021",
-      "type": "CALL",
-      "timestamp": "2026-08-19T07:20:21.972005",
-      "duration": 218
-    },
-    {
-      "id": "TX-8000",
-      "source": "PERSON_022",
-      "target": "PERSON_045",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-22T18:20:21.972005",
-      "amount": 4337
-    },
-    {
-      "id": "TX-9991",
-      "source": "PERSON_016",
-      "target": "PERSON_035",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-19T22:20:21.972005",
-      "amount": 2922
-    },
-    {
-      "id": "TX-1613",
-      "source": "PERSON_022",
-      "target": "PERSON_002",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T06:20:21.972005",
-      "amount": 1175
-    },
-    {
-      "id": "TX-7973",
-      "source": "PERSON_014",
-      "target": "PERSON_024",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-13T06:20:21.972005",
-      "amount": 1926
-    },
-    {
-      "id": "TX-7751",
+      "id": "CALL-4346",
       "source": "PERSON_011",
-      "target": "PERSON_003",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-14T05:20:21.972005",
-      "amount": 3795
-    },
-    {
-      "id": "CALL-4414",
-      "source": "PERSON_028",
-      "target": "PERSON_015",
-      "type": "CALL",
-      "timestamp": "2026-08-05T18:20:21.972005",
-      "duration": 120
-    },
-    {
-      "id": "CALL-5293",
-      "source": "PERSON_017",
-      "target": "PERSON_032",
-      "type": "CALL",
-      "timestamp": "2026-08-06T12:20:21.972005",
-      "duration": 159
-    },
-    {
-      "id": "TX-1776",
-      "source": "PERSON_026",
-      "target": "PERSON_029",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T11:20:21.972005",
-      "amount": 1677
-    },
-    {
-      "id": "TX-1545",
-      "source": "PERSON_019",
-      "target": "PERSON_016",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-20T20:20:21.972005",
-      "amount": 588
-    },
-    {
-      "id": "TX-3248",
-      "source": "PERSON_038",
-      "target": "PERSON_014",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-09T11:20:21.972005",
-      "amount": 3249
-    },
-    {
-      "id": "TX-2073",
-      "source": "PERSON_004",
-      "target": "PERSON_007",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-15T17:20:21.972005",
-      "amount": 1081
-    },
-    {
-      "id": "TX-7055",
-      "source": "PERSON_001",
-      "target": "PERSON_022",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-12T11:20:21.972005",
-      "amount": 4520
-    },
-    {
-      "id": "TX-3430",
-      "source": "PERSON_038",
-      "target": "PERSON_031",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-16T05:20:21.972005",
-      "amount": 2965
-    },
-    {
-      "id": "CALL-5318",
-      "source": "PERSON_025",
-      "target": "PERSON_021",
-      "type": "CALL",
-      "timestamp": "2026-08-19T22:20:21.972005",
-      "duration": 263
-    },
-    {
-      "id": "CALL-8240",
-      "source": "PERSON_046",
-      "target": "PERSON_047",
-      "type": "CALL",
-      "timestamp": "2026-08-16T03:20:21.972005",
-      "duration": 99
-    },
-    {
-      "id": "TX-4507",
-      "source": "PERSON_039",
-      "target": "PERSON_005",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-11T03:20:21.972005",
-      "amount": 4752
-    },
-    {
-      "id": "TX-1869",
-      "source": "PERSON_023",
-      "target": "PERSON_050",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-06T17:20:21.972005",
-      "amount": 1195
-    },
-    {
-      "id": "CALL-3141",
-      "source": "PERSON_028",
-      "target": "PERSON_009",
-      "type": "CALL",
-      "timestamp": "2026-08-05T15:20:21.972005",
-      "duration": 55
-    },
-    {
-      "id": "CALL-4447",
-      "source": "PERSON_015",
-      "target": "PERSON_018",
-      "type": "CALL",
-      "timestamp": "2026-08-08T02:20:21.972005",
-      "duration": 122
-    },
-    {
-      "id": "TX-4691",
-      "source": "PERSON_043",
-      "target": "PERSON_044",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-16T20:20:21.972005",
-      "amount": 2831
-    },
-    {
-      "id": "TX-1688",
-      "source": "PERSON_042",
-      "target": "PERSON_041",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T10:20:21.972005",
-      "amount": 1001
-    },
-    {
-      "id": "TX-6239",
-      "source": "PERSON_037",
-      "target": "PERSON_011",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-12T07:20:21.972005",
-      "amount": 1053
-    },
-    {
-      "id": "TX-1865",
-      "source": "PERSON_017",
-      "target": "PERSON_039",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T06:20:21.972005",
-      "amount": 4326
-    },
-    {
-      "id": "CALL-6850",
-      "source": "PERSON_043",
-      "target": "PERSON_017",
-      "type": "CALL",
-      "timestamp": "2026-08-22T10:20:21.972005",
-      "duration": 61
-    },
-    {
-      "id": "TX-9307",
-      "source": "PERSON_020",
-      "target": "PERSON_032",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T03:20:21.972005",
-      "amount": 800
-    },
-    {
-      "id": "TX-9486",
-      "source": "PERSON_036",
-      "target": "PERSON_030",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-07T06:20:21.972005",
-      "amount": 1196
-    },
-    {
-      "id": "CALL-3841",
-      "source": "PERSON_042",
-      "target": "PERSON_039",
-      "type": "CALL",
-      "timestamp": "2026-08-07T01:20:21.972005",
-      "duration": 17
-    },
-    {
-      "id": "CALL-2110",
-      "source": "PERSON_044",
-      "target": "PERSON_038",
-      "type": "CALL",
-      "timestamp": "2026-08-16T16:20:21.972005",
-      "duration": 270
-    },
-    {
-      "id": "CALL-4229",
-      "source": "PERSON_044",
-      "target": "PERSON_019",
-      "type": "CALL",
-      "timestamp": "2026-08-21T09:20:21.972005",
-      "duration": 231
-    },
-    {
-      "id": "CALL-2535",
-      "source": "PERSON_037",
-      "target": "PERSON_005",
-      "type": "CALL",
-      "timestamp": "2026-08-04T09:20:21.972005",
-      "duration": 238
-    },
-    {
-      "id": "TX-9342",
-      "source": "PERSON_004",
-      "target": "PERSON_043",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-11T21:20:21.972005",
-      "amount": 3549
-    },
-    {
-      "id": "TX-7160",
-      "source": "PERSON_022",
-      "target": "PERSON_018",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-06T15:20:21.972005",
-      "amount": 1087
-    },
-    {
-      "id": "CALL-6940",
-      "source": "PERSON_043",
-      "target": "PERSON_028",
-      "type": "CALL",
-      "timestamp": "2026-08-21T10:20:21.972005",
-      "duration": 52
-    },
-    {
-      "id": "CALL-2695",
-      "source": "PERSON_037",
-      "target": "PERSON_040",
-      "type": "CALL",
-      "timestamp": "2026-08-09T01:20:21.972005",
-      "duration": 259
-    },
-    {
-      "id": "TX-1437",
-      "source": "PERSON_029",
-      "target": "PERSON_046",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-21T05:20:21.972005",
-      "amount": 4991
-    },
-    {
-      "id": "TX-7315",
-      "source": "PERSON_045",
-      "target": "PERSON_019",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-08T15:20:21.972005",
-      "amount": 3577
-    },
-    {
-      "id": "TX-5630",
-      "source": "PERSON_035",
-      "target": "PERSON_033",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-22T01:20:21.972005",
-      "amount": 2671
-    },
-    {
-      "id": "TX-2360",
-      "source": "PERSON_018",
-      "target": "PERSON_003",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-15T10:20:21.972005",
-      "amount": 3017
-    },
-    {
-      "id": "TX-9991",
-      "source": "PERSON_011",
-      "target": "PERSON_012",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-16T23:20:21.972005",
-      "amount": 3632
-    },
-    {
-      "id": "CALL-4031",
-      "source": "PERSON_006",
-      "target": "PERSON_050",
-      "type": "CALL",
-      "timestamp": "2026-08-14T14:20:21.972005",
-      "duration": 61
-    },
-    {
-      "id": "CALL-4796",
-      "source": "PERSON_031",
-      "target": "PERSON_030",
-      "type": "CALL",
-      "timestamp": "2026-08-22T13:20:21.972005",
-      "duration": 184
-    },
-    {
-      "id": "CALL-8068",
-      "source": "PERSON_045",
-      "target": "PERSON_002",
-      "type": "CALL",
-      "timestamp": "2026-08-20T18:20:21.972005",
-      "duration": 175
-    },
-    {
-      "id": "TX-6364",
-      "source": "PERSON_002",
-      "target": "PERSON_050",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-10T12:20:21.972005",
-      "amount": 2812
-    },
-    {
-      "id": "TX-7904",
-      "source": "PERSON_029",
-      "target": "PERSON_020",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-06T16:20:21.972005",
-      "amount": 2079
-    },
-    {
-      "id": "CALL-4945",
-      "source": "PERSON_013",
-      "target": "PERSON_028",
-      "type": "CALL",
-      "timestamp": "2026-08-17T08:20:21.972005",
-      "duration": 166
-    },
-    {
-      "id": "TX-6296",
-      "source": "PERSON_029",
-      "target": "PERSON_008",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-22T07:20:21.972005",
-      "amount": 3988
-    },
-    {
-      "id": "CALL-7665",
-      "source": "PERSON_040",
-      "target": "PERSON_049",
-      "type": "CALL",
-      "timestamp": "2026-08-06T08:20:21.972005",
-      "duration": 12
-    },
-    {
-      "id": "CALL-8376",
-      "source": "PERSON_018",
       "target": "PERSON_006",
       "type": "CALL",
-      "timestamp": "2026-08-19T14:20:21.972005",
-      "duration": 232
-    },
-    {
-      "id": "TX-3138",
-      "source": "PERSON_043",
-      "target": "PERSON_041",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-06T18:20:21.972005",
-      "amount": 2879
-    },
-    {
-      "id": "CALL-3315",
-      "source": "PERSON_044",
-      "target": "PERSON_039",
-      "type": "CALL",
-      "timestamp": "2026-08-13T00:20:21.972005",
-      "duration": 230
-    },
-    {
-      "id": "TX-9371",
-      "source": "PERSON_002",
-      "target": "PERSON_046",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-05T03:20:21.972005",
-      "amount": 4034
-    },
-    {
-      "id": "CALL-9058",
-      "source": "PERSON_045",
-      "target": "PERSON_047",
-      "type": "CALL",
-      "timestamp": "2026-08-16T23:20:21.972005",
-      "duration": 159
-    },
-    {
-      "id": "TX-9027",
-      "source": "PERSON_031",
-      "target": "PERSON_023",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-12T13:20:21.972005",
-      "amount": 1129
-    },
-    {
-      "id": "CALL-3752",
-      "source": "PERSON_033",
-      "target": "PERSON_014",
-      "type": "CALL",
-      "timestamp": "2026-08-13T16:20:21.972005",
-      "duration": 282
-    },
-    {
-      "id": "CALL-4960",
-      "source": "PERSON_047",
-      "target": "PERSON_043",
-      "type": "CALL",
-      "timestamp": "2026-08-20T14:20:21.972005",
-      "duration": 273
-    },
-    {
-      "id": "CALL-2120",
-      "source": "PERSON_046",
-      "target": "PERSON_018",
-      "type": "CALL",
-      "timestamp": "2026-08-19T22:20:21.972005",
-      "duration": 266
-    },
-    {
-      "id": "CALL-3153",
-      "source": "PERSON_019",
-      "target": "PERSON_028",
-      "type": "CALL",
-      "timestamp": "2026-08-18T19:20:21.972005",
-      "duration": 140
-    },
-    {
-      "id": "CALL-9229",
-      "source": "PERSON_036",
-      "target": "PERSON_028",
-      "type": "CALL",
-      "timestamp": "2026-08-12T23:20:21.972005",
-      "duration": 158
-    },
-    {
-      "id": "TX-9892",
-      "source": "PERSON_030",
-      "target": "PERSON_038",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-04T01:20:21.972005",
-      "amount": 1285
-    },
-    {
-      "id": "CALL-8162",
-      "source": "PERSON_043",
-      "target": "PERSON_016",
-      "type": "CALL",
-      "timestamp": "2026-08-20T16:20:21.972005",
-      "duration": 157
-    },
-    {
-      "id": "TX-3353",
-      "source": "PERSON_049",
-      "target": "PERSON_039",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-22T10:20:21.972005",
-      "amount": 550
-    },
-    {
-      "id": "TX-4786",
-      "source": "PERSON_049",
-      "target": "PERSON_008",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-19T05:20:21.972005",
-      "amount": 3764
-    },
-    {
-      "id": "TX-1536",
-      "source": "PERSON_005",
-      "target": "PERSON_047",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-18T23:20:21.972005",
-      "amount": 2226
-    },
-    {
-      "id": "TX-6162",
-      "source": "PERSON_005",
-      "target": "PERSON_034",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-18T09:20:21.972005",
-      "amount": 2985
-    },
-    {
-      "id": "CALL-8860",
-      "source": "PERSON_003",
-      "target": "PERSON_039",
-      "type": "CALL",
-      "timestamp": "2026-08-13T20:20:21.972005",
-      "duration": 133
-    },
-    {
-      "id": "CALL-4487",
-      "source": "PERSON_026",
-      "target": "PERSON_016",
-      "type": "CALL",
-      "timestamp": "2026-08-11T16:20:21.972005",
+      "timestamp": "2026-08-05T19:15:20.091590",
       "duration": 155
     },
     {
-      "id": "CALL-2023",
-      "source": "PERSON_045",
-      "target": "PERSON_023",
-      "type": "CALL",
-      "timestamp": "2026-08-16T16:20:21.972005",
-      "duration": 55
-    },
-    {
-      "id": "TX-8661",
-      "source": "PERSON_025",
-      "target": "PERSON_012",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-14T10:20:21.972005",
-      "amount": 1207
-    },
-    {
-      "id": "TX-3593",
-      "source": "PERSON_006",
-      "target": "PERSON_013",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-14T23:20:21.972005",
-      "amount": 4983
-    },
-    {
-      "id": "CALL-4006",
-      "source": "PERSON_018",
-      "target": "PERSON_012",
-      "type": "CALL",
-      "timestamp": "2026-08-20T10:20:21.972005",
-      "duration": 152
-    },
-    {
-      "id": "CALL-3846",
-      "source": "PERSON_025",
-      "target": "PERSON_030",
-      "type": "CALL",
-      "timestamp": "2026-08-11T16:20:21.972005",
-      "duration": 70
-    },
-    {
-      "id": "TX-9366",
-      "source": "PERSON_019",
-      "target": "PERSON_022",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-19T15:20:21.972005",
-      "amount": 3500
-    },
-    {
-      "id": "TX-1134",
+      "id": "CALL-7428",
       "source": "PERSON_048",
-      "target": "PERSON_011",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-02T00:20:21.972005",
-      "amount": 4244
-    },
-    {
-      "id": "TX-8046",
-      "source": "PERSON_037",
-      "target": "PERSON_014",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-10T05:20:21.972005",
-      "amount": 3762
-    },
-    {
-      "id": "CALL-3957",
-      "source": "PERSON_045",
-      "target": "PERSON_006",
-      "type": "CALL",
-      "timestamp": "2026-08-02T00:20:21.972005",
-      "duration": 223
-    },
-    {
-      "id": "TX-9694",
-      "source": "PERSON_029",
-      "target": "PERSON_038",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-06T13:20:21.972005",
-      "amount": 4285
-    },
-    {
-      "id": "CALL-2038",
-      "source": "PERSON_031",
-      "target": "PERSON_039",
-      "type": "CALL",
-      "timestamp": "2026-08-06T02:20:21.972005",
-      "duration": 35
-    },
-    {
-      "id": "CALL-7806",
-      "source": "PERSON_001",
-      "target": "PERSON_015",
-      "type": "CALL",
-      "timestamp": "2026-08-15T05:20:21.972005",
-      "duration": 284
-    },
-    {
-      "id": "TX-5644",
-      "source": "PERSON_045",
-      "target": "PERSON_018",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-16T03:20:21.972005",
-      "amount": 4683
-    },
-    {
-      "id": "TX-1951",
-      "source": "PERSON_039",
-      "target": "PERSON_016",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T05:20:21.972005",
-      "amount": 2802
-    },
-    {
-      "id": "CALL-9265",
-      "source": "PERSON_001",
-      "target": "PERSON_035",
-      "type": "CALL",
-      "timestamp": "2026-08-10T05:20:21.972005",
-      "duration": 86
-    },
-    {
-      "id": "CALL-7792",
-      "source": "PERSON_019",
-      "target": "PERSON_025",
-      "type": "CALL",
-      "timestamp": "2026-08-19T14:20:21.972005",
-      "duration": 49
-    },
-    {
-      "id": "CALL-3937",
-      "source": "PERSON_012",
-      "target": "PERSON_038",
-      "type": "CALL",
-      "timestamp": "2026-08-02T23:20:21.972005",
-      "duration": 241
-    },
-    {
-      "id": "TX-8090",
-      "source": "PERSON_036",
-      "target": "PERSON_050",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-05T08:20:21.972005",
-      "amount": 2452
-    },
-    {
-      "id": "CALL-9511",
-      "source": "PERSON_018",
-      "target": "PERSON_009",
-      "type": "CALL",
-      "timestamp": "2026-08-18T23:20:21.972005",
-      "duration": 159
-    },
-    {
-      "id": "CALL-8361",
-      "source": "PERSON_010",
       "target": "PERSON_024",
       "type": "CALL",
-      "timestamp": "2026-08-15T09:20:21.972005",
-      "duration": 244
+      "timestamp": "2026-08-17T05:15:20.091590",
+      "duration": 13
     },
     {
-      "id": "TX-4869",
-      "source": "PERSON_008",
-      "target": "PERSON_023",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-12T09:20:21.972005",
-      "amount": 3644
-    },
-    {
-      "id": "TX-5118",
-      "source": "PERSON_020",
-      "target": "PERSON_037",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-16T06:20:21.972005",
-      "amount": 2788
-    },
-    {
-      "id": "TX-3928",
-      "source": "PERSON_008",
-      "target": "PERSON_038",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-07T22:20:21.972005",
-      "amount": 1493
-    },
-    {
-      "id": "TX-3409",
-      "source": "PERSON_017",
-      "target": "PERSON_031",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-04T15:20:21.972005",
-      "amount": 4550
-    },
-    {
-      "id": "TX-2038",
-      "source": "PERSON_027",
-      "target": "PERSON_033",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-03T18:20:21.972005",
-      "amount": 739
-    },
-    {
-      "id": "CALL-8492",
-      "source": "PERSON_021",
-      "target": "PERSON_035",
+      "id": "CALL-1514",
+      "source": "PERSON_007",
+      "target": "PERSON_050",
       "type": "CALL",
-      "timestamp": "2026-08-14T11:20:21.972005",
-      "duration": 216
+      "timestamp": "2026-08-17T22:15:20.091590",
+      "duration": 176
     },
     {
-      "id": "CALL-9809",
-      "source": "PERSON_009",
-      "target": "PERSON_002",
+      "id": "TX-9016",
+      "source": "PERSON_031",
+      "target": "PERSON_042",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-22T22:15:20.091590",
+      "amount": 2790
+    },
+    {
+      "id": "TX-5083",
+      "source": "PERSON_025",
+      "target": "PERSON_018",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-20T21:15:20.091590",
+      "amount": 3832
+    },
+    {
+      "id": "CALL-1419",
+      "source": "PERSON_036",
+      "target": "PERSON_024",
       "type": "CALL",
-      "timestamp": "2026-08-19T06:20:21.972005",
+      "timestamp": "2026-08-08T11:15:20.091590",
+      "duration": 206
+    },
+    {
+      "id": "TX-6545",
+      "source": "PERSON_029",
+      "target": "PERSON_049",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-07T23:15:20.091590",
+      "amount": 1500
+    },
+    {
+      "id": "CALL-6784",
+      "source": "PERSON_038",
+      "target": "PERSON_013",
+      "type": "CALL",
+      "timestamp": "2026-08-14T18:15:20.091590",
+      "duration": 67
+    },
+    {
+      "id": "TX-8002",
+      "source": "PERSON_035",
+      "target": "PERSON_009",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-09T21:15:20.091590",
+      "amount": 3507
+    },
+    {
+      "id": "CALL-9115",
+      "source": "PERSON_029",
+      "target": "PERSON_003",
+      "type": "CALL",
+      "timestamp": "2026-08-09T01:15:20.091590",
+      "duration": 256
+    },
+    {
+      "id": "CALL-4471",
+      "source": "PERSON_025",
+      "target": "PERSON_032",
+      "type": "CALL",
+      "timestamp": "2026-08-17T00:15:20.091590",
       "duration": 279
     },
     {
-      "id": "TX-5504",
-      "source": "PERSON_031",
-      "target": "PERSON_023",
+      "id": "TX-5668",
+      "source": "PERSON_016",
+      "target": "PERSON_049",
       "type": "TRANSACTION",
-      "timestamp": "2026-08-07T11:20:21.972005",
-      "amount": 4527
+      "timestamp": "2026-08-17T09:15:20.091590",
+      "amount": 1636
     },
     {
-      "id": "TX-ANOM1-2107",
-      "source": "PERSON_042",
-      "target": "PERSON_006",
+      "id": "TX-3659",
+      "source": "PERSON_027",
+      "target": "PERSON_015",
       "type": "TRANSACTION",
-      "timestamp": "2026-08-30T17:20:21.976582",
-      "amount": 65460
+      "timestamp": "2026-08-25T17:15:20.091590",
+      "amount": 566
     },
     {
-      "id": "TX-ANOM1-6324",
-      "source": "PERSON_042",
-      "target": "PERSON_027",
+      "id": "TX-4189",
+      "source": "PERSON_049",
+      "target": "PERSON_008",
       "type": "TRANSACTION",
-      "timestamp": "2026-08-29T15:20:21.976582",
-      "amount": 82118
+      "timestamp": "2026-08-08T21:15:20.091590",
+      "amount": 566
     },
     {
-      "id": "TX-ANOM1-6902",
-      "source": "PERSON_042",
-      "target": "PERSON_027",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-30T00:20:21.976582",
-      "amount": 66266
-    },
-    {
-      "id": "TX-ANOM1-9404",
-      "source": "PERSON_042",
-      "target": "PERSON_024",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-30T10:20:21.976582",
-      "amount": 94526
-    },
-    {
-      "id": "TX-ANOM1-3803",
-      "source": "PERSON_042",
-      "target": "PERSON_035",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-29T03:20:21.976582",
-      "amount": 89819
-    },
-    {
-      "id": "TX-ANOM1-8887",
-      "source": "PERSON_042",
-      "target": "PERSON_041",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-30T22:20:21.976582",
-      "amount": 89002
-    },
-    {
-      "id": "TX-ANOM1-3849",
-      "source": "PERSON_042",
-      "target": "PERSON_048",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-29T13:20:21.976582",
-      "amount": 81402
-    },
-    {
-      "id": "TX-ANOM1-4630",
-      "source": "PERSON_042",
-      "target": "PERSON_045",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-29T10:20:21.976582",
-      "amount": 60074
-    },
-    {
-      "id": "TX-ANOM1-4396",
-      "source": "PERSON_042",
-      "target": "PERSON_026",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-30T19:20:21.976582",
-      "amount": 54804
-    },
-    {
-      "id": "TX-ANOM1-4851",
-      "source": "PERSON_042",
-      "target": "PERSON_014",
-      "type": "TRANSACTION",
-      "timestamp": "2026-08-29T20:20:21.976582",
-      "amount": 55818
-    },
-    {
-      "id": "CALL-ANOM2-3178",
-      "source": "PERSON_015",
-      "target": "PERSON_048",
-      "type": "CALL",
-      "timestamp": "2026-08-29T23:30:21.976582",
-      "duration": 57
-    },
-    {
-      "id": "CALL-ANOM2-8810",
-      "source": "PERSON_015",
-      "target": "PERSON_010",
-      "type": "CALL",
-      "timestamp": "2026-08-29T23:34:21.976582",
-      "duration": 22
-    },
-    {
-      "id": "CALL-ANOM2-9972",
-      "source": "PERSON_015",
-      "target": "PERSON_006",
-      "type": "CALL",
-      "timestamp": "2026-08-30T00:09:21.976582",
-      "duration": 30
-    },
-    {
-      "id": "CALL-ANOM2-1279",
-      "source": "PERSON_015",
-      "target": "PERSON_017",
-      "type": "CALL",
-      "timestamp": "2026-08-29T22:28:21.976582",
-      "duration": 47
-    },
-    {
-      "id": "CALL-ANOM2-8560",
-      "source": "PERSON_015",
-      "target": "PERSON_036",
-      "type": "CALL",
-      "timestamp": "2026-08-30T00:02:21.976582",
-      "duration": 42
-    },
-    {
-      "id": "CALL-ANOM2-9252",
-      "source": "PERSON_015",
-      "target": "PERSON_006",
-      "type": "CALL",
-      "timestamp": "2026-08-29T22:40:21.976582",
-      "duration": 35
-    },
-    {
-      "id": "CALL-ANOM2-6696",
-      "source": "PERSON_015",
-      "target": "PERSON_041",
-      "type": "CALL",
-      "timestamp": "2026-08-29T23:26:21.976582",
-      "duration": 49
-    },
-    {
-      "id": "CALL-ANOM2-5690",
-      "source": "PERSON_015",
-      "target": "PERSON_002",
-      "type": "CALL",
-      "timestamp": "2026-08-29T23:55:21.976582",
-      "duration": 52
-    },
-    {
-      "id": "CALL-ANOM2-5799",
-      "source": "PERSON_015",
-      "target": "PERSON_014",
-      "type": "CALL",
-      "timestamp": "2026-08-29T22:51:21.976582",
-      "duration": 36
-    },
-    {
-      "id": "CALL-ANOM2-6486",
-      "source": "PERSON_015",
+      "id": "TX-8498",
+      "source": "PERSON_048",
       "target": "PERSON_039",
-      "type": "CALL",
-      "timestamp": "2026-08-30T00:01:21.976582",
-      "duration": 57
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-08T18:15:20.091590",
+      "amount": 3057
     },
     {
-      "id": "CALL-ANOM2-2825",
-      "source": "PERSON_015",
-      "target": "PERSON_003",
-      "type": "CALL",
-      "timestamp": "2026-08-29T22:36:21.976582",
-      "duration": 35
+      "id": "TX-2394",
+      "source": "PERSON_034",
+      "target": "PERSON_031",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-08T20:15:20.091590",
+      "amount": 1917
     },
     {
-      "id": "CALL-ANOM2-1063",
-      "source": "PERSON_015",
+      "id": "TX-4099",
+      "source": "PERSON_046",
+      "target": "PERSON_001",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-20T16:15:20.091590",
+      "amount": 2100
+    },
+    {
+      "id": "TX-8067",
+      "source": "PERSON_029",
+      "target": "PERSON_033",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-23T14:15:20.091590",
+      "amount": 4330
+    },
+    {
+      "id": "TX-6072",
+      "source": "PERSON_007",
+      "target": "PERSON_038",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-15T12:15:20.091590",
+      "amount": 4423
+    },
+    {
+      "id": "TX-1989",
+      "source": "PERSON_030",
+      "target": "PERSON_008",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-17T06:15:20.091590",
+      "amount": 2826
+    },
+    {
+      "id": "TX-4595",
+      "source": "PERSON_013",
+      "target": "PERSON_022",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-16T05:15:20.091590",
+      "amount": 4847
+    },
+    {
+      "id": "CALL-4925",
+      "source": "PERSON_030",
       "target": "PERSON_009",
       "type": "CALL",
-      "timestamp": "2026-08-29T22:47:21.976582",
-      "duration": 41
+      "timestamp": "2026-08-11T07:15:20.091590",
+      "duration": 181
     },
     {
-      "id": "CALL-ANOM2-4821",
-      "source": "PERSON_015",
+      "id": "TX-9872",
+      "source": "PERSON_007",
+      "target": "PERSON_006",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-13T13:15:20.091590",
+      "amount": 3523
+    },
+    {
+      "id": "CALL-2229",
+      "source": "PERSON_023",
+      "target": "PERSON_011",
+      "type": "CALL",
+      "timestamp": "2026-08-07T20:15:20.091590",
+      "duration": 98
+    },
+    {
+      "id": "TX-8923",
+      "source": "PERSON_007",
+      "target": "PERSON_033",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-24T12:15:20.091590",
+      "amount": 3172
+    },
+    {
+      "id": "CALL-3538",
+      "source": "PERSON_046",
+      "target": "PERSON_045",
+      "type": "CALL",
+      "timestamp": "2026-08-14T01:15:20.091590",
+      "duration": 66
+    },
+    {
+      "id": "TX-3483",
+      "source": "PERSON_043",
+      "target": "PERSON_014",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-08T23:15:20.091590",
+      "amount": 3995
+    },
+    {
+      "id": "CALL-5006",
+      "source": "PERSON_039",
+      "target": "PERSON_033",
+      "type": "CALL",
+      "timestamp": "2026-08-26T01:15:20.091590",
+      "duration": 133
+    },
+    {
+      "id": "TX-8372",
+      "source": "PERSON_028",
+      "target": "PERSON_006",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-11T14:15:20.091590",
+      "amount": 1717
+    },
+    {
+      "id": "CALL-1723",
+      "source": "PERSON_026",
+      "target": "PERSON_035",
+      "type": "CALL",
+      "timestamp": "2026-08-23T22:15:20.091590",
+      "duration": 10
+    },
+    {
+      "id": "TX-8273",
+      "source": "PERSON_014",
+      "target": "PERSON_025",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-14T13:15:20.091590",
+      "amount": 1910
+    },
+    {
+      "id": "TX-1928",
+      "source": "PERSON_006",
+      "target": "PERSON_031",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-12T07:15:20.091590",
+      "amount": 2402
+    },
+    {
+      "id": "TX-5496",
+      "source": "PERSON_028",
+      "target": "PERSON_040",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-07T18:15:20.091590",
+      "amount": 3540
+    },
+    {
+      "id": "TX-2618",
+      "source": "PERSON_036",
       "target": "PERSON_023",
-      "type": "CALL",
-      "timestamp": "2026-08-29T22:29:21.976582",
-      "duration": 42
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-09T11:15:20.091590",
+      "amount": 665
     },
     {
-      "id": "CALL-ANOM2-5118",
-      "source": "PERSON_015",
-      "target": "PERSON_001",
-      "type": "CALL",
-      "timestamp": "2026-08-29T23:00:21.976582",
-      "duration": 37
-    },
-    {
-      "id": "CALL-ANOM2-3194",
-      "source": "PERSON_015",
-      "target": "PERSON_026",
-      "type": "CALL",
-      "timestamp": "2026-08-29T23:29:21.976582",
-      "duration": 39
-    },
-    {
-      "id": "CALL-ANOM2-2285",
-      "source": "PERSON_015",
-      "target": "PERSON_002",
-      "type": "CALL",
-      "timestamp": "2026-08-30T00:13:21.976582",
-      "duration": 24
-    },
-    {
-      "id": "CALL-ANOM2-3924",
-      "source": "PERSON_015",
+      "id": "TX-6747",
+      "source": "PERSON_007",
       "target": "PERSON_046",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-14T05:15:20.091590",
+      "amount": 1670
+    },
+    {
+      "id": "TX-7106",
+      "source": "PERSON_007",
+      "target": "PERSON_038",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-22T06:15:20.091590",
+      "amount": 2053
+    },
+    {
+      "id": "CALL-5840",
+      "source": "PERSON_020",
+      "target": "PERSON_040",
       "type": "CALL",
-      "timestamp": "2026-08-30T00:09:21.976582",
+      "timestamp": "2026-08-06T03:15:20.091590",
+      "duration": 239
+    },
+    {
+      "id": "TX-4641",
+      "source": "PERSON_004",
+      "target": "PERSON_019",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-24T12:15:20.091590",
+      "amount": 2199
+    },
+    {
+      "id": "TX-9757",
+      "source": "PERSON_023",
+      "target": "PERSON_013",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-20T07:15:20.091590",
+      "amount": 4552
+    },
+    {
+      "id": "CALL-9278",
+      "source": "PERSON_032",
+      "target": "PERSON_025",
+      "type": "CALL",
+      "timestamp": "2026-08-13T17:15:20.091590",
       "duration": 38
     },
     {
-      "id": "CALL-ANOM2-3781",
-      "source": "PERSON_015",
-      "target": "PERSON_049",
-      "type": "CALL",
-      "timestamp": "2026-08-29T22:26:21.976582",
-      "duration": 24
-    },
-    {
-      "id": "CALL-ANOM2-7595",
-      "source": "PERSON_015",
-      "target": "PERSON_019",
-      "type": "CALL",
-      "timestamp": "2026-08-29T23:02:21.976582",
-      "duration": 30
-    },
-    {
-      "id": "CALL-ANOM2-8216",
-      "source": "PERSON_015",
-      "target": "PERSON_013",
-      "type": "CALL",
-      "timestamp": "2026-08-29T22:27:21.976582",
-      "duration": 30
-    },
-    {
-      "id": "CALL-ANOM2-1424",
-      "source": "PERSON_015",
+      "id": "TX-9367",
+      "source": "PERSON_033",
       "target": "PERSON_036",
-      "type": "CALL",
-      "timestamp": "2026-08-30T00:03:21.976582",
-      "duration": 32
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-21T18:15:20.091590",
+      "amount": 591
     },
     {
-      "id": "CALL-ANOM2-1485",
-      "source": "PERSON_015",
-      "target": "PERSON_027",
+      "id": "TX-6243",
+      "source": "PERSON_014",
+      "target": "PERSON_019",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-24T22:15:20.091590",
+      "amount": 2498
+    },
+    {
+      "id": "TX-1224",
+      "source": "PERSON_017",
+      "target": "PERSON_007",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-15T09:15:20.091590",
+      "amount": 1751
+    },
+    {
+      "id": "TX-6879",
+      "source": "PERSON_010",
+      "target": "PERSON_011",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-05T21:15:20.091590",
+      "amount": 4581
+    },
+    {
+      "id": "CALL-8138",
+      "source": "PERSON_010",
+      "target": "PERSON_016",
       "type": "CALL",
-      "timestamp": "2026-08-29T23:31:21.976582",
+      "timestamp": "2026-08-26T00:15:20.091590",
+      "duration": 162
+    },
+    {
+      "id": "CALL-9720",
+      "source": "PERSON_038",
+      "target": "PERSON_034",
+      "type": "CALL",
+      "timestamp": "2026-08-13T09:15:20.091590",
+      "duration": 286
+    },
+    {
+      "id": "TX-8626",
+      "source": "PERSON_013",
+      "target": "PERSON_005",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-21T19:15:20.091590",
+      "amount": 4482
+    },
+    {
+      "id": "CALL-3433",
+      "source": "PERSON_036",
+      "target": "PERSON_006",
+      "type": "CALL",
+      "timestamp": "2026-08-13T16:15:20.091590",
+      "duration": 126
+    },
+    {
+      "id": "TX-6408",
+      "source": "PERSON_040",
+      "target": "PERSON_010",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-21T12:15:20.091590",
+      "amount": 1047
+    },
+    {
+      "id": "CALL-9260",
+      "source": "PERSON_010",
+      "target": "PERSON_006",
+      "type": "CALL",
+      "timestamp": "2026-08-25T05:15:20.091590",
+      "duration": 153
+    },
+    {
+      "id": "TX-4347",
+      "source": "PERSON_029",
+      "target": "PERSON_006",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-23T18:15:20.091590",
+      "amount": 995
+    },
+    {
+      "id": "TX-5299",
+      "source": "PERSON_022",
+      "target": "PERSON_015",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-08T14:15:20.091590",
+      "amount": 3227
+    },
+    {
+      "id": "TX-3619",
+      "source": "PERSON_047",
+      "target": "PERSON_042",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-26T07:15:20.091590",
+      "amount": 3730
+    },
+    {
+      "id": "CALL-5403",
+      "source": "PERSON_030",
+      "target": "PERSON_009",
+      "type": "CALL",
+      "timestamp": "2026-08-11T01:15:20.091590",
+      "duration": 55
+    },
+    {
+      "id": "TX-8995",
+      "source": "PERSON_006",
+      "target": "PERSON_004",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-19T15:15:20.091590",
+      "amount": 2546
+    },
+    {
+      "id": "CALL-7394",
+      "source": "PERSON_006",
+      "target": "PERSON_039",
+      "type": "CALL",
+      "timestamp": "2026-08-09T06:15:20.091590",
+      "duration": 291
+    },
+    {
+      "id": "TX-5402",
+      "source": "PERSON_044",
+      "target": "PERSON_039",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-06T07:15:20.091590",
+      "amount": 4356
+    },
+    {
+      "id": "TX-2090",
+      "source": "PERSON_002",
+      "target": "PERSON_012",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-10T08:15:20.091590",
+      "amount": 1061
+    },
+    {
+      "id": "TX-5183",
+      "source": "PERSON_033",
+      "target": "PERSON_005",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-20T19:15:20.091590",
+      "amount": 2702
+    },
+    {
+      "id": "TX-8497",
+      "source": "PERSON_020",
+      "target": "PERSON_028",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-22T23:15:20.091590",
+      "amount": 1575
+    },
+    {
+      "id": "TX-2105",
+      "source": "PERSON_030",
+      "target": "PERSON_037",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-12T23:15:20.091590",
+      "amount": 2573
+    },
+    {
+      "id": "CALL-1470",
+      "source": "PERSON_007",
+      "target": "PERSON_009",
+      "type": "CALL",
+      "timestamp": "2026-08-10T15:15:20.091590",
+      "duration": 186
+    },
+    {
+      "id": "CALL-1182",
+      "source": "PERSON_002",
+      "target": "PERSON_035",
+      "type": "CALL",
+      "timestamp": "2026-08-12T22:15:20.091590",
+      "duration": 214
+    },
+    {
+      "id": "CALL-6992",
+      "source": "PERSON_029",
+      "target": "PERSON_044",
+      "type": "CALL",
+      "timestamp": "2026-08-23T18:15:20.091590",
+      "duration": 121
+    },
+    {
+      "id": "CALL-7690",
+      "source": "PERSON_027",
+      "target": "PERSON_035",
+      "type": "CALL",
+      "timestamp": "2026-08-06T02:15:20.091590",
+      "duration": 103
+    },
+    {
+      "id": "CALL-1492",
+      "source": "PERSON_035",
+      "target": "PERSON_024",
+      "type": "CALL",
+      "timestamp": "2026-08-06T16:15:20.091590",
+      "duration": 244
+    },
+    {
+      "id": "CALL-8669",
+      "source": "PERSON_023",
+      "target": "PERSON_014",
+      "type": "CALL",
+      "timestamp": "2026-08-26T02:15:20.091590",
+      "duration": 195
+    },
+    {
+      "id": "CALL-2598",
+      "source": "PERSON_047",
+      "target": "PERSON_020",
+      "type": "CALL",
+      "timestamp": "2026-08-05T21:15:20.091590",
+      "duration": 86
+    },
+    {
+      "id": "TX-6468",
+      "source": "PERSON_011",
+      "target": "PERSON_022",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-26T09:15:20.091590",
+      "amount": 2089
+    },
+    {
+      "id": "CALL-9209",
+      "source": "PERSON_024",
+      "target": "PERSON_020",
+      "type": "CALL",
+      "timestamp": "2026-08-23T04:15:20.091590",
+      "duration": 128
+    },
+    {
+      "id": "TX-9546",
+      "source": "PERSON_032",
+      "target": "PERSON_028",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-10T21:15:20.091590",
+      "amount": 556
+    },
+    {
+      "id": "TX-1952",
+      "source": "PERSON_021",
+      "target": "PERSON_028",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-23T11:15:20.091590",
+      "amount": 3429
+    },
+    {
+      "id": "CALL-9207",
+      "source": "PERSON_002",
+      "target": "PERSON_028",
+      "type": "CALL",
+      "timestamp": "2026-08-14T02:15:20.091590",
+      "duration": 294
+    },
+    {
+      "id": "CALL-6071",
+      "source": "PERSON_005",
+      "target": "PERSON_001",
+      "type": "CALL",
+      "timestamp": "2026-08-25T03:15:20.091590",
+      "duration": 63
+    },
+    {
+      "id": "CALL-6573",
+      "source": "PERSON_015",
+      "target": "PERSON_006",
+      "type": "CALL",
+      "timestamp": "2026-08-18T04:15:20.091590",
+      "duration": 155
+    },
+    {
+      "id": "CALL-5250",
+      "source": "PERSON_010",
+      "target": "PERSON_014",
+      "type": "CALL",
+      "timestamp": "2026-08-19T18:15:20.091590",
+      "duration": 34
+    },
+    {
+      "id": "CALL-2275",
+      "source": "PERSON_010",
+      "target": "PERSON_028",
+      "type": "CALL",
+      "timestamp": "2026-08-11T12:15:20.091590",
+      "duration": 10
+    },
+    {
+      "id": "CALL-9472",
+      "source": "PERSON_019",
+      "target": "PERSON_012",
+      "type": "CALL",
+      "timestamp": "2026-08-09T15:15:20.091590",
+      "duration": 175
+    },
+    {
+      "id": "TX-5132",
+      "source": "PERSON_010",
+      "target": "PERSON_034",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-21T17:15:20.091590",
+      "amount": 3125
+    },
+    {
+      "id": "CALL-5167",
+      "source": "PERSON_022",
+      "target": "PERSON_040",
+      "type": "CALL",
+      "timestamp": "2026-08-22T05:15:20.091590",
+      "duration": 293
+    },
+    {
+      "id": "TX-2332",
+      "source": "PERSON_035",
+      "target": "PERSON_050",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-09T21:15:20.091590",
+      "amount": 2958
+    },
+    {
+      "id": "TX-7406",
+      "source": "PERSON_013",
+      "target": "PERSON_015",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-16T14:15:20.091590",
+      "amount": 3982
+    },
+    {
+      "id": "TX-2862",
+      "source": "PERSON_018",
+      "target": "PERSON_032",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-07T23:15:20.091590",
+      "amount": 1391
+    },
+    {
+      "id": "TX-4161",
+      "source": "PERSON_050",
+      "target": "PERSON_004",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-23T04:15:20.091590",
+      "amount": 1790
+    },
+    {
+      "id": "CALL-7889",
+      "source": "PERSON_029",
+      "target": "PERSON_030",
+      "type": "CALL",
+      "timestamp": "2026-08-25T02:15:20.091590",
       "duration": 60
     },
     {
-      "id": "CALL-ANOM2-7951",
-      "source": "PERSON_015",
-      "target": "PERSON_050",
-      "type": "CALL",
-      "timestamp": "2026-08-29T23:40:21.976582",
-      "duration": 45
+      "id": "TX-2745",
+      "source": "PERSON_043",
+      "target": "PERSON_014",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-08T16:15:20.091590",
+      "amount": 4049
     },
     {
-      "id": "CALL-ANOM2-7219",
-      "source": "PERSON_015",
-      "target": "PERSON_029",
-      "type": "CALL",
-      "timestamp": "2026-08-29T23:09:21.976582",
-      "duration": 23
+      "id": "TX-2118",
+      "source": "PERSON_038",
+      "target": "PERSON_025",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-17T11:15:20.091590",
+      "amount": 732
     },
     {
-      "id": "CALL-ANOM2-4189",
-      "source": "PERSON_015",
+      "id": "CALL-6685",
+      "source": "PERSON_013",
+      "target": "PERSON_040",
+      "type": "CALL",
+      "timestamp": "2026-08-22T08:15:20.091590",
+      "duration": 151
+    },
+    {
+      "id": "TX-8001",
+      "source": "PERSON_010",
+      "target": "PERSON_004",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-15T16:15:20.091590",
+      "amount": 4347
+    },
+    {
+      "id": "TX-9139",
+      "source": "PERSON_010",
+      "target": "PERSON_044",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-07T08:15:20.091590",
+      "amount": 1497
+    },
+    {
+      "id": "TX-9689",
+      "source": "PERSON_037",
+      "target": "PERSON_011",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-11T07:15:20.091590",
+      "amount": 898
+    },
+    {
+      "id": "TX-8861",
+      "source": "PERSON_033",
+      "target": "PERSON_043",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-17T07:15:20.091590",
+      "amount": 774
+    },
+    {
+      "id": "CALL-1075",
+      "source": "PERSON_021",
+      "target": "PERSON_006",
+      "type": "CALL",
+      "timestamp": "2026-08-12T20:15:20.091590",
+      "duration": 51
+    },
+    {
+      "id": "CALL-5415",
+      "source": "PERSON_020",
+      "target": "PERSON_022",
+      "type": "CALL",
+      "timestamp": "2026-08-25T11:15:20.091590",
+      "duration": 188
+    },
+    {
+      "id": "TX-4469",
+      "source": "PERSON_010",
+      "target": "PERSON_027",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-05T13:15:20.091590",
+      "amount": 3488
+    },
+    {
+      "id": "CALL-5130",
+      "source": "PERSON_048",
+      "target": "PERSON_031",
+      "type": "CALL",
+      "timestamp": "2026-08-19T10:15:20.091590",
+      "duration": 186
+    },
+    {
+      "id": "TX-4945",
+      "source": "PERSON_028",
+      "target": "PERSON_027",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-10T09:15:20.091590",
+      "amount": 1078
+    },
+    {
+      "id": "TX-5559",
+      "source": "PERSON_041",
+      "target": "PERSON_034",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-24T23:15:20.091590",
+      "amount": 3849
+    },
+    {
+      "id": "CALL-2080",
+      "source": "PERSON_027",
+      "target": "PERSON_026",
+      "type": "CALL",
+      "timestamp": "2026-08-23T20:15:20.091590",
+      "duration": 229
+    },
+    {
+      "id": "CALL-3003",
+      "source": "PERSON_017",
+      "target": "PERSON_026",
+      "type": "CALL",
+      "timestamp": "2026-08-23T03:15:20.091590",
+      "duration": 281
+    },
+    {
+      "id": "TX-7551",
+      "source": "PERSON_001",
+      "target": "PERSON_012",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-08T18:15:20.091590",
+      "amount": 2508
+    },
+    {
+      "id": "TX-1845",
+      "source": "PERSON_032",
+      "target": "PERSON_033",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-16T19:15:20.091590",
+      "amount": 2869
+    },
+    {
+      "id": "CALL-5444",
+      "source": "PERSON_018",
+      "target": "PERSON_038",
+      "type": "CALL",
+      "timestamp": "2026-08-17T00:15:20.091590",
+      "duration": 39
+    },
+    {
+      "id": "TX-3156",
+      "source": "PERSON_044",
+      "target": "PERSON_033",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-19T19:15:20.091590",
+      "amount": 1337
+    },
+    {
+      "id": "TX-9308",
+      "source": "PERSON_040",
+      "target": "PERSON_041",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-08T08:15:20.091590",
+      "amount": 2837
+    },
+    {
+      "id": "CALL-5306",
+      "source": "PERSON_032",
       "target": "PERSON_025",
       "type": "CALL",
-      "timestamp": "2026-08-29T23:44:21.976582",
+      "timestamp": "2026-08-10T12:15:20.091590",
+      "duration": 68
+    },
+    {
+      "id": "TX-3652",
+      "source": "PERSON_018",
+      "target": "PERSON_002",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-22T02:15:20.091590",
+      "amount": 540
+    },
+    {
+      "id": "TX-6457",
+      "source": "PERSON_020",
+      "target": "PERSON_011",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-18T02:15:20.091590",
+      "amount": 3908
+    },
+    {
+      "id": "CALL-4217",
+      "source": "PERSON_035",
+      "target": "PERSON_013",
+      "type": "CALL",
+      "timestamp": "2026-08-21T09:15:20.091590",
+      "duration": 226
+    },
+    {
+      "id": "CALL-2808",
+      "source": "PERSON_039",
+      "target": "PERSON_012",
+      "type": "CALL",
+      "timestamp": "2026-08-10T01:15:20.091590",
+      "duration": 147
+    },
+    {
+      "id": "TX-6971",
+      "source": "PERSON_023",
+      "target": "PERSON_008",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-09T17:15:20.091590",
+      "amount": 1063
+    },
+    {
+      "id": "CALL-2560",
+      "source": "PERSON_012",
+      "target": "PERSON_003",
+      "type": "CALL",
+      "timestamp": "2026-08-08T22:15:20.091590",
+      "duration": 273
+    },
+    {
+      "id": "TX-3080",
+      "source": "PERSON_041",
+      "target": "PERSON_026",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-18T04:15:20.091590",
+      "amount": 3213
+    },
+    {
+      "id": "TX-2494",
+      "source": "PERSON_020",
+      "target": "PERSON_010",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-12T03:15:20.091590",
+      "amount": 1693
+    },
+    {
+      "id": "TX-6748",
+      "source": "PERSON_017",
+      "target": "PERSON_012",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-15T22:15:20.091590",
+      "amount": 962
+    },
+    {
+      "id": "CALL-1445",
+      "source": "PERSON_010",
+      "target": "PERSON_035",
+      "type": "CALL",
+      "timestamp": "2026-08-07T08:15:20.091590",
+      "duration": 102
+    },
+    {
+      "id": "TX-7764",
+      "source": "PERSON_003",
+      "target": "PERSON_001",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-25T19:15:20.091590",
+      "amount": 614
+    },
+    {
+      "id": "CALL-5839",
+      "source": "PERSON_010",
+      "target": "PERSON_044",
+      "type": "CALL",
+      "timestamp": "2026-08-26T05:15:20.091590",
+      "duration": 144
+    },
+    {
+      "id": "CALL-8142",
+      "source": "PERSON_044",
+      "target": "PERSON_015",
+      "type": "CALL",
+      "timestamp": "2026-08-23T09:15:20.091590",
+      "duration": 289
+    },
+    {
+      "id": "CALL-8807",
+      "source": "PERSON_015",
+      "target": "PERSON_007",
+      "type": "CALL",
+      "timestamp": "2026-08-23T00:15:20.091590",
+      "duration": 230
+    },
+    {
+      "id": "TX-6218",
+      "source": "PERSON_010",
+      "target": "PERSON_035",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-10T19:15:20.091590",
+      "amount": 1389
+    },
+    {
+      "id": "CALL-2875",
+      "source": "PERSON_020",
+      "target": "PERSON_021",
+      "type": "CALL",
+      "timestamp": "2026-08-20T08:15:20.091590",
+      "duration": 120
+    },
+    {
+      "id": "CALL-7052",
+      "source": "PERSON_018",
+      "target": "PERSON_019",
+      "type": "CALL",
+      "timestamp": "2026-08-25T00:15:20.091590",
+      "duration": 207
+    },
+    {
+      "id": "CALL-8761",
+      "source": "PERSON_026",
+      "target": "PERSON_023",
+      "type": "CALL",
+      "timestamp": "2026-08-06T14:15:20.091590",
+      "duration": 78
+    },
+    {
+      "id": "CALL-1759",
+      "source": "PERSON_017",
+      "target": "PERSON_021",
+      "type": "CALL",
+      "timestamp": "2026-08-19T20:15:20.091590",
+      "duration": 36
+    },
+    {
+      "id": "TX-6452",
+      "source": "PERSON_016",
+      "target": "PERSON_042",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-13T05:15:20.091590",
+      "amount": 858
+    },
+    {
+      "id": "TX-6597",
+      "source": "PERSON_046",
+      "target": "PERSON_034",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-17T00:15:20.091590",
+      "amount": 648
+    },
+    {
+      "id": "TX-2890",
+      "source": "PERSON_007",
+      "target": "PERSON_004",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-07T05:15:20.091590",
+      "amount": 3942
+    },
+    {
+      "id": "CALL-5527",
+      "source": "PERSON_031",
+      "target": "PERSON_029",
+      "type": "CALL",
+      "timestamp": "2026-08-19T19:15:20.091590",
+      "duration": 278
+    },
+    {
+      "id": "CALL-7239",
+      "source": "PERSON_049",
+      "target": "PERSON_026",
+      "type": "CALL",
+      "timestamp": "2026-08-11T11:15:20.091590",
+      "duration": 43
+    },
+    {
+      "id": "TX-2756",
+      "source": "PERSON_047",
+      "target": "PERSON_001",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-18T21:15:20.091590",
+      "amount": 2402
+    },
+    {
+      "id": "TX-5395",
+      "source": "PERSON_002",
+      "target": "PERSON_018",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-12T19:15:20.091590",
+      "amount": 1006
+    },
+    {
+      "id": "CALL-9090",
+      "source": "PERSON_048",
+      "target": "PERSON_013",
+      "type": "CALL",
+      "timestamp": "2026-08-10T13:15:20.091590",
+      "duration": 202
+    },
+    {
+      "id": "TX-9146",
+      "source": "PERSON_046",
+      "target": "PERSON_012",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-11T23:15:20.091590",
+      "amount": 2559
+    },
+    {
+      "id": "TX-1640",
+      "source": "PERSON_005",
+      "target": "PERSON_038",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-11T20:15:20.091590",
+      "amount": 3417
+    },
+    {
+      "id": "TX-2049",
+      "source": "PERSON_042",
+      "target": "PERSON_043",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-07T00:15:20.091590",
+      "amount": 796
+    },
+    {
+      "id": "TX-1648",
+      "source": "PERSON_041",
+      "target": "PERSON_013",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-20T16:15:20.091590",
+      "amount": 3602
+    },
+    {
+      "id": "CALL-8083",
+      "source": "PERSON_048",
+      "target": "PERSON_016",
+      "type": "CALL",
+      "timestamp": "2026-08-15T11:15:20.091590",
+      "duration": 247
+    },
+    {
+      "id": "TX-2908",
+      "source": "PERSON_035",
+      "target": "PERSON_033",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-17T14:15:20.091590",
+      "amount": 3716
+    },
+    {
+      "id": "TX-9813",
+      "source": "PERSON_014",
+      "target": "PERSON_023",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-24T07:15:20.091590",
+      "amount": 736
+    },
+    {
+      "id": "CALL-5558",
+      "source": "PERSON_019",
+      "target": "PERSON_015",
+      "type": "CALL",
+      "timestamp": "2026-08-26T05:15:20.091590",
+      "duration": 129
+    },
+    {
+      "id": "CALL-7169",
+      "source": "PERSON_025",
+      "target": "PERSON_020",
+      "type": "CALL",
+      "timestamp": "2026-08-25T17:15:20.091590",
+      "duration": 284
+    },
+    {
+      "id": "TX-4542",
+      "source": "PERSON_010",
+      "target": "PERSON_026",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-24T23:15:20.091590",
+      "amount": 1519
+    },
+    {
+      "id": "TX-7489",
+      "source": "PERSON_002",
+      "target": "PERSON_048",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-18T01:15:20.091590",
+      "amount": 1148
+    },
+    {
+      "id": "CALL-9112",
+      "source": "PERSON_032",
+      "target": "PERSON_034",
+      "type": "CALL",
+      "timestamp": "2026-08-21T01:15:20.091590",
+      "duration": 15
+    },
+    {
+      "id": "CALL-2950",
+      "source": "PERSON_023",
+      "target": "PERSON_014",
+      "type": "CALL",
+      "timestamp": "2026-08-05T17:15:20.091590",
+      "duration": 299
+    },
+    {
+      "id": "CALL-7205",
+      "source": "PERSON_043",
+      "target": "PERSON_027",
+      "type": "CALL",
+      "timestamp": "2026-08-15T03:15:20.091590",
+      "duration": 279
+    },
+    {
+      "id": "CALL-1929",
+      "source": "PERSON_038",
+      "target": "PERSON_004",
+      "type": "CALL",
+      "timestamp": "2026-08-25T23:15:20.091590",
+      "duration": 21
+    },
+    {
+      "id": "CALL-4681",
+      "source": "PERSON_036",
+      "target": "PERSON_026",
+      "type": "CALL",
+      "timestamp": "2026-08-22T14:15:20.091590",
+      "duration": 184
+    },
+    {
+      "id": "CALL-6008",
+      "source": "PERSON_019",
+      "target": "PERSON_032",
+      "type": "CALL",
+      "timestamp": "2026-08-19T13:15:20.091590",
+      "duration": 281
+    },
+    {
+      "id": "CALL-2504",
+      "source": "PERSON_006",
+      "target": "PERSON_048",
+      "type": "CALL",
+      "timestamp": "2026-08-18T21:15:20.091590",
+      "duration": 264
+    },
+    {
+      "id": "CALL-1114",
+      "source": "PERSON_049",
+      "target": "PERSON_002",
+      "type": "CALL",
+      "timestamp": "2026-08-19T13:15:20.091590",
+      "duration": 138
+    },
+    {
+      "id": "CALL-6360",
+      "source": "PERSON_010",
+      "target": "PERSON_043",
+      "type": "CALL",
+      "timestamp": "2026-08-06T14:15:20.091590",
+      "duration": 76
+    },
+    {
+      "id": "TX-3491",
+      "source": "PERSON_032",
+      "target": "PERSON_025",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-10T16:15:20.091590",
+      "amount": 4657
+    },
+    {
+      "id": "CALL-6672",
+      "source": "PERSON_038",
+      "target": "PERSON_025",
+      "type": "CALL",
+      "timestamp": "2026-08-25T09:15:20.091590",
+      "duration": 173
+    },
+    {
+      "id": "CALL-8364",
+      "source": "PERSON_048",
+      "target": "PERSON_046",
+      "type": "CALL",
+      "timestamp": "2026-08-20T06:15:20.091590",
       "duration": 29
     },
     {
-      "id": "CALL-ANOM3-2355",
+      "id": "TX-3865",
+      "source": "PERSON_004",
+      "target": "PERSON_027",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-10T18:15:20.091590",
+      "amount": 3741
+    },
+    {
+      "id": "TX-2837",
+      "source": "PERSON_049",
+      "target": "PERSON_029",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-15T19:15:20.091590",
+      "amount": 1245
+    },
+    {
+      "id": "CALL-8825",
+      "source": "PERSON_005",
+      "target": "PERSON_001",
+      "type": "CALL",
+      "timestamp": "2026-08-24T22:15:20.091590",
+      "duration": 128
+    },
+    {
+      "id": "TX-6430",
+      "source": "PERSON_016",
+      "target": "PERSON_025",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-25T17:15:20.091590",
+      "amount": 1227
+    },
+    {
+      "id": "TX-6357",
+      "source": "PERSON_021",
+      "target": "PERSON_040",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-15T12:15:20.091590",
+      "amount": 4357
+    },
+    {
+      "id": "CALL-1955",
+      "source": "PERSON_008",
+      "target": "PERSON_032",
+      "type": "CALL",
+      "timestamp": "2026-08-12T01:15:20.091590",
+      "duration": 96
+    },
+    {
+      "id": "CALL-8059",
+      "source": "PERSON_007",
+      "target": "PERSON_004",
+      "type": "CALL",
+      "timestamp": "2026-08-23T19:15:20.091590",
+      "duration": 125
+    },
+    {
+      "id": "CALL-8334",
+      "source": "PERSON_005",
+      "target": "PERSON_004",
+      "type": "CALL",
+      "timestamp": "2026-08-23T06:15:20.091590",
+      "duration": 137
+    },
+    {
+      "id": "CALL-9419",
+      "source": "PERSON_012",
+      "target": "PERSON_044",
+      "type": "CALL",
+      "timestamp": "2026-08-17T14:15:20.091590",
+      "duration": 60
+    },
+    {
+      "id": "CALL-9136",
+      "source": "PERSON_009",
+      "target": "PERSON_005",
+      "type": "CALL",
+      "timestamp": "2026-08-16T14:15:20.091590",
+      "duration": 271
+    },
+    {
+      "id": "CALL-3425",
+      "source": "PERSON_013",
+      "target": "PERSON_007",
+      "type": "CALL",
+      "timestamp": "2026-08-07T18:15:20.091590",
+      "duration": 128
+    },
+    {
+      "id": "CALL-5350",
+      "source": "PERSON_035",
+      "target": "PERSON_022",
+      "type": "CALL",
+      "timestamp": "2026-08-18T03:15:20.091590",
+      "duration": 50
+    },
+    {
+      "id": "TX-6917",
+      "source": "PERSON_001",
+      "target": "PERSON_009",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-19T03:15:20.091590",
+      "amount": 1251
+    },
+    {
+      "id": "TX-7688",
+      "source": "PERSON_018",
+      "target": "PERSON_029",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-20T20:15:20.091590",
+      "amount": 1897
+    },
+    {
+      "id": "TX-1699",
+      "source": "PERSON_050",
+      "target": "PERSON_007",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-09T02:15:20.091590",
+      "amount": 1309
+    },
+    {
+      "id": "TX-7145",
+      "source": "PERSON_002",
+      "target": "PERSON_047",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-17T12:15:20.091590",
+      "amount": 2171
+    },
+    {
+      "id": "CALL-3463",
+      "source": "PERSON_014",
+      "target": "PERSON_049",
+      "type": "CALL",
+      "timestamp": "2026-08-24T18:15:20.091590",
+      "duration": 264
+    },
+    {
+      "id": "CALL-1846",
+      "source": "PERSON_020",
+      "target": "PERSON_045",
+      "type": "CALL",
+      "timestamp": "2026-08-06T17:15:20.091590",
+      "duration": 212
+    },
+    {
+      "id": "TX-4162",
+      "source": "PERSON_042",
+      "target": "PERSON_001",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-11T10:15:20.091590",
+      "amount": 2587
+    },
+    {
+      "id": "CALL-4933",
+      "source": "PERSON_034",
+      "target": "PERSON_018",
+      "type": "CALL",
+      "timestamp": "2026-08-23T01:15:20.091590",
+      "duration": 14
+    },
+    {
+      "id": "CALL-4324",
+      "source": "PERSON_023",
+      "target": "PERSON_026",
+      "type": "CALL",
+      "timestamp": "2026-08-26T00:15:20.091590",
+      "duration": 170
+    },
+    {
+      "id": "TX-2840",
+      "source": "PERSON_043",
+      "target": "PERSON_038",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-24T15:15:20.091590",
+      "amount": 1001
+    },
+    {
+      "id": "TX-9261",
+      "source": "PERSON_023",
+      "target": "PERSON_041",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-22T11:15:20.091590",
+      "amount": 3572
+    },
+    {
+      "id": "CALL-7505",
+      "source": "PERSON_033",
+      "target": "PERSON_005",
+      "type": "CALL",
+      "timestamp": "2026-08-21T21:15:20.091590",
+      "duration": 152
+    },
+    {
+      "id": "TX-7222",
+      "source": "PERSON_041",
+      "target": "PERSON_017",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-21T23:15:20.091590",
+      "amount": 3782
+    },
+    {
+      "id": "TX-8167",
+      "source": "PERSON_005",
+      "target": "PERSON_009",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-10T16:15:20.091590",
+      "amount": 1589
+    },
+    {
+      "id": "TX-4974",
+      "source": "PERSON_010",
+      "target": "PERSON_047",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-08T20:15:20.091590",
+      "amount": 4122
+    },
+    {
+      "id": "CALL-6300",
+      "source": "PERSON_049",
+      "target": "PERSON_008",
+      "type": "CALL",
+      "timestamp": "2026-08-16T04:15:20.091590",
+      "duration": 21
+    },
+    {
+      "id": "TX-4090",
+      "source": "PERSON_019",
+      "target": "PERSON_048",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-10T05:15:20.091590",
+      "amount": 2102
+    },
+    {
+      "id": "CALL-3388",
+      "source": "PERSON_033",
+      "target": "PERSON_007",
+      "type": "CALL",
+      "timestamp": "2026-08-16T00:15:20.091590",
+      "duration": 292
+    },
+    {
+      "id": "TX-8128",
+      "source": "PERSON_018",
+      "target": "PERSON_033",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-07T00:15:20.091590",
+      "amount": 1534
+    },
+    {
+      "id": "TX-4668",
+      "source": "PERSON_042",
+      "target": "PERSON_040",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-22T02:15:20.091590",
+      "amount": 3037
+    },
+    {
+      "id": "CALL-4516",
+      "source": "PERSON_035",
+      "target": "PERSON_022",
+      "type": "CALL",
+      "timestamp": "2026-08-09T04:15:20.091590",
+      "duration": 27
+    },
+    {
+      "id": "CALL-1340",
+      "source": "PERSON_001",
+      "target": "PERSON_010",
+      "type": "CALL",
+      "timestamp": "2026-08-20T01:15:20.091590",
+      "duration": 199
+    },
+    {
+      "id": "TX-3717",
+      "source": "PERSON_047",
+      "target": "PERSON_049",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-26T00:15:20.091590",
+      "amount": 2020
+    },
+    {
+      "id": "CALL-4891",
+      "source": "PERSON_021",
+      "target": "PERSON_018",
+      "type": "CALL",
+      "timestamp": "2026-08-15T23:15:20.091590",
+      "duration": 164
+    },
+    {
+      "id": "CALL-2792",
+      "source": "PERSON_002",
+      "target": "PERSON_009",
+      "type": "CALL",
+      "timestamp": "2026-08-15T20:15:20.091590",
+      "duration": 32
+    },
+    {
+      "id": "CALL-9212",
+      "source": "PERSON_016",
+      "target": "PERSON_025",
+      "type": "CALL",
+      "timestamp": "2026-08-10T18:15:20.091590",
+      "duration": 103
+    },
+    {
+      "id": "CALL-7926",
+      "source": "PERSON_034",
+      "target": "PERSON_024",
+      "type": "CALL",
+      "timestamp": "2026-08-24T11:15:20.091590",
+      "duration": 211
+    },
+    {
+      "id": "CALL-4581",
+      "source": "PERSON_011",
+      "target": "PERSON_036",
+      "type": "CALL",
+      "timestamp": "2026-08-23T21:15:20.091590",
+      "duration": 281
+    },
+    {
+      "id": "TX-9425",
+      "source": "PERSON_028",
+      "target": "PERSON_009",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-15T03:15:20.091590",
+      "amount": 3860
+    },
+    {
+      "id": "TX-7443",
+      "source": "PERSON_029",
+      "target": "PERSON_007",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-22T14:15:20.091590",
+      "amount": 3755
+    },
+    {
+      "id": "TX-7410",
+      "source": "PERSON_019",
+      "target": "PERSON_026",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-15T05:15:20.091590",
+      "amount": 4160
+    },
+    {
+      "id": "TX-4684",
+      "source": "PERSON_033",
+      "target": "PERSON_031",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-20T11:15:20.091590",
+      "amount": 1886
+    },
+    {
+      "id": "CALL-1450",
+      "source": "PERSON_036",
+      "target": "PERSON_008",
+      "type": "CALL",
+      "timestamp": "2026-08-15T12:15:20.091590",
+      "duration": 294
+    },
+    {
+      "id": "CALL-9122",
+      "source": "PERSON_008",
+      "target": "PERSON_014",
+      "type": "CALL",
+      "timestamp": "2026-08-21T04:15:20.091590",
+      "duration": 226
+    },
+    {
+      "id": "TX-1984",
+      "source": "PERSON_013",
+      "target": "PERSON_048",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-11T06:15:20.091590",
+      "amount": 620
+    },
+    {
+      "id": "TX-3756",
+      "source": "PERSON_026",
+      "target": "PERSON_018",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-20T08:15:20.091590",
+      "amount": 521
+    },
+    {
+      "id": "CALL-1068",
+      "source": "PERSON_044",
+      "target": "PERSON_024",
+      "type": "CALL",
+      "timestamp": "2026-08-19T20:15:20.091590",
+      "duration": 171
+    },
+    {
+      "id": "TX-8494",
+      "source": "PERSON_044",
+      "target": "PERSON_050",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-11T21:15:20.091590",
+      "amount": 1782
+    },
+    {
+      "id": "CALL-6365",
+      "source": "PERSON_020",
+      "target": "PERSON_018",
+      "type": "CALL",
+      "timestamp": "2026-08-07T15:15:20.091590",
+      "duration": 98
+    },
+    {
+      "id": "TX-1701",
+      "source": "PERSON_006",
+      "target": "PERSON_049",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-16T19:15:20.091590",
+      "amount": 4173
+    },
+    {
+      "id": "CALL-1620",
+      "source": "PERSON_008",
+      "target": "PERSON_015",
+      "type": "CALL",
+      "timestamp": "2026-08-15T19:15:20.091590",
+      "duration": 119
+    },
+    {
+      "id": "CALL-1147",
+      "source": "PERSON_004",
+      "target": "PERSON_006",
+      "type": "CALL",
+      "timestamp": "2026-08-17T17:15:20.091590",
+      "duration": 76
+    },
+    {
+      "id": "TX-5451",
+      "source": "PERSON_010",
+      "target": "PERSON_001",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-11T09:15:20.091590",
+      "amount": 2135
+    },
+    {
+      "id": "CALL-7816",
+      "source": "PERSON_024",
+      "target": "PERSON_049",
+      "type": "CALL",
+      "timestamp": "2026-08-10T13:15:20.091590",
+      "duration": 86
+    },
+    {
+      "id": "TX-7289",
+      "source": "PERSON_038",
+      "target": "PERSON_043",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-14T15:15:20.091590",
+      "amount": 2037
+    },
+    {
+      "id": "TX-4038",
+      "source": "PERSON_046",
+      "target": "PERSON_038",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-22T17:15:20.091590",
+      "amount": 1189
+    },
+    {
+      "id": "TX-5900",
+      "source": "PERSON_029",
+      "target": "PERSON_026",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-14T10:15:20.091590",
+      "amount": 760
+    },
+    {
+      "id": "TX-9389",
+      "source": "PERSON_027",
+      "target": "PERSON_046",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-11T11:15:20.091590",
+      "amount": 1756
+    },
+    {
+      "id": "TX-8471",
+      "source": "PERSON_005",
+      "target": "PERSON_008",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-10T10:15:20.091590",
+      "amount": 1033
+    },
+    {
+      "id": "CALL-1184",
+      "source": "PERSON_004",
+      "target": "PERSON_044",
+      "type": "CALL",
+      "timestamp": "2026-08-19T17:15:20.091590",
+      "duration": 221
+    },
+    {
+      "id": "TX-2960",
+      "source": "PERSON_023",
+      "target": "PERSON_022",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-23T13:15:20.091590",
+      "amount": 2978
+    },
+    {
+      "id": "TX-7692",
+      "source": "PERSON_046",
+      "target": "PERSON_021",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-08T00:15:20.091590",
+      "amount": 2610
+    },
+    {
+      "id": "CALL-7305",
+      "source": "PERSON_024",
+      "target": "PERSON_005",
+      "type": "CALL",
+      "timestamp": "2026-08-16T09:15:20.091590",
+      "duration": 273
+    },
+    {
+      "id": "CALL-9264",
+      "source": "PERSON_037",
+      "target": "PERSON_036",
+      "type": "CALL",
+      "timestamp": "2026-08-08T13:15:20.091590",
+      "duration": 226
+    },
+    {
+      "id": "CALL-4767",
+      "source": "PERSON_018",
+      "target": "PERSON_038",
+      "type": "CALL",
+      "timestamp": "2026-08-13T13:15:20.091590",
+      "duration": 203
+    },
+    {
+      "id": "CALL-5923",
+      "source": "PERSON_001",
+      "target": "PERSON_021",
+      "type": "CALL",
+      "timestamp": "2026-08-24T10:15:20.091590",
+      "duration": 260
+    },
+    {
+      "id": "CALL-4145",
+      "source": "PERSON_033",
+      "target": "PERSON_047",
+      "type": "CALL",
+      "timestamp": "2026-08-22T04:15:20.091590",
+      "duration": 28
+    },
+    {
+      "id": "CALL-2012",
+      "source": "PERSON_044",
+      "target": "PERSON_043",
+      "type": "CALL",
+      "timestamp": "2026-08-21T04:15:20.091590",
+      "duration": 217
+    },
+    {
+      "id": "CALL-3192",
+      "source": "PERSON_031",
+      "target": "PERSON_022",
+      "type": "CALL",
+      "timestamp": "2026-08-14T09:15:20.091590",
+      "duration": 282
+    },
+    {
+      "id": "CALL-1217",
+      "source": "PERSON_008",
+      "target": "PERSON_001",
+      "type": "CALL",
+      "timestamp": "2026-08-11T01:15:20.091590",
+      "duration": 258
+    },
+    {
+      "id": "CALL-1667",
+      "source": "PERSON_018",
+      "target": "PERSON_035",
+      "type": "CALL",
+      "timestamp": "2026-08-22T11:15:20.091590",
+      "duration": 59
+    },
+    {
+      "id": "TX-6531",
+      "source": "PERSON_033",
+      "target": "PERSON_012",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-07T02:15:20.091590",
+      "amount": 1443
+    },
+    {
+      "id": "TX-2482",
+      "source": "PERSON_043",
+      "target": "PERSON_006",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-07T00:15:20.091590",
+      "amount": 4969
+    },
+    {
+      "id": "TX-3436",
+      "source": "PERSON_016",
+      "target": "PERSON_039",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-18T15:15:20.091590",
+      "amount": 4340
+    },
+    {
+      "id": "CALL-9551",
+      "source": "PERSON_009",
+      "target": "PERSON_020",
+      "type": "CALL",
+      "timestamp": "2026-08-22T00:15:20.091590",
+      "duration": 279
+    },
+    {
+      "id": "TX-2490",
+      "source": "PERSON_025",
+      "target": "PERSON_026",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-19T06:15:20.091590",
+      "amount": 4917
+    },
+    {
+      "id": "CALL-9156",
+      "source": "PERSON_026",
+      "target": "PERSON_039",
+      "type": "CALL",
+      "timestamp": "2026-08-19T23:15:20.091590",
+      "duration": 170
+    },
+    {
+      "id": "TX-2290",
+      "source": "PERSON_018",
+      "target": "PERSON_028",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-17T09:15:20.091590",
+      "amount": 2894
+    },
+    {
+      "id": "TX-9137",
+      "source": "PERSON_011",
+      "target": "PERSON_044",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-16T22:15:20.091590",
+      "amount": 4123
+    },
+    {
+      "id": "TX-8172",
+      "source": "PERSON_020",
+      "target": "PERSON_049",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-18T10:15:20.091590",
+      "amount": 4930
+    },
+    {
+      "id": "TX-4570",
+      "source": "PERSON_026",
+      "target": "PERSON_046",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-07T23:15:20.091590",
+      "amount": 4611
+    },
+    {
+      "id": "CALL-7133",
+      "source": "PERSON_017",
+      "target": "PERSON_007",
+      "type": "CALL",
+      "timestamp": "2026-08-13T07:15:20.091590",
+      "duration": 264
+    },
+    {
+      "id": "TX-7637",
+      "source": "PERSON_006",
+      "target": "PERSON_049",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-12T22:15:20.091590",
+      "amount": 2631
+    },
+    {
+      "id": "CALL-2668",
+      "source": "PERSON_031",
+      "target": "PERSON_033",
+      "type": "CALL",
+      "timestamp": "2026-08-21T08:15:20.091590",
+      "duration": 175
+    },
+    {
+      "id": "TX-9847",
+      "source": "PERSON_001",
+      "target": "PERSON_017",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-25T16:15:20.091590",
+      "amount": 4409
+    },
+    {
+      "id": "TX-3618",
+      "source": "PERSON_048",
+      "target": "PERSON_015",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-05T17:15:20.091590",
+      "amount": 2795
+    },
+    {
+      "id": "CALL-5102",
+      "source": "PERSON_022",
+      "target": "PERSON_029",
+      "type": "CALL",
+      "timestamp": "2026-08-17T06:15:20.091590",
+      "duration": 153
+    },
+    {
+      "id": "TX-8450",
+      "source": "PERSON_033",
+      "target": "PERSON_026",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-22T01:15:20.091590",
+      "amount": 3535
+    },
+    {
+      "id": "TX-5036",
+      "source": "PERSON_037",
+      "target": "PERSON_019",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-24T19:15:20.091590",
+      "amount": 3999
+    },
+    {
+      "id": "CALL-6981",
+      "source": "PERSON_036",
+      "target": "PERSON_039",
+      "type": "CALL",
+      "timestamp": "2026-08-22T20:15:20.091590",
+      "duration": 229
+    },
+    {
+      "id": "CALL-1186",
+      "source": "PERSON_036",
+      "target": "PERSON_019",
+      "type": "CALL",
+      "timestamp": "2026-08-08T18:15:20.091590",
+      "duration": 64
+    },
+    {
+      "id": "TX-9866",
+      "source": "PERSON_033",
+      "target": "PERSON_050",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-12T17:15:20.091590",
+      "amount": 4764
+    },
+    {
+      "id": "CALL-9916",
+      "source": "PERSON_036",
+      "target": "PERSON_037",
+      "type": "CALL",
+      "timestamp": "2026-08-15T08:15:20.091590",
+      "duration": 263
+    },
+    {
+      "id": "CALL-2135",
+      "source": "PERSON_040",
+      "target": "PERSON_025",
+      "type": "CALL",
+      "timestamp": "2026-08-25T07:15:20.091590",
+      "duration": 131
+    },
+    {
+      "id": "CALL-4204",
+      "source": "PERSON_017",
+      "target": "PERSON_020",
+      "type": "CALL",
+      "timestamp": "2026-08-21T06:15:20.091590",
+      "duration": 289
+    },
+    {
+      "id": "CALL-1894",
+      "source": "PERSON_044",
+      "target": "PERSON_045",
+      "type": "CALL",
+      "timestamp": "2026-08-13T06:15:20.091590",
+      "duration": 51
+    },
+    {
+      "id": "CALL-7085",
+      "source": "PERSON_001",
+      "target": "PERSON_043",
+      "type": "CALL",
+      "timestamp": "2026-08-11T20:15:20.091590",
+      "duration": 266
+    },
+    {
+      "id": "TX-6212",
+      "source": "PERSON_050",
+      "target": "PERSON_027",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-25T09:15:20.091590",
+      "amount": 3590
+    },
+    {
+      "id": "TX-7632",
+      "source": "PERSON_043",
+      "target": "PERSON_018",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-11T18:15:20.091590",
+      "amount": 3925
+    },
+    {
+      "id": "TX-9525",
+      "source": "PERSON_032",
+      "target": "PERSON_045",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-20T01:15:20.091590",
+      "amount": 4545
+    },
+    {
+      "id": "TX-6649",
+      "source": "PERSON_010",
+      "target": "PERSON_027",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-09T12:15:20.091590",
+      "amount": 4726
+    },
+    {
+      "id": "CALL-8457",
+      "source": "PERSON_038",
+      "target": "PERSON_009",
+      "type": "CALL",
+      "timestamp": "2026-08-24T18:15:20.091590",
+      "duration": 191
+    },
+    {
+      "id": "CALL-5579",
+      "source": "PERSON_027",
+      "target": "PERSON_015",
+      "type": "CALL",
+      "timestamp": "2026-08-22T10:15:20.091590",
+      "duration": 206
+    },
+    {
+      "id": "CALL-4902",
+      "source": "PERSON_025",
+      "target": "PERSON_049",
+      "type": "CALL",
+      "timestamp": "2026-08-26T03:15:20.091590",
+      "duration": 226
+    },
+    {
+      "id": "CALL-3123",
+      "source": "PERSON_034",
+      "target": "PERSON_045",
+      "type": "CALL",
+      "timestamp": "2026-08-23T01:15:20.091590",
+      "duration": 72
+    },
+    {
+      "id": "TX-4490",
+      "source": "PERSON_046",
+      "target": "PERSON_041",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-23T19:15:20.091590",
+      "amount": 4884
+    },
+    {
+      "id": "TX-3865",
+      "source": "PERSON_038",
+      "target": "PERSON_013",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-09T21:15:20.091590",
+      "amount": 4004
+    },
+    {
+      "id": "TX-6301",
+      "source": "PERSON_039",
+      "target": "PERSON_017",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-16T07:15:20.091590",
+      "amount": 4881
+    },
+    {
+      "id": "CALL-3236",
+      "source": "PERSON_030",
+      "target": "PERSON_025",
+      "type": "CALL",
+      "timestamp": "2026-08-19T05:15:20.091590",
+      "duration": 206
+    },
+    {
+      "id": "CALL-9022",
+      "source": "PERSON_034",
+      "target": "PERSON_045",
+      "type": "CALL",
+      "timestamp": "2026-08-23T15:15:20.091590",
+      "duration": 95
+    },
+    {
+      "id": "TX-1209",
+      "source": "PERSON_001",
+      "target": "PERSON_038",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-17T05:15:20.091590",
+      "amount": 4479
+    },
+    {
+      "id": "TX-3261",
+      "source": "PERSON_036",
+      "target": "PERSON_016",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-14T13:15:20.091590",
+      "amount": 1537
+    },
+    {
+      "id": "CALL-9115",
+      "source": "PERSON_014",
+      "target": "PERSON_017",
+      "type": "CALL",
+      "timestamp": "2026-08-10T11:15:20.091590",
+      "duration": 275
+    },
+    {
+      "id": "TX-5195",
+      "source": "PERSON_024",
+      "target": "PERSON_031",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-12T01:15:20.091590",
+      "amount": 2010
+    },
+    {
+      "id": "CALL-6411",
+      "source": "PERSON_016",
+      "target": "PERSON_025",
+      "type": "CALL",
+      "timestamp": "2026-08-24T14:15:20.091590",
+      "duration": 285
+    },
+    {
+      "id": "TX-2489",
+      "source": "PERSON_047",
+      "target": "PERSON_013",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-06T01:15:20.091590",
+      "amount": 2051
+    },
+    {
+      "id": "CALL-7928",
+      "source": "PERSON_004",
+      "target": "PERSON_006",
+      "type": "CALL",
+      "timestamp": "2026-08-14T22:15:20.091590",
+      "duration": 12
+    },
+    {
+      "id": "CALL-2957",
+      "source": "PERSON_050",
+      "target": "PERSON_020",
+      "type": "CALL",
+      "timestamp": "2026-08-25T08:15:20.091590",
+      "duration": 258
+    },
+    {
+      "id": "CALL-6719",
+      "source": "PERSON_033",
+      "target": "PERSON_031",
+      "type": "CALL",
+      "timestamp": "2026-08-13T17:15:20.091590",
+      "duration": 61
+    },
+    {
+      "id": "TX-2372",
+      "source": "PERSON_037",
+      "target": "PERSON_046",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-16T17:15:20.091590",
+      "amount": 2959
+    },
+    {
+      "id": "CALL-5173",
+      "source": "PERSON_007",
+      "target": "PERSON_038",
+      "type": "CALL",
+      "timestamp": "2026-08-07T18:15:20.091590",
+      "duration": 133
+    },
+    {
+      "id": "CALL-9751",
+      "source": "PERSON_011",
+      "target": "PERSON_050",
+      "type": "CALL",
+      "timestamp": "2026-08-08T13:15:20.091590",
+      "duration": 23
+    },
+    {
+      "id": "TX-9905",
+      "source": "PERSON_048",
+      "target": "PERSON_047",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-13T20:15:20.091590",
+      "amount": 1184
+    },
+    {
+      "id": "CALL-7744",
+      "source": "PERSON_023",
+      "target": "PERSON_030",
+      "type": "CALL",
+      "timestamp": "2026-08-10T19:15:20.091590",
+      "duration": 268
+    },
+    {
+      "id": "CALL-9136",
+      "source": "PERSON_001",
+      "target": "PERSON_002",
+      "type": "CALL",
+      "timestamp": "2026-08-13T01:15:20.091590",
+      "duration": 248
+    },
+    {
+      "id": "TX-7836",
+      "source": "PERSON_021",
+      "target": "PERSON_049",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-22T18:15:20.091590",
+      "amount": 514
+    },
+    {
+      "id": "CALL-7312",
+      "source": "PERSON_044",
+      "target": "PERSON_029",
+      "type": "CALL",
+      "timestamp": "2026-08-16T10:15:20.091590",
+      "duration": 24
+    },
+    {
+      "id": "CALL-6967",
+      "source": "PERSON_018",
+      "target": "PERSON_040",
+      "type": "CALL",
+      "timestamp": "2026-08-20T08:15:20.091590",
+      "duration": 70
+    },
+    {
+      "id": "TX-5733",
+      "source": "PERSON_016",
+      "target": "PERSON_008",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-22T23:15:20.091590",
+      "amount": 2128
+    },
+    {
+      "id": "CALL-1423",
+      "source": "PERSON_003",
+      "target": "PERSON_039",
+      "type": "CALL",
+      "timestamp": "2026-08-06T13:15:20.091590",
+      "duration": 242
+    },
+    {
+      "id": "CALL-1258",
+      "source": "PERSON_038",
+      "target": "PERSON_032",
+      "type": "CALL",
+      "timestamp": "2026-08-24T03:15:20.091590",
+      "duration": 129
+    },
+    {
+      "id": "CALL-9618",
+      "source": "PERSON_014",
+      "target": "PERSON_030",
+      "type": "CALL",
+      "timestamp": "2026-08-12T22:15:20.091590",
+      "duration": 291
+    },
+    {
+      "id": "CALL-7371",
+      "source": "PERSON_012",
+      "target": "PERSON_001",
+      "type": "CALL",
+      "timestamp": "2026-08-24T03:15:20.091590",
+      "duration": 52
+    },
+    {
+      "id": "CALL-4071",
+      "source": "PERSON_009",
+      "target": "PERSON_041",
+      "type": "CALL",
+      "timestamp": "2026-08-23T20:15:20.091590",
+      "duration": 259
+    },
+    {
+      "id": "TX-3452",
+      "source": "PERSON_006",
+      "target": "PERSON_029",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-21T19:15:20.091590",
+      "amount": 4517
+    },
+    {
+      "id": "TX-8145",
+      "source": "PERSON_050",
+      "target": "PERSON_015",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-23T18:15:20.091590",
+      "amount": 2222
+    },
+    {
+      "id": "CALL-9099",
+      "source": "PERSON_044",
+      "target": "PERSON_018",
+      "type": "CALL",
+      "timestamp": "2026-08-14T21:15:20.091590",
+      "duration": 271
+    },
+    {
+      "id": "TX-6494",
+      "source": "PERSON_037",
+      "target": "PERSON_013",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-13T04:15:20.091590",
+      "amount": 2279
+    },
+    {
+      "id": "TX-3891",
+      "source": "PERSON_025",
+      "target": "PERSON_012",
+      "type": "TRANSACTION",
+      "timestamp": "2026-08-23T06:15:20.091590",
+      "amount": 2463
+    },
+    {
+      "id": "CALL-2811",
+      "source": "PERSON_029",
+      "target": "PERSON_044",
+      "type": "CALL",
+      "timestamp": "2026-08-07T01:15:20.091590",
+      "duration": 67
+    },
+    {
+      "id": "CALL-3413",
+      "source": "PERSON_012",
+      "target": "PERSON_032",
+      "type": "CALL",
+      "timestamp": "2026-08-16T03:15:20.091590",
+      "duration": 100
+    },
+    {
+      "id": "TX-ANOM1-4892",
+      "source": "PERSON_042",
+      "target": "PERSON_049",
+      "type": "TRANSACTION",
+      "timestamp": "2026-09-02T21:15:20.095537",
+      "amount": 81919
+    },
+    {
+      "id": "TX-ANOM1-9629",
+      "source": "PERSON_042",
+      "target": "PERSON_041",
+      "type": "TRANSACTION",
+      "timestamp": "2026-09-02T09:15:20.095537",
+      "amount": 74611
+    },
+    {
+      "id": "TX-ANOM1-9708",
+      "source": "PERSON_042",
+      "target": "PERSON_008",
+      "type": "TRANSACTION",
+      "timestamp": "2026-09-03T08:15:20.095537",
+      "amount": 65168
+    },
+    {
+      "id": "TX-ANOM1-3791",
+      "source": "PERSON_042",
+      "target": "PERSON_020",
+      "type": "TRANSACTION",
+      "timestamp": "2026-09-02T11:15:20.095537",
+      "amount": 87491
+    },
+    {
+      "id": "TX-ANOM1-7345",
+      "source": "PERSON_042",
+      "target": "PERSON_018",
+      "type": "TRANSACTION",
+      "timestamp": "2026-09-01T14:15:20.095537",
+      "amount": 74408
+    },
+    {
+      "id": "TX-ANOM1-1369",
+      "source": "PERSON_042",
+      "target": "PERSON_027",
+      "type": "TRANSACTION",
+      "timestamp": "2026-09-03T00:15:20.095537",
+      "amount": 82995
+    },
+    {
+      "id": "TX-ANOM1-5571",
+      "source": "PERSON_042",
+      "target": "PERSON_016",
+      "type": "TRANSACTION",
+      "timestamp": "2026-09-02T16:15:20.095537",
+      "amount": 98098
+    },
+    {
+      "id": "TX-ANOM1-1607",
+      "source": "PERSON_042",
+      "target": "PERSON_045",
+      "type": "TRANSACTION",
+      "timestamp": "2026-09-03T02:15:20.095537",
+      "amount": 50526
+    },
+    {
+      "id": "TX-ANOM1-7507",
+      "source": "PERSON_042",
+      "target": "PERSON_035",
+      "type": "TRANSACTION",
+      "timestamp": "2026-09-03T07:15:20.095537",
+      "amount": 84531
+    },
+    {
+      "id": "TX-ANOM1-1053",
+      "source": "PERSON_042",
+      "target": "PERSON_039",
+      "type": "TRANSACTION",
+      "timestamp": "2026-09-02T20:15:20.095537",
+      "amount": 58772
+    },
+    {
+      "id": "CALL-ANOM2-2594",
+      "source": "PERSON_015",
+      "target": "PERSON_041",
+      "type": "CALL",
+      "timestamp": "2026-09-02T10:41:20.095537",
+      "duration": 44
+    },
+    {
+      "id": "CALL-ANOM2-1842",
+      "source": "PERSON_015",
+      "target": "PERSON_005",
+      "type": "CALL",
+      "timestamp": "2026-09-02T11:20:20.095537",
+      "duration": 17
+    },
+    {
+      "id": "CALL-ANOM2-4003",
+      "source": "PERSON_015",
+      "target": "PERSON_033",
+      "type": "CALL",
+      "timestamp": "2026-09-02T10:58:20.095537",
+      "duration": 34
+    },
+    {
+      "id": "CALL-ANOM2-3384",
+      "source": "PERSON_015",
+      "target": "PERSON_039",
+      "type": "CALL",
+      "timestamp": "2026-09-02T10:37:20.095537",
+      "duration": 56
+    },
+    {
+      "id": "CALL-ANOM2-5935",
+      "source": "PERSON_015",
+      "target": "PERSON_033",
+      "type": "CALL",
+      "timestamp": "2026-09-02T11:52:20.095537",
+      "duration": 30
+    },
+    {
+      "id": "CALL-ANOM2-5412",
+      "source": "PERSON_015",
+      "target": "PERSON_030",
+      "type": "CALL",
+      "timestamp": "2026-09-02T10:16:20.095537",
+      "duration": 41
+    },
+    {
+      "id": "CALL-ANOM2-1129",
+      "source": "PERSON_015",
+      "target": "PERSON_037",
+      "type": "CALL",
+      "timestamp": "2026-09-02T12:04:20.095537",
+      "duration": 54
+    },
+    {
+      "id": "CALL-ANOM2-4036",
+      "source": "PERSON_015",
+      "target": "PERSON_016",
+      "type": "CALL",
+      "timestamp": "2026-09-02T11:13:20.095537",
+      "duration": 51
+    },
+    {
+      "id": "CALL-ANOM2-1812",
+      "source": "PERSON_015",
+      "target": "PERSON_048",
+      "type": "CALL",
+      "timestamp": "2026-09-02T11:55:20.095537",
+      "duration": 56
+    },
+    {
+      "id": "CALL-ANOM2-1906",
+      "source": "PERSON_015",
+      "target": "PERSON_028",
+      "type": "CALL",
+      "timestamp": "2026-09-02T11:19:20.095537",
+      "duration": 50
+    },
+    {
+      "id": "CALL-ANOM2-9551",
+      "source": "PERSON_015",
+      "target": "PERSON_040",
+      "type": "CALL",
+      "timestamp": "2026-09-02T11:47:20.095537",
+      "duration": 45
+    },
+    {
+      "id": "CALL-ANOM2-6432",
+      "source": "PERSON_015",
+      "target": "PERSON_017",
+      "type": "CALL",
+      "timestamp": "2026-09-02T10:39:20.095537",
+      "duration": 42
+    },
+    {
+      "id": "CALL-ANOM2-5855",
+      "source": "PERSON_015",
+      "target": "PERSON_009",
+      "type": "CALL",
+      "timestamp": "2026-09-02T10:16:20.095537",
+      "duration": 19
+    },
+    {
+      "id": "CALL-ANOM2-6285",
+      "source": "PERSON_015",
+      "target": "PERSON_003",
+      "type": "CALL",
+      "timestamp": "2026-09-02T12:12:20.095537",
+      "duration": 10
+    },
+    {
+      "id": "CALL-ANOM2-7122",
+      "source": "PERSON_015",
+      "target": "PERSON_049",
+      "type": "CALL",
+      "timestamp": "2026-09-02T12:00:20.095537",
+      "duration": 59
+    },
+    {
+      "id": "CALL-ANOM2-6128",
+      "source": "PERSON_015",
+      "target": "PERSON_014",
+      "type": "CALL",
+      "timestamp": "2026-09-02T11:31:20.095537",
+      "duration": 27
+    },
+    {
+      "id": "CALL-ANOM2-1911",
+      "source": "PERSON_015",
+      "target": "PERSON_048",
+      "type": "CALL",
+      "timestamp": "2026-09-02T12:07:20.095537",
+      "duration": 30
+    },
+    {
+      "id": "CALL-ANOM2-5785",
+      "source": "PERSON_015",
+      "target": "PERSON_026",
+      "type": "CALL",
+      "timestamp": "2026-09-02T12:15:20.095537",
+      "duration": 23
+    },
+    {
+      "id": "CALL-ANOM2-8739",
+      "source": "PERSON_015",
+      "target": "PERSON_023",
+      "type": "CALL",
+      "timestamp": "2026-09-02T10:57:20.095537",
+      "duration": 30
+    },
+    {
+      "id": "CALL-ANOM2-7907",
+      "source": "PERSON_015",
+      "target": "PERSON_001",
+      "type": "CALL",
+      "timestamp": "2026-09-02T12:01:20.095537",
+      "duration": 12
+    },
+    {
+      "id": "CALL-ANOM2-8617",
+      "source": "PERSON_015",
+      "target": "PERSON_038",
+      "type": "CALL",
+      "timestamp": "2026-09-02T10:30:20.095537",
+      "duration": 55
+    },
+    {
+      "id": "CALL-ANOM2-5578",
+      "source": "PERSON_015",
+      "target": "PERSON_014",
+      "type": "CALL",
+      "timestamp": "2026-09-02T11:06:20.095537",
+      "duration": 39
+    },
+    {
+      "id": "CALL-ANOM2-1292",
+      "source": "PERSON_015",
+      "target": "PERSON_043",
+      "type": "CALL",
+      "timestamp": "2026-09-02T10:20:20.095537",
+      "duration": 45
+    },
+    {
+      "id": "CALL-ANOM2-3654",
+      "source": "PERSON_015",
+      "target": "PERSON_019",
+      "type": "CALL",
+      "timestamp": "2026-09-02T10:27:20.095537",
+      "duration": 11
+    },
+    {
+      "id": "CALL-ANOM2-1653",
+      "source": "PERSON_015",
+      "target": "PERSON_014",
+      "type": "CALL",
+      "timestamp": "2026-09-02T10:16:20.095537",
+      "duration": 24
+    },
+    {
+      "id": "CALL-ANOM3-1464",
       "source": "PERSON_030",
       "target": "PERSON_002",
       "type": "CALL",
-      "timestamp": "2026-08-30T22:20:21.976582",
+      "timestamp": "2026-09-03T10:15:20.095537",
       "duration": 300
     },
     {
-      "id": "CALL-ANOM3-3269",
+      "id": "CALL-ANOM3-4523",
       "source": "PERSON_030",
       "target": "PERSON_004",
       "type": "CALL",
-      "timestamp": "2026-08-30T22:20:21.976582",
+      "timestamp": "2026-09-03T10:15:20.095537",
       "duration": 300
     },
     {
-      "id": "CALL-ANOM3-1230",
+      "id": "CALL-ANOM3-8192",
       "source": "PERSON_030",
       "target": "PERSON_046",
       "type": "CALL",
-      "timestamp": "2026-08-30T22:20:21.976582",
+      "timestamp": "2026-09-03T10:15:20.095537",
       "duration": 300
     },
     {
-      "id": "CALL-ANOM3-9988",
+      "id": "CALL-ANOM3-3779",
       "source": "PERSON_030",
       "target": "PERSON_049",
       "type": "CALL",
-      "timestamp": "2026-08-30T22:20:21.976582",
+      "timestamp": "2026-09-03T10:15:20.095537",
       "duration": 300
     }
   ]

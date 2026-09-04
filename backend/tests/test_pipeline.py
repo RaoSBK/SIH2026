@@ -185,7 +185,7 @@ class TestSelfLoopAudit:
         id_map = {"person:a": merged, "person:b": merged}
         rel = make_rel("KNOWS", "person:a", "person:b")
 
-        with patch("backend.app.ingestion.resolver.log_filtered_edge", MagicMock()) as mock_log:
+        with patch("backend.app.audit.logger.log_filtered_edge", MagicMock()) as mock_log:
             result = _rewrite_relationship_ids([rel], id_map)
 
         assert len(result) == 0, "Self-loop must be excluded from the graph"
@@ -194,7 +194,7 @@ class TestSelfLoopAudit:
         from backend.app.ingestion.resolver import _rewrite_relationship_ids
         id_map = {"person:a": "person:a"}
         rel = make_rel("KNOWS", "person:a", "person:other")
-        with patch("backend.app.ingestion.resolver.log_filtered_edge", MagicMock()):
+        with patch("backend.app.audit.logger.log_filtered_edge", MagicMock()):
             result = _rewrite_relationship_ids([rel], id_map)
         assert len(result) == 1
 
@@ -272,14 +272,14 @@ class TestNERUtilities:
         assert "  " not in _normalize_ocr("Ravi    Kumar   visited   Delhi")
 
     def test_stoplist_rejects_officer(self):
-        from backend.app.ingestion.ner import _is_probable_name
-        with patch("backend.app.ingestion.ner.log_ner_borderline", MagicMock()):
-            assert _is_probable_name("Officer") is False
+        from backend.app.ingestion.ner import _is_probable_entity
+        with patch("backend.app.audit.logger.log_ner_borderline", MagicMock()):
+            assert _is_probable_entity("Officer", "PERSON") is False
 
     def test_stoplist_accepts_real_name(self):
-        from backend.app.ingestion.ner import _is_probable_name
-        assert _is_probable_name("Priya Sharma") is True
+        from backend.app.ingestion.ner import _is_probable_entity
+        assert _is_probable_entity("Priya Sharma", "PERSON") is True
 
     def test_stoplist_bypassed_for_long_spans(self):
-        from backend.app.ingestion.ner import _is_probable_name
-        assert _is_probable_name("Dr. Rajesh Kumar Verma Singh") is True
+        from backend.app.ingestion.ner import _is_probable_entity
+        assert _is_probable_entity("Dr. Rajesh Kumar Verma Singh", "PERSON") is True

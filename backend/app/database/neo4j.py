@@ -124,3 +124,47 @@ def delete_entities_by_source(file_name: str, case_id: str = None):
             "DELETE d",
             file_name=file_name, case_id=case_id or "unknown"
         )
+
+
+def merge_nodes_in_neo4j(source_id: str, target_id: str):
+    """
+    Merges source entity node INTO target entity node in Neo4j.
+    Re-links relationships and removes the source node.
+    """
+    if not source_id or not target_id or source_id == target_id:
+        return
+    try:
+        with driver.session() as session:
+            # Transfer aliases & source_files
+            session.run(
+                "MATCH (s {id: $source_id}), (t {id: $target_id}) "
+                "SET t.aliases = coalesce(t.aliases, []) + [s.value] + coalesce(s.aliases, []), "
+                "    t.source_files = coalesce(t.source_files, []) + [x IN coalesce(s.source_files, []) WHERE NOT x IN coalesce(t.source_files, [])]",
+                source_id=source_id, target_id=target_id
+            )
+            # Re-link outgoing relationships
+            session.run(
+                "MATCH (s {id: $source_id})-[r]->(o) "
+                "WHERE o.id <> $target_id AND type(r) <> 'EXTRACTED_FROM' "
+                "MATCH (t {id: $target_id}) "
+                "MERGE (t)-[r2:KNOWS]->(o) SET r2 = properties(r) "
+                "DELETE r",
+                source_id=source_id, target_id=target_id
+            )
+            # Re-link incoming relationships
+            session.run(
+                "MATCH (o)-[r]->(s {id: $source_id}) "
+                "WHERE o.id <> $target_id AND type(r) <> 'EXTRACTED_FROM' "
+                "MATCH (t {id: $target_id}) "
+                "MERGE (o)-[r2:KNOWS]->(t) SET r2 = properties(r) "
+                "DELETE r",
+                source_id=source_id, target_id=target_id
+            )
+            # Detach delete source node
+            session.run(
+                "MATCH (s {id: $source_id}) DETACH DELETE s",
+                source_id=source_id
+            )
+    except Exception as e:
+        print(f"[Neo4j] Graph merge notice for {source_id} -> {target_id}: {e}")
+

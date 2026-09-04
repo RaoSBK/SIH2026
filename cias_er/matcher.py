@@ -1,5 +1,6 @@
 import re
 from rapidfuzz import fuzz
+from rapidfuzz.distance import JaroWinkler
 
 def normalize_text(text: str) -> str:
     """Normalizes text by lowercasing and removing punctuation."""
@@ -16,7 +17,7 @@ def calculate_name_score(name1: str, name2: str) -> float:
     n1 = normalize_text(name1)
     n2 = normalize_text(name2)
     # Jaro-Winkler is excellent for names (emphasizes prefix matches)
-    return fuzz.jaro_winkler_similarity(n1, n2) / 100.0
+    return float(JaroWinkler.similarity(n1, n2))
 
 def calculate_phone_score(phone1: str, phone2: str) -> float:
     """Calculates phone similarity (Exact or partial suffix match)."""
