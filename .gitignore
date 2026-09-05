@@ -55,3 +55,8 @@ Thumbs.db
 data/synthetic/training/models/
 data/synthetic/training/spacy/
 ml/nlp/models/fine_tuned/
+
+# Runtime state files (not tracked)
+data/entity_registry.json
+data/ingestion_audit.json
+
