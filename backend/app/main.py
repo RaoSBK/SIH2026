@@ -108,6 +108,7 @@ async def process_evidence(
                 "filename": file.filename,
                 "status": result["status"],
                 "message": result.get("message"),
+                "reason": result.get("reason"),
                 "resolution_stats": result.get("resolution_stats", {})
             })
 
@@ -177,6 +178,7 @@ async def process_evidence(
     return {
         "nodes": list(global_nodes.values()),
         "links": unique_links,
+        "statuses": statuses,
         "ingestion_statuses": statuses,
         "needs_review": all_needs_review
     }
