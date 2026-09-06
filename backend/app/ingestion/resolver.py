@@ -114,10 +114,17 @@ class EntityRegistry:
                 with open(self._path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     self._entities = data.get("entities", {})
-                    # Tag legacy entities (pre-versioning) for reprocessing
+                    # Tag legacy entities (pre-versioning) for reprocessing & normalize case_ids
                     for eid, entity in self._entities.items():
                         if "extraction_version" not in entity:
                             entity["needs_reprocess"] = True
+                        attrs = entity.setdefault("attributes", {})
+                        cid = entity.get("case_id") or attrs.get("case_id")
+                        if cid:
+                            attrs["case_id"] = cid
+                            cids = attrs.setdefault("case_ids", [])
+                            if cid not in cids:
+                                cids.append(cid)
             except (json.JSONDecodeError, IOError):
                 self._entities = {}
 
@@ -131,8 +138,19 @@ class EntityRegistry:
     def get(self, entity_id: str) -> Optional[dict]:
         return self._entities.get(entity_id)
 
-    def all_of_type(self, etype: str) -> list[dict]:
-        return [e for e in self._entities.values() if e["type"] == etype]
+    def all_of_type(self, etype: str, case_id: Optional[str] = None) -> list[dict]:
+        if case_id:
+            res = []
+            for e in self._entities.values():
+                if e.get("type") != etype:
+                    continue
+                attrs = e.get("attributes", {})
+                cids = attrs.get("case_ids", [])
+                cid = attrs.get("case_id") or e.get("case_id")
+                if (cid and cid == case_id) or (case_id in cids):
+                    res.append(e)
+            return res
+        return [e for e in self._entities.values() if e.get("type") == etype]
 
     def register(self, entity: dict, source_file: str = "") -> dict:
         """
@@ -153,11 +171,13 @@ class EntityRegistry:
                 stored.setdefault("source_files", []).append(source_file)
         
         # Track case_ids as corroborating signals
-        case_id = entity.get("attributes", {}).get("case_id")
+        case_id = entity.get("attributes", {}).get("case_id") or entity.get("case_id")
         if case_id:
-            stored["attributes"].setdefault("case_ids", []).append(case_id)
-            # Deduplicate case_ids
-            stored["attributes"]["case_ids"] = list(set(stored["attributes"]["case_ids"]))
+            stored.setdefault("attributes", {})
+            stored["attributes"]["case_id"] = case_id
+            cids = stored["attributes"].setdefault("case_ids", [])
+            if case_id not in cids:
+                cids.append(case_id)
 
         # Track phones as corroborating signals
         phones = entity.get("attributes", {}).get("phones", [])
@@ -281,6 +301,7 @@ def _resolve_persons(
     auto_threshold: int = 90,
     review_threshold: int = 70,
     corroborating_signals: Optional[dict] = None,
+    case_id: Optional[str] = None,
 ) -> tuple[list[dict], dict[str, str]]:
     """
     Fuzzy name resolution using rapidfuzz.token_sort_ratio.
@@ -300,10 +321,11 @@ def _resolve_persons(
         corroborating_signals: dict mapping entity_id -> set of signal strings
             (e.g., phone IDs, account IDs, case_id, location IDs).  Built by
             the caller from already-resolved relationships for this upload batch.
+        case_id: Optional case identifier to restrict fuzzy matching pool to same case.
     """
     resolved = []
     id_map: dict[str, str] = {}
-    known_persons = registry.all_of_type("PERSON")
+    known_persons = registry.all_of_type("PERSON", case_id=case_id)
     signals = corroborating_signals or {}
 
     for entity in entities:
@@ -406,7 +428,7 @@ def _resolve_persons(
                 "corroboration_found": has_corroboration,
                 "result":     "separate node created, flagged"
             })
-            known_persons = registry.all_of_type("PERSON")
+            known_persons = registry.all_of_type("PERSON", case_id=case_id)
 
         else:
             # ── New node ────────────────────────────────────────────────────────────
@@ -431,7 +453,8 @@ def _resolve_locations(
     registry: EntityRegistry,
     source_file: str,
     merge_log: list,
-    similarity_threshold: int = 85
+    similarity_threshold: int = 85,
+    case_id: Optional[str] = None,
 ) -> tuple[list[dict], dict[str, str]]:
     """
     Location resolution with abbreviation normalization + fuzzy match.
@@ -439,7 +462,7 @@ def _resolve_locations(
     """
     resolved = []
     id_map: dict[str, str] = {}
-    known_locs = registry.all_of_type("LOCATION")
+    known_locs = registry.all_of_type("LOCATION", case_id=case_id)
 
     for entity in entities:
         normalized = _normalize_location_string(entity["value"])
@@ -642,6 +665,10 @@ def resolve_entities(
     raw_entities      = extracted.get("entities",      [])
     raw_relationships = extracted.get("relationships", [])
 
+    if case_id:
+        for e in raw_entities:
+            e.setdefault("attributes", {})["case_id"] = case_id
+
     merge_log    = []
     needs_review = []
     id_map: dict[str, str] = {}
@@ -674,7 +701,7 @@ def resolve_entities(
             p.setdefault("attributes", {})["case_id"] = case_id
             
     # 1.5b Known entities in registry supply case_ids and phone signals
-    for known_person in registry.all_of_type("PERSON"):
+    for known_person in registry.all_of_type("PERSON", case_id=case_id):
         attrs = known_person.get("attributes", {})
         cids = attrs.get("case_ids", [])
         cid = attrs.get("case_id")
@@ -699,14 +726,16 @@ def resolve_entities(
     # ── 2. Fuzzy match: PERSON ───────────────────────────────────────────────
     resolved_persons, map_persons = _resolve_persons(
         list(person_types), registry, source_file, merge_log, needs_review,
-        corroborating_signals=corroborating_signals
+        corroborating_signals=corroborating_signals,
+        case_id=case_id
     )
     resolved_entities.extend(resolved_persons)
     id_map.update(map_persons)
 
     # ── 3. Normalized fuzzy: LOCATION ────────────────────────────────────────
     resolved_locs, map_locs = _resolve_locations(
-        list(location_types), registry, source_file, merge_log
+        list(location_types), registry, source_file, merge_log,
+        case_id=case_id
     )
     resolved_entities.extend(resolved_locs)
     id_map.update(map_locs)

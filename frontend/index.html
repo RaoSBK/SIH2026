@@ -60,7 +60,7 @@
   @media (prefers-transparency: reduce){
     header.topbar{ background:var(--graphite); backdrop-filter:none; }
   }
-  .brand{ display:flex; align-items:baseline; gap:9px; }
+  .brand{ display:flex; align-items:center; gap:9px; }
   .brand .mark{
     width:9px; height:9px; border-radius:2px;
     background:var(--amber);
@@ -70,10 +70,64 @@
     margin:0; font-size:15px; font-weight:700;
     letter-spacing:0.14em; text-transform:uppercase;
   }
-  .brand .case{
-    font-size:12px; color:var(--text-faint);
-    letter-spacing:0.04em;
+  
+  .sidebar-toggle-btn{
+    width:28px; height:28px; border-radius:7px;
+    border:1px solid var(--hairline-strong);
+    background:#F9FAFB; color:var(--text-dim);
+    display:inline-flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:13px;
+    transition: background 150ms ease, transform 100ms ease;
+    margin-right:2px;
   }
+  .sidebar-toggle-btn:hover{ background:#F3F4F6; color:var(--text); }
+  .sidebar-toggle-btn:active{ transform:scale(0.95); }
+
+  .case-selector-wrap{ position:relative; display:inline-flex; align-items:center; }
+  .case-badge-btn{
+    font-family:ui-monospace, "SF Mono", "Menlo", monospace;
+    font-size:12px; color:var(--text);
+    background:rgba(0,0,0,0.04);
+    border:1px solid var(--hairline-strong);
+    border-radius:6px; padding:3px 8px;
+    cursor:pointer; display:flex; align-items:center; gap:5px;
+    transition: background 150ms ease;
+  }
+  .case-badge-btn:hover{ background:rgba(0,0,0,0.08); }
+  .case-dropdown{
+    position:absolute; top:calc(100% + 6px); left:0; z-index:60;
+    background:var(--paper); border:1px solid var(--hairline-strong);
+    border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    width:240px; padding:6px; display:none;
+  }
+  .case-dropdown.open{ display:block; animation:dropdown-in 160ms ease-out; }
+  @keyframes dropdown-in{ from{ opacity:0; transform:translateY(-4px); } to{ opacity:1; transform:translateY(0); } }
+  .case-item{
+    padding:8px 10px; border-radius:6px; cursor:pointer;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:12px; color:var(--text); transition:background 120ms ease;
+  }
+  .case-item:hover{ background:var(--graphite-2); }
+  .case-item.active{ background:var(--teal-dim); color:var(--teal); font-weight:600; }
+  .case-item .case-count{ font-size:10.5px; color:var(--text-faint); font-family:ui-monospace, monospace; }
+
+  .case-item-new{
+    margin-top:4px; padding:7px 10px; border-top:1px solid var(--hairline);
+    border-radius:6px; cursor:pointer; font-size:11.5px; font-weight:600;
+    color:var(--teal); display:flex; align-items:center; gap:6px;
+    transition:background 120ms ease;
+  }
+  .case-item-new:hover{ background:var(--teal-dim); }
+
+  .new-case-btn{
+    display:inline-flex; align-items:center; gap:4px;
+    font-size:11px; font-weight:600; color:var(--teal);
+    background:var(--teal-dim); border:1px solid rgba(15,118,110,0.25);
+    border-radius:6px; padding:3px 8px; cursor:pointer;
+    transition:background 150ms ease, transform 100ms ease;
+  }
+  .new-case-btn:hover{ background:rgba(15,118,110,0.22); }
+  .new-case-btn:active{ transform:scale(0.96); }
 
   .stepper{ display:flex; align-items:center; gap:0; flex:1; overflow:hidden; }
   .step{
@@ -99,6 +153,10 @@
     flex:1; display:grid;
     grid-template-columns: 272px 1fr 340px;
     min-height:0;
+    transition: grid-template-columns 220ms cubic-bezier(.2,.9,.3,1);
+  }
+  main.layout.sidebar-collapsed{
+    grid-template-columns: 0px 1fr 340px;
   }
 
   .panel{
@@ -106,6 +164,10 @@
     padding:18px 16px;
     overflow-y:auto;
     min-height:0;
+    transition: opacity 180ms ease, padding 220ms ease;
+  }
+  main.layout.sidebar-collapsed .panel.left{
+    padding-left:0; padding-right:0; overflow:hidden; opacity:0; pointer-events:none; border-right:none;
   }
   .panel.right{ border-right:none; border-left:1px solid var(--hairline); }
 
@@ -131,6 +193,29 @@
   .source .meta .status{ font-size:10.5px; color:var(--text-faint); margin-top:1px; }
   .source.processed .icon{ background:var(--teal-dim); color:var(--teal); }
   .source.processed .status{ color:var(--teal); }
+
+  .source .actions{ display:flex; align-items:center; margin-left:auto; padding-left:6px; }
+  .source-del-btn{
+    width:22px; height:22px; border-radius:6px; border:1px solid var(--hairline-strong);
+    background:transparent; color:var(--text-faint); font-size:15px; line-height:1;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition: background 150ms ease, color 150ms ease, transform 100ms ease;
+  }
+  .source-del-btn:hover{ background:#FEE2E2; color:#DC2626; border-color:#FCA5A5; }
+  .source-del-btn:active{ transform:scale(0.92); }
+  .source-locked-icon{ font-size:12px; color:var(--teal); opacity:0.85; cursor:help; padding-right:2px; }
+
+  .drop-zone-hint{
+    border:1.5px dashed var(--hairline-strong); border-radius:10px;
+    padding:16px 10px; text-align:center; color:var(--text-faint);
+    font-size:11.5px; margin-bottom:12px; transition:all 180ms ease;
+    background:rgba(0,0,0,0.015);
+  }
+  .drop-zone-hint.drag-over,
+  .panel.left.drag-over{
+    border-color:var(--amber) !important;
+    background:var(--amber-dim) !important;
+  }
 
   button.run{
     width:100%; margin-top:14px; padding:11px 14px;
@@ -280,9 +365,18 @@
 
   <header class="topbar">
     <div class="brand">
+      <button class="sidebar-toggle-btn" id="toggleSidebarBtn" title="Toggle Evidence Intake Sidebar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+      </button>
       <span class="mark"></span>
       <h1>Veritas</h1>
-      <span class="case mono">CASE-102</span>
+      <div class="case-selector-wrap">
+        <button class="case-badge-btn" id="caseSelectorBtn" title="Select or Switch Case">
+          <span id="currentCaseLabel">CASE-102</span>
+          <span style="font-size:9px;color:var(--text-faint);margin-left:2px;">▼</span>
+        </button>
+        <div class="case-dropdown" id="caseDropdown"></div>
+      </div>
     </div>
     <div class="stepper" id="stepper"></div>
   </header>
@@ -304,7 +398,7 @@
 
     <section class="graph-wrap">
       <div class="graph-caption">
-          <strong id="graphCount">0</strong>&nbsp;entities shown &middot; flagged subnetwork
+          <strong id="graphCount">0</strong>&nbsp;entities shown &middot; <strong id="flaggedCount" style="color:var(--amber);">0</strong>&nbsp;flagged subnetwork
           <label style="margin-left: 16px; font-size: 11px; cursor:pointer; user-select:none;">
              <input type="checkbox" id="toggleOrphans" checked style="vertical-align:middle; margin-right:4px;"> 
              <span id="orphanLabel">Show orphans</span>
@@ -377,21 +471,21 @@
   let mlGraph = null;
 
   const DEMO_NODES = [
-    {id:'ravi', name:'Ravi Kumar', type:'Person', x:180, y:170, status:'CLEAR'},
-    {id:'phone', name:'9876543210', type:'Phone', x:160, y:280, status:'CLEAR'},
+    {id:'ravi', name:'Ravi Kumar', type:'Person', phone:'+91 9876543210', x:180, y:170, status:'CLEAR'},
+    {id:'phone', name:'9876543210', type:'Phone', phone:'+91 9876543210', x:160, y:280, status:'CLEAR'},
     {id:'vehicle', name:'MH 12 AB 1234', type:'Vehicle', x:60, y:220, status:'CLEAR'},
     {id:'loc', name:'Hyderabad', type:'Location', x:430, y:420, status:'CLEAR'},
-    {id:'ahmed', name:'Ahmed Sheikh', type:'Person', x:520, y:140, status:'REVIEW_REQUIRED', flagged:true, risk_color:'orange'},
+    {id:'ahmed', name:'Ahmed Sheikh', type:'Person', phone:'+91 9998887776', x:520, y:140, status:'REVIEW_REQUIRED', flagged:true, risk_color:'red', historical_firs:2, anomaly_reasons:['Repeatedly implicated across 3 distinct evidence types (CDR, Banking, Surveillance)'], evidence_trail:['Named in Surveillance Report: Subject operates Crescent Traders', 'CDR: Inbound 120s call from +91 9876543210 (Ravi Kumar)', 'Banking Ledger: ₹2.4L transfer to ACC-FAISAL-7788']},
     {id:'acc1', name:'A/C ••4521', type:'Account', x:540, y:280, status:'CLEAR'},
     {id:'org', name:'Crescent Traders', type:'Organization', x:700, y:90, status:'CLEAR'},
-    {id:'acc2', name:'A/C ••7788', type:'Account', x:730, y:360, status:'REVIEW_REQUIRED', flagged:true, risk_color:'red'},
-    {id:'faisal', name:'Faisal Khan', type:'Person', x:800, y:460, status:'CLEAR'}
+    {id:'acc2', name:'A/C ••7788', type:'Account', x:730, y:360, status:'REVIEW_REQUIRED', flagged:true, risk_color:'red', historical_firs:1, anomaly_reasons:['High-risk recipient account with disputed ownership'], evidence_trail:['Banking Ledger: Received ₹2.4L from suspect account ACC-AHMED-4521', 'Interrogation: Faisal Khan admitted control of account ACC-FAISAL-7788']},
+    {id:'faisal', name:'Faisal Khan', type:'Person', phone:'+91 9811223344', x:800, y:460, status:'CLEAR'}
   ];
 
   const DEMO_EDGES = [
     {source:'ravi', target:'phone', type:'USES'},
     {source:'ravi', target:'vehicle', type:'DRIVES'},
-    {source:'ravi', target:'ahmed', type:'CALLED', flagged:true},
+    {source:'ravi', target:'ahmed', type:'calling', relationship_type:'calling', flagged:true},
     {source:'ravi', target:'loc', type:'VISITED'},
     {source:'faisal', target:'loc', type:'VISITED'},
     {source:'ahmed', target:'acc1', type:'OWNS'},
@@ -400,14 +494,185 @@
     {source:'acc2', target:'faisal', type:'OWNED_BY'}
   ];
 
+  function updateHeaderCounts() {
+    const totalCount = NODES.length;
+    const flaggedCount = NODES.filter(n => n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red').length;
+    const gc = document.getElementById('graphCount');
+    const fc = document.getElementById('flaggedCount');
+    if (gc) gc.textContent = totalCount;
+    if (fc) fc.textContent = flaggedCount;
+  }
+
   function loadDemoGraph() {
     NODES = DEMO_NODES.map(node => ({ ...node, label: node.name }));
     EDGES = DEMO_EDGES.map(edge => ({ ...edge, line_type: edge.flagged ? 'dotted' : 'solid' }));
     degree = {};
     NODES.forEach(n => degree[n.id] = 0);
     EDGES.forEach(e => { degree[e.source] = (degree[e.source] || 0) + 1; degree[e.target] = (degree[e.target] || 0) + 1; });
-    document.getElementById('graphCount').textContent = NODES.length;
+    updateHeaderCounts();
   }
+
+  /* ---------------- Sidebar Show/Hide Toggle (Task 5) ---------------- */
+  const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+  const layoutEl = document.querySelector('main.layout');
+  if (toggleSidebarBtn && layoutEl) {
+    toggleSidebarBtn.addEventListener('click', () => {
+      layoutEl.classList.toggle('sidebar-collapsed');
+      setTimeout(() => {
+        if (mlGraph) mlGraph.fitGraphToScreen();
+      }, 250);
+    });
+  }
+
+  /* ---------------- Case History & Switcher (Task 6) ---------------- */
+  let CURRENT_CASE = 'CASE-102';
+  let KNOWN_CASES = [];
+
+  function saveCaseHistory(cases) {
+    try {
+      localStorage.setItem('cias_cases_history', JSON.stringify(cases));
+    } catch(e) {}
+  }
+
+  function loadLocalCaseHistory() {
+    try {
+      const stored = localStorage.getItem('cias_cases_history');
+      if (stored) return JSON.parse(stored);
+    } catch(e) {}
+    return [
+      {case_id: 'CASE-102', document_count: 5, files: ['FIR_002_Andheri.txt', 'CDR_Ravi_Jan2024.csv', 'Surveillance_Rep_03.txt', 'BankStatement_GlobalTech.csv', 'Interrogation_JohnDoe.txt']},
+      {case_id: 'CASE-101', document_count: 2, files: ['FIR_001_Bandra.txt', 'CDR_Suresh_Nov2023.csv']}
+    ];
+  }
+
+  async function fetchCases() {
+    try {
+      const res = await fetch('http://localhost:8000/api/cases');
+      if (res.ok) {
+        const data = await res.json();
+        KNOWN_CASES = data.cases || [];
+        saveCaseHistory(KNOWN_CASES);
+      } else {
+        KNOWN_CASES = loadLocalCaseHistory();
+      }
+    } catch(e) {
+      KNOWN_CASES = loadLocalCaseHistory();
+    }
+    renderCaseDropdown();
+  }
+
+  function renderCaseDropdown() {
+    const dropdown = document.getElementById('caseDropdown');
+    if (!dropdown) return;
+    dropdown.innerHTML = '';
+
+    KNOWN_CASES.forEach(c => {
+      const item = document.createElement('div');
+      item.className = 'case-item' + (c.case_id === CURRENT_CASE ? ' active' : '');
+      item.innerHTML = `
+        <span style="font-weight:600;">${c.case_id}</span>
+        <span class="case-count">${c.document_count || 0} doc(s)</span>
+      `;
+      item.addEventListener('click', () => {
+        switchCase(c.case_id);
+        dropdown.classList.remove('open');
+      });
+      dropdown.appendChild(item);
+    });
+
+    const newCaseItem = document.createElement('div');
+    newCaseItem.className = 'case-item-new';
+    newCaseItem.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>Create New Case</span>`;
+    newCaseItem.addEventListener('click', () => {
+      dropdown.classList.remove('open');
+      openNewCasePrompt();
+    });
+    dropdown.appendChild(newCaseItem);
+  }
+
+  window.openNewCasePrompt = async function() {
+    const caseName = prompt("Enter new Case ID (e.g. CASE-103 or 103):", `CASE-${Math.floor(100 + Math.random() * 900)}`);
+    if (!caseName || !caseName.trim()) return;
+    let formattedCaseId = caseName.trim().toUpperCase();
+    if (!formattedCaseId.startsWith("CASE-")) {
+      formattedCaseId = `CASE-${formattedCaseId}`;
+    }
+
+    try {
+      await fetch('http://localhost:8000/api/cases', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({case_id: formattedCaseId})
+      });
+    } catch(e) {
+      console.warn("Backend offline, saving locally:", e);
+    }
+
+    if (!KNOWN_CASES.some(c => c.case_id === formattedCaseId)) {
+      KNOWN_CASES.push({case_id: formattedCaseId, document_count: 0, files: []});
+      saveCaseHistory(KNOWN_CASES);
+    }
+
+    SOURCES = [];
+    hasRun = false;
+    runBtn.textContent = 'Run pipeline';
+    runBtn.disabled = true;
+    renderSources();
+    switchCase(formattedCaseId);
+    log(`Initialized new case workspace <b>${formattedCaseId}</b>. Drag &amp; drop evidence files to begin investigation.`);
+  };
+
+  async function switchCase(newCaseId) {
+    CURRENT_CASE = newCaseId;
+    const label = document.getElementById('currentCaseLabel');
+    if (label) label.textContent = newCaseId;
+    renderCaseDropdown();
+
+    log(`Switching active case context to <b>${newCaseId}</b>...`);
+    try {
+      const res = await fetch(`http://localhost:8000/api/cases/${newCaseId}/graph`);
+      if (res.ok) {
+        const graphData = await res.json();
+        NODES = (graphData.nodes || []).map(n => ({
+          ...n,
+          name: n.name || n.value || n.label || n.id,
+          flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
+        }));
+        EDGES = graphData.links || graphData.edges || [];
+      }
+    } catch(e) {
+      console.warn(e);
+    }
+
+    if (!NODES.length) {
+      loadDemoGraph();
+    } else {
+      if (mlGraph) {
+        try { mlGraph.simulation && mlGraph.simulation.stop(); } catch(e) {}
+        mlGraph = null;
+      }
+      mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
+      mlGraph.buildGraph();
+      mlGraph.revealGraph();
+      updateHeaderCounts();
+    }
+  }
+
+  const caseSelectorBtn = document.getElementById('caseSelectorBtn');
+  const caseDropdown = document.getElementById('caseDropdown');
+  if (caseSelectorBtn && caseDropdown) {
+    caseSelectorBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      caseDropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', (e) => {
+      if (!caseDropdown.contains(e.target) && e.target !== caseSelectorBtn) {
+        caseDropdown.classList.remove('open');
+      }
+    });
+  }
+
+  fetchCases();
 
   /* ---------------- Stepper ---------------- */
   const stepperEl = document.getElementById('stepper');
@@ -432,39 +697,106 @@
   function renderSources() {
     sourcesEl.innerHTML = '';
     if (SOURCES.length === 0) {
-      sourcesEl.innerHTML = '<div class="empty-hint" style="margin-bottom:12px;">No files uploaded.</div>';
+      sourcesEl.innerHTML = '<div class="drop-zone-hint" id="dropZoneHint">Drag &amp; drop evidence files here<br><span style="font-size:10px;color:var(--text-faint);">(or click Upload above)</span></div>';
+    } else {
+      SOURCES.forEach(s => {
+        const row = document.createElement('div');
+        row.className = 'source' + (s.processed ? ' processed' : '');
+        row.id = 'src-' + s.id;
+        
+        const deleteAffordance = s.processed
+          ? `<span class="source-locked-icon" title="Ingested into graph (retraction requires ledger rollback)">🔒</span>`
+          : `<button class="source-del-btn" data-id="${s.id}" title="Remove from upload queue">&times;</button>`;
+
+        row.innerHTML = `
+          <div class="icon">${s.tag}</div>
+          <div class="meta">
+            <div class="name" title="${s.name}">${s.name}</div>
+            <div class="status">${s.status || 'Queued'}</div>
+          </div>
+          <div class="actions">${deleteAffordance}</div>
+        `;
+        sourcesEl.appendChild(row);
+      });
+
+      // Attach delete click listeners (Task 2)
+      sourcesEl.querySelectorAll('.source-del-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const delId = btn.getAttribute('data-id');
+          SOURCES = SOURCES.filter(item => item.id !== delId);
+          renderSources();
+        });
+      });
     }
-    SOURCES.forEach(s=>{
-      const row = document.createElement('div');
-      row.className='source'; row.id='src-'+s.id;
-      row.innerHTML = '<div class="icon">'+s.tag+'</div><div class="meta"><div class="name">'+s.name+'</div><div class="status">Queued</div></div>';
-      sourcesEl.appendChild(row);
-    });
-    runBtn.disabled = SOURCES.length === 0;
+    runBtn.disabled = SOURCES.length === 0 || hasRun;
   }
   
   renderSources();
 
+  // Shared intake handler for click & drag-and-drop (Task 1)
+  function handleFiles(fileList) {
+    const files = Array.from(fileList || []);
+    if (!files.length) return;
+    files.forEach(file => {
+      // Avoid exact duplicates in current list
+      if (SOURCES.some(s => s.name === file.name)) return;
+      let tag = 'DOC';
+      const lowerName = file.name.toLowerCase();
+      if (lowerName.includes('fir')) tag = 'FIR';
+      else if (lowerName.includes('cdr')) tag = 'CDR';
+      else if (lowerName.includes('txn') || lowerName.includes('transaction') || lowerName.includes('bank')) tag = 'TXN';
+      else if (lowerName.includes('surveillance') || lowerName.includes('intel')) tag = 'INTEL';
+      else if (lowerName.includes('interrogation')) tag = 'DOC';
+
+      SOURCES.push({
+        id: 'src_' + Math.random().toString(36).substr(2, 9),
+        name: file.name,
+        tag: tag,
+        file: file,
+        status: 'Queued',
+        processed: false
+      });
+    });
+    renderSources();
+  }
+
   const fileUpload = document.getElementById('fileUpload');
   if (fileUpload) {
-      fileUpload.addEventListener('change', (e) => {
-          const files = Array.from(e.target.files);
-          files.forEach(file => {
-              let tag = 'DOC';
-              const lowerName = file.name.toLowerCase();
-              if (lowerName.includes('fir')) tag = 'FIR';
-              else if (lowerName.includes('cdr')) tag = 'CDR';
-              else if (lowerName.includes('txn') || lowerName.includes('transaction')) tag = 'TXN';
+    fileUpload.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+      fileUpload.value = '';
+    });
+  }
 
-              SOURCES.push({
-                  id: 'src_' + Math.random().toString(36).substr(2, 9),
-                  name: file.name,
-                  tag: tag,
-                  file: file
-              });
-          });
-          renderSources();
+  // Drag & drop listeners on Left Panel (Task 1)
+  const leftPanel = document.querySelector('.panel.left');
+  if (leftPanel) {
+    ['dragenter', 'dragover'].forEach(eventName => {
+      leftPanel.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        leftPanel.classList.add('drag-over');
+        const hint = document.getElementById('dropZoneHint');
+        if (hint) hint.classList.add('drag-over');
       });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      leftPanel.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        leftPanel.classList.remove('drag-over');
+        const hint = document.getElementById('dropZoneHint');
+        if (hint) hint.classList.remove('drag-over');
+      });
+    });
+
+    leftPanel.addEventListener('drop', (e) => {
+      if (e.dataTransfer && e.dataTransfer.files) {
+        handleFiles(e.dataTransfer.files);
+      }
+    });
   }
 
   /* ---------------- Log ---------------- */
@@ -477,10 +809,6 @@
     logEl.scrollTop = logEl.scrollHeight;
   }
   function wait(ms){ return new Promise(r=>setTimeout(r, reduced ? Math.min(ms,80) : ms)); }
-
-  /* ---------------- Graph rendering (delegated to MLGraph) ---------------- */
-  // The actual build/reveal/pan logic is handled by the MLGraph module
-
 
   /* ---------------- Right panel ---------------- */
   const rightPanel = document.getElementById('rightPanel');
@@ -518,9 +846,15 @@
     const badge = reviewItems.length;
     
     let html = `
-      <div class="tabs-header">
-        <div class="tab-btn ${window._currentTab === 'details' ? 'active' : ''}" onclick="switchTab('details')">Details</div>
-        <div class="tab-btn ${window._currentTab === 'review' ? 'active' : ''}" onclick="switchTab('review')">Review Queue ${badge > 0 ? `<span class="badge-pill">${badge}</span>` : ''}</div>
+      <div class="tabs-header" style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; align-items:center;">
+          <div class="tab-btn ${window._currentTab === 'details' ? 'active' : ''}" onclick="switchTab('details')">Details</div>
+          <div class="tab-btn ${window._currentTab === 'review' ? 'active' : ''}" onclick="switchTab('review')">Review Queue ${badge > 0 ? `<span class="badge-pill">${badge}</span>` : ''}</div>
+        </div>
+        <button class="new-case-btn" id="newCaseBtn" title="Create New Case" onclick="openNewCasePrompt()">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>New Case</span>
+        </button>
       </div>
       <div class="tab-content" id="tabContentWrapper">
     `;
@@ -552,10 +886,12 @@
       const locations = NODES.filter(n => (n.type || '').toLowerCase() === 'location').length;
       const orgs = NODES.filter(n => ['organization', 'org'].includes((n.type || '').toLowerCase())).length;
       const accounts = NODES.filter(n => (n.type || '').toLowerCase() === 'account').length;
+      const flagged = NODES.filter(n => n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red').length;
       
       return `<h2>Case Metrics</h2>
         <div class="metric-row"><span class="k">Entities discovered</span><span class="n mono">${NODES.length}</span></div>
         <div class="metric-row"><span class="k">Relationships</span><span class="n mono">${EDGES.length}</span></div>
+        <div class="metric-row"><span class="k">Flagged Subnetwork</span><span class="n mono" style="color:var(--amber);">${flagged}</span></div>
         <div class="metric-row"><span class="k">Persons</span><span class="n mono">${persons}</span></div>
         <div class="metric-row"><span class="k">Phones</span><span class="n mono">${phones}</span></div>
         <div class="metric-row"><span class="k">Locations</span><span class="n mono">${locations}</span></div>
@@ -565,16 +901,46 @@
     const n = NODES.find(x=>x.id===selectedId);
     if (!n) return '';
     const connections = mlGraph ? (mlGraph.degree[n.id] || 0) : 0;
-    
-    if (n.status === 'REVIEW_REQUIRED' || n.flagged) {
-        return `<div class="badge">REVIEW REQUIRED</div>
+    const phoneRow = n.phone ? `<div class="metric-row"><span class="k">Phone</span><span class="n mono">${n.phone}</span></div>` : '';
+    const typeRow = `<div class="metric-row"><span class="k">Entity Type</span><span class="n mono">${n.type || 'Entity'}</span></div>`;
+    const connRow = `<div class="metric-row"><span class="k">Connections</span><span class="n mono">${connections}</span></div>`;
+
+    // Evidence trail list for flagged entities (Task 4)
+    let evidenceTrailHTML = '';
+    const trails = n.evidence_trail || [];
+    if (trails.length > 0) {
+      evidenceTrailHTML = `
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-faint);margin-top:14px;margin-bottom:8px;">Evidence Trail (${trails.length})</div>
+        <div class="evidence-path">
+          ${trails.map((item, idx) => `
+            <div class="hop flag in" style="opacity:1;transform:none;">
+              <div class="stamp">${idx + 1}</div>
+              <div class="txt">${item}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    if (n.status === 'REVIEW_REQUIRED' || n.flagged || n.risk_color === 'red') {
+        return `<div class="badge" style="background:rgba(239,68,68,0.15);color:#EF4444;border-color:#EF4444;">FLAGGED SUBNETWORK</div>
           <div class="detail-title">${n.name || n.label || n.id}</div>
-          <div class="detail-sub" style="text-transform:capitalize">Risk Level: ${n.risk_color || 'none'} &middot; ${n.historical_firs || 0} Historical FIR(s)</div>
-          <p class="empty-hint">This entity is involved in ambiguous data (dotted links) or has been flagged for historical criminal activity.</p>
-          <button class="ghost" id="viewSourceBtn">View Consent / Manual Review</button>`;
+          <div class="detail-sub" style="text-transform:capitalize">Risk Level: ${n.risk_color || 'red'} &middot; ${n.historical_firs || 1} Incident Indicator(s)</div>
+          <div style="margin-bottom:12px;">
+            ${typeRow}
+            ${phoneRow}
+            ${connRow}
+          </div>
+          ${evidenceTrailHTML || '<p class="empty-hint">This entity has been flagged across multiple investigative sources in the subnetwork.</p>'}
+          <button class="ghost" id="viewSourceBtn">View source documents</button>`;
     } else {
         return `<div class="detail-title">${n.name || n.label || n.id}</div>
           <div class="detail-sub">Entity &middot; ${connections} connection(s)</div>
+          <div style="margin-bottom:12px;">
+            ${typeRow}
+            ${phoneRow}
+            ${connRow}
+          </div>
           <p class="empty-hint">No anomaly indicators for this entity. It appears in the case record but was not flagged by the analytics engine.</p>
           <button class="ghost" id="viewSourceBtn">View source documents</button>`;
     }
@@ -621,10 +987,10 @@
     if(!n) return;
     
     if (n.status === 'REVIEW_REQUIRED' || n.flagged) {
-        window._currentTab = 'review';
+        window._currentTab = 'details';
         renderRightPanel();
         
-        // Find which card corresponds to this entity and scroll to it
+        // If there's an active review item matching this node, highlight in review tab if user switches
         setTimeout(() => {
            const items = window._pendingReview || [];
            const match = items.find(item => {
@@ -666,14 +1032,14 @@
   const modalLayer = document.getElementById('modal-layer');
   const modalBody = document.getElementById('modalBody');
   function openModal(n){
-    const evidenceText = n.evidence || "No textual evidence available. Inferred from graph structure.";
-    const sourceDoc = n.source || "Unknown Source";
+    const evidenceText = n.evidence || (n.evidence_trail ? n.evidence_trail.join('<br>&bull; ') : "No textual evidence available. Inferred from graph structure.");
+    const sourceDoc = n.source || (n.source_files ? n.source_files.join(', ') : "Case Repository");
     const typeLabel = n.type || "Entity";
     
     modalBody.innerHTML =
       '<h3>' + (n.name || n.id) + ' &middot; ' + typeLabel + ' Record</h3>'+
       '<div class="doc-id mono">EV-041 &middot; extracted from ' + sourceDoc + '</div>'+
-      '<div class="doc-body"><strong>Excerpt from Source Document:</strong><br><br><i>"...' + evidenceText + '..."</i></div>'+
+      '<div class="doc-body"><strong>Excerpt from Source Document / Evidence Trail:</strong><br><br><i>' + evidenceText + '</i></div>'+
       '<div class="verify-row"><span class="check">✓</span> Integrity verified &middot; Merkle root matches ledger</div>'+
       '<div class="hashrow">sha256 · 9f2a1c…e0b47d &middot; model NER-v1.4 &middot; pipeline v2.1</div>'+
       '<button class="close" id="closeModal">Close</button>';
@@ -694,9 +1060,16 @@
     log(`Ingesting <b>${SOURCES.length}</b> source documents...`);
     await wait(500);
     SOURCES.forEach(s=>{
+      s.processed = true;
+      s.status = 'Hashed & stored';
       const row = document.getElementById('src-'+s.id);
-      row.classList.add('processed');
-      row.querySelector('.status').textContent = 'Hashed & stored';
+      if (row) {
+        row.classList.add('processed');
+        const st = row.querySelector('.status');
+        if (st) st.textContent = 'Hashed & stored';
+        const actions = row.querySelector('.actions');
+        if (actions) actions.innerHTML = '<span class="source-locked-icon" title="Ingested into graph (retraction requires ledger rollback)">🔒</span>';
+      }
     });
 
     setStage(1);
@@ -710,24 +1083,15 @@
     setStage(3);
     log('Sending documents to ML API for resolution...');
     
-    const fileInput = document.getElementById('fileUpload');
     const formData = new FormData();
     const uploadedFiles = [];
 
-    let caseId = 'CASE-102';
+    let caseId = CURRENT_CASE || 'CASE-102';
     
-    if (fileInput && fileInput.files.length > 0) {
-        for (let i = 0; i < fileInput.files.length; i++) {
-            const file = fileInput.files[i];
-            uploadedFiles.push(file);
-            formData.append('files', file);
-        }
-    } else {
-        SOURCES.filter(s => s.file).forEach(s => {
-            uploadedFiles.push(s.file);
-            formData.append('files', s.file);
-        });
-    }
+    SOURCES.filter(s => s.file).forEach(s => {
+        uploadedFiles.push(s.file);
+        formData.append('files', s.file);
+    });
 
     try {
        if (uploadedFiles.length === 0) {
@@ -740,7 +1104,9 @@
             new File(["INTERROGATION SUMMARY\n\nAhmed Sheikh admitted that account ACC-AHMED-4521 belongs to him. Faisal Khan operates account ACC-FAISAL-7788."], "Interrogation_JohnDoe.txt", {type: "text/plain"}),
          ];
          demoFiles.forEach(f => formData.append('files', f));
-         caseId = 'CASE-' + Math.floor(Math.random() * 10000);
+         caseId = CURRENT_CASE || ('CASE-' + Math.floor(Math.random() * 10000));
+         formData.set('case_id', caseId);
+       } else {
          formData.set('case_id', caseId);
        }
        
@@ -752,6 +1118,8 @@
          if (!res.ok) throw new Error('API returned ' + res.status);
          
          const mlData = await res.json();
+         // Refresh cases history
+         fetchCases();
          if (mlData.statuses && mlData.statuses.length) {
             mlData.statuses.forEach(s => {
               if (s.status === 'rejected_low_relevance') {
@@ -782,9 +1150,11 @@
               return {
                   ...n,
                   name: n.name || n.value || n.label || n.id,
-                  type: formattedType === 'Org' ? 'Organization' : formattedType
+                  type: formattedType === 'Org' ? 'Organization' : formattedType,
+                  flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
               };
           });
+          // Support both key names: process-evidence returns 'links', graph endpoint returns 'edges'
           EDGES = (graphData.links || graphData.edges || []).map(e => ({
               ...e,
               line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
@@ -803,6 +1173,7 @@
        }
        mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
        mlGraph.buildGraph();
+       updateHeaderCounts();
        log(`Building knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
     } catch(e) {
        log('<span style="color:red">Failed to load graph from ML API. Loading the fallback network instead.</span>');
@@ -810,6 +1181,7 @@
        loadDemoGraph();
        mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
        mlGraph.buildGraph();
+       updateHeaderCounts();
        log(`Building fallback knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
     }
     await wait(550);
@@ -831,9 +1203,10 @@
     await wait(400);
 
      runBtn.textContent = 'Pipeline complete';
-     document.getElementById('graphCount').textContent = NODES.length;
+     updateHeaderCounts();
+     
      // Auto-select a flagged node if one exists
-     const flagged = NODES.find(n => n.status === 'REVIEW_REQUIRED');
+     const flagged = NODES.find(n => n.status === 'REVIEW_REQUIRED' || n.flagged);
      if (flagged) {
          setTimeout(()=>{ 
              mlGraph.selectNodeUI(flagged.id);
@@ -841,8 +1214,6 @@
          }, 300);
      }
 
-     // The review items are now rendered inside the Right Panel tabs instead of a floating card.
-     // Render the right panel to show the badge and trigger review tab if needed.
      if (window._pendingReview && window._pendingReview.length > 0) {
          renderRightPanel();
      }
