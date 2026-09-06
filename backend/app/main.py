@@ -9,8 +9,10 @@ import json
 from .ingestion.service import process_file
 from ml.anomaly.anomaly_rules import run_rule_engine
 from ml.anomaly.anomaly_ml import run_ml_engine
+from .api.anomaly import router as anomaly_router, save_anomaly_alerts, load_stored_anomaly_alerts
 
 app = FastAPI(title="CIAS ML Backend")
+app.include_router(anomaly_router)
 
 # Allow frontend requests
 app.add_middleware(
@@ -273,6 +275,12 @@ async def process_evidence(
         rule_alerts = run_rule_engine(graph_payload)
         ml_alerts = run_ml_engine(graph_payload)
         all_alerts = rule_alerts + ml_alerts
+
+        if all_alerts:
+            existing = load_stored_anomaly_alerts()
+            existing_ids = {a.get("alert_id") for a in existing if a.get("alert_id")}
+            new_unique = [a for a in all_alerts if a.get("alert_id") not in existing_ids]
+            save_anomaly_alerts((new_unique + existing)[:200])
 
         for alert in all_alerts:
             ent_id = alert.get("entity_id")
