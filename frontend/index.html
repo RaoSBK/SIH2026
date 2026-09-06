@@ -881,9 +881,11 @@
 
   function getDetailsHTML() {
     if (!selectedId) {
-      const persons = NODES.filter(n => n.type === 'Person' || n.type === 'PERSON').length;
-      const phones = NODES.filter(n => n.type === 'Phone' || n.type === 'PHONE').length;
-      const locations = NODES.filter(n => n.type === 'Location' || n.type === 'LOCATION').length;
+      const persons = NODES.filter(n => (n.type || '').toLowerCase() === 'person').length;
+      const phones = NODES.filter(n => (n.type || '').toLowerCase() === 'phone').length;
+      const locations = NODES.filter(n => (n.type || '').toLowerCase() === 'location').length;
+      const orgs = NODES.filter(n => ['organization', 'org'].includes((n.type || '').toLowerCase())).length;
+      const accounts = NODES.filter(n => (n.type || '').toLowerCase() === 'account').length;
       const flagged = NODES.filter(n => n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red').length;
       
       return `<h2>Case Metrics</h2>
@@ -1118,7 +1120,16 @@
          const mlData = await res.json();
          // Refresh cases history
          fetchCases();
-         // Capture needs_review items from this batch for the review queue UI
+         if (mlData.statuses && mlData.statuses.length) {
+            mlData.statuses.forEach(s => {
+              if (s.status === 'rejected_low_relevance') {
+                log(`<span style="color:#D97706">⚠️ <b>${s.filename}</b>: Skipped — ${s.reason || s.message}</span>`);
+              } else if (s.status === 'error') {
+                log(`<span style="color:red">❌ <b>${s.filename}</b>: ${s.message}</span>`);
+              }
+            });
+          }
+          // Capture needs_review items from this batch for the review queue UI
          const batchReview = mlData.needs_review || [];
          if (batchReview.length) {
            log(`<span style="color:#B45309">⚠ ${batchReview.length} item(s) added to review queue — see Review Queue below.</span>`);
@@ -1133,13 +1144,21 @@
          
          // Normalize: backend returns 'value' for display name; map it to 'name'
          // so graph.js label renderer can find it consistently.
-         NODES = (graphData.nodes || []).map(n => ({
-             ...n,
-             name: n.name || n.value || n.label || n.id,
-             flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
-         }));
-         // Support both key names: process-evidence returns 'links', graph endpoint returns 'edges'
-         EDGES = graphData.links || graphData.edges || [];
+          NODES = (graphData.nodes || []).map(n => {
+              const rawType = (n.type || n.label || 'Entity').toString();
+              const formattedType = rawType.charAt(0).toUpperCase() + rawType.slice(1).toLowerCase();
+              return {
+                  ...n,
+                  name: n.name || n.value || n.label || n.id,
+                  type: formattedType === 'Org' ? 'Organization' : formattedType,
+                  flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
+              };
+          });
+          // Support both key names: process-evidence returns 'links', graph endpoint returns 'edges'
+          EDGES = (graphData.links || graphData.edges || []).map(e => ({
+              ...e,
+              line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
+          }));
          
          if (!NODES.length) {
            loadDemoGraph();

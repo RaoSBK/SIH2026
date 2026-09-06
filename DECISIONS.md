@@ -4,6 +4,15 @@ Append-only. Newest entries at the top. Never edit or delete a past entry — if
 
 ---
 
+## 2026-09-06 — Addition of Document Relevance Validation Gate Before Graph Formation
+**Decision:** Implemented `backend/app/ingestion/relevance.py` and wired `assess_relevance()` into `backend/app/ingestion/service.py` before NER extraction. Documents with insufficient domain signals (regex pattern matches or domain keywords) are rejected with `status: "rejected_low_relevance"` and bypassed before NER and graph insertion.
+**Why:** Unfiltered text (e.g. food menus, receipts) was generating false-positive entities ("Puri", "Biscuits Chick") due to custom NER model limitations. Fast heuristic gating prevents non-investigative content from reaching graph generation.
+**Known Limitation:** Heuristic gate using named threshold constants (`MIN_REGEX_MATCHES=1`, `MIN_DOMAIN_KEYWORDS=2`), not a trained classifier. Should be re-evaluated as more real-world document samples are collected.
+**Affected areas:** `backend/app/ingestion/relevance.py`, `backend/app/ingestion/service.py`, `backend/app/main.py`, `frontend/index.html`, `DECISIONS.md`, `PROJECT_CONTEXT.md`
+**Supersedes:** N/A
+
+---
+
 ## 2026-09-05 — Case-Scoped Entity Resolution & Same-Case Automatic Matching Policy
 **Decision:** Updated `EntityRegistry.all_of_type(etype, case_id)` and candidate lookups in `backend/app/ingestion/resolver.py` (`_resolve_persons`, `_resolve_locations`) to filter entity candidates by the active upload's `case_id`. Untracked `data/entity_registry.json` and `data/ingestion_audit.json` in `.gitignore` without deleting existing disk contents.
 **Why:** Candidate fuzzy matching previously fetched all entities globally across all cases (`registry.all_of_type("PERSON")`), causing cross-case entity pollution where uploads in Case B merged into entities from Case A.
@@ -25,6 +34,7 @@ Append-only. Newest entries at the top. Never edit or delete a past entry — if
 **Decision:** Added `COPY cias_er /app/cias_er` to `backend/Dockerfile` and mounted `./cias_er:/app/cias_er` as a volume in `docker-compose.yml`.
 **Why:** `backend/app/ingestion/resolver.py` imported `cias_er.matcher` and `cias_er.clustering`, but `cias_er` was omitted from the Docker build context and volume mounts, causing a `ModuleNotFoundError: No module named 'cias_er'` crash loop on backend startup.
 **Affected areas:** `backend/Dockerfile`, `docker-compose.yml`, `backend/app/ingestion/resolver.py`
+**Supersedes:** N/A
 **Supersedes:** N/A
 
 ---
