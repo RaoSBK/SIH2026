@@ -20,6 +20,8 @@ CIAS (Criminal Intelligence Analysis System / VERITAS) is a FastAPI-based web ap
   - `POST /api/review-queue/{review_id}/resolve` (resolves or dismisses pending review items in local registry)
 - **JSON File-Based Audit Logging**: Ingestion logs, filtered edge logs, and entity registry state persisted to local JSON files (`data/ingestion_audit.json`, `data/filtered_edges.json`, `data/entity_registry.json`) via [`backend/app/audit/logger.py`](file:///d:/SIH2026/backend/app/audit/logger.py#L28-L90).
 - **Single-Page HTML/D3.js Investigator Console**: Static frontend dashboard rendering graph visualizer, case metrics, file uploader, and review queue in [`frontend/index.html`](file:///d:/SIH2026/frontend/index.html) (838 lines) and [`frontend/graph/graph.js`](file:///d:/SIH2026/frontend/graph/graph.js) (also replicated at root [`index.html`](file:///d:/SIH2026/index.html)).
+- **Backend Configuration**: Settings management via `pydantic-settings` in `backend/app/config/settings.py`.
+- **Database Connection**: PostgreSQL session management and SQLAlchemy base in `backend/app/database/postgres.py`.
 
 ## What exists as real code but is NOT connected to the app
 - **`ml/processor.py`** (238 lines) & **`ml/nlp/cias_nlp.py`** (166 lines): Legacy standalone ML pipeline for spaCy NER, OCR noise cleaning, and RapidFuzz entity matching. Dropped during backend unification in commit `056c837` in favor of `backend/app/ingestion/`. *To wire in*: Replace calls in `backend/app/ingestion/service.py` to import `ml.processor` functions.
@@ -31,7 +33,7 @@ CIAS (Criminal Intelligence Analysis System / VERITAS) is a FastAPI-based web ap
 ## What's a placeholder / stub only
 A file is classified as a stub if it contains under 10-15 lines consisting only of docstrings, module headers (`# -*- coding: utf-8 -*-`), or empty `pass` statements without logic.
 
-- **`backend/app/`**: **55 stubs / 70 code files** (78.5% stubs).
+- **`backend/app/`**: **53 stubs / 70 code files** (75.7% stubs).
   - All files in `api/` (`analytics.py`, `anomaly.py`, `audit.py`, `auth.py`, `cases.py`, `entities.py`, `evidence.py`, `graph.py`, `ingestion.py`, `router.py`, `users.py`)
   - All files in `auth/` (`abac.py`, `authentication.py`, `authorization.py`, `jwt.py`, `rbac.py`)
   - All files in `cases/` (`models.py`, `repository.py`, `schemas.py`, `service.py`)
@@ -40,8 +42,8 @@ A file is classified as a stub if it contains under 10-15 lines consisting only 
   - All files in `users/` (`models.py`, `schemas.py`, `service.py`)
   - All files in `integrations/` (`analytics_client.py`, `blockchain_client.py`, `graph_client.py`, `nlp_client.py`)
   - All files in `utils/` (`exceptions.py`, `hashing.py`, `validators.py`)
-  - All files in `config/` (`logging.py`, `settings.py`)
-  - Database stubs: `database/postgres.py`, `database/redis.py`
+  - `config/logging.py`
+  - Database stubs: `database/redis.py`
 - **`blockchain/`**: **9 stubs / 9 code files** (100% stubs).
   - `fabric_client.py`, `chaincode/audit/chaincode.py`, `chaincode/evidence/chaincode.py`, `chaincode/evidence/models.py`, `merkle_tree.py`, `sha256.py`, `test_integrity.py`, `verify_hash.py`, `verify_merkle.py` are all 6-line docstring stubs. 0% implementation in code.
 - **`ml/`**: **36 stubs / 44 code files** (81.8% stubs).

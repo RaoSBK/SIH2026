@@ -143,6 +143,8 @@
           "CASE-102",
           "CASE-102",
           "CASE-102",
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },
@@ -397,6 +399,8 @@
           "CASE-102",
           "CASE-102",
           "CASE-102",
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },
@@ -576,6 +580,8 @@
           "CASE-102",
           "CASE-102",
           "CASE-102",
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },
@@ -593,6 +599,8 @@
       "attributes": {
         "case_id": "CASE-102",
         "case_ids": [
+          "CASE-102",
+          "CASE-102",
           "CASE-102",
           "CASE-102",
           "CASE-102",
@@ -687,6 +695,8 @@
         "case_ids": [
           "CASE-102",
           "CASE-102",
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },
@@ -706,6 +716,8 @@
         "case_ids": [
           "CASE-102",
           "CASE-102",
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },
@@ -723,6 +735,8 @@
       "attributes": {
         "case_id": "CASE-102",
         "case_ids": [
+          "CASE-102",
+          "CASE-102",
           "CASE-102"
         ]
       },
@@ -755,7 +769,8 @@
       "aliases": [],
       "source_files": [
         "BankStatement_Apex_Holdings_2.pdf"
-      ]
+      ],
+      "needs_reprocess": true
     },
     "person:8f3036f8": {
       "id": "person:8f3036f8",
@@ -766,7 +781,8 @@
       "aliases": [],
       "source_files": [
         "CDR_Analysis_March2024.pdf"
-      ]
+      ],
+      "needs_reprocess": true
     },
     "person:a2dd3aca": {
       "id": "person:a2dd3aca",
@@ -777,7 +793,8 @@
       "aliases": [],
       "source_files": [
         "FIR_001_Faisal_Khan.pdf"
-      ]
+      ],
+      "needs_reprocess": true
     },
     "person:ee4a805f": {
       "id": "person:ee4a805f",
@@ -788,7 +805,8 @@
       "aliases": [],
       "source_files": [
         "FIR_001_Ravi_Kumar.pdf"
-      ]
+      ],
+      "needs_reprocess": true
     },
     "location:7d1550b8": {
       "id": "location:7d1550b8",
@@ -799,7 +817,8 @@
       "aliases": [],
       "source_files": [
         "FIR_001_Ravi_Kumar.pdf"
-      ]
+      ],
+      "needs_reprocess": true
     },
     "person:e9d46690": {
       "id": "person:e9d46690",
@@ -810,7 +829,8 @@
       "aliases": [],
       "source_files": [
         "FIR_002_Faisal_Khan.pdf"
-      ]
+      ],
+      "needs_reprocess": true
     },
     "person:ddd7f9c9": {
       "id": "person:ddd7f9c9",
@@ -821,7 +841,8 @@
       "aliases": [],
       "source_files": [
         "FIR_002_R_Kumar.pdf"
-      ]
+      ],
+      "needs_reprocess": true
     },
     "person:b41892b7": {
       "id": "person:b41892b7",
@@ -832,7 +853,8 @@
       "aliases": [],
       "source_files": [
         "FIR_002_R_Kumar.pdf"
-      ]
+      ],
+      "needs_reprocess": true
     },
     "person:8208fc8f": {
       "id": "person:8208fc8f",
@@ -843,7 +865,8 @@
       "aliases": [],
       "source_files": [
         "Intel_Report_Amit.pdf"
-      ]
+      ],
+      "needs_reprocess": true
     },
     "person:a7ca11a0": {
       "id": "person:a7ca11a0",
@@ -854,8 +877,133 @@
       "aliases": [],
       "source_files": [
         "Intel_Report_Amit.pdf"
+      ],
+      "needs_reprocess": true
+    },
+    "phone:b9defd28": {
+      "id": "phone:b9defd28",
+      "type": "PHONE",
+      "value": "+916925495618",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR.csv"
+      ]
+    },
+    "phone:92ce66ae": {
+      "id": "phone:92ce66ae",
+      "type": "PHONE",
+      "value": "+918859257010",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR.csv"
+      ]
+    },
+    "phone:bb03401c": {
+      "id": "phone:bb03401c",
+      "type": "PHONE",
+      "value": "+916522886000",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "CDR.csv"
+      ]
+    },
+    "account:ae3fab4c": {
+      "id": "account:ae3fab4c",
+      "type": "ACCOUNT",
+      "value": "ACC-SAN-8410",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Financial.csv"
+      ]
+    },
+    "account:9b74198b": {
+      "id": "account:9b74198b",
+      "type": "ACCOUNT",
+      "value": "ACC-RAV-2345",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Financial.csv"
+      ]
+    },
+    "account:8f867a7d": {
+      "id": "account:8f867a7d",
+      "type": "ACCOUNT",
+      "value": "ACC-UNK-9768",
+      "confidence": 1.0,
+      "extraction_version": "1.1",
+      "attributes": {},
+      "aliases": [],
+      "source_files": [
+        "Financial.csv"
+      ]
+    },
+    "person:15252734": {
+      "id": "person:15252734",
+      "type": "PERSON",
+      "value": "Ravi Sharma",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "Financial.csv"
+      ]
+    },
+    "person:c31c4fa4": {
+      "id": "person:c31c4fa4",
+      "type": "PERSON",
+      "value": "Sanjay Patel",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "Financial.csv"
+      ]
+    },
+    "person:8ee8d614": {
+      "id": "person:8ee8d614",
+      "type": "PERSON",
+      "value": "Unknown Entity",
+      "confidence": 0.85,
+      "extraction_version": "1.1",
+      "attributes": {
+        "case_id": "CASE-102",
+        "case_ids": [
+          "CASE-102"
+        ]
+      },
+      "aliases": [],
+      "source_files": [
+        "Financial.csv"
       ]
     }
   },
-  "relationships": []
+  "schema_version": "1.1",
+  "needs_review": []
 }

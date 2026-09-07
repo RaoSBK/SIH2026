@@ -4,6 +4,12 @@ Append-only. Newest entries at the top. Never edit or delete a past entry — if
 
 ---
 
+## 2026-09-05 — Backend Base Infrastructure (Postgres & Settings)
+**Decision:** Integrated PostgreSQL using SQLAlchemy (engine and SessionLocal) and added `pydantic-settings` for centralized environment variable management. Configured app startup to automatically create tables (`Base.metadata.create_all`).
+**Why:** To transition the backend from flat JSON files to a relational database for Cases, Users, and Evidence management, per the Wahid Master Prompt specifications (Phases 1 & 2). 
+**Affected areas:** `backend/app/database/postgres.py`, `backend/app/config/settings.py`, `backend/app/main.py`, `.env.example`, `docker-compose.yml`
+**Supersedes:** N/A
+
 ## 2026-09-04 — Creation of Project Context, Architecture, Database Schema, and Graph Schema Single Source of Truth Files
 **Decision:** Audited the entire repository and generated four canonical documentation files at the repo root: `PROJECT_CONTEXT.md`, `ARCHITECTURE.md`, `DATABASE_SCHEMA.md`, and `GRAPH_SCHEMA.md`.
 **Why:** Establishes explicit ground truth for all working API routes, active ingestion pipelines, container configurations, and database/Cypher schemas, preventing AI agents and contributors from guessing or hallucinating non-existent models or fields in future sessions.
