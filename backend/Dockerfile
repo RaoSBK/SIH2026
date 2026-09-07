@@ -19,6 +19,8 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 COPY backend /app/backend
 COPY ml /app/ml
 COPY cias_er /app/cias_er
+COPY graph /app/graph
+COPY blockchain /app/blockchain
 
 # Add /app to PYTHONPATH so backend can resolve absolute imports
 ENV PYTHONPATH=/app:/app/backend

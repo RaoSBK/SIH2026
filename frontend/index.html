@@ -630,18 +630,75 @@
 
     log(`Switching active case context to <b>${newCaseId}</b>...`);
     try {
-      const res = await fetch(`http://localhost:8000/api/cases/${newCaseId}/graph`);
-      if (res.ok) {
-        const graphData = await res.json();
-        NODES = (graphData.nodes || []).map(n => ({
+      const [graphRes, analyticsRes, anomaliesRes, reviewRes] = await Promise.allSettled([
+        fetch(`http://localhost:8000/api/cases/${newCaseId}/graph`),
+        fetch(`http://localhost:8000/api/cases/${newCaseId}/analytics`),
+        fetch(`http://localhost:8000/api/anomalies`),
+        fetch(`http://localhost:8000/api/review-queue`)
+      ]);
+
+      let rawNodes = [];
+      let rawEdges = [];
+      if (graphRes.status === 'fulfilled' && graphRes.value.ok) {
+        const graphData = await graphRes.value.json();
+        rawNodes = graphData.nodes || [];
+        rawEdges = graphData.links || graphData.edges || [];
+      }
+
+      let analyticsMap = {};
+      if (analyticsRes.status === 'fulfilled' && analyticsRes.value.ok) {
+        const analyticsData = await analyticsRes.value.json();
+        (analyticsData.annotated_nodes || []).forEach(an => {
+          analyticsMap[an.id] = an;
+        });
+      }
+
+      let anomalyAlerts = [];
+      if (anomaliesRes.status === 'fulfilled' && anomaliesRes.value.ok) {
+        const anomalyData = await anomaliesRes.value.json();
+        anomalyAlerts = anomalyData.alerts || [];
+      }
+
+      if (reviewRes.status === 'fulfilled' && reviewRes.value.ok) {
+        const reviewData = await reviewRes.value.json();
+        window._pendingReview = reviewData.pending_review || [];
+      }
+
+      NODES = rawNodes.map(n => {
+        const rawType = (n.type || n.label || 'Entity').toString();
+        const formattedType = rawType.charAt(0).toUpperCase() + rawType.slice(1).toLowerCase();
+        const an = analyticsMap[n.id] || {};
+        
+        const matchedAnomalies = anomalyAlerts.filter(alert => 
+          alert.target_id === n.id || 
+          alert.entity_id === n.id || 
+          alert.node_id === n.id ||
+          (alert.affected_nodes && alert.affected_nodes.includes(n.id))
+        );
+
+        const isFlagged = n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red' || matchedAnomalies.length > 0;
+
+        return {
           ...n,
           name: n.name || n.value || n.label || n.id,
-          flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
-        }));
-        EDGES = graphData.links || graphData.edges || [];
-      }
+          type: formattedType === 'Org' ? 'Organization' : formattedType,
+          community_id: an.community_id || n.community_id || 'community_1',
+          community_color: an.community_color || n.community_color || '#0F766E',
+          betweenness: an.betweenness !== undefined ? an.betweenness : (n.betweenness || 0),
+          pagerank: an.pagerank !== undefined ? an.pagerank : (n.pagerank || 0),
+          degree_centrality: an.degree_centrality || {},
+          anomalies: matchedAnomalies,
+          flagged: isFlagged
+        };
+      });
+
+      EDGES = rawEdges.map(e => ({
+        ...e,
+        line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
+      }));
+
     } catch(e) {
-      console.warn(e);
+      console.warn("Failed to load case data:", e);
     }
 
     if (!NODES.length) {
@@ -904,6 +961,21 @@
     const phoneRow = n.phone ? `<div class="metric-row"><span class="k">Phone</span><span class="n mono">${n.phone}</span></div>` : '';
     const typeRow = `<div class="metric-row"><span class="k">Entity Type</span><span class="n mono">${n.type || 'Entity'}</span></div>`;
     const connRow = `<div class="metric-row"><span class="k">Connections</span><span class="n mono">${connections}</span></div>`;
+    const commRow = `<div class="metric-row"><span class="k">Community Cluster</span><span class="n mono"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${n.community_color || '#0F766E'};margin-right:5px;"></span>${n.community_id || 'community_1'}</span></div>`;
+    const bwRow = n.betweenness !== undefined ? `<div class="metric-row"><span class="k">Betweenness Centrality</span><span class="n mono">${Number(n.betweenness).toFixed(4)}</span></div>` : '';
+    const prRow = n.pagerank !== undefined ? `<div class="metric-row"><span class="k">PageRank Score</span><span class="n mono">${Number(n.pagerank).toFixed(4)}</span></div>` : '';
+
+    let anomalyBadgesHTML = '';
+    const anomaliesList = n.anomalies || [];
+    if (anomaliesList.length > 0) {
+      anomalyBadgesHTML = `<div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; margin-bottom:12px;">
+        ${anomaliesList.map(a => `<span class="badge anomaly" style="background:rgba(239,68,68,0.15);color:#EF4444;border:1px solid #EF4444;margin:0;">${a.code || a.rule_id || a.anomaly_type || 'ANOM-ALERT'} (Risk: ${(a.score || a.anomaly_score || 0.85).toFixed(2)})</span>`).join('')}
+      </div>`;
+    } else if (n.status === 'REVIEW_REQUIRED' || n.flagged || n.risk_color === 'red') {
+      anomalyBadgesHTML = `<div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; margin-bottom:12px;">
+        <span class="badge anomaly" style="background:rgba(239,68,68,0.15);color:#EF4444;border:1px solid #EF4444;margin:0;">ANOM-SUBNET-FLAG</span>
+      </div>`;
+    }
 
     // Evidence trail list for flagged entities (Task 4)
     let evidenceTrailHTML = '';
@@ -926,10 +998,14 @@
         return `<div class="badge" style="background:rgba(239,68,68,0.15);color:#EF4444;border-color:#EF4444;">FLAGGED SUBNETWORK</div>
           <div class="detail-title">${n.name || n.label || n.id}</div>
           <div class="detail-sub" style="text-transform:capitalize">Risk Level: ${n.risk_color || 'red'} &middot; ${n.historical_firs || 1} Incident Indicator(s)</div>
+          ${anomalyBadgesHTML}
           <div style="margin-bottom:12px;">
             ${typeRow}
             ${phoneRow}
             ${connRow}
+            ${commRow}
+            ${bwRow}
+            ${prRow}
           </div>
           ${evidenceTrailHTML || '<p class="empty-hint">This entity has been flagged across multiple investigative sources in the subnetwork.</p>'}
           <button class="ghost" id="viewSourceBtn">View source documents</button>`;
@@ -940,6 +1016,9 @@
             ${typeRow}
             ${phoneRow}
             ${connRow}
+            ${commRow}
+            ${bwRow}
+            ${prRow}
           </div>
           <p class="empty-hint">No anomaly indicators for this entity. It appears in the case record but was not flagged by the analytics engine.</p>
           <button class="ghost" id="viewSourceBtn">View source documents</button>`;
@@ -1136,29 +1215,67 @@
          }
          window._pendingReview = (window._pendingReview || []).concat(batchReview);
          
-         // Fetch the full graph from the database
-         log('Fetching complete graph from Neo4j...');
-         const graphRes = await fetch(`http://localhost:8000/api/cases/${caseId}/graph`);
-         if (!graphRes.ok) throw new Error('Graph API returned ' + graphRes.status);
-         const graphData = await graphRes.json();
-         
-         // Normalize: backend returns 'value' for display name; map it to 'name'
-         // so graph.js label renderer can find it consistently.
-          NODES = (graphData.nodes || []).map(n => {
-              const rawType = (n.type || n.label || 'Entity').toString();
-              const formattedType = rawType.charAt(0).toUpperCase() + rawType.slice(1).toLowerCase();
-              return {
-                  ...n,
-                  name: n.name || n.value || n.label || n.id,
-                  type: formattedType === 'Org' ? 'Organization' : formattedType,
-                  flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
-              };
-          });
-          // Support both key names: process-evidence returns 'links', graph endpoint returns 'edges'
-          EDGES = (graphData.links || graphData.edges || []).map(e => ({
-              ...e,
-              line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
-          }));
+         // Fetch the full graph, analytics, and anomalies from the database
+         log('Fetching complete graph and analytics...');
+         const [graphRes, analyticsRes, anomaliesRes] = await Promise.allSettled([
+            fetch(`http://localhost:8000/api/cases/${caseId}/graph`),
+            fetch(`http://localhost:8000/api/cases/${caseId}/analytics`),
+            fetch(`http://localhost:8000/api/anomalies`)
+         ]);
+
+         let rawNodes = [];
+         let rawEdges = [];
+         if (graphRes.status === 'fulfilled' && graphRes.value.ok) {
+            const graphData = await graphRes.value.json();
+            rawNodes = graphData.nodes || [];
+            rawEdges = graphData.links || graphData.edges || [];
+         }
+
+         let analyticsMap = {};
+         if (analyticsRes.status === 'fulfilled' && analyticsRes.value.ok) {
+            const analyticsData = await analyticsRes.value.json();
+            (analyticsData.annotated_nodes || []).forEach(an => {
+               analyticsMap[an.id] = an;
+            });
+         }
+
+         let anomalyAlerts = [];
+         if (anomaliesRes.status === 'fulfilled' && anomaliesRes.value.ok) {
+            const anomalyData = await anomaliesRes.value.json();
+            anomalyAlerts = anomalyData.alerts || [];
+         }
+
+         NODES = rawNodes.map(n => {
+             const rawType = (n.type || n.label || 'Entity').toString();
+             const formattedType = rawType.charAt(0).toUpperCase() + rawType.slice(1).toLowerCase();
+             const an = analyticsMap[n.id] || {};
+             
+             const matchedAnomalies = anomalyAlerts.filter(alert => 
+               alert.target_id === n.id || 
+               alert.entity_id === n.id || 
+               alert.node_id === n.id ||
+               (alert.affected_nodes && alert.affected_nodes.includes(n.id))
+             );
+
+             const isFlagged = n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red' || matchedAnomalies.length > 0;
+
+             return {
+                 ...n,
+                 name: n.name || n.value || n.label || n.id,
+                 type: formattedType === 'Org' ? 'Organization' : formattedType,
+                 community_id: an.community_id || n.community_id || 'community_1',
+                 community_color: an.community_color || n.community_color || '#0F766E',
+                 betweenness: an.betweenness !== undefined ? an.betweenness : (n.betweenness || 0),
+                 pagerank: an.pagerank !== undefined ? an.pagerank : (n.pagerank || 0),
+                 degree_centrality: an.degree_centrality || {},
+                 anomalies: matchedAnomalies,
+                 flagged: isFlagged
+             };
+         });
+         EDGES = rawEdges.map(e => ({
+             ...e,
+             line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
+         }));
          
          if (!NODES.length) {
            loadDemoGraph();
