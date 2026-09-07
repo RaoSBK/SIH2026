@@ -187,26 +187,37 @@ export class MLGraph {
       
       // Suppress noisy high-frequency labels to reduce visual clutter
       const noisyTypes = new Set(['MENTIONED_IN', 'MENTIONED_NEAR', 'EXTRACTED_FROM']);
+      const isCalling = (e.relationship_type === 'calling' || e.type === 'calling' || e.type === 'CALLED' || e.relationship_type === 'CALLED');
       const showLabel = !noisyTypes.has(e.type);
       
       const t = this.el('text', {
          x: mx, y: my - 6, 
-         class: 'edge-label', 
+         class: 'edge-label' + (isCalling ? ' calling-label' : ''), 
          'text-anchor': 'middle',
          'paint-order': 'stroke fill',
          'stroke': '#F8FAFC',
          'stroke-width': '4px',
          'stroke-linejoin': 'round'
       });
-      t.textContent = showLabel ? (e.type || 'LINK') : '';
+      t.textContent = isCalling ? 'calling' : (showLabel ? (e.type || 'LINK') : '');
       t.style.opacity = 0;
-      t.style.fill = '#c2410c';
+      t.style.fill = isCalling ? '#c2410c' : '#c2410c';
       t.style.fontWeight = '700';
       t.style.fontSize = '11px';
       t.style.letterSpacing = '0.5px';
       this.viewport.appendChild(t);
       e._label = t;
     });
+
+    // Tooltip element container inside graph-wrap
+    let tooltip = document.getElementById('graphTooltip');
+    if (!tooltip) {
+      tooltip = document.createElement('div');
+      tooltip.id = 'graphTooltip';
+      tooltip.className = 'graph-tooltip';
+      const wrap = this.svg.closest('.graph-wrap') || this.svg.parentElement || document.body;
+      wrap.appendChild(tooltip);
+    }
 
     // Render Nodes
     const riskColors = {
@@ -217,18 +228,50 @@ export class MLGraph {
     };
     
     this.nodes.forEach(n => {
+      // Resolve phone for this specific node if available
+      let nodePhone = n.phone || n.attributes?.phone || n.attributes?.phones?.[0];
+      if (!nodePhone) {
+        if (n.type === 'Phone' || n.type === 'PHONE') {
+          nodePhone = n.name || n.value || n.id;
+        } else if (n.type === 'Person' || n.type === 'PERSON') {
+          // Look for adjacent phone node in links
+          const phoneEdge = this.links.find(l => {
+            const sid = typeof l.source === 'object' ? l.source.id : l.source;
+            const tid = typeof l.target === 'object' ? l.target.id : l.target;
+            return (sid === n.id || tid === n.id) && (l.type === 'HAS_PHONE' || l.type === 'USES');
+          });
+          if (phoneEdge) {
+            const otherId = (typeof phoneEdge.source === 'object' ? phoneEdge.source.id : phoneEdge.source) === n.id
+              ? (typeof phoneEdge.target === 'object' ? phoneEdge.target.id : phoneEdge.target)
+              : (typeof phoneEdge.source === 'object' ? phoneEdge.source.id : phoneEdge.source);
+            const otherNode = this.nodes.find(x => x.id === otherId);
+            if (otherNode) nodePhone = otherNode.name || otherNode.value || otherNode.id;
+          }
+        }
+      }
+      n.phone = nodePhone;
+
       // Cap the max size so highly connected nodes don't overlap everything
       const r = 8 + Math.min((this.degree[n.id] || 0) * 1.5, 30);
+      const isFlagged = n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red';
       const statusClass = n.status === 'REVIEW_REQUIRED' ? ' REVIEW_REQUIRED' : '';
+      const flagClass = isFlagged ? ' flagged' : '';
       const orphanClass = (this.degree[n.id] || 0) === 0 ? ' orphan' : '';
-      const g = this.el('g', {class: 'node' + statusClass + orphanClass, transform: `translate(${n.x},${n.y}) scale(0.4)`, 'data-id': n.id});
+      const g = this.el('g', {class: 'node' + statusClass + flagClass + orphanClass, transform: `translate(${n.x},${n.y}) scale(0.4)`, 'data-id': n.id});
       g.style.opacity = 0;
       
-      const strokeColor = riskColors[n.risk_color] || '#0F766E'; // Teal for normal nodes
+      const strokeColor = riskColors[n.risk_color] || (isFlagged ? '#EF4444' : '#0F766E');
       const fillColor = strokeColor + '22'; // Colorful alpha fill
       
-      if (n.status === 'REVIEW_REQUIRED') {
-         g.appendChild(this.el('circle', {class: 'ring', r: r + 8, fill: 'none', stroke: strokeColor, 'stroke-width': 1.4}));
+      if (isFlagged) {
+         g.appendChild(this.el('circle', {
+           class: 'ring red-flag-ring', 
+           r: r + 7, 
+           fill: 'none', 
+           stroke: '#EF4444', 
+           'stroke-width': '2.2',
+           'stroke-dasharray': n.status === 'REVIEW_REQUIRED' ? '4 3' : 'none'
+         }));
       }
       
       g.appendChild(this.el('circle', {class: 'body', r: r, fill: fillColor, stroke: strokeColor, 'stroke-width': 2}));
@@ -258,9 +301,42 @@ export class MLGraph {
       g.appendChild(subBg);
       g.appendChild(sub);
       
+      // Mouseover / Pointerenter tooltip for node phone and details
+      g.addEventListener('pointerenter', () => {
+        const wrapEl = this.svg.closest('.graph-wrap') || this.svg.parentElement;
+        if (!wrapEl) return;
+        const wrapRect = wrapEl.getBoundingClientRect();
+        const nodeRect = g.getBoundingClientRect();
+        const left = nodeRect.left - wrapRect.left + nodeRect.width / 2;
+        const top = nodeRect.top - wrapRect.top;
+
+        const displayName = n.name || n.value || n.label || n.id;
+        let tooltipContent = `
+          <div class="tt-title">${displayName}</div>
+          <div class="tt-type">${n.type || 'Entity'} &middot; ${this.degree[n.id] || 0} link(s)</div>
+        `;
+        if (n.phone) {
+          tooltipContent += `<div class="tt-phone">📞 Phone: ${n.phone}</div>`;
+        }
+        if (isFlagged) {
+          const reason = n.anomaly_reasons?.[0] || 'Flagged subnetwork — multiple evidence types';
+          tooltipContent += `<div class="tt-flag">⚠️ ${reason}</div>`;
+        }
+
+        tooltip.innerHTML = tooltipContent;
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+        tooltip.classList.add('visible');
+      });
+
+      g.addEventListener('pointerleave', () => {
+        tooltip.classList.remove('visible');
+      });
+
       g.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); });
       g.addEventListener('click', (ev) => { 
         ev.stopPropagation(); 
+        tooltip.classList.remove('visible');
         if(this.onSelectNode) this.onSelectNode(n); 
         this.selectNodeUI(n.id);
       });
@@ -275,8 +351,14 @@ export class MLGraph {
       
       // Add D3 drag behavior
       d3.select(g).call(d3.drag()
-        .on("start", (event) => this.dragstarted(event, n))
-        .on("drag", (event) => this.dragged(event, n))
+        .on("start", (event) => {
+          tooltip.classList.remove('visible');
+          this.dragstarted(event, n);
+        })
+        .on("drag", (event) => {
+          tooltip.classList.remove('visible');
+          this.dragged(event, n);
+        })
         .on("end", (event) => this.dragended(event, n))
       );
       

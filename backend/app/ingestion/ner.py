@@ -221,15 +221,17 @@ def _make_entity(etype: str, value: str, confidence: float = 1.0, **attrs) -> di
 
 def _make_rel(rtype: str, source: str, target: str, confidence: float,
               evidence: str, status: str = "confirmed", **attrs) -> dict:
+    rel_type_label = "calling" if rtype.upper() in ("CALLED", "CALL", "CALLING") else rtype
     return {
-        "id":         str(uuid.uuid4()),
-        "type":       rtype,
-        "source":     source,
-        "target":     target,
-        "confidence": confidence,
-        "status":     status,
-        "evidence":   evidence,
-        "attributes": attrs
+        "id":                str(uuid.uuid4()),
+        "type":              rtype,
+        "relationship_type": rel_type_label,
+        "source":            source,
+        "target":            target,
+        "confidence":        confidence,
+        "status":            status,
+        "evidence":          evidence,
+        "attributes":        attrs
     }
 
 

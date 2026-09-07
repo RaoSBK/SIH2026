@@ -1,0 +1,16 @@
+{
+  "evaluation_timestamp": "ml_evaluation_report.json",
+  "ner_evaluation": {
+    "precision": 0.8571,
+    "recall": 0.75,
+    "f1_score": 0.8
+  },
+  "anomaly_detection_evaluation": {
+    "anomalies_detected": 1,
+    "primary_outlier_identified": true,
+    "precision": 1.0
+  },
+  "entity_resolution_evaluation": {
+    "accuracy": 1.0
+  }
+}

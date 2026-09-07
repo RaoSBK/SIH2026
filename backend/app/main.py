@@ -9,6 +9,7 @@ import json
 from .ingestion.service import process_file
 from ml.anomaly.anomaly_rules import run_rule_engine
 from ml.anomaly.anomaly_ml import run_ml_engine
+from .api.anomaly import router as anomaly_router, save_anomaly_alerts, load_stored_anomaly_alerts
 
 from fastapi import Depends
 from backend.app.users.models import User
@@ -16,6 +17,7 @@ from backend.app.auth.rbac import get_current_user, require_role
 from backend.app.auth.abac import require_case_access
 
 app = FastAPI(title="CIAS ML Backend")
+app.include_router(anomaly_router)
 
 from backend.app.api.router import router
 app.include_router(router)
