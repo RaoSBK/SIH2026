@@ -1437,24 +1437,7 @@
     renderSources();
   }
 
-  const leftPanel = document.querySelector('.panel.left');
-  if (leftPanel) {
-    leftPanel.addEventListener('dragover', (e) => { e.preventDefault(); leftPanel.style.background = 'rgba(15,118,110,0.05)'; });
-    leftPanel.addEventListener('dragleave', (e) => { e.preventDefault(); leftPanel.style.background = ''; });
-    leftPanel.addEventListener('drop', (e) => {
-      e.preventDefault();
-      leftPanel.style.background = '';
-      if (e.dataTransfer && e.dataTransfer.files) handleFiles(e.dataTransfer.files);
-    });
-  }
 
-  const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
-  if (toggleSidebarBtn) {
-    toggleSidebarBtn.addEventListener('click', () => {
-      const layout = document.querySelector('.layout');
-      if (layout) layout.classList.toggle('sidebar-collapsed');
-    });
-  }
 
   const fileUpload = document.getElementById('fileUpload');
   if (fileUpload) {
