@@ -1296,9 +1296,40 @@
     log(`Switching active case context to <b>${newCaseId}</b>...`);
     NODES = [];
     EDGES = [];
+    SOURCES = [];
+    hasRun = false;
     
     try {
       const token = sessionStorage.getItem('veritas_token');
+      
+      // Fetch Evidence Files
+      const evRes = await fetch(`http://localhost:8000/api/evidence/${newCaseId}`, {
+         headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+      });
+      if (evRes.ok) {
+         const evData = await evRes.json();
+         if (evData && evData.length > 0) {
+            SOURCES = evData.map(e => {
+                let tag = 'DOC';
+                const lowerName = e.file_name.toLowerCase();
+                if (lowerName.includes('fir')) tag = 'FIR';
+                else if (lowerName.includes('cdr')) tag = 'CDR';
+                else if (lowerName.includes('txn') || lowerName.includes('transaction') || lowerName.includes('bank')) tag = 'TXN';
+                else if (lowerName.includes('surveillance') || lowerName.includes('intel')) tag = 'INTEL';
+                return {
+                    id: e.evidence_id,
+                    name: e.file_name,
+                    tag: tag,
+                    status: 'Hashed & stored',
+                    processed: true
+                };
+            });
+            hasRun = true;
+         }
+      }
+      renderSources();
+
+      // Fetch Graph Data
       const res = await fetch(`http://localhost:8000/api/cases/${newCaseId}/graph`, {
          headers: token ? { 'Authorization': 'Bearer ' + token } : {}
       });

@@ -45,12 +45,29 @@ async def process_evidence(
 
     os.makedirs("temp_uploads", exist_ok=True)
 
+    import uuid
+    from backend.app.evidence.service import upload_evidence
+
     for file in files:
         temp_path = os.path.join("temp_uploads", file.filename)
 
         try:
+            file_bytes = await file.read()
             with open(temp_path, "wb") as buffer:
-                shutil.copyfileobj(file.file, buffer)
+                buffer.write(file_bytes)
+
+            evidence_id = f"EV-{uuid.uuid4().hex[:8].upper()}"
+            try:
+                upload_evidence(
+                    db=db,
+                    file_bytes=file_bytes,
+                    evidence_id=evidence_id,
+                    case_id=case_id,
+                    file_name=file.filename,
+                    user_id=current_user.id
+                )
+            except Exception as e:
+                logger.warning(f"Could not persist evidence {file.filename} to Postgres: {e}")
 
             result = await asyncio.to_thread(
                 process_file,
@@ -214,6 +231,47 @@ async def process_evidence(
             else:
                 n['risk_color'] = 'none'
                 n['flagged'] = False
+
+    # Save Graph to Neo4j
+    from backend.app.database.neo4j import driver as neo4j_driver
+    try:
+        with neo4j_driver.session() as session:
+            session.run("MERGE (d:Document {case_id: $case_id})", case_id=case_id)
+            
+            for n_id, n in global_nodes.items():
+                props = {k: v for k, v in n.items() if k not in ("id", "type", "label", "source_files")}
+                label = str(n.get("type") or n.get("label") or "Entity").capitalize()
+                if label == "Org": label = "Organization"
+                
+                session.run(
+                    "MERGE (node:Entity {id: $id}) "
+                    "SET node += $props "
+                    "WITH node "
+                    "CALL apoc.create.addLabels(node, [$label]) YIELD node AS updated_node "
+                    "MERGE (d:Document {case_id: $case_id}) "
+                    "MERGE (updated_node)-[:EXTRACTED_FROM]->(d)",
+                    id=n_id,
+                    props=props,
+                    label=label,
+                    case_id=case_id
+                )
+                
+            for l in unique_links:
+                props = {k: v for k, v in l.items() if k not in ("source", "target", "type")}
+                l_type = str(l.get("type") or "LINK").upper().replace(" ", "_")
+                
+                session.run(
+                    "MATCH (a:Entity {id: $source}) "
+                    "MATCH (b:Entity {id: $target}) "
+                    "CALL apoc.merge.relationship(a, $type, {}, $props, b, {}) YIELD rel "
+                    "RETURN rel",
+                    source=l["source"],
+                    target=l["target"],
+                    type=l_type,
+                    props=props
+                )
+    except Exception as e:
+        logger.error(f"Failed to persist graph to Neo4j: {e}")
 
     return {
         "nodes": list(global_nodes.values()),
