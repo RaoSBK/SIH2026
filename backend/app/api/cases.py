@@ -51,7 +51,9 @@ def get_case_graph(case_id: str):
                 "RETURN DISTINCT n.id AS id, n.value AS value, "
                 "       labels(n)[0] AS type, n.confidence AS confidence, "
                 "       n.status AS status, n.risk_color AS risk_color, "
-                "       n.historical_firs AS historical_firs",
+                "       n.historical_firs AS historical_firs, "
+                "       n.phone AS phone, n.anomaly_reasons AS anomaly_reasons, "
+                "       n.evidence_trail AS evidence_trail, n.flagged AS flagged",
                 case_id=case_id
             )
             nodes = [dict(r) for r in nodes_result]
@@ -60,6 +62,7 @@ def get_case_graph(case_id: str):
                 "MATCH (a)-[:EXTRACTED_FROM]->(:Document {case_id: $case_id}) "
                 "MATCH (a)-[r]->(b) WHERE type(r) <> 'EXTRACTED_FROM' "
                 "RETURN a.id AS source, b.id AS target, type(r) AS type, "
+                "       coalesce(r.relationship_type, CASE WHEN type(r) IN ['CALLED','CALL','CALLING'] THEN 'calling' ELSE type(r) END) AS relationship_type, "
                 "       r.confidence AS confidence, r.status AS status, r.evidence AS evidence",
                 case_id=case_id
             )
