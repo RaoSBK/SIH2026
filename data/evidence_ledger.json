@@ -228,6 +228,96 @@
       "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
       "timestamp": "2026-09-07T15:59:19.584888",
       "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-f4213294",
+      "file_name": "BankStatement_Apex_Holdings_2.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "f4213294bf755700c5a9321aadab8a9f1b251e5df7ae427d64c941e37c1de1cd",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:22.967283",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-a5acbaac",
+      "file_name": "BankStatement_GlobalTech.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "a5acbaac14aa75218587e70acb812e4ab8c02c3f687e31b4ff8583e3a45208bc",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.134605",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-5188530b",
+      "file_name": "CDR_Analysis_001.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "5188530b4af2d0c0d46d275d975ad3fc2a62ec9ca2824f3ba478bf74df4425a7",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.241342",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-cdcd8350",
+      "file_name": "CDR_Analysis_March2024.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "cdcd835043caac5872f1f43d136765383a6df0efde277b8039506a513c567c67",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.339579",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-cc3a11e1",
+      "file_name": "FIR_001_Faisal_Khan.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "cc3a11e1d5359f1164c95f2c8034c993cb098cca0323d65db6cb50d2593a58c7",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.437068",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-adab7ce6",
+      "file_name": "FIR_001_Ravi_Kumar.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "adab7ce646c078ec4ea0f7b3a5289150e969c8aff5c1e7c0aed9a5e4c391825b",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.531265",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-85a98ee9",
+      "file_name": "FIR_002_Faisal_Khan.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "85a98ee974bcf6c4fa819e1588a5540bfd3923d4d39d4224c131cd72339adca5",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.958351",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-ac2ad707",
+      "file_name": "FIR_002_R_Kumar.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "ac2ad7077d09b1e9d1d057feffbc19efbdd75c61f12e128587380669661667d3",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:24.032476",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-948429eb",
+      "file_name": "Intel_Report_Amit.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "948429ebf24ce230ddff21c14e51d1cf5d85984df6f3d1ab361f801bf29f5708",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:24.095570",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-9d901f60",
+      "file_name": "Scan documents20260725_163400.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "9d901f60127842dbe95a783a5721b9a76fa2d8e1ab55c4177680251e8c4daffc",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:24.372250",
+      "status": "VERIFIED_TAMPER_EVIDENT"
     }
   ]
 }
