@@ -260,8 +260,8 @@ export class MLGraph {
       const g = this.el('g', {class: 'node' + statusClass + flagClass + orphanClass, transform: `translate(${n.x},${n.y}) scale(0.4)`, 'data-id': n.id});
       g.style.opacity = 0;
       
-      const strokeColor = riskColors[n.risk_color] || (isFlagged ? '#EF4444' : '#0F766E');
-      const fillColor = strokeColor + '22'; // Colorful alpha fill
+      const strokeColor = n.community_color || riskColors[n.risk_color] || (isFlagged ? '#EF4444' : '#0F766E');
+      const fillColor = (n.community_color ? n.community_color + '33' : (strokeColor + '22')); // Colorful alpha fill
       
       if (isFlagged) {
          g.appendChild(this.el('circle', {
@@ -315,10 +315,16 @@ export class MLGraph {
           <div class="tt-title">${displayName}</div>
           <div class="tt-type">${n.type || 'Entity'} &middot; ${this.degree[n.id] || 0} link(s)</div>
         `;
+        if (n.community_id) {
+          tooltipContent += `<div class="tt-comm" style="font-size:10px; color:${n.community_color || '#0F766E'}; font-weight:600; margin-top:2px;">👥 ${n.community_id} | Betweenness: ${(n.betweenness || 0).toFixed(3)}</div>`;
+        }
         if (n.phone) {
           tooltipContent += `<div class="tt-phone">📞 Phone: ${n.phone}</div>`;
         }
-        if (isFlagged) {
+        if (n.anomalies && n.anomalies.length > 0) {
+          const codes = n.anomalies.map(a => a.code || a.rule_id || a.anomaly_type || 'ANOM-FLAG').join(', ');
+          tooltipContent += `<div class="tt-flag" style="color:#EF4444; font-weight:600;">🚨 ${codes}</div>`;
+        } else if (isFlagged) {
           const reason = n.anomaly_reasons?.[0] || 'Flagged subnetwork — multiple evidence types';
           tooltipContent += `<div class="tt-flag">⚠️ ${reason}</div>`;
         }

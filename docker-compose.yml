@@ -17,6 +17,8 @@ services:
       - ./backend:/app/backend
       - ./ml:/app/ml
       - ./cias_er:/app/cias_er
+      - ./graph:/app/graph
+      - ./blockchain:/app/blockchain
       - ./data:/app/data
     depends_on:
       postgres:

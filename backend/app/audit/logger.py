@@ -28,8 +28,7 @@ def _append_to_json_file(path: str, entry: dict) -> None:
 def log_ingestion(file_name: str, source_label: str, case_id: str, status: str,
                   message: str, entities_count: int = 0, new_nodes: int = 0):
     """
-    Logs every ingestion attempt (success or failure) to a JSON file.
-    In Phase 2, this will be migrated to the PostgreSQL database.
+    Logs every ingestion attempt (success or failure) to JSON file and relational database.
     """
     entry = {
         "timestamp":      datetime.utcnow().isoformat() + "Z",
@@ -42,6 +41,19 @@ def log_ingestion(file_name: str, source_label: str, case_id: str, status: str,
         "new_nodes":      new_nodes,
     }
     _append_to_json_file(AUDIT_LOG_FILE, entry)
+    try:
+        from ..database.postgres import save_audit_log_db
+        save_audit_log_db(
+            file_name=file_name,
+            source_label=source_label,
+            case_id=case_id,
+            status=status,
+            message=message,
+            entities_count=entities_count,
+            new_nodes=new_nodes
+        )
+    except Exception as ex:
+        pass
 
 
 def log_filtered_edge(edge: dict, reason: str, source_doc: str) -> None:

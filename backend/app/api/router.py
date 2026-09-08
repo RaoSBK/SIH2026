@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-
 from fastapi import APIRouter
 from backend.app.api import auth, cases, users, evidence, entities, ingestion, review
+from backend.app.api import analytics, anomaly, audit, graph
 
 router = APIRouter(prefix="/api")
 router.include_router(auth.router, prefix="/auth", tags=["auth"])
@@ -11,3 +10,9 @@ router.include_router(evidence.router, prefix="/evidence", tags=["evidence"])
 router.include_router(entities.router, prefix="/entities", tags=["entities"])
 router.include_router(ingestion.router, tags=["ingestion"])
 router.include_router(review.router, tags=["review"])
+router.include_router(anomaly.router, tags=["anomaly"])
+router.include_router(analytics.router, tags=["analytics"])
+router.include_router(audit.router, tags=["audit"])
+router.include_router(graph.router, tags=["graph"])
+
+api_router = router

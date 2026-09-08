@@ -117,7 +117,7 @@ def get_case_anomalies(case_id: str):
     """
     Computes real-time rule and ML anomaly scores for a specific case's graph.
     """
-    from ..main import get_case_graph
+    from .cases import get_case_graph
 
     graph_res = get_case_graph(case_id)
     nodes = graph_res.get("nodes", [])

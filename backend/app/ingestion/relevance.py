@@ -17,14 +17,15 @@ from .ner import (
 MIN_REGEX_MATCHES = 1
 MIN_DOMAIN_KEYWORDS = 2
 
-# ─── Domain Vocabulary (Extended from ner.py NON_NAME_WORDS) ────────────────────
-INVESTIGATIVE_KEYWORDS = frozenset(NON_NAME_WORDS | {
-    "fir", "case", "police", "station", "complainant", "accused", "victim", "witness",
+# ─── Domain Vocabulary (Strict Investigative Domain Keywords) ────────────────
+INVESTIGATIVE_KEYWORDS = frozenset({
+    "fir", "police", "station", "complainant", "accused", "victim", "witness",
     "informant", "suspect", "subject", "interrogation", "surveillance", "intel",
-    "intelligence", "cdr", "call", "transaction", "bank", "account", "investigation",
+    "intelligence", "cdr", "transaction", "bank", "account", "investigation",
     "crime", "criminal", "offence", "offense", "ipc", "crpc", "evidence", "seizure",
     "panchnama", "mumbai", "delhi", "phone", "mobile", "aadhaar", "vehicle", "passport",
-    "nodal", "officer", "inspector", "constable", "si", "asi", "dfir", "cyber"
+    "nodal", "officer", "inspector", "constable", "si", "asi", "dfir", "cyber",
+    "narcotics", "trafficking", "hawala", "fraud", "absconding", "racket", "syndicate"
 })
 
 

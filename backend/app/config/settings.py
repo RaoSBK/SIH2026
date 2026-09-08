@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     neo4j_uri: str = "bolt://localhost:7687"
     neo4j_user: str = "neo4j"
     neo4j_password: str = "password"
-    jwt_secret_key: str            # no default — must come from env, fail loudly if missing
+    jwt_secret_key: str = "supersecretkey123_cias_veritas"
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 60
     

@@ -1,0 +1,323 @@
+{
+  "cases": {
+    "CASE-102": {
+      "files": [
+        "BankStatement_Apex_Holdings_1.pdf",
+        "BankStatement_Apex_Holdings_2.pdf",
+        "BankStatement_GlobalTech.pdf",
+        "CDR_Analysis_001.pdf",
+        "CDR_Analysis_March2024.pdf",
+        "FIR_001_Faisal_Khan.pdf",
+        "FIR_001_Ravi_Kumar.pdf",
+        "FIR_002_Faisal_Khan.pdf",
+        "FIR_002_R_Kumar.pdf",
+        "Intel_Report_Amit.pdf",
+        "Scan documents20260725_163400.pdf"
+      ],
+      "hashes": [
+        "96b71608863b4eec6832f1dc6aa5465bf93b1e8bf23467f4d446ed4036c728bb",
+        "f4213294bf755700c5a9321aadab8a9f1b251e5df7ae427d64c941e37c1de1cd",
+        "a5acbaac14aa75218587e70acb812e4ab8c02c3f687e31b4ff8583e3a45208bc",
+        "5188530b4af2d0c0d46d275d975ad3fc2a62ec9ca2824f3ba478bf74df4425a7",
+        "cdcd835043caac5872f1f43d136765383a6df0efde277b8039506a513c567c67",
+        "cc3a11e1d5359f1164c95f2c8034c993cb098cca0323d65db6cb50d2593a58c7",
+        "adab7ce646c078ec4ea0f7b3a5289150e969c8aff5c1e7c0aed9a5e4c391825b",
+        "85a98ee974bcf6c4fa819e1588a5540bfd3923d4d39d4224c131cd72339adca5",
+        "ac2ad7077d09b1e9d1d057feffbc19efbdd75c61f12e128587380669661667d3",
+        "948429ebf24ce230ddff21c14e51d1cf5d85984df6f3d1ab361f801bf29f5708",
+        "9d901f60127842dbe95a783a5721b9a76fa2d8e1ab55c4177680251e8c4daffc"
+      ],
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567"
+    }
+  },
+  "records": [
+    {
+      "record_id": "EV-96b71608",
+      "file_name": "BankStatement_Apex_Holdings_1.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "96b71608863b4eec6832f1dc6aa5465bf93b1e8bf23467f4d446ed4036c728bb",
+      "merkle_root": "96b71608863b4eec6832f1dc6aa5465bf93b1e8bf23467f4d446ed4036c728bb",
+      "timestamp": "2026-09-07T15:51:14.825988",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-f4213294",
+      "file_name": "BankStatement_Apex_Holdings_2.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "f4213294bf755700c5a9321aadab8a9f1b251e5df7ae427d64c941e37c1de1cd",
+      "merkle_root": "81020adf9d03a7ae73c69f6fbdb8e792c01a5bb3f77b7ce4bb0c499d3d16e841",
+      "timestamp": "2026-09-07T15:51:25.951390",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-a5acbaac",
+      "file_name": "BankStatement_GlobalTech.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "a5acbaac14aa75218587e70acb812e4ab8c02c3f687e31b4ff8583e3a45208bc",
+      "merkle_root": "d57fba0b442b69574706d58e043b3ee4070c4b12d250eb44bae0844e02ded176",
+      "timestamp": "2026-09-07T15:51:26.117177",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-5188530b",
+      "file_name": "CDR_Analysis_001.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "5188530b4af2d0c0d46d275d975ad3fc2a62ec9ca2824f3ba478bf74df4425a7",
+      "merkle_root": "da4a9286592285648a88899b41353189acd198d9f8d523a5990e15d7560d0e74",
+      "timestamp": "2026-09-07T15:51:26.280794",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-cdcd8350",
+      "file_name": "CDR_Analysis_March2024.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "cdcd835043caac5872f1f43d136765383a6df0efde277b8039506a513c567c67",
+      "merkle_root": "2e30e753d389e60815d18dc25b25db474f8120bd19607dc74ef0a99bddbb1e88",
+      "timestamp": "2026-09-07T15:51:26.415091",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-cc3a11e1",
+      "file_name": "FIR_001_Faisal_Khan.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "cc3a11e1d5359f1164c95f2c8034c993cb098cca0323d65db6cb50d2593a58c7",
+      "merkle_root": "1a51bef336b74f7bd2eadd544c7257c3912e43b5dc914adfc9ec3b54fe62f518",
+      "timestamp": "2026-09-07T15:51:26.541508",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-adab7ce6",
+      "file_name": "FIR_001_Ravi_Kumar.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "adab7ce646c078ec4ea0f7b3a5289150e969c8aff5c1e7c0aed9a5e4c391825b",
+      "merkle_root": "68621bc4bf7cc1b4c9791d3867be7df1cb3b24addfaae3daf79b00a02805ef99",
+      "timestamp": "2026-09-07T15:51:26.708247",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-85a98ee9",
+      "file_name": "FIR_002_Faisal_Khan.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "85a98ee974bcf6c4fa819e1588a5540bfd3923d4d39d4224c131cd72339adca5",
+      "merkle_root": "70ec2c47d6836eaca6b46bf980fd8b3bba65789181c664f73641a597d854b77b",
+      "timestamp": "2026-09-07T15:51:26.886690",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-ac2ad707",
+      "file_name": "FIR_002_R_Kumar.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "ac2ad7077d09b1e9d1d057feffbc19efbdd75c61f12e128587380669661667d3",
+      "merkle_root": "b5685e4e96825f2192feb9d8e9771fb02907bb3ce1d3bfd9357cec54e733057f",
+      "timestamp": "2026-09-07T15:51:27.035224",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-948429eb",
+      "file_name": "Intel_Report_Amit.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "948429ebf24ce230ddff21c14e51d1cf5d85984df6f3d1ab361f801bf29f5708",
+      "merkle_root": "ed179a1b8a6f0202525df363b0ca954c11a5a496da2141ba40071e6f973c5947",
+      "timestamp": "2026-09-07T15:51:27.156596",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-9d901f60",
+      "file_name": "Scan documents20260725_163400.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "9d901f60127842dbe95a783a5721b9a76fa2d8e1ab55c4177680251e8c4daffc",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:51:27.641697",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-96b71608",
+      "file_name": "BankStatement_Apex_Holdings_1.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "96b71608863b4eec6832f1dc6aa5465bf93b1e8bf23467f4d446ed4036c728bb",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:59:09.968273",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-f4213294",
+      "file_name": "BankStatement_Apex_Holdings_2.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "f4213294bf755700c5a9321aadab8a9f1b251e5df7ae427d64c941e37c1de1cd",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:59:18.286342",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-a5acbaac",
+      "file_name": "BankStatement_GlobalTech.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "a5acbaac14aa75218587e70acb812e4ab8c02c3f687e31b4ff8583e3a45208bc",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:59:18.408364",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-5188530b",
+      "file_name": "CDR_Analysis_001.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "5188530b4af2d0c0d46d275d975ad3fc2a62ec9ca2824f3ba478bf74df4425a7",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:59:18.553739",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-cdcd8350",
+      "file_name": "CDR_Analysis_March2024.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "cdcd835043caac5872f1f43d136765383a6df0efde277b8039506a513c567c67",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:59:18.641286",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-cc3a11e1",
+      "file_name": "FIR_001_Faisal_Khan.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "cc3a11e1d5359f1164c95f2c8034c993cb098cca0323d65db6cb50d2593a58c7",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:59:18.740950",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-adab7ce6",
+      "file_name": "FIR_001_Ravi_Kumar.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "adab7ce646c078ec4ea0f7b3a5289150e969c8aff5c1e7c0aed9a5e4c391825b",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:59:18.848789",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-85a98ee9",
+      "file_name": "FIR_002_Faisal_Khan.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "85a98ee974bcf6c4fa819e1588a5540bfd3923d4d39d4224c131cd72339adca5",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:59:18.939502",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-ac2ad707",
+      "file_name": "FIR_002_R_Kumar.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "ac2ad7077d09b1e9d1d057feffbc19efbdd75c61f12e128587380669661667d3",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:59:19.040157",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-948429eb",
+      "file_name": "Intel_Report_Amit.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "948429ebf24ce230ddff21c14e51d1cf5d85984df6f3d1ab361f801bf29f5708",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:59:19.144742",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-9d901f60",
+      "file_name": "Scan documents20260725_163400.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "9d901f60127842dbe95a783a5721b9a76fa2d8e1ab55c4177680251e8c4daffc",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T15:59:19.584888",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-f4213294",
+      "file_name": "BankStatement_Apex_Holdings_2.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "f4213294bf755700c5a9321aadab8a9f1b251e5df7ae427d64c941e37c1de1cd",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:22.967283",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-a5acbaac",
+      "file_name": "BankStatement_GlobalTech.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "a5acbaac14aa75218587e70acb812e4ab8c02c3f687e31b4ff8583e3a45208bc",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.134605",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-5188530b",
+      "file_name": "CDR_Analysis_001.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "5188530b4af2d0c0d46d275d975ad3fc2a62ec9ca2824f3ba478bf74df4425a7",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.241342",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-cdcd8350",
+      "file_name": "CDR_Analysis_March2024.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "cdcd835043caac5872f1f43d136765383a6df0efde277b8039506a513c567c67",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.339579",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-cc3a11e1",
+      "file_name": "FIR_001_Faisal_Khan.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "cc3a11e1d5359f1164c95f2c8034c993cb098cca0323d65db6cb50d2593a58c7",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.437068",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-adab7ce6",
+      "file_name": "FIR_001_Ravi_Kumar.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "adab7ce646c078ec4ea0f7b3a5289150e969c8aff5c1e7c0aed9a5e4c391825b",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.531265",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-85a98ee9",
+      "file_name": "FIR_002_Faisal_Khan.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "85a98ee974bcf6c4fa819e1588a5540bfd3923d4d39d4224c131cd72339adca5",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:23.958351",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-ac2ad707",
+      "file_name": "FIR_002_R_Kumar.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "ac2ad7077d09b1e9d1d057feffbc19efbdd75c61f12e128587380669661667d3",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:24.032476",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-948429eb",
+      "file_name": "Intel_Report_Amit.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "948429ebf24ce230ddff21c14e51d1cf5d85984df6f3d1ab361f801bf29f5708",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:24.095570",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    },
+    {
+      "record_id": "EV-9d901f60",
+      "file_name": "Scan documents20260725_163400.pdf",
+      "case_id": "CASE-102",
+      "file_sha256": "9d901f60127842dbe95a783a5721b9a76fa2d8e1ab55c4177680251e8c4daffc",
+      "merkle_root": "a78452a99c6e0ca38e108761923c982b75340f41ad635c492123a592725b9567",
+      "timestamp": "2026-09-07T16:07:24.372250",
+      "status": "VERIFIED_TAMPER_EVIDENT"
+    }
+  ]
+}

@@ -149,23 +149,34 @@ _HEADER_LINE_RE = re.compile(
 def _strip_headers(text: str) -> str:
     return _HEADER_LINE_RE.sub('', text)
 
+TECH_COMMAND_WORDS = frozenset({
+    "git", "config", "install", "setup", "init", "command", "branch", "commit",
+    "docker", "python", "pip", "npm", "bash", "ssh", "http", "https", "url",
+    "api", "json", "xml", "html", "sha", "repository", "remote", "checkout",
+    "push", "pull", "merge", "rebase", "clone", "fetch", "status", "version"
+})
+
 def _is_probable_entity(text: str, etype: str, context: str = "", source_doc: str = "") -> bool:
     """
     Returns True if the spaCy entity span is likely real rather than
-    a field label or domain keyword.
+    a field label, tech command, or domain keyword.
     """
-    words = text.strip().split()
+    val = text.strip()
+    words = val.split()
     
-    # OCR-artifact characters never appear in real names/orgs/locations
-    if re.search(r'[@#%!|•]', text):
+    # OCR-artifact or code/command characters never appear in real names/orgs/locations
+    if re.search(r'[@#%!|•\-\-\/\\{}\[\]\(\)=_]', val):
         return False
         
     # Long spans are usually sentence fragments/headers, not proper nouns
     if len(words) > 5:
         return False
 
+    cleaned_words = {re.sub(r'[^a-z]', '', w.lower()) for w in words}
+    if cleaned_words & TECH_COMMAND_WORDS:
+        return False
+
     if len(words) <= 3:
-        cleaned_words = {re.sub(r'[^a-z]', '', w.lower()) for w in words}
         hit = cleaned_words & NON_NAME_WORDS
         if hit:
             try:
@@ -180,6 +191,12 @@ def _is_probable_entity(text: str, etype: str, context: str = "", source_doc: st
             except Exception:
                 pass
             return False
+
+    # PERSON names should contain at least one capitalized word
+    if etype == "PERSON":
+        if not any(w[0].isupper() for w in words if w):
+            return False
+
     return True
 
 
