@@ -1,27 +1,53 @@
 import logging
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from .api.router import api_router
-from .database.postgres import init_db
+from backend.app.api.router import router
+from backend.app.database.postgres import init_db, Base, engine, SessionLocal
 
 logger = logging.getLogger(__name__)
 
-# Initialize relational DB schema (SQLite / PostgreSQL)
+# Initialize database schema
 init_db()
 
 app = FastAPI(title="CIAS ML Backend")
 
+app.include_router(router)
+
+@app.on_event("startup")
+def startup_event():
+    try:
+        Base.metadata.create_all(bind=engine)
+        
+        # Seed default user rao.a
+        from backend.app.users.models import User
+        from backend.app.auth.authentication import hash_password
+        db = SessionLocal()
+        try:
+            user = db.query(User).filter(User.username == "rao.a").first()
+            if not user:
+                new_user = User(
+                    username="rao.a",
+                    hashed_password=hash_password("veritas"),
+                    role="investigator",
+                    full_name="Inspector Arjun Rao"
+                )
+                db.add(new_user)
+                db.commit()
+        except Exception as e:
+            logger.warning(f"Default user seeding skipped: {e}")
+        finally:
+            db.close()
+    except Exception as e:
+        logger.warning(f"Startup DB init warning: {e}")
+
 # Allow frontend requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Local dev — restrict in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Mount central API router containing all domain endpoints
-app.include_router(api_router)
 
 @app.get("/")
 def read_root():

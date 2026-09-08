@@ -1,5 +1,6 @@
 import os
 import json
+# pyrefly: ignore [missing-import]
 import spacy
 from spacy.tokens import DocBin
 import logging

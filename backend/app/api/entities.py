@@ -1,88 +1,20 @@
-import os
-import json
-import logging
-from typing import List, Dict, Any, Optional
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+# -*- coding: utf-8 -*-
 
-logger = logging.getLogger(__name__)
+from fastapi import APIRouter, Depends
+from backend.app.auth.rbac import get_current_user
+from backend.app.users.models import User
+from backend.app.entities import service
+from backend.app.entities.schemas import EntityDetail
 
-router = APIRouter(prefix="/api", tags=["Entities & Disambiguation"])
+router = APIRouter()
 
-class ReviewAction(BaseModel):
-    action: str  # 'merge', 'reject', 'skip'
-
-REGISTRY_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data/entity_registry.json"))
-
-@router.get("/needs-review")
-def get_needs_review():
-    """Returns all ambiguous entity matches pending investigator confirmation."""
-    try:
-        with open(REGISTRY_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return {"entities": {}}
-
-@router.get("/review-queue")
-def get_review_queue():
+@router.get("/{entity_id}", response_model=EntityDetail)
+def get_entity(
+    entity_id: str,
+    current_user: User = Depends(get_current_user)
+):
     """
-    Aggregates all pending REVIEW_REQUIRED items from the entity registry.
+    Returns full details and direct relationships for a single entity node from Neo4j.
+    Role: Any authenticated user.
     """
-    try:
-        with open(REGISTRY_PATH, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        return {
-            "pending_review": data.get("needs_review", []),
-            "total": len(data.get("needs_review", [])),
-        }
-    except Exception:
-        return {"pending_review": [], "total": 0}
-
-@router.post("/review-queue/{review_id}/resolve")
-def resolve_review_item(review_id: str, payload: ReviewAction):
-    """
-    Resolves a pending entity review item with action 'merge', 'reject', or 'skip'.
-    """
-    try:
-        with open(REGISTRY_PATH, "r", encoding="utf-8") as f:
-            data = json.load(f)
-
-        needs_review = data.get("needs_review", [])
-        updated_queue = []
-        resolved_item = None
-
-        for item in needs_review:
-            item_id = ""
-            if item.get("type") == "PHONE_CONFLICT":
-                item_id = "-".join(item.get("names", []))
-            else:
-                c = item.get("candidate", {}).get("id", "")
-                p = item.get("possible_match", {}).get("id", "")
-                item_id = f"{c}-{p}"
-
-            if item_id == review_id:
-                resolved_item = item
-            else:
-                updated_queue.append(item)
-
-        data["needs_review"] = updated_queue
-
-        with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2)
-
-        if payload.action == "merge" and resolved_item and resolved_item.get("type") == "PERSON_NAME_AMBIGUITY":
-            try:
-                from ..database.neo4j import merge_nodes_in_neo4j
-                source_id = resolved_item.get("candidate", {}).get("id")
-                target_id = resolved_item.get("possible_match", {}).get("id")
-                if source_id and target_id:
-                    merge_nodes_in_neo4j(source_id, target_id)
-            except Exception as ex:
-                logger.warning(f"Neo4j merge notice: {ex}")
-
-        logger.info(f"Resolved review item {review_id} with action: {payload.action}")
-        return {"status": "success", "action": payload.action, "remaining": len(updated_queue)}
-
-    except Exception as e:
-        logger.error(f"Failed to resolve review item: {e}")
-        return {"status": "error", "message": str(e)}
+    return service.get_entity_detail(entity_id)

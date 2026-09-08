@@ -3,27 +3,22 @@ import logging
 from datetime import datetime
 from typing import Dict, List, Any, Optional
 
-from sqlalchemy import create_engine, Column, Integer, String, Text, Float, DateTime, JSON
-from sqlalchemy.orm import declarative_base, sessionmaker, scoped_session
+from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, JSON
+from sqlalchemy.orm import sessionmaker, declarative_base, scoped_session
+from backend.app.config.settings import settings
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data"))
-SQLITE_DB_PATH = os.path.join(DATA_DIR, "cias.db")
-
-DATABASE_URL = os.getenv("DATABASE_URL")
-if not DATABASE_URL:
-    os.makedirs(DATA_DIR, exist_ok=True)
-    DATABASE_URL = f"sqlite:///{SQLITE_DB_PATH}"
-
-# Configure engine arguments
-if DATABASE_URL.startswith("sqlite"):
-    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-else:
-    engine = create_engine(DATABASE_URL, pool_pre_ping=True)
-
+engine = create_engine(settings.database_url, pool_pre_ping=True) if not settings.database_url.startswith("sqlite") else create_engine(settings.database_url, connect_args={"check_same_thread": False})
 SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 # ─── ORM Models ───────────────────────────────────────────────────────────────
 
@@ -57,33 +52,15 @@ class AuditLogModel(Base):
     new_nodes = Column(Integer, default=0)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-class ReviewQueueModel(Base):
-    __tablename__ = "review_queue"
-    id = Column(Integer, primary_key=True, index=True)
-    item_id = Column(String(100), unique=True, index=True)
-    case_id = Column(String(50), index=True)
-    type_name = Column(String(50), default="AMBIGUITY")
-    payload = Column(JSON, default=dict)
-    status = Column(String(30), default="PENDING")  # PENDING, MERGED, REJECTED, SKIPPED
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-# ─── Helper Functions ─────────────────────────────────────────────────────────
-
 def init_db():
     """Initializes database schema tables."""
     try:
-        os.makedirs(DATA_DIR, exist_ok=True)
         Base.metadata.create_all(bind=engine)
-        logger.info(f"Initialized relational database schema using {DATABASE_URL}")
+        logger.info("Initialized relational database schema")
     except Exception as e:
         logger.error(f"Database schema initialization error: {e}")
 
-def get_db_session():
-    """Returns a new thread-local database session."""
-    return SessionLocal()
-
 def save_case_db(case_id: str, description: str = "") -> Dict[str, Any]:
-    """Saves or updates a case context in the relational database."""
     session = SessionLocal()
     try:
         c_id = case_id.strip().upper()
@@ -105,7 +82,6 @@ def save_case_db(case_id: str, description: str = "") -> Dict[str, Any]:
         session.close()
 
 def get_cases_db() -> List[Dict[str, Any]]:
-    """Returns all registered cases from the database."""
     session = SessionLocal()
     try:
         cases = session.query(CaseModel).all()
@@ -123,59 +99,6 @@ def get_cases_db() -> List[Dict[str, Any]]:
         return result
     except Exception as e:
         logger.error(f"Error fetching cases from DB: {e}")
-        return []
-    finally:
-        session.close()
-
-def save_audit_log_db(
-    file_name: str,
-    source_label: str = "unknown",
-    case_id: Optional[str] = None,
-    status: str = "success",
-    message: str = "",
-    entities_count: int = 0,
-    new_nodes: int = 0
-) -> Dict[str, Any]:
-    """Persists an ingestion audit log record into the database."""
-    session = SessionLocal()
-    try:
-        audit_entry = AuditLogModel(
-            file_name=file_name,
-            source_label=source_label,
-            case_id=case_id or "unknown",
-            status=status,
-            message=message,
-            entities_count=entities_count,
-            new_nodes=new_nodes
-        )
-        session.add(audit_entry)
-        session.commit()
-        return {"status": "success", "id": audit_entry.id}
-    except Exception as e:
-        session.rollback()
-        logger.error(f"Error saving audit log to DB: {e}")
-        return {"status": "error", "message": str(e)}
-    finally:
-        session.close()
-
-def get_audit_logs_db() -> List[Dict[str, Any]]:
-    """Retrieves all audit log entries from the database."""
-    session = SessionLocal()
-    try:
-        logs = session.query(AuditLogModel).order_by(AuditLogModel.id.desc()).limit(100).all()
-        return [{
-            "id": l.id,
-            "file_name": l.file_name,
-            "source_label": l.source_label,
-            "case_id": l.case_id,
-            "status": l.status,
-            "message": l.message,
-            "entities_count": l.entities_count,
-            "new_nodes": l.new_nodes,
-            "timestamp": l.created_at.isoformat() if l.created_at else ""
-        } for l in logs]
-    except Exception as e:
-        logger.error(f"Error reading audit logs from DB: {e}")
         return []
     finally:
         session.close()

@@ -1,67 +1,50 @@
-import logging
-from typing import List, Dict, Any, Optional
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+# -*- coding: utf-8 -*-
 
-logger = logging.getLogger(__name__)
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from typing import List
+from uuid import UUID
 
-router = APIRouter(prefix="/api", tags=["Cases"])
+from backend.app.database.postgres import get_db
+from backend.app.auth.rbac import get_current_user, require_role
+from backend.app.auth.abac import require_case_access
+from backend.app.users.models import User
+from backend.app.cases import service
+from backend.app.cases.schemas import CaseCreate, CaseOut, CaseAssign
 
-class CaseCreatePayload(BaseModel):
-    case_id: str
-    description: Optional[str] = ""
+router = APIRouter()
 
-from ..database.postgres import save_case_db, get_cases_db
+@router.post("", response_model=CaseOut, dependencies=[Depends(require_role("investigator", "supervisor", "system_admin"))])
+def create_case(
+    case_in: CaseCreate, 
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(get_current_user)
+):
+    return service.create_case(db, case_in, current_user.id)
 
-@router.get("/cases")
-def list_cases():
-    """
-    Lists all distinct cases from Neo4j along with document counts and files, falling back to relational DB.
-    """
-    try:
-        from ..database.neo4j import driver as neo4j_driver
-        with neo4j_driver.session() as session:
-            result = session.run(
-                "MATCH (d:Document) "
-                "RETURN DISTINCT d.case_id AS case_id, count(d) AS document_count, "
-                "       collect(d.file_name) AS files"
-            )
-            cases = [dict(r) for r in result if r["case_id"]]
-        if not cases:
-            cases = get_cases_db()
-        if not cases:
-            cases = [
-                {"case_id": "CASE-102", "document_count": 5, "files": ["FIR_002_Andheri.txt", "CDR_Ravi_Jan2024.csv", "Surveillance_Rep_03.txt", "BankStatement_GlobalTech.csv", "Interrogation_JohnDoe.txt"]},
-                {"case_id": "CASE-101", "document_count": 2, "files": ["FIR_001_Bandra.txt", "CDR_Suresh_Nov2023.csv"]}
-            ]
-        return {"cases": cases}
-    except Exception as e:
-        logger.warning(f"Failed to fetch cases from Neo4j: {e}")
-        db_cases = get_cases_db()
-        return {"cases": db_cases if db_cases else [
-            {"case_id": "CASE-102", "document_count": 5, "files": ["FIR_002_Andheri.txt", "CDR_Ravi_Jan2024.csv", "Surveillance_Rep_03.txt", "BankStatement_GlobalTech.csv", "Interrogation_JohnDoe.txt"]},
-            {"case_id": "CASE-101", "document_count": 2, "files": ["FIR_001_Bandra.txt", "CDR_Suresh_Nov2023.csv"]}
-        ]}
+@router.get("", response_model=List[CaseOut])
+def list_cases(
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(get_current_user)
+):
+    return service.get_cases(db, current_user.id, current_user.role)
 
-@router.post("/cases")
-def create_case(payload: CaseCreatePayload):
-    """
-    Registers a new case context in Neo4j and relational database.
-    """
-    case_id = payload.case_id.strip().upper()
-    if not case_id.startswith("CASE-"):
-        case_id = f"CASE-{case_id}"
-    save_case_db(case_id, payload.description or "")
-    logger.info(f"Registered new case context in relational DB & Neo4j: {case_id}")
-    return {"status": "success", "case_id": case_id, "document_count": 0, "files": []}
+@router.get("/{case_id}", response_model=CaseOut, dependencies=[Depends(require_case_access)])
+def get_case(
+    case_id: str, 
+    db: Session = Depends(get_db)
+):
+    case = service.get_case(db, case_id)
+    if not case:
+        raise not_found("Case not found")
+    return case
 
-@router.get("/cases/{case_id}/graph")
+@router.get("/{case_id}/graph", dependencies=[Depends(require_case_access)])
 def get_case_graph(case_id: str):
-    """
-    Reads nodes and edges for a given case directly from Neo4j.
-    """
+    import logging
+    logger = logging.getLogger(__name__)
+    from backend.app.database.neo4j import driver as neo4j_driver
     try:
-        from ..database.neo4j import driver as neo4j_driver
         with neo4j_driver.session() as session:
             nodes_result = session.run(
                 "MATCH (n)-[:EXTRACTED_FROM]->(:Document {case_id: $case_id}) "
@@ -92,3 +75,12 @@ def get_case_graph(case_id: str):
     except Exception as e:
         logger.error(f"[get_case_graph] Failed for case {case_id}: {e}")
         return {"nodes": [], "edges": [], "case_id": case_id, "error": str(e)}
+
+@router.post("/{case_id}/assign", dependencies=[Depends(require_role("supervisor"))])
+def assign_case(
+    case_id: str, 
+    assign_in: CaseAssign, 
+    db: Session = Depends(get_db)
+):
+    service.assign_user(db, case_id, assign_in.user_id)
+    return {"status": "success", "message": f"User {assign_in.user_id} assigned to case {case_id}"}

@@ -1,31 +1,42 @@
+# -*- coding: utf-8 -*-
+
+from fastapi import APIRouter, UploadFile, File, Form, Depends
+from typing import List
+from sqlalchemy.orm import Session
 import os
 import shutil
 import asyncio
 import logging
-from typing import List, Dict, Any
-from fastapi import APIRouter, HTTPException, UploadFile, File, Form
 
-from ..ingestion.service import process_file
+from backend.app.auth.rbac import get_current_user
+from backend.app.users.models import User
+from backend.app.database.postgres import get_db
+from backend.app.ingestion.service import process_file
 from ml.anomaly.anomaly_rules import run_rule_engine
 from ml.anomaly.anomaly_ml import run_ml_engine
-from .anomaly import save_anomaly_alerts, load_stored_anomaly_alerts
-from .evidence import integrity_client
 
+router = APIRouter()
 logger = logging.getLogger(__name__)
-
-router = APIRouter(prefix="/api", tags=["Ingestion"])
 
 @router.post("/process-evidence")
 async def process_evidence(
     files: List[UploadFile] = File(...),
-    case_id: str = Form("CASE-102")
+    case_id: str = Form("CASE-102"),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
 ):
-    """
-    Universal multi-format document ingestion pipeline (PDF, DOCX, CSV, JSON, TXT).
-    Performs OCR cleaning, spaCy & regex NER, Entity Resolution, graph database insertion,
-    SHA-256 evidence logging, and Isolation Forest ML anomaly scoring.
-    """
     logger.info(f"Received {len(files)} files for processing via ingestion layer. Case: {case_id}")
+
+    # Auto-create case if it doesn't exist, to prevent ABAC failures during graph retrieval
+    from backend.app.cases.repository import get_case
+    from backend.app.cases.service import create_case
+    from backend.app.cases.schemas import CaseCreate
+
+    existing_case = get_case(db, case_id)
+    if not existing_case:
+        new_case_data = CaseCreate(case_id=case_id, title=f"Auto-generated Case {case_id}", description="Created during ingestion")
+        create_case(db, new_case_data, current_user.id)
+
 
     global_nodes = {}
     global_links = []
@@ -34,33 +45,42 @@ async def process_evidence(
 
     os.makedirs("temp_uploads", exist_ok=True)
 
+    import uuid
+    from backend.app.evidence.service import upload_evidence
+
     for file in files:
         temp_path = os.path.join("temp_uploads", file.filename)
 
         try:
+            file_bytes = await file.read()
             with open(temp_path, "wb") as buffer:
-                shutil.copyfileobj(file.file, buffer)
+                buffer.write(file_bytes)
 
-            # Cryptographically log evidence SHA-256 hash & update case Merkle Root
+            evidence_id = f"EV-{uuid.uuid4().hex[:8].upper()}"
             try:
-                integrity_client.register_evidence(file_name=file.filename, case_id=case_id, file_path=temp_path)
-            except Exception as ex:
-                logger.warning(f"Failed to log evidence hash for {file.filename}: {ex}")
+                upload_evidence(
+                    db=db,
+                    file_bytes=file_bytes,
+                    evidence_id=evidence_id,
+                    case_id=case_id,
+                    file_name=file.filename,
+                    user_id=current_user.id
+                )
+            except Exception as e:
+                logger.warning(f"Could not persist evidence {file.filename} to Postgres: {e}")
 
-            # Run synchronous (blocking) NLP work off the event loop thread
             result = await asyncio.to_thread(
                 process_file,
                 temp_path,
-                None,           # file_type: auto-detect from extension
+                None,
                 "investigator_upload",
-                case_id,        # Propagate case_id
+                case_id,
             )
 
             statuses.append({
                 "filename": file.filename,
                 "status": result["status"],
                 "message": result.get("message"),
-                "reason": result.get("reason"),
                 "resolution_stats": result.get("resolution_stats", {})
             })
 
@@ -88,39 +108,194 @@ async def process_evidence(
                 l["relationship_type"] = "calling" if str(l.get("type", "")).upper() in ("CALLED", "CALL", "CALLING") else l.get("type", "")
             unique_links.append(l)
 
-    # Anomaly Detection: Stage 1 (Rule Engine) & Stage 2 (ML Isolation Forest)
+    # Node-specific phone attribute propagation
+    for n_id, node in global_nodes.items():
+        if node.get("type") == "PHONE" or node.get("type") == "Phone":
+            node["phone"] = node.get("value") or node.get("name") or n_id
+
+    for l in unique_links:
+        s_node = global_nodes.get(l["source"])
+        t_node = global_nodes.get(l["target"])
+        if s_node and t_node:
+            if (s_node.get("type") in ("PERSON", "Person")) and (t_node.get("type") in ("PHONE", "Phone")):
+                if not s_node.get("phone"):
+                    s_node["phone"] = t_node.get("value") or t_node.get("name")
+            elif (t_node.get("type") in ("PERSON", "Person")) and (s_node.get("type") in ("PHONE", "Phone")):
+                if not t_node.get("phone"):
+                    t_node["phone"] = s_node.get("value") or s_node.get("name")
+
+    # Distinct Evidence Scoring & Trail compilation
+    node_evidence_types = {}
+    node_evidence_entries = {}
+
+    for n_id, node in global_nodes.items():
+        ev_types = set()
+        ev_entries = []
+        for sf in node.get("source_files", []) or []:
+            sf_lower = sf.lower()
+            if "fir" in sf_lower:
+                ev_types.add("FIR Record")
+                ev_entries.append(f"Named in First Information Report: {sf}")
+            elif "cdr" in sf_lower:
+                ev_types.add("Call Data Record")
+                ev_entries.append(f"Appears in Call Data Record (CDR): {sf}")
+            elif "bank" in sf_lower or "txn" in sf_lower or "statement" in sf_lower:
+                ev_types.add("Banking Ledger")
+                ev_entries.append(f"Linked to financial transaction statement: {sf}")
+            elif "surveillance" in sf_lower or "intel" in sf_lower:
+                ev_types.add("Surveillance Intelligence")
+                ev_entries.append(f"Implicated in surveillance profiling report: {sf}")
+            elif "interrogation" in sf_lower:
+                ev_types.add("Interrogation Summary")
+                ev_entries.append(f"Referenced during suspect interrogation: {sf}")
+            else:
+                ev_types.add("Document Evidence")
+                ev_entries.append(f"Extracted from source file: {sf}")
+
+        node_evidence_types[n_id] = ev_types
+        node_evidence_entries[n_id] = ev_entries
+
+    for l in unique_links:
+        ev = l.get("evidence")
+        l_type = str(l.get("type", "")).upper()
+        for nid in (l["source"], l["target"]):
+            if nid in global_nodes:
+                if l_type in ("CALLED", "CALL", "CALLING"):
+                    node_evidence_types[nid].add("Call Data Record")
+                    if ev and ev not in node_evidence_entries[nid]:
+                        node_evidence_entries[nid].append(f"CDR: {ev}")
+                elif l_type in ("TRANSFERRED_TO", "TRANSACTION", "TRANSFERRED"):
+                    node_evidence_types[nid].add("Banking Ledger")
+                    if ev and ev not in node_evidence_entries[nid]:
+                        node_evidence_entries[nid].append(f"Bank Transaction: {ev}")
+                elif ev and ev not in node_evidence_entries[nid]:
+                    node_evidence_entries[nid].append(f"Relationship ({l.get('type')}): {ev}")
+
+    # Flag repeatedly-implicated entities
+    for n_id, node in global_nodes.items():
+        ev_types = node_evidence_types.get(n_id, set())
+        ev_entries = node_evidence_entries.get(n_id, [])
+        node["evidence_trail"] = ev_entries
+
+        if len(ev_types) >= 2 or len(ev_entries) >= 3:
+            node["flagged"] = True
+            node["status"] = "REVIEW_REQUIRED"
+            node["risk_color"] = "red"
+            node["historical_firs"] = max(1, len(ev_types))
+            node.setdefault("anomaly_reasons", []).append(
+                f"Repeatedly implicated across {len(ev_types)} distinct evidence types ({', '.join(sorted(ev_types))})."
+            )
+
     graph_payload = {"nodes": list(global_nodes.values()), "edges": unique_links}
     try:
         rule_alerts = run_rule_engine(graph_payload)
         ml_alerts = run_ml_engine(graph_payload)
         all_alerts = rule_alerts + ml_alerts
-
-        if all_alerts:
-            existing = load_stored_anomaly_alerts()
-            existing_ids = {a.get("alert_id") for a in existing if a.get("alert_id")}
-            new_unique = [a for a in all_alerts if a.get("alert_id") not in existing_ids]
-            save_anomaly_alerts((new_unique + existing)[:200])
-
+        
         for alert in all_alerts:
             ent_id = alert.get("entity_id")
             if ent_id in global_nodes:
                 node = global_nodes[ent_id]
                 node["flagged"] = True
                 node.setdefault("anomaly_reasons", []).append(alert.get("reason"))
+                if alert.get("reason") not in (node.get("evidence_trail") or []):
+                    node.setdefault("evidence_trail", []).append(f"Anomaly Alert: {alert.get('reason')}")
                 conf = alert.get("confidence", 0.7)
                 if conf >= 0.8:
                     node["status"] = "REVIEW_REQUIRED"
                     node["risk_color"] = "red"
+                    node["historical_firs"] = max(1, node.get("historical_firs", 1))
                 elif node.get("risk_color") != "red":
                     node["status"] = "REVIEW_REQUIRED"
                     node["risk_color"] = "orange"
     except Exception as e:
         logger.warning(f"Anomaly detection engine execution warning: {e}")
 
+    # Fallback connectivity baseline for nodes with no other flags
+    degrees = {n_id: 0 for n_id in global_nodes}
+    for l in unique_links:
+        if l['source'] in degrees: degrees[l['source']] += 1
+        if l['target'] in degrees: degrees[l['target']] += 1
+        
+    for n_id, n in global_nodes.items():
+        if "risk_color" not in n or n["risk_color"] == "none":
+            if degrees[n_id] >= 5:
+                n['status'] = 'REVIEW_REQUIRED'
+                n['risk_color'] = 'red'
+                n['flagged'] = True
+                n['historical_firs'] = 1
+            elif degrees[n_id] >= 3:
+                n['status'] = 'REVIEW_REQUIRED'
+                n['risk_color'] = 'orange'
+                n['flagged'] = True
+            else:
+                n['risk_color'] = 'none'
+                n['flagged'] = False
+
+    # Save Graph to Neo4j
+    from backend.app.database.neo4j import driver as neo4j_driver
+    try:
+        with neo4j_driver.session() as session:
+            session.run("MERGE (d:Document {case_id: $case_id})", case_id=case_id)
+            
+            for n_id, n in global_nodes.items():
+                props = {k: v for k, v in n.items() if k not in ("id", "type", "label", "source_files")}
+                label = str(n.get("type") or n.get("label") or "Entity").capitalize()
+                if label == "Org": label = "Organization"
+                
+                session.run(
+                    "MERGE (node:Entity {id: $id}) "
+                    "SET node += $props "
+                    "WITH node "
+                    "CALL apoc.create.addLabels(node, [$label]) YIELD node AS updated_node "
+                    "MERGE (d:Document {case_id: $case_id}) "
+                    "MERGE (updated_node)-[:EXTRACTED_FROM]->(d)",
+                    id=n_id,
+                    props=props,
+                    label=label,
+                    case_id=case_id
+                )
+                
+            for l in unique_links:
+                props = {k: v for k, v in l.items() if k not in ("source", "target", "type")}
+                l_type = str(l.get("type") or "LINK").upper().replace(" ", "_")
+                
+                session.run(
+                    "MATCH (a:Entity {id: $source}) "
+                    "MATCH (b:Entity {id: $target}) "
+                    "CALL apoc.merge.relationship(a, $type, {}, $props, b, {}) YIELD rel "
+                    "RETURN rel",
+                    source=l["source"],
+                    target=l["target"],
+                    type=l_type,
+                    props=props
+                )
+    except Exception as e:
+        logger.error(f"Failed to persist graph to Neo4j: {e}")
+
     return {
         "nodes": list(global_nodes.values()),
         "links": unique_links,
-        "statuses": statuses,
         "ingestion_statuses": statuses,
         "needs_review": all_needs_review
     }
+
+@router.get("/ingestion-audit")
+def get_ingestion_audit():
+    import json
+    audit_path = os.path.join(os.path.dirname(__file__), "../../../data/ingestion_audit.json")
+    try:
+        with open(audit_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+@router.get("/filtered-edges")
+def get_filtered_edges():
+    import json
+    path = os.path.join(os.path.dirname(__file__), "../../../data/filtered_edges.json")
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []

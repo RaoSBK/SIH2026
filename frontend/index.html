@@ -22,6 +22,8 @@
     --amber-dim:rgba(180,83,9,0.15);
     --teal:#0F766E;
     --teal-dim:rgba(15,118,110,0.15);
+    --red:#B91C1C;
+    --red-dim:rgba(185,28,28,0.15);
     --steel:#6B7280; /* Darker steel for graph edges */
     --radius:14px;
     font-size:16px;
@@ -29,6 +31,28 @@
   @media (prefers-contrast: more){
     :root{ --hairline:rgba(0,0,0,0.2); --text-dim:#374151; }
   }
+  
+  :root.dark-mode {
+    --ink:#111827; 
+    --graphite:#1F2937; 
+    --graphite-2:#374151; 
+    --hairline:rgba(255,255,255,0.12); 
+    --hairline-strong:rgba(255,255,255,0.25); 
+    --text:#F9FAFB; 
+    --text-dim:#D1D5DB; 
+    --text-faint:#9CA3AF; 
+    --paper:#1F2937; 
+    --paper-dim:#4B5563;
+    color-scheme: dark;
+  }
+  :root.dark-mode body {
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(15,118,110,0.15), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(217,119,6,0.1), transparent 55%),
+      var(--ink);
+  }
+  :root.dark-mode header.topbar { background:rgba(31,41,55,0.75); }
+  :root.dark-mode .graph-legend { background:rgba(31,41,55,0.85) !important; }
   *{ box-sizing:border-box; }
   html,body{ height:100%; }
   body{
@@ -358,28 +382,501 @@
   .review-actions .btn-merge { background:#0F766E; color:white; }
   .review-actions .btn-reject { background:#EF4444; color:white; }
   .review-actions .btn-skip { background:#F3F4F6; color:#4B5563; border-color:#D1D5DB; }
+
+  /* ---------- View System ---------- */
+  .view-container { display: none; flex: 1; flex-direction: column; overflow: auto; min-height: 0; }
+  .view-container.active { display: flex; }
+  #view-graph.active { display: grid; } /* graph view uses grid */
+
+  /* ---------- Topbar Redesign ---------- */
+  header.topbar {
+    display:flex; align-items:center; justify-content: space-between;
+    padding:14px 22px;
+    border-bottom:1px solid var(--hairline);
+    background:rgba(255,255,255,0.75);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    flex-shrink:0; z-index:10;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 32px; }
+  .top-nav { display: flex; align-items: center; gap: 24px; }
+  .top-nav a { 
+    font-size: 13.5px; font-weight: 500; color: var(--text-faint); 
+    text-decoration: none; cursor: pointer; transition: color 150ms;
+  }
+  .top-nav a:hover { color: var(--text); }
+  .top-nav a.active { color: var(--text); font-weight: 600; }
+  .topbar-right { display: flex; align-items: center; gap: 16px; font-size: 13.5px; font-weight: 500; }
+  .role-pill { 
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; 
+    border: 1px solid var(--hairline); padding: 2px 8px; border-radius: 100px; color: var(--text-faint); font-weight: 600; background: var(--ink);
+  }
+  .sign-out { color: var(--text-faint); cursor: pointer; display: flex; align-items: center; gap: 4px; text-decoration: none; transition: color 150ms; }
+  .sign-out:hover { color: var(--text); }
+
+  /* Subheader for Graph View */
+  .sub-header { 
+    display: flex; align-items: center; gap: 16px; padding: 10px 22px; 
+    border-bottom: 1px solid var(--hairline); background: var(--paper); flex-shrink: 0;
+  }
+  .sub-header .case-id { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .sub-header .case-id:hover { opacity: 0.8; }
+  .entity-count-meta { font-size: 12px; color: var(--text-faint); margin-left: auto; }
+
+  /* Status Badges */
+  .status-badge {
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:10.5px; letter-spacing:0.05em; text-transform:uppercase;
+    padding:3px 8px; border-radius:100px; font-weight:600;
+  }
+  .status-badge.teal { color: var(--teal); background: var(--teal-dim); border: 1px solid var(--teal); }
+  .status-badge.amber { color: var(--amber); background: var(--amber-dim); border: 1px solid var(--amber); }
+  .status-badge.red { color: var(--red); background: var(--red-dim); border: 1px solid var(--red); }
+  .status-badge.steel { color: var(--text-faint); background: var(--ink); border: 1px solid var(--hairline-strong); }
+  
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .status-badge.teal .status-dot { background: var(--teal); }
+  .status-badge.amber .status-dot { background: var(--amber); }
+  .status-badge.red .status-dot { background: var(--red); }
+  .status-badge.steel .status-dot { background: var(--text-faint); }
+
+  /* Data Tables */
+  .page-container { padding: 32px; max-width: 1100px; margin: 0 auto; width: 100%; }
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .page-header h1 { font-size: 24px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+  .page-desc { font-size: 14px; color: var(--text-faint); margin-top: 4px; margin-bottom: 24px; }
+
+  .data-table-wrap {
+    background: white; border: 1px solid var(--hairline); border-radius: 12px;
+    overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  }
+  .data-table { width: 100%; border-collapse: collapse; text-align: left; }
+  .data-table th { 
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; 
+    color: var(--text-faint); font-weight: 600; padding: 16px; border-bottom: 1px solid var(--hairline); 
+  }
+  .data-table td { padding: 16px; border-bottom: 1px solid var(--hairline); font-size: 13.5px; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr.clickable:hover { background: rgba(0,0,0,0.015); cursor: pointer; }
+  .data-table .num { font-family: ui-monospace, monospace; font-weight: 600; }
+  
+  /* Filter Bar */
+  .filter-bar { display: flex; gap: 12px; align-items: center; }
+  .filter-input { 
+    padding: 8px 12px; border-radius: 8px; border: 1px solid var(--hairline-strong); 
+    font-size: 13px; outline: none; background: var(--paper); 
+  }
+  .filter-select {
+    padding: 8px 12px; border-radius: 8px; border: 1px solid var(--hairline-strong); 
+    font-size: 13px; outline: none; background: var(--paper); cursor: pointer;
+  }
+  .primary-btn {
+    padding: 8px 16px; border-radius: 8px; border: 1px solid var(--text); background: var(--text); color: white;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 150ms;
+  }
+  .primary-btn:hover { opacity: 0.9; }
+
+  /* Evidence Path */
+  .evidence-path-viewer { display: flex; flex-direction: column; gap: 0; padding-top: 12px; }
+  .ep-card { 
+    display: flex; align-items: flex-start; gap: 12px; position: relative; padding-bottom: 16px;
+  }
+  .ep-card:not(:last-child)::after {
+    content: ""; position: absolute; left: 11px; top: 24px; bottom: 0; width: 2px;
+    background: var(--hairline-strong);
+  }
+  .ep-icon {
+    width: 24px; height: 24px; border-radius: 6px; background: var(--graphite-2);
+    display: flex; align-items: center; justify-content: center; font-size: 11px; z-index: 1; flex-shrink: 0;
+  }
+  .ep-content { flex: 1; padding-top: 2px; }
+  .ep-title { font-size: 13.5px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+  .ep-relation { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin: 4px 0; font-weight: 600; }
+  .ep-source { 
+    display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px; 
+    border-radius: 4px; border: 1px solid var(--hairline); background: var(--ink); 
+    font-size: 10.5px; font-family: ui-monospace, monospace; color: var(--text-faint);
+    cursor: pointer;
+  }
+
+  /* ---------- Login Page ---------- */
+  #login-layer {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    background-color: var(--ink);
+    padding: 16px;
+    transition: opacity 0.3s ease;
+  }
+  .login-container {
+    width: 100%; max-width: 380px;
+  }
+  .login-brand {
+    display: flex; justify-content: center; align-items: baseline; gap: 9px; margin-bottom: 24px;
+  }
+  .login-brand .mark {
+    width: 12px; height: 12px; border-radius: 2px;
+    background: var(--amber);
+    box-shadow: 0 0 0 4px var(--amber-dim);
+  }
+  .login-brand h1 {
+    margin: 0; font-size: 20px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .login-panel {
+    background: white; border: 1px solid var(--hairline);
+    border-radius: 12px; padding: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+  }
+  .login-title { margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: var(--text); }
+  .login-desc { margin: 0 0 20px 0; font-size: 13px; color: var(--text-faint); }
+  .login-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-faint); font-weight: 600; margin-bottom: 6px; }
+  .login-input {
+    width: 100%; height: 40px; border-radius: 8px; border: 1px solid var(--graphite-2);
+    background: var(--paper); padding: 0 12px; font-size: 14px; color: var(--text);
+    outline: none; transition: border-color 150ms ease; margin-bottom: 16px; box-sizing: border-box;
+  }
+  .login-input.mono { font-family: ui-monospace, monospace; }
+  .login-input:focus { border-color: var(--amber); }
+  .login-btn {
+    width: 100%; height: 40px; display: flex; align-items: center; justify-content: center;
+    border-radius: 8px; background: var(--text); color: white;
+    font-size: 14px; font-weight: 500; cursor: pointer; border: none;
+    transition: background 150ms ease, opacity 150ms ease;
+  }
+  .login-btn:hover { background: var(--text-dim); }
+  .login-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+  .login-error {
+    margin-top: 12px; border-radius: 6px; border: 1px solid rgba(239,68,68,0.4);
+    background: #FEF2F2; padding: 8px 12px; font-size: 13px; color: #DC2626; display: none;
+  }
+  .login-footer { margin-top: 16px; text-align: center; font-size: 12px; color: var(--text-faint); }
+  .graph-tooltip {
+    position: absolute; pointer-events: none; opacity: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 11px;
+    color: var(--text);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transform: translate(-50%, -100%) translateY(-10px);
+    transition: opacity 150ms ease, transform 150ms ease;
+    z-index: 100;
+  }
+  .graph-tooltip.visible {
+    opacity: 1;
+    transform: translate(-50%, -100%) translateY(-16px);
+  }
+  .graph-tooltip .tt-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .graph-tooltip .tt-type { font-size: 10px; color: var(--text-faint); margin-bottom: 6px; }
+  .graph-tooltip .tt-phone, .graph-tooltip .tt-flag { margin-top: 4px; font-weight: 500; }
+  .graph-tooltip .tt-flag { color: var(--red); }
 </style>
 </head>
 <body>
-<div id="app">
+<div id="app" style="display:none;">
 
+  <!-- Global Top Navigation -->
   <header class="topbar">
-    <div class="brand">
-      <button class="sidebar-toggle-btn" id="toggleSidebarBtn" title="Toggle Evidence Intake Sidebar">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
-      </button>
-      <span class="mark"></span>
-      <h1>Veritas</h1>
-      <div class="case-selector-wrap">
-        <button class="case-badge-btn" id="caseSelectorBtn" title="Select or Switch Case">
-          <span id="currentCaseLabel">CASE-102</span>
-          <span style="font-size:9px;color:var(--text-faint);margin-left:2px;">▼</span>
-        </button>
-        <div class="case-dropdown" id="caseDropdown"></div>
+    <div class="topbar-left">
+      <div class="brand">
+        <span class="mark"></span>
+        <h1>Veritas</h1>
+      </div>
+      <nav class="top-nav">
+        <a class="nav-link active" data-target="view-cases">Cases</a>
+        <a class="nav-link" data-target="view-review">Review Queue</a>
+        <a class="nav-link" data-target="view-evidence">Evidence</a>
+        <a class="nav-link" data-target="view-audit">Audit Trail</a>
+        <a class="nav-link" data-target="view-admin">Admin</a>
+      </nav>
+    </div>
+    <div class="topbar-right">
+
+      <span>Inspector Arjun Rao</span>
+      <span class="role-pill" id="userRolePill">Investigator</span>
+      <a class="sign-out" id="logoutBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        Sign out
+      </a>
+    </div>
+  </header>
+
+  <!-- View: Cases -->
+  <div id="view-cases" class="view-container active">
+    <div class="page-container">
+      <div class="page-header">
+        <div>
+          <h1>Cases</h1>
+        </div>
+        <div class="filter-bar">
+          <input type="text" class="filter-input" placeholder="Search cases">
+          <select class="filter-select">
+            <option>All statuses</option>
+          </select>
+          <button class="primary-btn" style="margin-left:8px;" onclick="openNewCaseModal()">New Case</button>
+        </div>
+      </div>
+      
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>CASE ID</th>
+              <th>TITLE</th>
+              <th>STATUS</th>
+              <th>ENTITIES</th>
+              <th>DOCS</th>
+              <th>PENDING REVIEW</th>
+              <th>LAST ACTIVITY</th>
+              <th>ASSIGNED</th>
+            </tr>
+          </thead>
+          <tbody id="cases-table-body">
+            <!-- Cases will be populated dynamically -->
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="stepper" id="stepper"></div>
-  </header>
+  </div>
+
+  <!-- View: Review Queue (Standalone) -->
+  <div id="view-review" class="view-container">
+    <div class="page-container" style="max-width: 960px;">
+      <div class="page-header">
+        <div>
+          <h1>Review Queue</h1>
+          <div class="page-desc">Entity-resolution conflicts and ambiguities across all cases.</div>
+        </div>
+        <div class="filter-bar">
+          <button class="primary-btn" style="background:#F3F4F6; color:var(--text); border:1px solid var(--hairline-strong);">All (6)</button>
+          <button class="primary-btn" style="background:transparent; color:var(--text-faint); border:none;">Conflicts (3)</button>
+          <button class="primary-btn" style="background:transparent; color:var(--text-faint); border:none;">Ambiguities (3)</button>
+        </div>
+      </div>
+      
+      <div id="review-list-full">
+        <!-- Will be populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- View: Evidence -->
+  <div id="view-evidence" class="view-container">
+    <div class="page-container">
+      <div class="page-header">
+        <div>
+          <h1>Evidence & Chain of Custody</h1>
+          <div class="page-desc">Formal evidence record — integrity hashes and full access history.</div>
+        </div>
+        <div>
+          <button class="primary-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:bottom; margin-right:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            Upload evidence
+          </button>
+        </div>
+      </div>
+      
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>FILENAME</th>
+              <th>CASE</th>
+              <th>UPLOADED BY</th>
+              <th>UPLOADED AT</th>
+              <th>SHA-256</th>
+              <th>HASH STATUS</th>
+              <th>SIZE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>FIR-104_scan.pdf</strong></td>
+              <td class="num">CR-2026-0142</td>
+              <td>Inspector Arjun Rao</td>
+              <td class="num">2026-09-01 10:24</td>
+              <td class="num" style="color:var(--text-faint); cursor:pointer;">9f2c4a1b8e77...</td>
+              <td><span class="status-badge teal"><span class="status-dot"></span> Verified</span></td>
+              <td class="num">2.4 MB</td>
+            </tr>
+            <tr>
+              <td><strong>FIN-3308_bankstmt.pdf</strong></td>
+              <td class="num">CR-2026-0142</td>
+              <td>Priya Iyer</td>
+              <td class="num">2026-09-02 11:05</td>
+              <td class="num" style="color:var(--text-faint); cursor:pointer;">c82bb15e66f2...</td>
+              <td><span class="status-badge amber"><span class="status-dot"></span> Hash pending</span></td>
+              <td class="num">1.5 MB</td>
+            </tr>
+            <tr>
+              <td><strong>SURV-0917_fieldnotes.docx</strong></td>
+              <td class="num">CR-2026-0142</td>
+              <td>Inspector Arjun Rao</td>
+              <td class="num">2026-09-03 17:31</td>
+              <td class="num" style="color:var(--text-faint); cursor:pointer;">d93cc26f7703...</td>
+              <td><span class="status-badge red"><span class="status-dot"></span> Hash mismatch</span></td>
+              <td class="num">344 KB</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- View: Audit Trail -->
+  <div id="view-audit" class="view-container">
+    <div class="page-container">
+      <div class="page-header">
+        <div>
+          <h1>Ingestion Audit Trail</h1>
+          <div class="page-desc">Everything the pipeline did — including what it chose not to add — is recorded here. Nothing is hidden.</div>
+        </div>
+      </div>
+      <div class="tabs-header" style="margin-bottom:24px;">
+        <div class="tab-btn active">Ingestion log (6)</div>
+        <div class="tab-btn">Filtered edges (5)</div>
+      </div>
+      
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>TIMESTAMP</th>
+              <th>FILE</th>
+              <th>SOURCE</th>
+              <th>STATUS</th>
+              <th>ENTITIES EXTRACTED</th>
+              <th>NEW NODES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">2026-09-04 14:02</td>
+              <td>FIN-3310_hawala_ledger.pdf</td>
+              <td>Financial records</td>
+              <td><span class="status-badge teal"><span class="status-dot"></span> Success</span></td>
+              <td class="num">11</td>
+              <td class="num">3</td>
+            </tr>
+            <tr>
+              <td class="num">2026-08-30 13:15</td>
+              <td>SURV-0811_partial.pdf</td>
+              <td>Surveillance report</td>
+              <td><span class="status-badge red"><span class="status-dot"></span> Error</span></td>
+              <td class="num">0</td>
+              <td class="num">0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- View: Graph Console -->
+  <!-- View: Admin -->
+  <div id="view-admin" class="view-container">
+    <div class="page-container">
+      <div class="page-header">
+        <div>
+          <h1>Users & Roles</h1>
+          <div class="page-desc">Manage system access and role-based permissions.</div>
+        </div>
+      </div>
+      
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>USERNAME</th>
+              <th>FULL NAME</th>
+              <th>ROLE</th>
+              <th>STATUS</th>
+              <th>LAST LOGIN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>rao.a</strong></td>
+              <td>Arjun Rao</td>
+              <td>
+                <select class="filter-select" style="padding:4px 24px 4px 8px;">
+                  <option selected>Investigator</option>
+                  <option>Analyst</option>
+                  <option>Supervisor</option>
+                  <option>Forensic Officer</option>
+                  <option>Prosecutor</option>
+                  <option>System Admin</option>
+                  <option>Auditor</option>
+                </select>
+              </td>
+              <td><span class="status-badge teal"><span class="status-dot"></span> Active</span></td>
+              <td class="num">2026-09-04 14:02</td>
+            </tr>
+            <tr>
+              <td><strong>iyer.p</strong></td>
+              <td>Priya Iyer</td>
+              <td>
+                <select class="filter-select" style="padding:4px 24px 4px 8px;">
+                  <option>Investigator</option>
+                  <option selected>Analyst</option>
+                  <option>Supervisor</option>
+                  <option>Forensic Officer</option>
+                  <option>Prosecutor</option>
+                  <option>System Admin</option>
+                  <option>Auditor</option>
+                </select>
+              </td>
+              <td><span class="status-badge teal"><span class="status-dot"></span> Active</span></td>
+              <td class="num">2026-09-02 09:15</td>
+            </tr>
+            <tr>
+              <td><strong>sharma.m</strong></td>
+              <td>Meera Sharma</td>
+              <td>
+                <select class="filter-select" style="padding:4px 24px 4px 8px;">
+                  <option>Investigator</option>
+                  <option>Analyst</option>
+                  <option selected>Supervisor</option>
+                  <option>Forensic Officer</option>
+                  <option>Prosecutor</option>
+                  <option>System Admin</option>
+                  <option>Auditor</option>
+                </select>
+              </td>
+              <td><span class="status-badge steel"><span class="status-dot"></span> Inactive</span></td>
+              <td class="num">2026-08-14 17:45</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- View: Graph Console -->
+  <div id="view-graph" class="view-container">
+    
+    <div class="sub-header">
+      <div style="display:flex; align-items:center;">
+        <button class="sidebar-toggle-btn" id="toggleSidebarBtn" title="Toggle Evidence Intake Sidebar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+        </button>
+        <div class="case-id" onclick="switchTab('view-cases')" style="margin-right:12px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          Back to Cases
+        </div>
+        <div class="case-selector-wrap">
+          <button class="case-badge-btn" id="caseSelectorBtn" title="Switch Case">
+            <span id="currentCaseLabel">CR-2026-0142</span>
+            <span style="font-size:9px;color:var(--text-faint);margin-left:2px;">▼</span>
+          </button>
+          <div class="case-dropdown" id="caseDropdown"></div>
+        </div>
+      </div>
+      <div class="stepper" id="stepper"></div>
+      <div class="entity-count-meta"><span id="graphCountMeta">15</span> entities</div>
+    </div>
 
   <main class="layout">
 
@@ -397,27 +894,190 @@
     </section>
 
     <section class="graph-wrap">
-      <div class="graph-caption">
-          <strong id="graphCount">0</strong>&nbsp;entities shown &middot; <strong id="flaggedCount" style="color:var(--amber);">0</strong>&nbsp;flagged subnetwork
-          <label style="margin-left: 16px; font-size: 11px; cursor:pointer; user-select:none;">
-             <input type="checkbox" id="toggleOrphans" checked style="vertical-align:middle; margin-right:4px;"> 
-             <span id="orphanLabel">Show orphans</span>
-          </label>
+      <div class="graph-caption" style="display:flex; justify-content:space-between; align-items:center; width:100%; position:absolute; top:20px; left:20px; right:20px; z-index:10; pointer-events:none;">
+          <div style="pointer-events:auto;">
+            <strong id="graphCount">0</strong>&nbsp;entities shown &middot; flagged subnetwork
+            <label style="margin-left: 16px; font-size: 11px; cursor:pointer; user-select:none;">
+               <input type="checkbox" id="toggleOrphans" checked style="vertical-align:middle; margin-right:4px;"> 
+               <span id="orphanLabel">Show orphans</span>
+            </label>
+          </div>
+          <span class="status-badge amber" style="margin-right:40px; pointer-events:auto; font-size:11px; display:none;" id="canvasPendingIndicator">
+            <span class="status-dot"></span> <span id="canvasPendingCount">0</span> pending review
+          </span>
       </div>
       <svg id="graph" viewBox="0 0 880 520" preserveAspectRatio="xMidYMid meet">
         <g id="viewport"></g>
       </svg>
       <div class="graph-hint" id="graphHint">Drag to pan &middot; click a node to inspect</div>
+      <div class="graph-legend" style="position:absolute; bottom:20px; left:20px; background:rgba(255,255,255,0.85); backdrop-filter:blur(4px); padding:8px 12px; border-radius:8px; border:1px solid var(--hairline-strong); font-size:11px; color:var(--text-dim); z-index:10;">
+        <div style="margin-bottom:4px;"><strong>Node Risk Level</strong></div>
+        <div style="display:flex; gap:12px; margin-bottom:8px;">
+           <span><span style="color:var(--teal)">■</span> Verified</span>
+           <span><span style="color:var(--amber)">■</span> Attention</span>
+           <span><span style="color:var(--red)">■</span> Flagged</span>
+        </div>
+        <div><strong>Edge Confidence</strong></div>
+        <div style="display:flex; align-items:center; gap:8px;">
+           <span>Low</span> <div style="height:2px; width:40px; background:linear-gradient(90deg, rgba(107,114,128,0.2), rgba(107,114,128,1));"></div> <span>High</span>
+        </div>
+      </div>
     </section>
 
     <section class="panel right" id="rightPanel"></section>
 
   </main>
+  </div>
 </div>
 
 <div id="modal-layer">
   <div class="modal" id="modalBody"></div>
 </div>
+
+<!-- Login Overlay -->
+<div id="login-layer">
+  <div class="login-container">
+    <div class="login-brand">
+      <span class="mark"></span>
+      <h1>VERITAS</h1>
+    </div>
+    <form id="login-form" class="login-panel">
+      <h1 class="login-title">Sign in</h1>
+      <p class="login-desc">Criminal Intelligence Analysis System — authorized personnel only.</p>
+
+      <label>
+        <span class="login-label">Username</span>
+        <input id="login-username" class="login-input mono" type="text" autocomplete="username" required>
+      </label>
+      
+      <label>
+        <span class="login-label">Password</span>
+        <input id="login-password" class="login-input" type="password" autocomplete="current-password" required>
+      </label>
+
+      <button id="login-btn" type="submit" class="login-btn">Sign in</button>
+
+      <div id="login-error" class="login-error"></div>
+
+      <p class="login-footer">
+        Demo credentials: <span class="mono" style="color:var(--text)">rao.a / veritas</span>
+      </p>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Simple Vanilla JS Authentication & Tab Logic
+  (function() {
+    const app = document.getElementById('app');
+    const loginLayer = document.getElementById('login-layer');
+    const loginForm = document.getElementById('login-form');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const usernameInp = document.getElementById('login-username');
+    const passwordInp = document.getElementById('login-password');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+      // Global view switcher
+    window.switchTab = function(targetId) {
+      document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
+      document.getElementById(targetId).classList.add('active');
+      document.querySelectorAll('.top-nav .nav-link').forEach(el => el.classList.remove('active'));
+      const activeLink = document.querySelector(`.top-nav .nav-link[data-target="${targetId}"]`);
+      if(activeLink) activeLink.classList.add('active');
+      
+      // If switching to graph, trigger resize for D3
+      if (targetId === 'view-graph') {
+        window.dispatchEvent(new Event('resize'));
+      }
+    };
+
+    // Attach click listeners to nav links
+    document.querySelectorAll('.top-nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchTab(link.dataset.target);
+      });
+    });
+
+
+
+    // Check existing session
+    if (sessionStorage.getItem('veritas_token')) {
+      loginLayer.style.display = 'none';
+      app.style.display = 'flex';
+      setTimeout(() => {
+          if (typeof window.loadCases === 'function') window.loadCases();
+      }, 100);
+      switchTab('view-cases'); // Landing screen
+      const role = sessionStorage.getItem('veritas_role');
+      if (role) document.getElementById('userRolePill').textContent = role;
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginError.style.display = 'none';
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Signing in...';
+
+      const formData = new URLSearchParams();
+      formData.append('username', usernameInp.value);
+      formData.append('password', passwordInp.value);
+
+      try {
+        const res = await fetch('http://localhost:8000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          sessionStorage.setItem('veritas_token', data.access_token);
+          
+          const meRes = await fetch('http://localhost:8000/api/auth/me', {
+             headers: { 'Authorization': 'Bearer ' + data.access_token }
+          });
+          if (meRes.ok) {
+             const meData = await meRes.json();
+             sessionStorage.setItem('veritas_role', meData.role);
+             document.getElementById('userRolePill').textContent = meData.role;
+          }
+
+          loginLayer.style.opacity = '0';
+            setTimeout(() => {
+              loginLayer.style.display = 'none';
+              app.style.display = 'flex';
+              if (typeof window.loadCases === 'function') window.loadCases();
+              switchTab('view-cases');
+            }, 300);
+        } else {
+          loginError.textContent = 'Invalid username or password.';
+          loginError.style.display = 'block';
+        }
+      } catch (err) {
+        loginError.textContent = 'Connection error.';
+        loginError.style.display = 'block';
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Sign in';
+      }
+    });
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        sessionStorage.removeItem('veritas_token');
+        sessionStorage.removeItem('veritas_role');
+        app.style.display = 'none';
+        loginLayer.style.display = 'flex';
+        loginLayer.style.opacity = '1';
+        usernameInp.value = '';
+        passwordInp.value = '';
+      });
+    }
+  })();
+</script>
 
 <script type="module">
   import { MLGraph } from './graph/graph.js';
@@ -462,7 +1122,7 @@
   }
 
   /* ---------------- Data model ---------------- */
-  const PIPELINE = ["Ingest","Normalize","Extract","Resolve","Graph","Analyze","Explain","Verify"];
+  const PIPELINE = ["Ingest","Normalize","Extract","Resolve","Graph","Analyze","Explain"];
   let SOURCES = [];
 
   let NODES = [];
@@ -585,7 +1245,11 @@
     newCaseItem.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>Create New Case</span>`;
     newCaseItem.addEventListener('click', () => {
       dropdown.classList.remove('open');
-      openNewCasePrompt();
+      if (typeof openNewCaseModal === 'function') {
+         openNewCaseModal();
+      } else {
+         openNewCasePrompt();
+      }
     });
     dropdown.appendChild(newCaseItem);
   }
@@ -624,96 +1288,82 @@
 
   async function switchCase(newCaseId) {
     CURRENT_CASE = newCaseId;
+    window.CURRENT_CASE_ID = newCaseId;
     const label = document.getElementById('currentCaseLabel');
     if (label) label.textContent = newCaseId;
-    renderCaseDropdown();
+    if (typeof renderCaseDropdown === 'function') renderCaseDropdown();
 
     log(`Switching active case context to <b>${newCaseId}</b>...`);
+    NODES = [];
+    EDGES = [];
+    SOURCES = [];
+    hasRun = false;
+    
     try {
-      const [graphRes, analyticsRes, anomaliesRes, reviewRes] = await Promise.allSettled([
-        fetch(`http://localhost:8000/api/cases/${newCaseId}/graph`),
-        fetch(`http://localhost:8000/api/cases/${newCaseId}/analytics`),
-        fetch(`http://localhost:8000/api/anomalies`),
-        fetch(`http://localhost:8000/api/review-queue`)
-      ]);
-
-      let rawNodes = [];
-      let rawEdges = [];
-      if (graphRes.status === 'fulfilled' && graphRes.value.ok) {
-        const graphData = await graphRes.value.json();
-        rawNodes = graphData.nodes || [];
-        rawEdges = graphData.links || graphData.edges || [];
+      const token = sessionStorage.getItem('veritas_token');
+      
+      // Fetch Evidence Files
+      const evRes = await fetch(`http://localhost:8000/api/evidence/${newCaseId}`, {
+         headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+      });
+      if (evRes.ok) {
+         const evData = await evRes.json();
+         if (evData && evData.length > 0) {
+            SOURCES = evData.map(e => {
+                let tag = 'DOC';
+                const lowerName = e.file_name.toLowerCase();
+                if (lowerName.includes('fir')) tag = 'FIR';
+                else if (lowerName.includes('cdr')) tag = 'CDR';
+                else if (lowerName.includes('txn') || lowerName.includes('transaction') || lowerName.includes('bank')) tag = 'TXN';
+                else if (lowerName.includes('surveillance') || lowerName.includes('intel')) tag = 'INTEL';
+                return {
+                    id: e.evidence_id,
+                    name: e.file_name,
+                    tag: tag,
+                    status: 'Hashed & stored',
+                    processed: true
+                };
+            });
+            hasRun = true;
+         }
       }
+      renderSources();
 
-      let analyticsMap = {};
-      if (analyticsRes.status === 'fulfilled' && analyticsRes.value.ok) {
-        const analyticsData = await analyticsRes.value.json();
-        (analyticsData.annotated_nodes || []).forEach(an => {
-          analyticsMap[an.id] = an;
-        });
-      }
-
-      let anomalyAlerts = [];
-      if (anomaliesRes.status === 'fulfilled' && anomaliesRes.value.ok) {
-        const anomalyData = await anomaliesRes.value.json();
-        anomalyAlerts = anomalyData.alerts || [];
-      }
-
-      if (reviewRes.status === 'fulfilled' && reviewRes.value.ok) {
-        const reviewData = await reviewRes.value.json();
-        window._pendingReview = reviewData.pending_review || [];
-      }
-
-      NODES = rawNodes.map(n => {
-        const rawType = (n.type || n.label || 'Entity').toString();
-        const formattedType = rawType.charAt(0).toUpperCase() + rawType.slice(1).toLowerCase();
-        const an = analyticsMap[n.id] || {};
-        
-        const matchedAnomalies = anomalyAlerts.filter(alert => 
-          alert.target_id === n.id || 
-          alert.entity_id === n.id || 
-          alert.node_id === n.id ||
-          (alert.affected_nodes && alert.affected_nodes.includes(n.id))
-        );
-
-        const isFlagged = n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red' || matchedAnomalies.length > 0;
-
-        return {
+      // Fetch Graph Data
+      const res = await fetch(`http://localhost:8000/api/cases/${newCaseId}/graph`, {
+         headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+      });
+      if (res.ok) {
+        const graphData = await res.json();
+        NODES = (graphData.nodes || []).map(n => ({
           ...n,
           name: n.name || n.value || n.label || n.id,
-          type: formattedType === 'Org' ? 'Organization' : formattedType,
-          community_id: an.community_id || n.community_id || 'community_1',
-          community_color: an.community_color || n.community_color || '#0F766E',
-          betweenness: an.betweenness !== undefined ? an.betweenness : (n.betweenness || 0),
-          pagerank: an.pagerank !== undefined ? an.pagerank : (n.pagerank || 0),
-          degree_centrality: an.degree_centrality || {},
-          anomalies: matchedAnomalies,
-          flagged: isFlagged
-        };
-      });
-
-      EDGES = rawEdges.map(e => ({
-        ...e,
-        line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
-      }));
-
+          flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
+        }));
+        EDGES = graphData.links || graphData.edges || [];
+      }
     } catch(e) {
-      console.warn("Failed to load case data:", e);
+      console.warn(e);
     }
 
-    if (!NODES.length) {
-      loadDemoGraph();
-    } else {
-      if (mlGraph) {
-        try { mlGraph.simulation && mlGraph.simulation.stop(); } catch(e) {}
-        mlGraph = null;
-      }
+    if (mlGraph) {
+      try { mlGraph.simulation && mlGraph.simulation.stop(); } catch(e) {}
+      mlGraph = null;
+      document.getElementById('graph').innerHTML = '';
+    }
+
+    if (NODES.length > 0) {
       mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
       mlGraph.buildGraph();
       mlGraph.revealGraph();
-      updateHeaderCounts();
+    } else {
+      log(`No graph data available for case <b>${newCaseId}</b>. Start by uploading evidence.`);
     }
+    
+    document.getElementById('graphCount').textContent = NODES.length;
+    if (typeof updateHeaderCounts === 'function') updateHeaderCounts();
   }
+  window.switchCase = switchCase;
 
   const caseSelectorBtn = document.getElementById('caseSelectorBtn');
   const caseDropdown = document.getElementById('caseDropdown');
@@ -818,6 +1468,8 @@
     renderSources();
   }
 
+
+
   const fileUpload = document.getElementById('fileUpload');
   if (fileUpload) {
     fileUpload.addEventListener('change', (e) => {
@@ -871,16 +1523,15 @@
   const rightPanel = document.getElementById('rightPanel');
   
   window._currentTab = 'details';
-  window.switchTab = function(tab) {
-     window._currentTab = tab;
-     renderRightPanel();
-  }
   
   window.resolveReview = async function(reviewId, action) {
      try {
        const res = await fetch(`http://localhost:8000/api/review-queue/${reviewId}/resolve`, {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('veritas_token')
+          },
           body: JSON.stringify({action: action})
        });
        if(res.ok) {
@@ -890,6 +1541,7 @@
              return id !== reviewId;
           });
           renderRightPanel();
+          if (typeof renderStandaloneReviewQueue === 'function') renderStandaloneReviewQueue();
        } else {
           alert('Failed to resolve item');
        }
@@ -898,28 +1550,39 @@
      }
   }
 
+  window.updatePendingBadges = function() {
+      const count = (window._pendingReview || []).length;
+      const canvasInd = document.getElementById('canvasPendingIndicator');
+      const canvasCnt = document.getElementById('canvasPendingCount');
+      if(canvasInd && canvasCnt) {
+          if(count > 0) {
+              canvasInd.style.display = 'inline-flex';
+              canvasCnt.textContent = count;
+          } else {
+              canvasInd.style.display = 'none';
+          }
+      }
+  };
+
   window.renderRightPanel = function() {
     const reviewItems = window._pendingReview || [];
     const badge = reviewItems.length;
     
     let html = `
-      <div class="tabs-header" style="display:flex; justify-content:space-between; align-items:center;">
-        <div style="display:flex; align-items:center;">
-          <div class="tab-btn ${window._currentTab === 'details' ? 'active' : ''}" onclick="switchTab('details')">Details</div>
-          <div class="tab-btn ${window._currentTab === 'review' ? 'active' : ''}" onclick="switchTab('review')">Review Queue ${badge > 0 ? `<span class="badge-pill">${badge}</span>` : ''}</div>
-        </div>
-        <button class="new-case-btn" id="newCaseBtn" title="Create New Case" onclick="openNewCasePrompt()">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          <span>New Case</span>
-        </button>
+      <div class="tabs-header">
+        <div class="tab-btn ${window._currentTab === 'details' ? 'active' : ''}" onclick="switchPanelTab('details')">DETAILS</div>
+        <div class="tab-btn ${window._currentTab === 'review' ? 'active' : ''}" onclick="switchPanelTab('review')">REVIEW ${badge > 0 ? `<span class="badge-pill">${badge}</span>` : ''}</div>
+        <div class="tab-btn ${window._currentTab === 'analysis' ? 'active' : ''}" onclick="switchPanelTab('analysis')">ANALYSIS</div>
       </div>
       <div class="tab-content" id="tabContentWrapper">
     `;
     
     if (window._currentTab === 'details') {
        html += getDetailsHTML();
-    } else {
+    } else if (window._currentTab === 'review') {
        html += getReviewQueueHTML();
+    } else if (window._currentTab === 'analysis') {
+       html += getAnalysisHTML();
     }
     
     html += `</div>`;
@@ -934,6 +1597,13 @@
            btn.addEventListener('click', () => openModal(n));
        }
     }
+    
+    updatePendingBadges();
+  }
+  
+  window.switchPanelTab = function(tab) {
+     window._currentTab = tab;
+     renderRightPanel();
   }
 
   function getDetailsHTML() {
@@ -961,21 +1631,6 @@
     const phoneRow = n.phone ? `<div class="metric-row"><span class="k">Phone</span><span class="n mono">${n.phone}</span></div>` : '';
     const typeRow = `<div class="metric-row"><span class="k">Entity Type</span><span class="n mono">${n.type || 'Entity'}</span></div>`;
     const connRow = `<div class="metric-row"><span class="k">Connections</span><span class="n mono">${connections}</span></div>`;
-    const commRow = `<div class="metric-row"><span class="k">Community Cluster</span><span class="n mono"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${n.community_color || '#0F766E'};margin-right:5px;"></span>${n.community_id || 'community_1'}</span></div>`;
-    const bwRow = n.betweenness !== undefined ? `<div class="metric-row"><span class="k">Betweenness Centrality</span><span class="n mono">${Number(n.betweenness).toFixed(4)}</span></div>` : '';
-    const prRow = n.pagerank !== undefined ? `<div class="metric-row"><span class="k">PageRank Score</span><span class="n mono">${Number(n.pagerank).toFixed(4)}</span></div>` : '';
-
-    let anomalyBadgesHTML = '';
-    const anomaliesList = n.anomalies || [];
-    if (anomaliesList.length > 0) {
-      anomalyBadgesHTML = `<div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; margin-bottom:12px;">
-        ${anomaliesList.map(a => `<span class="badge anomaly" style="background:rgba(239,68,68,0.15);color:#EF4444;border:1px solid #EF4444;margin:0;">${a.code || a.rule_id || a.anomaly_type || 'ANOM-ALERT'} (Risk: ${(a.score || a.anomaly_score || 0.85).toFixed(2)})</span>`).join('')}
-      </div>`;
-    } else if (n.status === 'REVIEW_REQUIRED' || n.flagged || n.risk_color === 'red') {
-      anomalyBadgesHTML = `<div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; margin-bottom:12px;">
-        <span class="badge anomaly" style="background:rgba(239,68,68,0.15);color:#EF4444;border:1px solid #EF4444;margin:0;">ANOM-SUBNET-FLAG</span>
-      </div>`;
-    }
 
     // Evidence trail list for flagged entities (Task 4)
     let evidenceTrailHTML = '';
@@ -998,14 +1653,10 @@
         return `<div class="badge" style="background:rgba(239,68,68,0.15);color:#EF4444;border-color:#EF4444;">FLAGGED SUBNETWORK</div>
           <div class="detail-title">${n.name || n.label || n.id}</div>
           <div class="detail-sub" style="text-transform:capitalize">Risk Level: ${n.risk_color || 'red'} &middot; ${n.historical_firs || 1} Incident Indicator(s)</div>
-          ${anomalyBadgesHTML}
           <div style="margin-bottom:12px;">
             ${typeRow}
             ${phoneRow}
             ${connRow}
-            ${commRow}
-            ${bwRow}
-            ${prRow}
           </div>
           ${evidenceTrailHTML || '<p class="empty-hint">This entity has been flagged across multiple investigative sources in the subnetwork.</p>'}
           <button class="ghost" id="viewSourceBtn">View source documents</button>`;
@@ -1016,9 +1667,6 @@
             ${typeRow}
             ${phoneRow}
             ${connRow}
-            ${commRow}
-            ${bwRow}
-            ${prRow}
           </div>
           <p class="empty-hint">No anomaly indicators for this entity. It appears in the case record but was not flagged by the analytics engine.</p>
           <button class="ghost" id="viewSourceBtn">View source documents</button>`;
@@ -1033,30 +1681,147 @@
          if (item.type === 'PHONE_CONFLICT') {
              const id = item.names.join('-');
              return `<div class="review-card conflict" id="review-card-${id}">
-                 <div style="font-weight:600;color:#991B1B">📵 Phone Conflict</div>
-                 <div style="color:#374151;margin-top:4px">Phone linked to <b>${item.names.join(', ')}</b></div>
-                 <div style="color:#6B7280;font-size:11px;margin-top:2px">${item.reason}</div>
+                 <div style="font-weight:600;color:#991B1B;font-size:12px;margin-bottom:6px;"><span class="status-badge red">Conflict</span> CR-2026-0142</div>
+                 <div style="font-size:13.5px;"><b>Phone linked to ${item.names.join(', ')}</b></div>
+                 <div style="color:#6B7280;font-size:12px;margin-top:4px">${item.reason}</div>
                  <div class="review-actions">
-                     <button class="btn-merge" onclick="resolveReview('${id}', 'merge')">Merge Entities</button>
-                     <button class="btn-reject" onclick="resolveReview('${id}', 'reject')">Keep Separate</button>
-                     <button class="btn-skip" onclick="resolveReview('${id}', 'skip')">Skip</button>
+                     <button class="ghost" style="flex:1" onclick="resolveReview('${id}', 'merge')">Merge</button>
+                     <button class="ghost" style="flex:1" onclick="resolveReview('${id}', 'reject')">Reject</button>
+                     <button class="ghost" style="flex:1" onclick="resolveReview('${id}', 'skip')">Skip</button>
                  </div>
              </div>`;
          } else {
              const id = `${item.candidate?.id}-${item.possible_match?.id}`;
              return `<div class="review-card ambiguity" id="review-card-${id}">
-                 <div style="font-weight:600;color:#92400E">👤 Name Ambiguity</div>
-                 <div style="color:#374151;margin-top:4px"><b>${item.candidate?.value}</b> ↔ <b>${item.possible_match?.value}</b></div>
-                 <div style="color:#6B7280;font-size:11px;margin-top:2px">${item.reason}</div>
-                 <div style="color:#9CA3AF;font-size:11px;margin-top:2px">Similarity: ${item.similarity?.toFixed(0)}%${item.corroboration_found ? ' · Corroborated' : ' · Name-only'}</div>
+                 <div style="font-weight:600;color:#92400E;font-size:12px;margin-bottom:6px;"><span class="status-badge amber">Ambiguity</span> CR-2026-0142</div>
+                 <div style="font-size:13.5px;"><b>${item.candidate?.value}</b> ↔ <b>${item.possible_match?.value}</b></div>
+                 <div style="color:#6B7280;font-size:12px;margin-top:4px">${item.reason}</div>
+                 <div style="color:#9CA3AF;font-size:11px;margin-top:4px;display:flex;align-items:center;gap:8px;">
+                     <div style="flex:1;height:4px;background:var(--amber);border-radius:2px;max-width:30px;"></div>
+                     ${item.similarity?.toFixed(0)}% <span style="color:var(--text-faint)">why</span>
+                     <span class="ep-source">FIR-104</span>
+                     <span class="ep-source">FIN-3308</span>
+                 </div>
                  <div class="review-actions">
-                     <button class="btn-merge" onclick="resolveReview('${id}', 'merge')">Merge Entities</button>
-                     <button class="btn-reject" onclick="resolveReview('${id}', 'reject')">Keep Separate</button>
-                     <button class="btn-skip" onclick="resolveReview('${id}', 'skip')">Skip</button>
+                     <button class="ghost" style="flex:1" onclick="resolveReview('${id}', 'merge')">Merge</button>
+                     <button class="ghost" style="flex:1" onclick="resolveReview('${id}', 'reject')">Reject</button>
+                     <button class="ghost" style="flex:1" onclick="resolveReview('${id}', 'skip')">Skip</button>
                  </div>
              </div>`;
          }
       }).join('');
+  }
+
+  function getAnalysisHTML() {
+    if (!selectedId) {
+       return `
+         <h2 style="margin-top:0;">TOP NODES BY CENTRALITY</h2>
+         <div class="tabs-header" style="margin-top:12px; margin-bottom:16px;">
+            <div class="tab-btn active" style="font-size:10px;">DEGREE</div>
+            <div class="tab-btn" style="font-size:10px;">BETWEENNESS</div>
+            <div class="tab-btn" style="font-size:10px;">PAGERANK</div>
+         </div>
+         <div class="evidence-path-viewer">
+           <div class="ep-card clickable">
+             <div class="ep-icon">👤</div>
+             <div class="ep-content">
+                <div class="ep-title">Ravi Kumar <span class="ep-relation">24 connections</span></div>
+             </div>
+           </div>
+           <div class="ep-card clickable">
+             <div class="ep-icon">👤</div>
+             <div class="ep-content">
+                <div class="ep-title">Ahmed Khan <span class="ep-relation">18 connections</span></div>
+             </div>
+           </div>
+           <div class="ep-card clickable">
+             <div class="ep-icon">📞</div>
+             <div class="ep-content">
+                <div class="ep-title">9876543210 <span class="ep-relation">12 connections</span></div>
+             </div>
+           </div>
+         </div>
+         <h2 style="margin-top:32px;">DETECTED COMMUNITIES</h2>
+         <div style="font-size:12px; color:var(--text-dim); margin-top:12px; margin-bottom:8px;">
+            <label style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+               <input type="checkbox"> Highlight communities on graph
+            </label>
+         </div>
+         <div style="display:flex; flex-direction:column; gap:8px; font-size:12.5px; color:var(--text);">
+            <div><span style="color:#2563EB; font-weight:bold;">■</span> Community 1 &middot; <span style="color:var(--text-faint)">14 members</span></div>
+            <div><span style="color:#16A34A; font-weight:bold;">■</span> Community 2 &middot; <span style="color:var(--text-faint)">9 members</span></div>
+            <div style="font-size:11px; margin-top:4px; color:var(--text-faint);">Bridge: <strong>Ravi Kumar</strong> connects C1 & C2</div>
+         </div>
+       `;
+    }
+    const n = NODES.find(x=>x.id===selectedId);
+    if (!n) return '';
+    const connections = mlGraph ? (mlGraph.degree[n.id] || 0) : 0;
+    
+    let riskBadge = '';
+    if (n.status === 'REVIEW_REQUIRED' || n.flagged) {
+        riskBadge = `<span class="status-badge red" style="float:right;"><span class="status-dot"></span> FLAGGED</span>`;
+    } else {
+        riskBadge = `<span class="status-badge teal" style="float:right;"><span class="status-dot"></span> VERIFIED</span>`;
+    }
+
+    let html = `
+      <div>
+        ${riskBadge}
+        <div class="detail-title">${n.name || n.label || n.id}</div>
+        <div class="detail-sub">${n.type || 'Entity'} &middot; ${n.name ? n.id : ''}</div>
+      </div>
+    `;
+
+    // Evidence Path view
+    if (n.status === 'REVIEW_REQUIRED' || n.flagged) {
+      html += `
+        <h2 style="margin-top:24px; margin-bottom:12px;">CONNECTED ENTITIES</h2>
+        <div class="evidence-path-viewer">
+          <div class="ep-card">
+            <div class="ep-icon">📞</div>
+            <div class="ep-content">
+               <div class="ep-title">9876543210 <span class="ep-relation">OWNS</span></div>
+            </div>
+          </div>
+          <div class="ep-card">
+            <div class="ep-icon">🚗</div>
+            <div class="ep-content">
+               <div class="ep-title">DL-8C-2214 <span class="ep-relation">SEEN_IN</span></div>
+            </div>
+          </div>
+          <div class="ep-card">
+            <div class="ep-icon">📄</div>
+            <div class="ep-content">
+               <div class="ep-title">FIR-104 <span class="ep-relation">NAMED_IN</span></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Indicators table
+    html += `
+      <h2 style="margin-top:24px;">WHY THIS RISK LEVEL</h2>
+      <table class="indicator-table" style="margin-top:12px;">
+        <tr><td>Betweenness centrality</td><td class="up">0.41</td></tr>
+        <tr><td>Connections</td><td>${connections}</td></tr>
+        <tr><td>Communities connected</td><td>2</td></tr>
+        <tr><td>Transaction anomaly</td><td class="up">38%</td></tr>
+        <tr><td>Communication spike</td><td class="up">+212%</td></tr>
+        <tr><td>Evidence sources</td><td>4</td></tr>
+      </table>
+      <a href="#" style="font-size:12px; color:var(--teal); font-weight:500; text-decoration:none;">&#9432; View full evidence path</a>
+    `;
+
+    return html;
+  }
+
+  window.renderStandaloneReviewQueue = function() {
+      const container = document.getElementById('review-list-full');
+      if (container) {
+          container.innerHTML = getReviewQueueHTML();
+      }
   }
 
   let selectedId = null;
@@ -1066,7 +1831,7 @@
     if(!n) return;
     
     if (n.status === 'REVIEW_REQUIRED' || n.flagged) {
-        window._currentTab = 'details';
+        window._currentTab = 'analysis';
         renderRightPanel();
         
         // If there's an active review item matching this node, highlight in review tab if user switches
@@ -1165,7 +1930,7 @@
     const formData = new FormData();
     const uploadedFiles = [];
 
-    let caseId = CURRENT_CASE || 'CASE-102';
+    let caseId = window.CURRENT_CASE_ID || 'CASE-102';
     
     SOURCES.filter(s => s.file).forEach(s => {
         uploadedFiles.push(s.file);
@@ -1183,14 +1948,15 @@
             new File(["INTERROGATION SUMMARY\n\nAhmed Sheikh admitted that account ACC-AHMED-4521 belongs to him. Faisal Khan operates account ACC-FAISAL-7788."], "Interrogation_JohnDoe.txt", {type: "text/plain"}),
          ];
          demoFiles.forEach(f => formData.append('files', f));
-         caseId = CURRENT_CASE || ('CASE-' + Math.floor(Math.random() * 10000));
-         formData.set('case_id', caseId);
-       } else {
+         caseId = window.CURRENT_CASE_ID || ('CASE-' + Math.floor(Math.random() * 10000));
          formData.set('case_id', caseId);
        }
        
        const res = await fetch('http://localhost:8000/api/process-evidence', {
            method: 'POST',
+           headers: {
+             'Authorization': 'Bearer ' + sessionStorage.getItem('veritas_token')
+           },
            body: formData
        });
          
@@ -1215,67 +1981,30 @@
          }
          window._pendingReview = (window._pendingReview || []).concat(batchReview);
          
-         // Fetch the full graph, analytics, and anomalies from the database
-         log('Fetching complete graph and analytics...');
-         const [graphRes, analyticsRes, anomaliesRes] = await Promise.allSettled([
-            fetch(`http://localhost:8000/api/cases/${caseId}/graph`),
-            fetch(`http://localhost:8000/api/cases/${caseId}/analytics`),
-            fetch(`http://localhost:8000/api/anomalies`)
-         ]);
-
-         let rawNodes = [];
-         let rawEdges = [];
-         if (graphRes.status === 'fulfilled' && graphRes.value.ok) {
-            const graphData = await graphRes.value.json();
-            rawNodes = graphData.nodes || [];
-            rawEdges = graphData.links || graphData.edges || [];
-         }
-
-         let analyticsMap = {};
-         if (analyticsRes.status === 'fulfilled' && analyticsRes.value.ok) {
-            const analyticsData = await analyticsRes.value.json();
-            (analyticsData.annotated_nodes || []).forEach(an => {
-               analyticsMap[an.id] = an;
-            });
-         }
-
-         let anomalyAlerts = [];
-         if (anomaliesRes.status === 'fulfilled' && anomaliesRes.value.ok) {
-            const anomalyData = await anomaliesRes.value.json();
-            anomalyAlerts = anomalyData.alerts || [];
-         }
-
-         NODES = rawNodes.map(n => {
-             const rawType = (n.type || n.label || 'Entity').toString();
-             const formattedType = rawType.charAt(0).toUpperCase() + rawType.slice(1).toLowerCase();
-             const an = analyticsMap[n.id] || {};
-             
-             const matchedAnomalies = anomalyAlerts.filter(alert => 
-               alert.target_id === n.id || 
-               alert.entity_id === n.id || 
-               alert.node_id === n.id ||
-               (alert.affected_nodes && alert.affected_nodes.includes(n.id))
-             );
-
-             const isFlagged = n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red' || matchedAnomalies.length > 0;
-
-             return {
-                 ...n,
-                 name: n.name || n.value || n.label || n.id,
-                 type: formattedType === 'Org' ? 'Organization' : formattedType,
-                 community_id: an.community_id || n.community_id || 'community_1',
-                 community_color: an.community_color || n.community_color || '#0F766E',
-                 betweenness: an.betweenness !== undefined ? an.betweenness : (n.betweenness || 0),
-                 pagerank: an.pagerank !== undefined ? an.pagerank : (n.pagerank || 0),
-                 degree_centrality: an.degree_centrality || {},
-                 anomalies: matchedAnomalies,
-                 flagged: isFlagged
-             };
+         log('Fetching complete graph from Neo4j...');
+         const graphRes = await fetch(`http://localhost:8000/api/cases/${caseId}/graph`, {
+            headers: { 'Authorization': 'Bearer ' + sessionStorage.getItem('veritas_token') }
          });
-         EDGES = rawEdges.map(e => ({
-             ...e,
-             line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
-         }));
+         if (!graphRes.ok) throw new Error('Graph API returned ' + graphRes.status);
+         const graphData = await graphRes.json();
+         
+         // Normalize: backend returns 'value' for display name; map it to 'name'
+         // so graph.js label renderer can find it consistently.
+          NODES = (graphData.nodes || []).map(n => {
+              const rawType = (n.type || n.label || 'Entity').toString();
+              const formattedType = rawType.charAt(0).toUpperCase() + rawType.slice(1).toLowerCase();
+              return {
+                  ...n,
+                  name: n.name || n.value || n.label || n.id,
+                  type: formattedType === 'Org' ? 'Organization' : formattedType,
+                  flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
+              };
+          });
+          // Support both key names: process-evidence returns 'links', graph endpoint returns 'edges'
+          EDGES = (graphData.links || graphData.edges || []).map(e => ({
+              ...e,
+              line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
+          }));
          
          if (!NODES.length) {
            loadDemoGraph();
@@ -1336,6 +2065,176 @@
      }
   });
 
+  window.loadCases = async function() {
+    try {
+      const token = sessionStorage.getItem('veritas_token');
+      if (!token) return;
+      const res = await fetch('http://localhost:8000/api/cases', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (!res.ok) throw new Error('API returned ' + res.status);
+      const cases = await res.json();
+      
+      const tbody = document.getElementById('cases-table-body');
+      if (!tbody) return;
+      
+      let html = '';
+      cases.forEach(c => {
+        let statusBadge = '';
+        const s = c.status || 'open';
+        if (s.toLowerCase() === 'needs_attention' || s.toLowerCase() === 'needs attention') {
+           statusBadge = `<span class="status-badge amber"><span class="status-dot"></span> Needs Attention</span>`;
+        } else if (s.toLowerCase() === 'archived') {
+           statusBadge = `<span class="status-badge steel"><span class="status-dot"></span> Archived</span>`;
+        } else {
+           statusBadge = `<span class="status-badge teal"><span class="status-dot"></span> Open</span>`;
+        }
+        
+        const entities = c.entities_count || 0;
+        const docs = c.docs_count || 0;
+        const pending = c.pending_review_count || 0;
+        
+        // Handle assigned users dynamically
+        const assignedArr = c.assigned_users || [];
+        const assignedHTML = assignedArr.map(u => {
+            // e.g. from "Inspector Arjun Rao" get initials "AR"
+            let initials = u.username ? u.username.substring(0,2).toUpperCase() : '??';
+            if (u.full_name) {
+                const parts = u.full_name.split(' ').filter(p => !['Inspector', 'Chief', 'Agent'].includes(p));
+                if (parts.length >= 2) initials = parts[0][0] + parts[1][0];
+                else if (parts.length === 1) initials = parts[0].substring(0,2).toUpperCase();
+            }
+            return `<span class="role-pill" title="${u.full_name || u.username}">${initials}</span>`;
+        }).join(' ');
+        
+        html += `
+          <tr class="clickable" onclick="if(window.switchCase) window.switchCase('${c.case_id}'); switchTab('view-graph')">
+            <td class="num">${c.case_id}</td>
+            <td><strong>${c.title}</strong></td>
+            <td>${statusBadge}</td>
+            <td class="num">${entities}</td>
+            <td class="num">${docs}</td>
+            <td class="num" style="color:${pending > 0 ? 'var(--amber)' : 'inherit'};">${pending}</td>
+            <td>Just now</td>
+            <td>${assignedHTML}</td>
+          </tr>
+        `;
+      });
+      
+      if (cases.length === 0) {
+        html = '<tr><td colspan="8" style="text-align:center;color:var(--text-faint);padding:32px;">No cases found. Create a new case to get started.</td></tr>';
+      }
+      tbody.innerHTML = html;
+    } catch(err) {
+      console.error('Failed to load cases:', err);
+    }
+  };
+  window.openNewCaseModal = function() {
+    const modalLayer = document.getElementById('modal-layer');
+    const modalBody = document.getElementById('modalBody');
+    
+    modalBody.innerHTML = `
+      <h2 style="margin-bottom:16px;">Register New Case</h2>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+        <label>
+          <span class="login-label">Case ID (e.g., CASE-102)</span>
+          <input id="new-case-id" class="login-input" type="text" value="CASE-${Math.floor(Math.random() * 10000)}" required>
+        </label>
+        <label>
+          <span class="login-label">Title</span>
+          <input id="new-case-title" class="login-input" type="text" placeholder="e.g., Highway robbery" required>
+        </label>
+        <label>
+          <span class="login-label">Description</span>
+          <textarea id="new-case-desc" class="login-input" style="height:80px;"></textarea>
+        </label>
+        <div id="new-case-error" style="color:var(--red);display:none;font-size:13px;"></div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button class="primary-btn" style="background:#F3F4F6;color:var(--text);" onclick="closeModal()">Cancel</button>
+        <button class="primary-btn" id="save-new-case-btn" onclick="submitNewCase()">Register & Open</button>
+      </div>
+    `;
+    modalLayer.classList.add('open');
+  };
+
+  window.closeModal = function() {
+    document.getElementById('modal-layer').classList.remove('open');
+  };
+
+  window.submitNewCase = async function() {
+    const idInp = document.getElementById('new-case-id').value;
+    const titleInp = document.getElementById('new-case-title').value;
+    const descInp = document.getElementById('new-case-desc').value;
+    const errDiv = document.getElementById('new-case-error');
+    const btn = document.getElementById('save-new-case-btn');
+
+    if(!idInp || !titleInp) {
+       errDiv.textContent = "ID and Title are required.";
+       errDiv.style.display = 'block';
+       return;
+    }
+    
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+    
+    try {
+      const token = sessionStorage.getItem('veritas_token');
+      const res = await fetch('http://localhost:8000/api/cases', {
+        method: 'POST',
+        headers: { 
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({
+          case_id: idInp,
+          title: titleInp,
+          description: descInp
+        })
+      });
+      
+      if (!res.ok) {
+         const data = await res.json();
+         throw new Error(data.detail || 'Failed to create case');
+      }
+      
+      closeModal();
+      
+      // Select the case and open graph view
+      window.CURRENT_CASE_ID = idInp;
+      
+      switchTab('view-graph');
+      
+      // Update cases table
+      if (typeof window.loadCases === 'function') window.loadCases();
+
+      // Clear the current files for the new case
+      SOURCES = [];
+      if (typeof renderSources === 'function') renderSources();
+      
+      // Reset the graph UI
+      const graphTitle = document.querySelector('.page-header h1');
+      if (graphTitle) {
+          graphTitle.innerHTML = `<span style="color:var(--text-faint); font-weight:400;">${idInp}</span> — ${titleInp}`;
+      }
+      if (typeof mlGraph !== 'undefined' && mlGraph) {
+          try { mlGraph.simulation && mlGraph.simulation.stop(); } catch(e) {}
+          mlGraph = null;
+          document.getElementById('graph').innerHTML = '';
+      }
+      NODES = [];
+      EDGES = [];
+      document.getElementById('graphCount').textContent = '0';
+      document.getElementById('runBtn').textContent = 'Run Pipeline';
+      document.getElementById('runBtn').disabled = true;
+      
+    } catch(e) {
+      errDiv.textContent = e.message;
+      errDiv.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Register & Open';
+    }
+  };
 </script>
 </body>
 </html>

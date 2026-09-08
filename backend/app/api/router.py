@@ -1,21 +1,18 @@
 from fastapi import APIRouter
+from backend.app.api import auth, cases, users, evidence, entities, ingestion, review
+from backend.app.api import analytics, anomaly, audit, graph
 
-from .cases import router as cases_router
-from .ingestion import router as ingestion_router
-from .entities import router as entities_router
-from .audit import router as audit_router
-from .graph import router as graph_router
-from .anomaly import router as anomaly_router
-from .analytics import router as analytics_router
-from .evidence import router as evidence_router
+router = APIRouter(prefix="/api")
+router.include_router(auth.router, prefix="/auth", tags=["auth"])
+router.include_router(cases.router, prefix="/cases", tags=["cases"])
+router.include_router(users.router, prefix="/users", tags=["users"])
+router.include_router(evidence.router, prefix="/evidence", tags=["evidence"])
+router.include_router(entities.router, prefix="/entities", tags=["entities"])
+router.include_router(ingestion.router, tags=["ingestion"])
+router.include_router(review.router, tags=["review"])
+router.include_router(anomaly.router, tags=["anomaly"])
+router.include_router(analytics.router, tags=["analytics"])
+router.include_router(audit.router, tags=["audit"])
+router.include_router(graph.router, tags=["graph"])
 
-api_router = APIRouter()
-
-api_router.include_router(cases_router)
-api_router.include_router(ingestion_router)
-api_router.include_router(entities_router)
-api_router.include_router(audit_router)
-api_router.include_router(graph_router)
-api_router.include_router(anomaly_router)
-api_router.include_router(analytics_router)
-api_router.include_router(evidence_router)
+api_router = router
