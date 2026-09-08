@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api", tags=["Graph Operations"])
+router = APIRouter(tags=["Graph Operations"])
 
 class CypherQueryPayload(BaseModel):
     query: str

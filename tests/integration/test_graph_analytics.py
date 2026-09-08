@@ -1,6 +1,2 @@
-# -*- coding: utf-8 -*-
-
-"""
-Module: test_graph_analytics.py
-"""
-
+def test_test_graph_analytics_stub():
+    pass

@@ -1,6 +1,2 @@
-# -*- coding: utf-8 -*-
-
-"""
-Module: test_nlp_graph.py
-"""
-
+def test_test_nlp_graph_stub():
+    pass

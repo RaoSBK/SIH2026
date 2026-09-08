@@ -1,6 +1,2 @@
-# -*- coding: utf-8 -*-
-
-"""
-Module: test_ingestion_pipeline.py
-"""
-
+def test_test_ingestion_pipeline_stub():
+    pass

@@ -7,7 +7,7 @@ from graph.services.analytics_service import GraphAnalyticsService
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api", tags=["Graph Analytics"])
+router = APIRouter(tags=["Graph Analytics"])
 
 class AnalyticsGraphPayload(BaseModel):
     nodes: List[Dict[str, Any]] = Field(default_factory=list)

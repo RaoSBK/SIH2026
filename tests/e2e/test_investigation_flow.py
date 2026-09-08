@@ -1,6 +1,2 @@
-# -*- coding: utf-8 -*-
-
-"""
-Module: test_investigation_flow.py
-"""
-
+def test_test_investigation_flow_stub():
+    pass

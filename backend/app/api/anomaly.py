@@ -10,7 +10,7 @@ from ml.anomaly.anomaly_ml import run_ml_engine
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api", tags=["Anomaly Detection"])
+router = APIRouter(tags=["Anomaly Detection"])
 
 DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data"))
 ANOMALY_ALERTS_PATH = os.path.join(DATA_DIR, "anomaly_alerts.json")
