@@ -558,5 +558,37 @@
     "score": 0.0,
     "source_doc": "test",
     "context": "\nFIR No. 145/2026\nOn 29-Aug-2026, accused Ravi Kumar met Farhan Sheikh at Andheri Station.\n"
+  },
+  {
+    "timestamp": "2026-09-08T06:23:49.826279Z",
+    "entity_value": "Andheri Station",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "test",
+    "context": "\nFIR No. 145/2026\nOn 29-Aug-2026, accused Ravi Kumar met Farhan Sheikh at Andheri Station.\n"
+  },
+  {
+    "timestamp": "2026-09-08T06:24:17.190861Z",
+    "entity_value": "Andheri Station",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "test",
+    "context": "\nFIR No. 145/2026\nOn 29-Aug-2026, accused Ravi Kumar met Farhan Sheikh at Andheri Station.\n"
+  },
+  {
+    "timestamp": "2026-09-08T06:27:33.371836Z",
+    "entity_value": "Andheri Station",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "test",
+    "context": "\nFIR No. 145/2026\nOn 29-Aug-2026, accused Ravi Kumar met Farhan Sheikh at Andheri Station.\n"
+  },
+  {
+    "timestamp": "2026-09-08T06:32:11.378835Z",
+    "entity_value": "Andheri Station",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "test",
+    "context": "\nFIR No. 145/2026\nOn 29-Aug-2026, accused Ravi Kumar met Farhan Sheikh at Andheri Station.\n"
   }
 ]
