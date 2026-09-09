@@ -17,10 +17,6 @@ def make_registry():
     tmp.close()
     return EntityRegistry(registry_path=tmp.name)
 
-def print_section(title):
-    print(f"\n{'='*60}\n{title}\n{'='*60}")
-
-# ── Helpers to build fake ner.py output ──────────────────────────────────────
 def phone_entity(number):
     import hashlib
     eid = f"phone:{hashlib.sha256(number.encode()).hexdigest()[:8]}"

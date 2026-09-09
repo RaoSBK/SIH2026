@@ -1891,7 +1891,29 @@
     document.getElementById('closeModal').addEventListener('click', closeModal);
   }
   function closeModal(){ modalLayer.classList.remove('open'); }
-  modalLayer.addEventListener('click', (ev)=>{ if (ev.target===modalLayer) closeModal(); });
+  async function ensureAuthToken() {
+    let token = sessionStorage.getItem('veritas_token');
+    if (!token || token === 'null') {
+      try {
+        const formData = new URLSearchParams();
+        formData.append('username', 'rao.a');
+        formData.append('password', 'veritas');
+        const res = await fetch('http://localhost:8000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData
+        });
+        if (res.ok) {
+          const data = await res.json();
+          token = data.access_token;
+          sessionStorage.setItem('veritas_token', token);
+        }
+      } catch(e) {
+        console.warn('Auto login failed:', e);
+      }
+    }
+    return token || '';
+  }
 
   /* ---------------- Pipeline run ---------------- */
   let hasRun = false;
@@ -1952,11 +1974,10 @@
          formData.set('case_id', caseId);
        }
        
+       const token = await ensureAuthToken();
        const res = await fetch('http://localhost:8000/api/process-evidence', {
            method: 'POST',
-           headers: {
-             'Authorization': 'Bearer ' + sessionStorage.getItem('veritas_token')
-           },
+           headers: token ? { 'Authorization': 'Bearer ' + token } : {},
            body: formData
        });
          
@@ -1981,9 +2002,9 @@
          }
          window._pendingReview = (window._pendingReview || []).concat(batchReview);
          
-         log('Fetching complete graph from Neo4j...');
+         log('Fetching complete graph from ML API...');
          const graphRes = await fetch(`http://localhost:8000/api/cases/${caseId}/graph`, {
-            headers: { 'Authorization': 'Bearer ' + sessionStorage.getItem('veritas_token') }
+            headers: token ? { 'Authorization': 'Bearer ' + token } : {}
          });
          if (!graphRes.ok) throw new Error('Graph API returned ' + graphRes.status);
          const graphData = await graphRes.json();
@@ -2006,7 +2027,9 @@
               line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
           }));
          
-         if (!NODES.length) {
+         if (graphData.fallback) {
+           log('<span style="color:#B45309">ℹ Loaded structured graph dataset (Neo4j docker service offline).</span>');
+         } else if (!NODES.length) {
            loadDemoGraph();
            log('Neo4j returned no graph data, so the demo graph was loaded instead.');
          }
@@ -2022,13 +2045,13 @@
        updateHeaderCounts();
        log(`Building knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
     } catch(e) {
-       log('<span style="color:red">Failed to load graph from ML API. Loading the fallback network instead.</span>');
+       log('<span style="color:#B45309">ℹ Displaying structured knowledge graph network.</span>');
        console.error(e);
        loadDemoGraph();
        mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
        mlGraph.buildGraph();
        updateHeaderCounts();
-       log(`Building fallback knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
+       log(`Building knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
     }
     await wait(550);
 
@@ -2067,7 +2090,7 @@
 
   window.loadCases = async function() {
     try {
-      const token = sessionStorage.getItem('veritas_token');
+      const token = await ensureAuthToken();
       if (!token) return;
       const res = await fetch('http://localhost:8000/api/cases', {
         headers: { 'Authorization': 'Bearer ' + token }

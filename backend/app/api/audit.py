@@ -5,7 +5,7 @@ from fastapi import APIRouter
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api", tags=["Audit & Provenance"])
+router = APIRouter(tags=["Audit & Provenance"])
 
 DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data"))
 AUDIT_LOG_PATH = os.path.join(DATA_DIR, "ingestion_audit.json")

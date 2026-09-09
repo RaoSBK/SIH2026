@@ -2775,7 +2775,7 @@
     {
       "id": "CALL-ANOM2-1055",
       "source": "PERSON_015",
-      "target": "PERSON_049",
+      "target": "PERSON_048",
       "type": "CALL",
       "timestamp": "2026-09-07T00:30:58.436083",
       "duration": 39
@@ -2847,7 +2847,7 @@
     {
       "id": "CALL-ANOM2-2670",
       "source": "PERSON_015",
-      "target": "PERSON_012",
+      "target": "PERSON_010",
       "type": "CALL",
       "timestamp": "2026-09-07T00:34:58.436083",
       "duration": 57

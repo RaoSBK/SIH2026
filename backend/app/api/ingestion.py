@@ -192,6 +192,13 @@ async def process_evidence(
         ml_alerts = run_ml_engine(graph_payload)
         all_alerts = rule_alerts + ml_alerts
         
+        # Persist ML & rule anomaly alerts to data/anomaly_alerts.json
+        from backend.app.api.anomaly import save_anomaly_alerts, load_stored_anomaly_alerts
+        existing_alerts = load_stored_anomaly_alerts()
+        existing_ids = {a.get("alert_id") for a in existing_alerts if a.get("alert_id")}
+        new_unique = [a for a in all_alerts if a.get("alert_id") not in existing_ids]
+        save_anomaly_alerts((new_unique + existing_alerts)[:200])
+
         for alert in all_alerts:
             ent_id = alert.get("entity_id")
             if ent_id in global_nodes:

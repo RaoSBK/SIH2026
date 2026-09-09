@@ -11,6 +11,9 @@ from backend.app.users.models import User
 def test_case_crud(db_session: Session):
     # Create mock user
     user_id = uuid4()
+    user = User(id=user_id, username="testuser_cases", hashed_password="pw", role="investigator")
+    db_session.add(user)
+    db_session.commit()
     
     # Create Case
     case_in = CaseCreate(case_id="CASE-101", title="Test Case", description="Test Description")

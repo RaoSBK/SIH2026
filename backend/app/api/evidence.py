@@ -58,31 +58,6 @@ async def upload_evidence(
         user_id=current_user.id
     )
 
-@router.get("/{case_id}", response_model=List[EvidenceOut], dependencies=[Depends(check_case_access_path)])
-def list_evidence(case_id: str, db: Session = Depends(get_db)):
-    return service.list_evidence_for_case(db, case_id)
-
-@router.get("/{evidence_id}/download")
-def download_evidence(evidence_id: str, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    file_bytes = service.get_evidence_file_bytes(db, evidence_id)
-    return Response(content=file_bytes, media_type="application/octet-stream")
-
-@router.post("/verify")
-def verify_evidence_hash(payload: EvidenceVerifyPayload):
-    """
-    Verifies an evidence document's SHA-256 hash against the tamper-evident ledger.
-    """
-    result = integrity_client.verify_file(payload.file_name, payload.file_hash, payload.case_id)
-    return result
-
-@router.get("/{case_id}/integrity")
-def get_case_integrity_endpoint(case_id: str):
-    """
-    Retrieves the Merkle Root Hash and evidence checksum tree for a specific case.
-    """
-    result = integrity_client.get_case_integrity(case_id)
-    return result
-
 @router.get("/ledger")
 def get_evidence_ledger():
     """
@@ -95,3 +70,28 @@ def get_evidence_ledger():
         "records": ledger.get("records", []),
         "cases": ledger.get("cases", {})
     }
+
+@router.post("/verify")
+def verify_evidence_hash(payload: EvidenceVerifyPayload):
+    """
+    Verifies an evidence document's SHA-256 hash against the tamper-evident ledger.
+    """
+    result = integrity_client.verify_file(payload.file_name, payload.file_hash, payload.case_id)
+    return result
+
+@router.get("/{case_id}", response_model=List[EvidenceOut], dependencies=[Depends(check_case_access_path)])
+def list_evidence(case_id: str, db: Session = Depends(get_db)):
+    return service.list_evidence_for_case(db, case_id)
+
+@router.get("/{evidence_id}/download")
+def download_evidence(evidence_id: str, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    file_bytes = service.get_evidence_file_bytes(db, evidence_id)
+    return Response(content=file_bytes, media_type="application/octet-stream")
+
+@router.get("/{case_id}/integrity")
+def get_case_integrity_endpoint(case_id: str):
+    """
+    Retrieves the Merkle Root Hash and evidence checksum tree for a specific case.
+    """
+    result = integrity_client.get_case_integrity(case_id)
+    return result

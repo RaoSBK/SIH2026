@@ -158,7 +158,7 @@
     "alert_id": "ANOM-a691dc5a",
     "entity_id": "PERSON_018",
     "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 3 new, previously disconnected entities.",
+    "reason": "Entity rapidly connected to 8 new, previously disconnected entities.",
     "method": "rule:bridge_node",
     "confidence": 0.75,
     "evidence": [
