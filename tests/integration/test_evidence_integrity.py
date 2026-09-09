@@ -1,6 +1,2 @@
-# -*- coding: utf-8 -*-
-
-"""
-Module: test_evidence_integrity.py
-"""
-
+def test_test_evidence_integrity_stub():
+    pass

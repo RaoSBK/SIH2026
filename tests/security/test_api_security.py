@@ -1,6 +1,2 @@
-# -*- coding: utf-8 -*-
-
-"""
-Module: test_api_security.py
-"""
-
+def test_test_api_security_stub():
+    pass

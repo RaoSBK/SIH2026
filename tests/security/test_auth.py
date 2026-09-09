@@ -1,6 +1,2 @@
-# -*- coding: utf-8 -*-
-
-"""
-Module: test_auth.py
-"""
-
+def test_test_auth_stub():
+    pass

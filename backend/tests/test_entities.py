@@ -1,6 +1,2 @@
-# -*- coding: utf-8 -*-
-
-"""
-Module: test_entities.py
-"""
-
+def test_test_entities_stub():
+    pass

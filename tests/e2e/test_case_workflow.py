@@ -1,6 +1,2 @@
-# -*- coding: utf-8 -*-
-
-"""
-Module: test_case_workflow.py
-"""
-
+def test_test_case_workflow_stub():
+    pass

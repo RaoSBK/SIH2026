@@ -1,33 +1,22 @@
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import StaticPool
-import backend.app.database.postgres as postgres_module
 from backend.app.database.postgres import Base
-from backend.app.users.models import User
-from backend.app.cases.models import Case, CaseAssignment
-from backend.app.evidence.models import EvidenceFile
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
+# Import all models to ensure they are registered with Base.metadata
+from backend.app.cases.models import Case, CaseAssignment  # noqa: F401
+from backend.app.users.models import User  # noqa: F401
+
+TEST_DATABASE_URL = "sqlite:///:memory:"
 
 @pytest.fixture(scope="function")
 def db_session():
-    engine = create_engine(
-        SQLALCHEMY_DATABASE_URL,
-        connect_args={"check_same_thread": False},
-        poolclass=StaticPool
-    )
-    TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-    
-    # Override engine and SessionLocal in postgres module so background calls use the same DB
-    postgres_module.engine = engine
-    postgres_module.SessionLocal = TestingSessionLocal
-    
+    engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
     Base.metadata.create_all(bind=engine)
-    
-    db = TestingSessionLocal()
+    TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    session = TestingSessionLocal()
     try:
-        yield db
+        yield session
     finally:
-        db.close()
+        session.close()
         Base.metadata.drop_all(bind=engine)
