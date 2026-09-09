@@ -726,5 +726,61 @@
     "score": 0.0,
     "source_doc": "test",
     "context": "\nFIR No. 145/2026\nOn 29-Aug-2026, accused Ravi Kumar met Farhan Sheikh at Andheri Station.\n"
+  },
+  {
+    "timestamp": "2026-09-09T16:00:46.844027Z",
+    "entity_value": "Andheri Station",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "test",
+    "context": "\nFIR No. 145/2026\nOn 29-Aug-2026, accused Ravi Kumar met Farhan Sheikh at Andheri Station.\n"
+  },
+  {
+    "timestamp": "2026-09-09T16:01:24.657100Z",
+    "entity_value": "Andheri Station",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "test",
+    "context": "\nFIR No. 145/2026\nOn 29-Aug-2026, accused Ravi Kumar met Farhan Sheikh at Andheri Station.\n"
+  },
+  {
+    "timestamp": "2026-09-09T16:06:53.927521Z",
+    "entity_value": "Andheri Station",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "test",
+    "context": "\nFIR No. 145/2026\nOn 29-Aug-2026, accused Ravi Kumar met Farhan Sheikh at Andheri Station.\n"
+  },
+  {
+    "timestamp": "2026-09-09T16:17:09.088139Z",
+    "entity_value": "INTELLIGENCE SURVEILLANCE REPORT",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "INTELLIGENCE SURVEILLANCE REPORT"
+  },
+  {
+    "timestamp": "2026-09-09T16:46:49.015249Z",
+    "entity_value": "INTELLIGENCE SURVEILLANCE REPORT",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "INTELLIGENCE SURVEILLANCE REPORT"
+  },
+  {
+    "timestamp": "2026-09-09T16:48:49.532733Z",
+    "entity_value": "INTELLIGENCE SURVEILLANCE REPORT",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "INTELLIGENCE SURVEILLANCE REPORT"
+  },
+  {
+    "timestamp": "2026-09-09T16:52:29.683695Z",
+    "entity_value": "INTELLIGENCE SURVEILLANCE REPORT",
+    "verdict": "rejected",
+    "score": 0.0,
+    "source_doc": "investigator_upload",
+    "context": "INTELLIGENCE SURVEILLANCE REPORT"
   }
 ]

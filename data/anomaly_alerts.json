@@ -1,5 +1,138 @@
 [
   {
+    "alert_id": "ANOM-56ad0c74",
+    "entity_id": "account:a7876c37",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "ccb1dab3-02f5-4d27-a62b-47e473d08d9b",
+      "11cf817c-7771-43da-bb10-34d7480def7c"
+    ]
+  },
+  {
+    "alert_id": "ANOM-ffbc7bae",
+    "entity_id": "account:ed135e98",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of incoming transactions is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "18695d1c-991b-4046-91d0-44d53b35982e"
+    ]
+  },
+  {
+    "alert_id": "ANOM-1f5bd09a",
+    "entity_id": "phone:1fdfff5e",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Average call length is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "bbe1a710-1677-4a24-aabc-d5ae43db091c"
+    ]
+  },
+  {
+    "alert_id": "ANOM-821268cd",
+    "entity_id": "phone:ff92c81f",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Outgoing call frequency is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "427041af-9054-481d-8811-6b52233a9f37",
+      "3e6eaaf8-36bf-4b78-abd6-c6d8604e8655"
+    ]
+  },
+  {
+    "alert_id": "ANOM-6853d94d",
+    "entity_id": "account:c405c1b3",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "06a4ea6b-f799-48f5-9f73-98ddee53de48",
+      "f55aa748-c747-43c9-883a-de5ab5de671b"
+    ]
+  },
+  {
+    "alert_id": "ANOM-dd4ac3e9",
+    "entity_id": "account:c405c1b3",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "c2fb2917-c90e-4b60-9d11-9c89362f18c2",
+      "28f2d47a-6d34-4ead-ad63-2ce0186b11ae"
+    ]
+  },
+  {
+    "alert_id": "ANOM-570e6268",
+    "entity_id": "account:c405c1b3",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "4dc9ed3c-55eb-46e6-a928-ecdf2acf7ef8",
+      "c4a9a29f-22b9-49bf-88e6-f0dad8783561"
+    ]
+  },
+  {
+    "alert_id": "ANOM-a494e694",
+    "entity_id": "account:c405c1b3",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "6e006995-87e5-443e-8310-09a273471e3b",
+      "c60db273-55c1-4e9a-a6c6-69170fd74a6d"
+    ]
+  },
+  {
+    "alert_id": "ANOM-0a6cfaf2",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
+    "alert_id": "ANOM-ad3d331a",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
+    "alert_id": "ANOM-b1775328",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
     "alert_id": "ANOM-ca64ff54",
     "entity_id": "PERSON_032",
     "signal_type": "Analytical Signal",

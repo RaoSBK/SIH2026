@@ -42,7 +42,7 @@ def mock_get_current_user():
 
 def test_cases_router_endpoints(db_session):
     app.dependency_overrides[get_current_user] = mock_get_current_user
-    app.dependency_overrides[get_db] = lambda: db_session
+    app.dependency_overrides[get_db] = override_get_db
 
     res1 = client.get("/api/cases")
     assert res1.status_code == 200
@@ -55,7 +55,8 @@ def test_cases_router_endpoints(db_session):
     res3 = client.get("/api/cases/CASE-102/graph")
     assert res3.status_code == 200
 
-    app.dependency_overrides.clear()
+    app.dependency_overrides[get_current_user] = lambda: mock_user
+    app.dependency_overrides[get_db] = override_get_db
 
 def test_entities_router_endpoints():
     res1 = client.get("/api/needs-review")
