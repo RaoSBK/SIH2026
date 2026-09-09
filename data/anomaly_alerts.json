@@ -1,361 +1,249 @@
 [
   {
-    "alert_id": "ANOM-6bd8a0d6",
+    "alert_id": "ANOM-7ca50cca",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
+    "alert_id": "ANOM-03f8d5d6",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
+    "alert_id": "ANOM-642e9098",
     "entity_id": "PERSON_042",
     "signal_type": "Analytical Signal",
-    "reason": "Transaction volume increased 2450% over past 7 days compared to baseline.",
+    "reason": "Transaction volume increased 2406% over past 7 days compared to baseline.",
     "method": "rule:transaction_spike",
     "confidence": 0.85,
     "evidence": [
-      "TX-ANOM1-8684",
-      "TX-ANOM1-3708",
-      "TX-ANOM1-9053",
-      "TX-ANOM1-6104",
-      "TX-ANOM1-7532",
-      "TX-ANOM1-8408",
-      "TX-ANOM1-1036",
-      "TX-ANOM1-6366",
-      "TX-ANOM1-5862",
-      "TX-ANOM1-7733"
+      "TX-ANOM1-8087",
+      "TX-ANOM1-6076",
+      "TX-ANOM1-1046",
+      "TX-ANOM1-5418",
+      "TX-ANOM1-8322",
+      "TX-ANOM1-2904",
+      "TX-ANOM1-3032",
+      "TX-ANOM1-8080",
+      "TX-ANOM1-4764",
+      "TX-ANOM1-8870"
     ]
   },
   {
-    "alert_id": "ANOM-cb88f428",
-    "entity_id": "PERSON_045",
-    "signal_type": "Analytical Signal",
-    "reason": "Transaction volume increased 261% over past 7 days compared to baseline.",
-    "method": "rule:transaction_spike",
-    "confidence": 0.85,
-    "evidence": [
-      "TX-4516",
-      "TX-8266",
-      "TX-5494",
-      "TX-2630"
-    ]
-  },
-  {
-    "alert_id": "ANOM-585aadc5",
+    "alert_id": "ANOM-2385fd72",
     "entity_id": "PERSON_015",
     "signal_type": "Analytical Signal",
-    "reason": "Communication frequency increased 12400% in a short window.",
+    "reason": "Communication frequency increased 11150% in a short window.",
     "method": "rule:communication_spike",
     "confidence": 0.8,
     "evidence": [
-      "CALL-ANOM2-3910",
-      "CALL-ANOM2-2826",
-      "CALL-ANOM2-5556",
-      "CALL-ANOM2-9436",
-      "CALL-ANOM2-7585"
+      "CALL-ANOM2-8850",
+      "CALL-ANOM2-4615",
+      "CALL-ANOM2-8177",
+      "CALL-ANOM2-4108",
+      "CALL-ANOM2-6064"
     ]
   },
   {
-    "alert_id": "ANOM-7c55b52c",
-    "entity_id": "PERSON_013",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 4 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-9854",
-      "CALL-1394",
-      "CALL-ANOM2-6219",
-      "CALL-ANOM2-7078"
-    ]
-  },
-  {
-    "alert_id": "ANOM-ce522e3a",
-    "entity_id": "PERSON_039",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 5 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-1740",
-      "CALL-4856",
-      "CALL-ANOM2-8047"
-    ]
-  },
-  {
-    "alert_id": "ANOM-8a3eb449",
-    "entity_id": "PERSON_044",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 5 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-2142",
-      "CALL-1965",
-      "CALL-1270"
-    ]
-  },
-  {
-    "alert_id": "ANOM-6f2a3e1c",
-    "entity_id": "PERSON_035",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 9 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-9259",
-      "CALL-3828",
-      "CALL-9346",
-      "CALL-6875",
-      "CALL-4856"
-    ]
-  },
-  {
-    "alert_id": "ANOM-1d846d46",
-    "entity_id": "PERSON_025",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 4 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-5721",
-      "CALL-6989",
-      "CALL-ANOM2-7585"
-    ]
-  },
-  {
-    "alert_id": "ANOM-b908e750",
-    "entity_id": "PERSON_001",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 5 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-9854",
-      "CALL-1514",
-      "CALL-1022",
-      "CALL-ANOM2-5583"
-    ]
-  },
-  {
-    "alert_id": "ANOM-5f5774a6",
-    "entity_id": "PERSON_042",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 6 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-6940",
-      "CALL-3667"
-    ]
-  },
-  {
-    "alert_id": "ANOM-45473bea",
-    "entity_id": "PERSON_012",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 3 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-2838",
-      "CALL-ANOM2-1250"
-    ]
-  },
-  {
-    "alert_id": "ANOM-7c0b3e0d",
-    "entity_id": "PERSON_036",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 3 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-1622",
-      "CALL-8733"
-    ]
-  },
-  {
-    "alert_id": "ANOM-8c71f900",
-    "entity_id": "PERSON_019",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 4 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-3825",
-      "CALL-2020",
-      "CALL-9394"
-    ]
-  },
-  {
-    "alert_id": "ANOM-78ac37dd",
-    "entity_id": "PERSON_004",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 6 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-6253",
-      "CALL-2838",
-      "CALL-ANOM3-1926"
-    ]
-  },
-  {
-    "alert_id": "ANOM-e170f290",
-    "entity_id": "PERSON_017",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 3 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-9013",
-      "CALL-6699",
-      "CALL-7931"
-    ]
-  },
-  {
-    "alert_id": "ANOM-463a5e89",
-    "entity_id": "PERSON_026",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 4 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-8710",
-      "CALL-ANOM2-5556"
-    ]
-  },
-  {
-    "alert_id": "ANOM-75c1156e",
-    "entity_id": "PERSON_034",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 7 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-5890",
-      "CALL-6109",
-      "CALL-2402",
-      "CALL-2869"
-    ]
-  },
-  {
-    "alert_id": "ANOM-46da5bdc",
-    "entity_id": "PERSON_041",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 4 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-9346",
-      "CALL-2869",
-      "CALL-8784"
-    ]
-  },
-  {
-    "alert_id": "ANOM-aadbf67c",
-    "entity_id": "PERSON_033",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 5 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-3669",
-      "CALL-3736",
-      "CALL-9422",
-      "CALL-ANOM2-9307"
-    ]
-  },
-  {
-    "alert_id": "ANOM-e13a8170",
-    "entity_id": "PERSON_040",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 6 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-8710",
-      "CALL-7931",
-      "CALL-4641",
-      "CALL-ANOM2-2826",
-      "CALL-ANOM2-9436"
-    ]
-  },
-  {
-    "alert_id": "ANOM-9d054cd2",
-    "entity_id": "PERSON_015",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 15 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-ANOM2-2826",
-      "CALL-ANOM2-2136",
-      "CALL-ANOM2-9436",
-      "CALL-ANOM2-9429",
-      "CALL-ANOM2-8047"
-    ]
-  },
-  {
-    "alert_id": "ANOM-b12936f8",
-    "entity_id": "PERSON_022",
-    "signal_type": "Analytical Signal",
-    "reason": "Entity rapidly connected to 7 new, previously disconnected entities.",
-    "method": "rule:bridge_node",
-    "confidence": 0.75,
-    "evidence": [
-      "CALL-9013",
-      "CALL-6253",
-      "CALL-3369",
-      "CALL-ANOM2-7594",
-      "CALL-ANOM2-4202"
-    ]
-  },
-  {
-    "alert_id": "ANOM-dc13091a",
+    "alert_id": "ANOM-f441df76",
     "entity_id": "PERSON_030",
     "signal_type": "Analytical Signal",
+    "reason": "Entity rapidly connected to 5 new, previously disconnected entities.",
+    "method": "rule:bridge_node",
+    "confidence": 0.75,
+    "evidence": [
+      "CALL-ANOM2-1061",
+      "CALL-ANOM3-8155",
+      "CALL-ANOM3-8761",
+      "CALL-ANOM3-1734",
+      "CALL-ANOM3-9610"
+    ]
+  },
+  {
+    "alert_id": "ANOM-e1efabb0",
+    "entity_id": "PERSON_018",
+    "signal_type": "Analytical Signal",
+    "reason": "Entity rapidly connected to 6 new, previously disconnected entities.",
+    "method": "rule:bridge_node",
+    "confidence": 0.75,
+    "evidence": [
+      "CALL-3116",
+      "CALL-5456",
+      "CALL-5001",
+      "CALL-ANOM2-4615"
+    ]
+  },
+  {
+    "alert_id": "ANOM-7ef09d2f",
+    "entity_id": "PERSON_049",
+    "signal_type": "Analytical Signal",
+    "reason": "Entity rapidly connected to 5 new, previously disconnected entities.",
+    "method": "rule:bridge_node",
+    "confidence": 0.75,
+    "evidence": [
+      "CALL-6404",
+      "CALL-6964",
+      "CALL-5984",
+      "CALL-ANOM3-9610"
+    ]
+  },
+  {
+    "alert_id": "ANOM-fe31de30",
+    "entity_id": "PERSON_024",
+    "signal_type": "Analytical Signal",
+    "reason": "Entity rapidly connected to 6 new, previously disconnected entities.",
+    "method": "rule:bridge_node",
+    "confidence": 0.75,
+    "evidence": [
+      "CALL-9253",
+      "CALL-5061",
+      "CALL-8561",
+      "CALL-1931",
+      "CALL-ANOM2-4108"
+    ]
+  },
+  {
+    "alert_id": "ANOM-ef44f251",
+    "entity_id": "PERSON_015",
+    "signal_type": "Analytical Signal",
+    "reason": "Entity rapidly connected to 20 new, previously disconnected entities.",
+    "method": "rule:bridge_node",
+    "confidence": 0.75,
+    "evidence": [
+      "CALL-ANOM2-4533",
+      "CALL-ANOM2-6844",
+      "CALL-ANOM2-2260",
+      "CALL-ANOM2-1061",
+      "CALL-ANOM2-4108"
+    ]
+  },
+  {
+    "alert_id": "ANOM-eefaf8e7",
+    "entity_id": "PERSON_007",
+    "signal_type": "Analytical Signal",
+    "reason": "Entity rapidly connected to 8 new, previously disconnected entities.",
+    "method": "rule:bridge_node",
+    "confidence": 0.75,
+    "evidence": [
+      "CALL-4685",
+      "CALL-4747",
+      "CALL-2629",
+      "CALL-8887",
+      "CALL-ANOM2-2260"
+    ]
+  },
+  {
+    "alert_id": "ANOM-914440df",
+    "entity_id": "PERSON_033",
+    "signal_type": "Analytical Signal",
+    "reason": "Entity rapidly connected to 4 new, previously disconnected entities.",
+    "method": "rule:bridge_node",
+    "confidence": 0.75,
+    "evidence": [
+      "CALL-6964",
+      "CALL-5345",
+      "CALL-6302",
+      "CALL-ANOM2-1581"
+    ]
+  },
+  {
+    "alert_id": "ANOM-7d537dda",
+    "entity_id": "PERSON_029",
+    "signal_type": "Analytical Signal",
     "reason": "Entity rapidly connected to 3 new, previously disconnected entities.",
     "method": "rule:bridge_node",
     "confidence": 0.75,
     "evidence": [
-      "CALL-ANOM3-4063",
-      "CALL-ANOM3-1926",
-      "CALL-ANOM3-5558",
-      "CALL-ANOM3-9826"
+      "CALL-3100",
+      "CALL-ANOM2-4765"
     ]
   },
   {
-    "alert_id": "ANOM-6bfd87a5",
+    "alert_id": "ANOM-666cc273",
+    "entity_id": "PERSON_008",
+    "signal_type": "Analytical Signal",
+    "reason": "Entity rapidly connected to 5 new, previously disconnected entities.",
+    "method": "rule:bridge_node",
+    "confidence": 0.75,
+    "evidence": [
+      "CALL-3243",
+      "CALL-5345",
+      "CALL-2657",
+      "CALL-6176"
+    ]
+  },
+  {
+    "alert_id": "ANOM-1c558df3",
+    "entity_id": "PERSON_017",
+    "signal_type": "Analytical Signal",
+    "reason": "Entity rapidly connected to 6 new, previously disconnected entities.",
+    "method": "rule:bridge_node",
+    "confidence": 0.75,
+    "evidence": [
+      "CALL-2543",
+      "CALL-9041",
+      "CALL-2521"
+    ]
+  },
+  {
+    "alert_id": "ANOM-c66fdbb5",
     "entity_id": "PERSON_015",
     "signal_type": "Analytical Signal",
     "reason": "ML Anomaly detected: Outgoing call frequency is abnormally high.",
     "method": "isolation_forest_score",
     "confidence": 0.7,
     "evidence": [
-      "CALL-1336",
-      "CALL-2647",
-      "TX-7907",
-      "CALL-ANOM2-2826",
-      "CALL-ANOM2-2136"
+      "TX-6824",
+      "CALL-5904",
+      "CALL-4918",
+      "TX-3122",
+      "TX-2612"
     ]
   },
   {
-    "alert_id": "ANOM-51634fb9",
+    "alert_id": "ANOM-67dcd5d5",
+    "entity_id": "PERSON_030",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total call duration is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "CALL-7234",
+      "CALL-3613",
+      "TX-7808",
+      "TX-5000",
+      "CALL-9543"
+    ]
+  },
+  {
+    "alert_id": "ANOM-f8ee1cdf",
     "entity_id": "PERSON_042",
     "signal_type": "Analytical Signal",
     "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
     "method": "isolation_forest_score",
-    "confidence": 0.72,
-    "evidence": [
-      "CALL-6940",
-      "TX-5120",
-      "TX-8792",
-      "TX-3049",
-      "CALL-8941"
-    ]
-  },
-  {
-    "alert_id": "ANOM-534adbb8",
-    "entity_id": "PERSON_043",
-    "signal_type": "Analytical Signal",
-    "reason": "ML Anomaly detected: Average call length is abnormally high.",
-    "method": "isolation_forest_score",
     "confidence": 0.7,
     "evidence": [
-      "CALL-8772"
+      "CALL-3833",
+      "CALL-9638",
+      "TX-7408",
+      "CALL-4391",
+      "TX-ANOM1-8870"
     ]
   }
 ]

@@ -12,7 +12,7 @@ def test_get_evidence_ledger_endpoint():
     assert "records" in data
 
 def test_get_case_integrity_endpoint():
-    response = client.get("/api/cases/CASE-102/integrity")
+    response = client.get("/api/evidence/CASE-102/integrity")
     assert response.status_code == 200
     data = response.json()
     assert data["case_id"] == "CASE-102"

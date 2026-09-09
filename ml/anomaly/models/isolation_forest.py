@@ -21,6 +21,11 @@ class IsolationForestAnomalyModel:
         """Fits the Isolation Forest on feature matrix X."""
         if X.size == 0:
             return self
+        
+        # Adapt contamination for small datasets to avoid sklearn warnings
+        if X.shape[0] < 10 and self.contamination != "auto":
+            self.model.set_params(contamination="auto")
+            
         self.model.fit(X)
         self.is_fitted = True
         return self

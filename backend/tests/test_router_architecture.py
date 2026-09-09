@@ -9,17 +9,30 @@ def test_root_endpoint():
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
 
-def test_cases_router_endpoints():
+from uuid import uuid4
+from backend.app.auth.rbac import get_current_user
+from backend.app.database.postgres import get_db
+from backend.app.users.models import User
+
+def mock_get_current_user():
+    return User(id=uuid4(), username="admin", role="supervisor")
+
+def test_cases_router_endpoints(db_session):
+    app.dependency_overrides[get_current_user] = mock_get_current_user
+    app.dependency_overrides[get_db] = lambda: db_session
+
     res1 = client.get("/api/cases")
     assert res1.status_code == 200
-    assert "cases" in res1.json()
+    assert isinstance(res1.json(), list)
 
-    res2 = client.post("/api/cases", json={"case_id": "CASE-999"})
+    res2 = client.post("/api/cases", json={"case_id": "CASE-999", "title": "Test Title", "description": "Test Desc"})
     assert res2.status_code == 200
     assert res2.json()["case_id"] == "CASE-999"
 
     res3 = client.get("/api/cases/CASE-102/graph")
     assert res3.status_code == 200
+
+    app.dependency_overrides.clear()
 
 def test_entities_router_endpoints():
     res1 = client.get("/api/needs-review")

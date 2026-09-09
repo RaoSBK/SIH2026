@@ -6,16 +6,13 @@ from backend.app.database.postgres import init_db, Base, engine, SessionLocal
 
 logger = logging.getLogger(__name__)
 
-# Initialize database schema
-init_db()
+from contextlib import asynccontextmanager
 
-app = FastAPI(title="CIAS ML Backend")
-
-app.include_router(router)
-
-@app.on_event("startup")
-def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup tasks
     try:
+        init_db()
         Base.metadata.create_all(bind=engine)
         
         # Seed default user rao.a
@@ -39,6 +36,13 @@ def startup_event():
             db.close()
     except Exception as e:
         logger.warning(f"Startup DB init warning: {e}")
+    
+    yield
+    
+    # Shutdown tasks (if any)
+
+app = FastAPI(title="CIAS ML Backend", lifespan=lifespan)
+app.include_router(router)
 
 # Allow frontend requests
 app.add_middleware(
