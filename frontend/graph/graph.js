@@ -50,6 +50,29 @@ export class MLGraph {
     this.svgNS = "http://www.w3.org/2000/svg";
     this.svg = document.getElementById(svgId);
     this.viewport = document.getElementById(viewportId);
+    if (!this.viewport) {
+      this.viewport = document.createElementNS(this.svgNS, 'g');
+      this.viewport.id = viewportId;
+      this.svg.appendChild(this.viewport);
+    }
+    
+    // Add arrow markers
+    let defs = this.svg.querySelector('defs');
+    if (!defs) {
+      defs = document.createElementNS(this.svgNS, 'defs');
+      this.svg.appendChild(defs);
+    }
+    if (!document.getElementById('arrow-solid')) {
+      defs.innerHTML += `
+        <marker id="arrow-solid" viewBox="0 -5 10 10" refX="16" refY="0" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,-5L10,0L0,5" fill="#c2410c"></path>
+        </marker>
+        <marker id="arrow-dotted" viewBox="0 -5 10 10" refX="16" refY="0" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,-5L10,0L0,5" fill="#fdba74"></path>
+        </marker>
+      `;
+    }
+    
     this.onSelectNode = onSelectNode;
     
     this.nodes = nodes;
@@ -175,10 +198,12 @@ export class MLGraph {
         line.setAttribute('stroke-width', '1');
         line.setAttribute('stroke-dasharray', '5 5');
         line.setAttribute('opacity', '0.5');
+        line.setAttribute('marker-end', 'url(#arrow-dotted)');
       } else {
         line.setAttribute('stroke', '#c2410c');       // strong dark orange
         line.setAttribute('stroke-width', '2');
         line.setAttribute('opacity', '0.9');
+        line.setAttribute('marker-end', 'url(#arrow-solid)');
       }
       this.viewport.appendChild(line);
       e._el = line;

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>VERITAS — Investigator Console</title>
 <link rel="stylesheet" href="./graph/graph.css">
-<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="/d3.v7.min.js"></script>
 <style>
   :root{
     --ink:#F3F4F6; /* Softer, slightly darker background */
@@ -671,10 +671,11 @@
           <div class="page-desc">Formal evidence record — integrity hashes and full access history.</div>
         </div>
         <div>
-          <button class="primary-btn">
+          <button class="primary-btn" onclick="document.getElementById('evidence-file-input').click()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:bottom; margin-right:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
             Upload evidence
           </button>
+          <input type="file" id="evidence-file-input" style="display:none;" onchange="uploadEvidence(event)" />
         </div>
       </div>
       
@@ -691,34 +692,8 @@
               <th>SIZE</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td><strong>FIR-104_scan.pdf</strong></td>
-              <td class="num">CR-2026-0142</td>
-              <td>Inspector Arjun Rao</td>
-              <td class="num">2026-09-01 10:24</td>
-              <td class="num" style="color:var(--text-faint); cursor:pointer;">9f2c4a1b8e77...</td>
-              <td><span class="status-badge teal"><span class="status-dot"></span> Verified</span></td>
-              <td class="num">2.4 MB</td>
-            </tr>
-            <tr>
-              <td><strong>FIN-3308_bankstmt.pdf</strong></td>
-              <td class="num">CR-2026-0142</td>
-              <td>Priya Iyer</td>
-              <td class="num">2026-09-02 11:05</td>
-              <td class="num" style="color:var(--text-faint); cursor:pointer;">c82bb15e66f2...</td>
-              <td><span class="status-badge amber"><span class="status-dot"></span> Hash pending</span></td>
-              <td class="num">1.5 MB</td>
-            </tr>
-            <tr>
-              <td><strong>SURV-0917_fieldnotes.docx</strong></td>
-              <td class="num">CR-2026-0142</td>
-              <td>Inspector Arjun Rao</td>
-              <td class="num">2026-09-03 17:31</td>
-              <td class="num" style="color:var(--text-faint); cursor:pointer;">d93cc26f7703...</td>
-              <td><span class="status-badge red"><span class="status-dot"></span> Hash mismatch</span></td>
-              <td class="num">344 KB</td>
-            </tr>
+          <tbody id="evidence-table-body">
+            <!-- Populated by JS -->
           </tbody>
         </table>
       </div>
@@ -751,23 +726,7 @@
               <th>NEW NODES</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td class="num">2026-09-04 14:02</td>
-              <td>FIN-3310_hawala_ledger.pdf</td>
-              <td>Financial records</td>
-              <td><span class="status-badge teal"><span class="status-dot"></span> Success</span></td>
-              <td class="num">11</td>
-              <td class="num">3</td>
-            </tr>
-            <tr>
-              <td class="num">2026-08-30 13:15</td>
-              <td>SURV-0811_partial.pdf</td>
-              <td>Surveillance report</td>
-              <td><span class="status-badge red"><span class="status-dot"></span> Error</span></td>
-              <td class="num">0</td>
-              <td class="num">0</td>
-            </tr>
+          <tbody id="audit-table-body">
           </tbody>
         </table>
       </div>
@@ -796,58 +755,7 @@
               <th>LAST LOGIN</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td><strong>rao.a</strong></td>
-              <td>Arjun Rao</td>
-              <td>
-                <select class="filter-select" style="padding:4px 24px 4px 8px;">
-                  <option selected>Investigator</option>
-                  <option>Analyst</option>
-                  <option>Supervisor</option>
-                  <option>Forensic Officer</option>
-                  <option>Prosecutor</option>
-                  <option>System Admin</option>
-                  <option>Auditor</option>
-                </select>
-              </td>
-              <td><span class="status-badge teal"><span class="status-dot"></span> Active</span></td>
-              <td class="num">2026-09-04 14:02</td>
-            </tr>
-            <tr>
-              <td><strong>iyer.p</strong></td>
-              <td>Priya Iyer</td>
-              <td>
-                <select class="filter-select" style="padding:4px 24px 4px 8px;">
-                  <option>Investigator</option>
-                  <option selected>Analyst</option>
-                  <option>Supervisor</option>
-                  <option>Forensic Officer</option>
-                  <option>Prosecutor</option>
-                  <option>System Admin</option>
-                  <option>Auditor</option>
-                </select>
-              </td>
-              <td><span class="status-badge teal"><span class="status-dot"></span> Active</span></td>
-              <td class="num">2026-09-02 09:15</td>
-            </tr>
-            <tr>
-              <td><strong>sharma.m</strong></td>
-              <td>Meera Sharma</td>
-              <td>
-                <select class="filter-select" style="padding:4px 24px 4px 8px;">
-                  <option>Investigator</option>
-                  <option>Analyst</option>
-                  <option selected>Supervisor</option>
-                  <option>Forensic Officer</option>
-                  <option>Prosecutor</option>
-                  <option>System Admin</option>
-                  <option>Auditor</option>
-                </select>
-              </td>
-              <td><span class="status-badge steel"><span class="status-dot"></span> Inactive</span></td>
-              <td class="num">2026-08-14 17:45</td>
-            </tr>
+          <tbody id="admin-table-body">
           </tbody>
         </table>
       </div>
@@ -989,6 +897,22 @@
       // If switching to graph, trigger resize for D3
       if (targetId === 'view-graph') {
         window.dispatchEvent(new Event('resize'));
+      }
+      
+      if (targetId === 'view-evidence') {
+        if (typeof loadEvidence === 'function') loadEvidence();
+      }
+      
+      if (targetId === 'view-review') {
+        if (typeof renderStandaloneReviewQueue === 'function') renderStandaloneReviewQueue();
+      }
+      
+      if (targetId === 'view-audit') {
+        if (typeof loadAudit === 'function') loadAudit();
+      }
+      
+      if (targetId === 'view-admin') {
+        if (typeof loadAdmin === 'function') loadAdmin();
       }
     };
 
@@ -1278,7 +1202,7 @@
     }
 
     SOURCES = [];
-    hasRun = false;
+    isProcessing = false;
     runBtn.textContent = 'Run pipeline';
     runBtn.disabled = true;
     renderSources();
@@ -1297,7 +1221,7 @@
     NODES = [];
     EDGES = [];
     SOURCES = [];
-    hasRun = false;
+    isProcessing = false;
     
     try {
       const token = sessionStorage.getItem('veritas_token');
@@ -1324,7 +1248,6 @@
                     processed: true
                 };
             });
-            hasRun = true;
          }
       }
       renderSources();
@@ -1436,7 +1359,13 @@
         });
       });
     }
-    runBtn.disabled = SOURCES.length === 0 || hasRun;
+    const hasNewFiles = SOURCES.some(s => s.file && !s.processed);
+    runBtn.disabled = !hasNewFiles || (typeof isProcessing !== 'undefined' && isProcessing);
+    if (hasNewFiles && (typeof isProcessing === 'undefined' || !isProcessing)) {
+      runBtn.textContent = 'Run pipeline';
+    } else if ((typeof isProcessing === 'undefined' || !isProcessing) && SOURCES.some(s => s.processed)) {
+      runBtn.textContent = 'Pipeline complete';
+    }
   }
   
   renderSources();
@@ -1817,7 +1746,21 @@
     return html;
   }
 
-  window.renderStandaloneReviewQueue = function() {
+  window.renderStandaloneReviewQueue = async function() {
+      try {
+          const token = sessionStorage.getItem('veritas_token');
+          if (token) {
+              const res = await fetch('http://localhost:8000/api/review-queue', {
+                  headers: { 'Authorization': 'Bearer ' + token }
+              });
+              if (res.ok) {
+                  const data = await res.json();
+                  window._pendingReview = data.pending_review || [];
+              }
+          }
+      } catch (err) {
+          console.error("Failed to fetch review queue:", err);
+      }
       const container = document.getElementById('review-list-full');
       if (container) {
           container.innerHTML = getReviewQueueHTML();
@@ -1916,16 +1859,22 @@
   }
 
   /* ---------------- Pipeline run ---------------- */
-  let hasRun = false;
+  var isProcessing = false;
   runBtn.addEventListener('click', async ()=>{
-    if (hasRun) return;
-    hasRun = true;
+    if (isProcessing) return;
+    const newSources = SOURCES.filter(s => s.file && !s.processed);
+    if (newSources.length === 0) {
+       log('<span style="color:#D97706">⚠️ No files selected. Please upload evidence files before running ingestion.</span>');
+       runBtn.disabled = true;
+       return;
+    }
+    isProcessing = true;
     runBtn.disabled = true; runBtn.textContent = 'Processing…';
 
     setStage(0);
-    log(`Ingesting <b>${SOURCES.length}</b> source documents...`);
+    log(`Ingesting <b>${newSources.length}</b> source documents...`);
     await wait(500);
-    SOURCES.forEach(s=>{
+    newSources.forEach(s=>{
       s.processed = true;
       s.status = 'Hashed & stored';
       const row = document.getElementById('src-'+s.id);
@@ -1954,7 +1903,7 @@
 
     let caseId = window.CURRENT_CASE_ID || 'CASE-102';
     
-    SOURCES.filter(s => s.file).forEach(s => {
+    newSources.forEach(s => {
         uploadedFiles.push(s.file);
         formData.append('files', s.file);
     });
@@ -1964,7 +1913,7 @@
          log('<span style="color:#D97706">⚠️ No files selected. Please upload evidence files before running ingestion.</span>');
          runBtn.disabled = false;
          runBtn.textContent = 'Run Pipeline';
-         hasRun = false;
+         isProcessing = false;
          return;
        }
        
@@ -2100,6 +2049,7 @@
      if (window._pendingReview && window._pendingReview.length > 0) {
          renderRightPanel();
      }
+     isProcessing = false;
   });
 
   window.loadCases = async function() {
@@ -2199,7 +2149,7 @@
     document.getElementById('modal-layer').classList.remove('open');
   };
 
-  window.submitNewCase = async function() {
+  window.submitNewCase = async function(isRetry = false) {
     const idInp = document.getElementById('new-case-id').value;
     const titleInp = document.getElementById('new-case-title').value;
     const descInp = document.getElementById('new-case-desc').value;
@@ -2216,7 +2166,9 @@
     btn.textContent = 'Saving...';
     
     try {
-      const token = sessionStorage.getItem('veritas_token');
+      let token = sessionStorage.getItem('veritas_token');
+      if (!token || token === 'null') token = await ensureAuthToken();
+      
       const res = await fetch('http://localhost:8000/api/cases', {
         method: 'POST',
         headers: { 
@@ -2229,6 +2181,12 @@
           description: descInp
         })
       });
+
+      if (res.status === 401 && !isRetry) {
+          sessionStorage.removeItem('veritas_token');
+          btn.disabled = false;
+          return window.submitNewCase(true);
+      }
       
       if (!res.ok) {
          const data = await res.json();
@@ -2271,6 +2229,200 @@
       btn.disabled = false;
       btn.textContent = 'Register & Open';
     }
+  };
+
+  window.loadEvidence = async function() {
+    if (!window.CURRENT_CASE_ID) return;
+    try {
+      const token = await ensureAuthToken();
+      if (!token) return;
+      const res = await fetch(`http://localhost:8000/api/evidence/${window.CURRENT_CASE_ID}`, {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (!res.ok) throw new Error('API returned ' + res.status);
+      const evidenceList = await res.json();
+      
+      const tbody = document.getElementById('evidence-table-body');
+      if (!tbody) return;
+      
+      let html = '';
+      evidenceList.forEach(e => {
+        let statusBadge = '';
+        const s = e.status || 'Verified';
+        if (s.toLowerCase() === 'hash pending') {
+           statusBadge = `<span class="status-badge amber"><span class="status-dot"></span> Hash pending</span>`;
+        } else if (s.toLowerCase() === 'hash mismatch') {
+           statusBadge = `<span class="status-badge red"><span class="status-dot"></span> Hash mismatch</span>`;
+        } else {
+           statusBadge = `<span class="status-badge teal"><span class="status-dot"></span> Verified</span>`;
+        }
+        
+        let size = e.file_size || 0;
+        let sizeStr = size + ' B';
+        if (size > 1024*1024) sizeStr = (size/(1024*1024)).toFixed(1) + ' MB';
+        else if (size > 1024) sizeStr = (size/1024).toFixed(1) + ' KB';
+
+        const hashStr = e.file_hash ? (e.file_hash.substring(0, 12) + '...') : '-';
+        const uploaderName = e.uploaded_by && e.uploaded_by.full_name ? e.uploaded_by.full_name : 'Inspector';
+
+        html += `
+          <tr>
+            <td><strong>${e.file_name || e.evidence_id}</strong></td>
+            <td class="num">${e.case_id}</td>
+            <td>${uploaderName}</td>
+            <td class="num">${new Date(e.uploaded_at).toLocaleString()}</td>
+            <td class="num" style="color:var(--text-faint); cursor:pointer;" title="${e.file_hash || ''}">${hashStr}</td>
+            <td>${statusBadge}</td>
+            <td class="num">${sizeStr}</td>
+          </tr>
+        `;
+      });
+      
+      if (evidenceList.length === 0) {
+        html = '<tr><td colspan="7" style="text-align:center;color:var(--text-faint);padding:32px;">No evidence found for this case.</td></tr>';
+      }
+      tbody.innerHTML = html;
+    } catch(err) {
+      console.error('Failed to load evidence:', err);
+    }
+  };
+
+  window.uploadEvidence = async function(event) {
+    if (!window.CURRENT_CASE_ID) {
+      alert("Please select a case first.");
+      event.target.value = '';
+      return;
+    }
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      const token = await ensureAuthToken();
+      if (!token) return;
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('evidence_id', 'EV-' + Math.floor(Math.random() * 10000));
+      formData.append('case_id', window.CURRENT_CASE_ID);
+
+      const res = await fetch('http://localhost:8000/api/evidence', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+        body: formData
+      });
+      
+      if (!res.ok) {
+         const data = await res.json();
+         throw new Error(data.detail || 'Upload failed');
+      }
+      alert('Upload successful');
+      window.loadEvidence();
+    } catch(e) {
+      console.error(e);
+      alert('Upload failed: ' + e.message);
+    }
+    event.target.value = '';
+  };
+
+  window.loadAudit = async function() {
+      try {
+          const token = sessionStorage.getItem('veritas_token');
+          if (!token) return;
+          const res = await fetch('http://localhost:8000/api/ingestion-audit', {
+              headers: { 'Authorization': 'Bearer ' + token }
+          });
+          const auditList = res.ok ? await res.json() : [];
+          
+          const tbody = document.getElementById('audit-table-body');
+          if (!tbody) return;
+          
+          let html = '';
+          auditList.forEach(a => {
+              const statusBadge = a.status === 'error' 
+                  ? `<span class="status-badge red"><span class="status-dot"></span> Error</span>`
+                  : `<span class="status-badge teal"><span class="status-dot"></span> Success</span>`;
+              html += `
+                  <tr>
+                      <td class="num">${a.timestamp || '-'}</td>
+                      <td>${a.file || '-'}</td>
+                      <td>${a.source || 'Upload'}</td>
+                      <td>${statusBadge}</td>
+                      <td class="num">${a.entities_extracted || 0}</td>
+                      <td class="num">${a.new_nodes || 0}</td>
+                  </tr>
+              `;
+          });
+          if (auditList.length === 0) {
+              html = '<tr><td colspan="6" style="text-align:center;color:var(--text-faint);padding:32px;">No audit records found.</td></tr>';
+          }
+          tbody.innerHTML = html;
+      } catch (err) {
+          console.error(err);
+      }
+  };
+
+  window.loadAdmin = async function() {
+      try {
+          const token = sessionStorage.getItem('veritas_token');
+          if (!token) return;
+          const res = await fetch('http://localhost:8000/api/users', {
+              headers: { 'Authorization': 'Bearer ' + token }
+          });
+          
+          const tbody = document.getElementById('admin-table-body');
+          if (!tbody) return;
+          
+          if (!res.ok) {
+              tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-faint);padding:32px;">Insufficient permissions to view users.</td></tr>';
+              return;
+          }
+          
+          const usersList = await res.json();
+          let html = '';
+          usersList.forEach(u => {
+              const statusBadge = u.is_active 
+                  ? `<span class="status-badge teal"><span class="status-dot"></span> Active</span>`
+                  : `<span class="status-badge steel"><span class="status-dot"></span> Inactive</span>`;
+              const roles = ['investigator', 'analyst', 'supervisor', 'forensic officer', 'prosecutor', 'system_admin', 'auditor'];
+              let roleSelect = `<select class="filter-select" style="padding:4px 24px 4px 8px;" onchange="updateUserRole('${u.id}', this.value)">`;
+              roles.forEach(r => {
+                  roleSelect += `<option value="${r}" ${u.role === r ? 'selected' : ''}>${r}</option>`;
+              });
+              roleSelect += `</select>`;
+              html += `
+                  <tr>
+                      <td><strong>${u.username}</strong></td>
+                      <td>${u.full_name || '-'}</td>
+                      <td>${roleSelect}</td>
+                      <td>${statusBadge}</td>
+                      <td class="num">-</td>
+                  </tr>
+              `;
+          });
+          if (usersList.length === 0) {
+              html = '<tr><td colspan="5" style="text-align:center;color:var(--text-faint);padding:32px;">No users found.</td></tr>';
+          }
+          tbody.innerHTML = html;
+      } catch (err) {
+          console.error(err);
+      }
+  };
+
+  window.updateUserRole = async function(userId, newRole) {
+      try {
+          const token = sessionStorage.getItem('veritas_token');
+          const res = await fetch(`http://localhost:8000/api/users/${userId}/role`, {
+              method: 'PATCH',
+              headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ role: newRole })
+          });
+          if(!res.ok) {
+              alert('Failed to update role. You might not have permission.');
+              loadAdmin();
+          }
+      } catch (err) {
+          console.error(err);
+      }
   };
 </script>
 </body>
