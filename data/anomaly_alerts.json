@@ -1,5 +1,281 @@
 [
   {
+    "alert_id": "ANOM-e54f43cd",
+    "entity_id": "account:9b74198b",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of incoming transactions is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "b6093dad-4bf3-4b69-8826-9a5d97f67fc1"
+    ]
+  },
+  {
+    "alert_id": "ANOM-16028155",
+    "entity_id": "account:ae3fab4c",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e73d7a4a-443c-4475-8387-9ca075c2f3b7",
+      "f6a23678-2c75-47bf-a0af-c378d3c11c7f"
+    ]
+  },
+  {
+    "alert_id": "ANOM-d5e9cd83",
+    "entity_id": "phone:92ce66ae",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Average call length is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "f67dfab8-785f-45e3-a089-99be49c144eb"
+    ]
+  },
+  {
+    "alert_id": "ANOM-5acf4550",
+    "entity_id": "phone:b9defd28",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Outgoing call frequency is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "9e449729-95ab-4e3c-afa1-1c8b027e1154",
+      "3526f56c-aaf4-45d1-b8e8-591b9f409554"
+    ]
+  },
+  {
+    "alert_id": "ANOM-7b0c18d8",
+    "entity_id": "account:09dd2cd6",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of incoming transactions is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "d916623f-6fe0-4c91-bea4-e25208bc8b3e"
+    ]
+  },
+  {
+    "alert_id": "ANOM-b13c01b9",
+    "entity_id": "account:85b5fa13",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "9a9ff546-b3dd-48a6-a72c-bf5bf40307a6",
+      "2fdfc7ad-220b-49c8-a859-395125df362c"
+    ]
+  },
+  {
+    "alert_id": "ANOM-3139a910",
+    "entity_id": "phone:4169ff2b",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Outgoing call frequency is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "f4ad6146-0541-417a-a3a7-7c2b677db068",
+      "c0a9476f-ef3c-48c1-9556-d4782cb94125"
+    ]
+  },
+  {
+    "alert_id": "ANOM-c0ee02f2",
+    "entity_id": "phone:c52b8327",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Average call length is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "5da0126f-b798-4a87-9766-c6e013c16b63"
+    ]
+  },
+  {
+    "alert_id": "ANOM-f71e91fd",
+    "entity_id": "account:70852ef5",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of incoming transactions is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "d0af354e-7c32-4d23-b7c6-eee7d20bb220"
+    ]
+  },
+  {
+    "alert_id": "ANOM-e30d4a58",
+    "entity_id": "account:f28bc190",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "d25396fa-3a1a-496a-9593-a95a7501ff01",
+      "60221236-8805-41e0-8523-d91b9a38f3f2"
+    ]
+  },
+  {
+    "alert_id": "ANOM-1c41d05e",
+    "entity_id": "phone:14116299",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Average call length is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "7c69f403-fa28-4167-8ed3-0bc37e24b448"
+    ]
+  },
+  {
+    "alert_id": "ANOM-fd7ebae0",
+    "entity_id": "phone:b34c6479",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Outgoing call frequency is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "5f4c37d6-1603-4b2f-aea9-f302a635e430",
+      "f979cef2-bcb1-462a-b885-85265da868ad"
+    ]
+  },
+  {
+    "alert_id": "ANOM-b783e4ed",
+    "entity_id": "account:a7876c37",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "9bef02f7-8958-4a2b-954b-4f7afd14750f",
+      "d243c17c-03d5-4ec4-9cd1-ef0c7a9bc72a"
+    ]
+  },
+  {
+    "alert_id": "ANOM-716b0700",
+    "entity_id": "account:ed135e98",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of incoming transactions is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "d9aa53e1-4fdd-4f02-84fa-12c509e648c9"
+    ]
+  },
+  {
+    "alert_id": "ANOM-46ca7432",
+    "entity_id": "phone:1fdfff5e",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Average call length is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "3586ac02-b33c-4ce3-b452-79015c408d76"
+    ]
+  },
+  {
+    "alert_id": "ANOM-d836b3e7",
+    "entity_id": "phone:ff92c81f",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Outgoing call frequency is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "65df9817-56c7-4760-89dc-12a56b84f265",
+      "3e487057-c698-4fdc-8011-776e08b4eda8"
+    ]
+  },
+  {
+    "alert_id": "ANOM-b6c443ec",
+    "entity_id": "account:9b74198b",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of incoming transactions is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "9cf09227-82ac-462d-b85b-f93d566edc0c"
+    ]
+  },
+  {
+    "alert_id": "ANOM-d9a8cf6a",
+    "entity_id": "account:ae3fab4c",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "d61eb4ee-4dd1-4f17-9384-9eba8f234b1c",
+      "9334f36c-c72f-4fed-8e37-caa98c28cbbc"
+    ]
+  },
+  {
+    "alert_id": "ANOM-67954a8e",
+    "entity_id": "phone:92ce66ae",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Average call length is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "7255fb59-6d96-477b-a6c5-589922b3ada3"
+    ]
+  },
+  {
+    "alert_id": "ANOM-80dbd5ef",
+    "entity_id": "phone:b9defd28",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Outgoing call frequency is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "2a4c0c80-2029-4f36-a953-3ce357e99958",
+      "fb5d2c7a-46d4-487a-be9f-ced064fe3393"
+    ]
+  },
+  {
+    "alert_id": "ANOM-f6d866e1",
+    "entity_id": "account:9b74198b",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of incoming transactions is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "7bf20110-d827-434c-8646-3d5bb19e0073"
+    ]
+  },
+  {
+    "alert_id": "ANOM-b89f3066",
+    "entity_id": "account:ae3fab4c",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Total transaction volume is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "2b9a66c2-faa6-418e-ae45-02da6e1c4bf9",
+      "76ada2d6-0519-4267-a0a3-873211bef2f0"
+    ]
+  },
+  {
+    "alert_id": "ANOM-d484f9e9",
+    "entity_id": "phone:92ce66ae",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Average call length is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "f9c005da-cf5e-4a07-b20c-26b6bdf5d2a2"
+    ]
+  },
+  {
+    "alert_id": "ANOM-365f64af",
+    "entity_id": "phone:b9defd28",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Outgoing call frequency is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e2b23818-326d-49ea-8abe-4b9f6de205e8",
+      "e6ad8cf5-7090-4e63-8f41-aba21aed3bdf"
+    ]
+  },
+  {
     "alert_id": "ANOM-56ad0c74",
     "entity_id": "account:a7876c37",
     "signal_type": "Analytical Signal",
