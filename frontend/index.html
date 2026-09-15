@@ -4,6 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>VERITAS — Investigator Console</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="alternate icon" href="/favicon.ico" />
 <link rel="stylesheet" href="./graph/graph.css">
 <script src="/d3.v7.min.js"></script>
 <style>
@@ -874,7 +876,11 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  // Centralized API Base URL mechanism
+  const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/+$/, '');
+  window.API_BASE_URL = API_BASE_URL;
+
   // Simple Vanilla JS Authentication & Tab Logic
   (function() {
     const app = document.getElementById('app');
@@ -949,7 +955,7 @@
       formData.append('password', passwordInp.value);
 
       try {
-        const res = await fetch('http://localhost:8000/api/auth/login', {
+        const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: formData
@@ -959,7 +965,7 @@
           const data = await res.json();
           sessionStorage.setItem('veritas_token', data.access_token);
           
-          const meRes = await fetch('http://localhost:8000/api/auth/me', {
+          const meRes = await fetch(`${API_BASE_URL}/api/auth/me`, {
              headers: { 'Authorization': 'Bearer ' + data.access_token }
           });
           if (meRes.ok) {
@@ -1005,6 +1011,7 @@
 
 <script type="module">
   import { MLGraph } from './graph/graph.js';
+  const API_BASE_URL = window.API_BASE_URL || (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/+$/, '');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------------- Spring engine ---------------- */
@@ -1131,7 +1138,7 @@
 
   async function fetchCases() {
     try {
-      const res = await fetch('http://localhost:8000/api/cases');
+      const res = await fetch(`${API_BASE_URL}/api/cases`);
       if (res.ok) {
         const data = await res.json();
         KNOWN_CASES = data.cases || [];
@@ -1187,7 +1194,7 @@
     }
 
     try {
-      await fetch('http://localhost:8000/api/cases', {
+      await fetch(`${API_BASE_URL}/api/cases`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({case_id: formattedCaseId})
@@ -1227,7 +1234,7 @@
       const token = sessionStorage.getItem('veritas_token');
       
       // Fetch Evidence Files
-      const evRes = await fetch(`http://localhost:8000/api/evidence/${newCaseId}`, {
+      const evRes = await fetch(`${API_BASE_URL}/api/evidence/${newCaseId}`, {
          headers: token ? { 'Authorization': 'Bearer ' + token } : {}
       });
       if (evRes.ok) {
@@ -1253,7 +1260,7 @@
       renderSources();
 
       // Fetch Graph Data
-      const res = await fetch(`http://localhost:8000/api/cases/${newCaseId}/graph`, {
+      const res = await fetch(`${API_BASE_URL}/api/cases/${newCaseId}/graph`, {
          headers: token ? { 'Authorization': 'Bearer ' + token } : {}
       });
       if (res.ok) {
@@ -1455,7 +1462,7 @@
   
   window.resolveReview = async function(reviewId, action) {
      try {
-       const res = await fetch(`http://localhost:8000/api/review-queue/${reviewId}/resolve`, {
+       const res = await fetch(`${API_BASE_URL}/api/review-queue/${reviewId}/resolve`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -1750,7 +1757,7 @@
       try {
           const token = sessionStorage.getItem('veritas_token');
           if (token) {
-              const res = await fetch('http://localhost:8000/api/review-queue', {
+              const res = await fetch(`${API_BASE_URL}/api/review-queue`, {
                   headers: { 'Authorization': 'Bearer ' + token }
               });
               if (res.ok) {
@@ -1841,7 +1848,7 @@
         const formData = new URLSearchParams();
         formData.append('username', 'rao.a');
         formData.append('password', 'veritas');
-        const res = await fetch('http://localhost:8000/api/auth/login', {
+        const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: formData
@@ -1920,7 +1927,7 @@
        formData.set('case_id', caseId);
 
        const token = await ensureAuthToken();
-       const res = await fetch('http://localhost:8000/api/process-evidence', {
+       const res = await fetch(`${API_BASE_URL}/api/process-evidence`, {
            method: 'POST',
            headers: token ? { 'Authorization': 'Bearer ' + token } : {},
            body: formData
@@ -1954,7 +1961,7 @@
 
        try {
           log('Fetching complete graph from ML API...');
-          const graphRes = await fetch(`http://localhost:8000/api/cases/${caseId}/graph`, {
+          const graphRes = await fetch(`${API_BASE_URL}/api/cases/${caseId}/graph`, {
              headers: token ? { 'Authorization': 'Bearer ' + token } : {}
           });
           if (graphRes.ok) {
@@ -2056,7 +2063,7 @@
     try {
       const token = await ensureAuthToken();
       if (!token) return;
-      const res = await fetch('http://localhost:8000/api/cases', {
+      const res = await fetch(`${API_BASE_URL}/api/cases`, {
         headers: { 'Authorization': 'Bearer ' + token }
       });
       if (!res.ok) throw new Error('API returned ' + res.status);
@@ -2169,7 +2176,7 @@
       let token = sessionStorage.getItem('veritas_token');
       if (!token || token === 'null') token = await ensureAuthToken();
       
-      const res = await fetch('http://localhost:8000/api/cases', {
+      const res = await fetch(`${API_BASE_URL}/api/cases`, {
         method: 'POST',
         headers: { 
           'Authorization': 'Bearer ' + token,
@@ -2236,7 +2243,7 @@
     try {
       const token = await ensureAuthToken();
       if (!token) return;
-      const res = await fetch(`http://localhost:8000/api/evidence/${window.CURRENT_CASE_ID}`, {
+      const res = await fetch(`${API_BASE_URL}/api/evidence/${window.CURRENT_CASE_ID}`, {
         headers: { 'Authorization': 'Bearer ' + token }
       });
       if (!res.ok) throw new Error('API returned ' + res.status);
@@ -2305,7 +2312,7 @@
       formData.append('evidence_id', 'EV-' + Math.floor(Math.random() * 10000));
       formData.append('case_id', window.CURRENT_CASE_ID);
 
-      const res = await fetch('http://localhost:8000/api/evidence', {
+      const res = await fetch(`${API_BASE_URL}/api/evidence`, {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + token },
         body: formData
@@ -2328,7 +2335,7 @@
       try {
           const token = sessionStorage.getItem('veritas_token');
           if (!token) return;
-          const res = await fetch('http://localhost:8000/api/ingestion-audit', {
+          const res = await fetch(`${API_BASE_URL}/api/ingestion-audit`, {
               headers: { 'Authorization': 'Bearer ' + token }
           });
           const auditList = res.ok ? await res.json() : [];
@@ -2365,7 +2372,7 @@
       try {
           const token = sessionStorage.getItem('veritas_token');
           if (!token) return;
-          const res = await fetch('http://localhost:8000/api/users', {
+          const res = await fetch(`${API_BASE_URL}/api/users`, {
               headers: { 'Authorization': 'Bearer ' + token }
           });
           
@@ -2411,7 +2418,7 @@
   window.updateUserRole = async function(userId, newRole) {
       try {
           const token = sessionStorage.getItem('veritas_token');
-          const res = await fetch(`http://localhost:8000/api/users/${userId}/role`, {
+          const res = await fetch(`${API_BASE_URL}/api/users/${userId}/role`, {
               method: 'PATCH',
               headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
               body: JSON.stringify({ role: newRole })

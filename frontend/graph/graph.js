@@ -164,7 +164,7 @@ export class MLGraph {
     d.fy = event.y;
   }
   
-  dragended(event, d) {
+  dragended(event, _d) {
     if (!event.active) this.simulation.alphaTarget(0);
     // Keep d.fx / d.fy set — node stays pinned exactly where dropped.
     // To unpin a node the user can double-click it (see dblclick handler below).
@@ -512,7 +512,7 @@ export class MLGraph {
       if (history.length > 5) history.shift();
     });
     
-    const endDrag = (ev) => {
+    const endDrag = (_ev) => {
       if (!dragging) return;
       dragging = false; this.svg.classList.remove('grabbing');
       let vx = 0, vy = 0;
