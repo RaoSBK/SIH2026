@@ -1,5 +1,44 @@
 [
   {
+    "alert_id": "ANOM-a969407f",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
+    "alert_id": "ANOM-7ce382f9",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
+    "alert_id": "ANOM-fc09a4d4",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
     "alert_id": "ANOM-e54f43cd",
     "entity_id": "account:9b74198b",
     "signal_type": "Analytical Signal",

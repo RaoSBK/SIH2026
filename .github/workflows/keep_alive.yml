@@ -1,0 +1,20 @@
+name: Prevent Render Free-Tier Spin-Down (Keep-Alive)
+
+on:
+  schedule:
+    # Runs every 10 minutes to prevent Render free tier 15-minute idle spin-down
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render Backend /health Endpoint
+        run: |
+          BACKEND_URL="${{ secrets.RENDER_BACKEND_URL }}"
+          if [ -z "$BACKEND_URL" ]; then
+            BACKEND_URL="http://localhost:8000"
+          fi
+          echo "Pinging ${BACKEND_URL}/health..."
+          curl -s -f -m 15 "${BACKEND_URL}/health" || curl -s -f -m 15 "${BACKEND_URL}/" || echo "Backend ping attempted."

@@ -20,6 +20,6 @@ class CaseAssignment(Base):
     __tablename__ = "case_assignments"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    case_id = Column(String, ForeignKey("cases.case_id"), nullable=False)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    case_id = Column(String, ForeignKey("cases.case_id"), nullable=False, index=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False, index=True)
     assigned_at = Column(DateTime, default=datetime.utcnow, nullable=False)

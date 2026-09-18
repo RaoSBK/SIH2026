@@ -965,13 +965,18 @@
           const data = await res.json();
           sessionStorage.setItem('veritas_token', data.access_token);
           
-          const meRes = await fetch(`${API_BASE_URL}/api/auth/me`, {
-             headers: { 'Authorization': 'Bearer ' + data.access_token }
-          });
-          if (meRes.ok) {
-             const meData = await meRes.json();
-             sessionStorage.setItem('veritas_role', meData.role);
-             document.getElementById('userRolePill').textContent = meData.role;
+          if (data.user && data.user.role) {
+             sessionStorage.setItem('veritas_role', data.user.role);
+             document.getElementById('userRolePill').textContent = data.user.role;
+          } else {
+             const meRes = await fetch(`${API_BASE_URL}/api/auth/me`, {
+                headers: { 'Authorization': 'Bearer ' + data.access_token }
+             });
+             if (meRes.ok) {
+                const meData = await meRes.json();
+                sessionStorage.setItem('veritas_role', meData.role);
+                document.getElementById('userRolePill').textContent = meData.role;
+             }
           }
 
           loginLayer.style.opacity = '0';
@@ -1879,8 +1884,7 @@
     runBtn.disabled = true; runBtn.textContent = 'Processing…';
 
     setStage(0);
-    log(`Ingesting <b>${newSources.length}</b> source documents...`);
-    await wait(500);
+    log(`Ingesting <b>${newSources.length}</b> source document(s)...`);
     newSources.forEach(s=>{
       s.processed = true;
       s.status = 'Hashed & stored';
@@ -1894,20 +1898,8 @@
       }
     });
 
-    setStage(1);
-    log('Normalizing names, phone numbers and account identifiers…');
-    await wait(500);
-
-    setStage(2);
-    log('Running multilingual NER — candidate entities extracted.');
-    await wait(600);
-
-    setStage(3);
-    log('Sending documents to ML API for resolution...');
-    
     const formData = new FormData();
     const uploadedFiles = [];
-
     let caseId = window.CURRENT_CASE_ID || 'CASE-102';
     
     newSources.forEach(s => {
@@ -1916,14 +1908,6 @@
     });
 
     try {
-       if (uploadedFiles.length === 0) {
-         log('<span style="color:#D97706">⚠️ No files selected. Please upload evidence files before running ingestion.</span>');
-         runBtn.disabled = false;
-         runBtn.textContent = 'Run Pipeline';
-         isProcessing = false;
-         return;
-       }
-       
        formData.set('case_id', caseId);
 
        const token = await ensureAuthToken();
@@ -1934,129 +1918,144 @@
        });
          
        if (!res.ok) throw new Error('API returned ' + res.status);
-         
-       const mlData = await res.json();
-       // Refresh cases history
-       if (typeof fetchCases === 'function') fetchCases();
-       if (typeof loadCases === 'function') loadCases();
+       const initData = await res.json();
+       const jobId = initData.job_id;
 
-       if (mlData.statuses && mlData.statuses.length) {
-          mlData.statuses.forEach(s => {
-            if (s.status === 'rejected_low_relevance') {
-              log(`<span style="color:#D97706">⚠️ <b>${s.filename}</b>: Skipped — ${s.reason || s.message}</span>`);
-            } else if (s.status === 'error') {
-              log(`<span style="color:red">❌ <b>${s.filename}</b>: ${s.message}</span>`);
-            }
-          });
-        }
-        // Capture needs_review items from this batch for the review queue UI
-       const batchReview = mlData.needs_review || [];
-       if (batchReview.length) {
-         log(`<span style="color:#B45309">⚠ ${batchReview.length} item(s) added to review queue — see Review Queue below.</span>`);
+       const handleJobCompletion = async (resultData) => {
+           if (typeof fetchCases === 'function') fetchCases();
+           if (typeof loadCases === 'function') loadCases();
+
+           const batchReview = (resultData && resultData.needs_review) || [];
+           if (batchReview.length) {
+             log(`<span style="color:#B45309">⚠ ${batchReview.length} item(s) added to review queue — see Review Queue below.</span>`);
+           }
+           window._pendingReview = (window._pendingReview || []).concat(batchReview);
+
+           let rawNodes = (resultData && resultData.nodes) || [];
+           let rawEdges = (resultData && (resultData.links || resultData.edges)) || [];
+
+           if (!rawNodes.length) {
+             try {
+               const graphRes = await fetch(`${API_BASE_URL}/api/cases/${caseId}/graph`, {
+                  headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+               });
+               if (graphRes.ok) {
+                   const graphData = await graphRes.json();
+                   if (graphData.nodes && graphData.nodes.length > 0) {
+                       rawNodes = graphData.nodes;
+                       rawEdges = graphData.edges || graphData.links || [];
+                   }
+               }
+             } catch(gErr) {}
+           }
+
+           NODES = rawNodes.map(n => {
+               const rawType = (n.type || n.label || 'Entity').toString();
+               const formattedType = rawType.charAt(0).toUpperCase() + rawType.slice(1).toLowerCase();
+               return {
+                   ...n,
+                   name: n.name || n.value || n.label || n.id,
+                   type: formattedType === 'Org' ? 'Organization' : formattedType,
+                   flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
+               };
+           });
+           
+           EDGES = rawEdges.map(e => ({
+               ...e,
+               line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
+           }));
+
+           if (mlGraph) {
+               try { mlGraph.simulation && mlGraph.simulation.stop(); } catch(e) {}
+               mlGraph = null;
+           }
+           mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
+           mlGraph.buildGraph();
+           if (mlGraph.revealGraph) mlGraph.revealGraph();
+           updateHeaderCounts();
+
+           setStage(7);
+           log('Pipeline completed. Awaiting investigator review.');
+           runBtn.textContent = 'Pipeline complete';
+           isProcessing = false;
+
+           const flagged = NODES.find(n => n.status === 'REVIEW_REQUIRED' || n.flagged);
+           if (flagged && mlGraph) {
+               setTimeout(()=>{ 
+                   if (mlGraph.selectNodeUI) mlGraph.selectNodeUI(flagged.id);
+                   selectNode(flagged.id); 
+               }, 300);
+           }
+
+           if (window._pendingReview && window._pendingReview.length > 0) {
+               renderRightPanel();
+           }
+       };
+
+       if (jobId) {
+           // Establish WebSocket connection for real-time live-log progress updates
+           const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+           const wsHost = API_BASE_URL.replace(/^https?:\/\//, '');
+           let socket = null;
+           try {
+               socket = new WebSocket(`${wsProtocol}//${wsHost}/api/pipeline/ws/${jobId}`);
+           } catch(wsErr) {
+               console.warn("WebSocket init error, fallback to polling:", wsErr);
+           }
+
+           let isCompleted = false;
+
+           if (socket) {
+               socket.onmessage = (event) => {
+                   try {
+                       const data = JSON.parse(event.data);
+                       if (data.stage !== undefined) setStage(data.stage);
+                       if (data.message) log(data.message);
+                       if (data.status === 'completed' && !isCompleted) {
+                           isCompleted = true;
+                           socket.close();
+                           handleJobCompletion(data.result);
+                       }
+                   } catch(e) {}
+               };
+               socket.onerror = () => { socket.close(); };
+           }
+
+           // Fallback HTTP polling loop (polls /api/pipeline/jobs/{job_id})
+           const pollInterval = setInterval(async () => {
+               if (isCompleted) { clearInterval(pollInterval); return; }
+               try {
+                   const jobRes = await fetch(`${API_BASE_URL}/api/pipeline/jobs/${jobId}`);
+                   if (jobRes.ok) {
+                       const jobData = await jobRes.json();
+                       if (jobData.stage !== undefined) setStage(jobData.stage);
+                       if (jobData.status === 'completed' && !isCompleted) {
+                           isCompleted = true;
+                           clearInterval(pollInterval);
+                           if (socket) socket.close();
+                           handleJobCompletion(jobData.result);
+                       } else if (jobData.status === 'error') {
+                           isCompleted = true;
+                           clearInterval(pollInterval);
+                           log(`<span style="color:red">❌ Pipeline error: ${jobData.logs?.[jobData.logs.length-1]?.message || 'Failed'}</span>`);
+                           runBtn.disabled = false;
+                           runBtn.textContent = 'Run pipeline';
+                           isProcessing = false;
+                       }
+                   }
+               } catch(pollErr) {}
+           }, 1000);
+
+       } else if (initData.nodes || initData.result) {
+           await handleJobCompletion(initData.result || initData);
        }
-       window._pendingReview = (window._pendingReview || []).concat(batchReview);
-       
-       let rawNodes = [];
-       let rawEdges = [];
-
-       try {
-          log('Fetching complete graph from ML API...');
-          const graphRes = await fetch(`${API_BASE_URL}/api/cases/${caseId}/graph`, {
-             headers: token ? { 'Authorization': 'Bearer ' + token } : {}
-          });
-          if (graphRes.ok) {
-              const graphData = await graphRes.json();
-              if (graphData.nodes && graphData.nodes.length > 0) {
-                  rawNodes = graphData.nodes;
-                  rawEdges = graphData.edges || graphData.links || [];
-              }
-          }
-       } catch(gErr) {
-          console.warn('Graph endpoint fetch warning:', gErr);
-       }
-       
-       // Use extracted nodes from ingestion response if database graph query returns empty
-       if (!rawNodes.length && mlData.nodes && mlData.nodes.length > 0) {
-          rawNodes = mlData.nodes;
-          rawEdges = mlData.links || mlData.edges || [];
-       }
-       
-       NODES = rawNodes.map(n => {
-           const rawType = (n.type || n.label || 'Entity').toString();
-           const formattedType = rawType.charAt(0).toUpperCase() + rawType.slice(1).toLowerCase();
-           return {
-               ...n,
-               name: n.name || n.value || n.label || n.id,
-               type: formattedType === 'Org' ? 'Organization' : formattedType,
-               flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
-           };
-       });
-       
-       EDGES = rawEdges.map(e => ({
-           ...e,
-           line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
-       }));
-       
-       if (!NODES.length) {
-         log(`No graph data available for case <b>${caseId}</b>. Start by uploading evidence.`);
-       } else {
-         log(`Building knowledge graph — <b>${NODES.length}</b> nodes, <b>${EDGES.length}</b> relationships.`);
-       }
-     
-     // Always rebuild the graph with fresh data (supports re-uploads)
-     if (mlGraph) {
-         try { mlGraph.simulation && mlGraph.simulation.stop(); } catch(e) {}
-         mlGraph = null;
-     }
-     mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
-     mlGraph.buildGraph();
-     updateHeaderCounts();
-  } catch(e) {
-     console.error(e);
-     NODES = []; EDGES = [];
-     if (mlGraph) {
-         try { mlGraph.simulation && mlGraph.simulation.stop(); } catch(err) {}
-         mlGraph = null;
-     }
-     mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
-     mlGraph.buildGraph();
-     updateHeaderCounts();
-     log(`No graph data available for case <b>${caseId}</b>. Start by uploading evidence.`);
-  }
-    await wait(550);
-
-    setStage(4);
-    mlGraph.revealGraph();
-    await wait(900);
-
-    setStage(5);
-    log('Analyzing subnetworks for high-risk flags...');
-    await wait(650);
-
-    setStage(6);
-    log('Explainability layer attached — indicators generated.');
-    await wait(500);
-
-    setStage(7);
-    log('Pipeline completed. Awaiting investigator review.');
-    await wait(400);
-
-     runBtn.textContent = 'Pipeline complete';
-     updateHeaderCounts();
-     
-     // Auto-select a flagged node if one exists
-     const flagged = NODES.find(n => n.status === 'REVIEW_REQUIRED' || n.flagged);
-     if (flagged) {
-         setTimeout(()=>{ 
-             mlGraph.selectNodeUI(flagged.id);
-             selectNode(flagged.id); 
-         }, 300);
-     }
-
-     if (window._pendingReview && window._pendingReview.length > 0) {
-         renderRightPanel();
-     }
-     isProcessing = false;
+   } catch(e) {
+      console.error(e);
+      log(`❌ Execution error: ${e.message}`);
+      runBtn.disabled = false;
+      runBtn.textContent = 'Run pipeline';
+      isProcessing = false;
+   }
   });
 
   window.loadCases = async function() {
