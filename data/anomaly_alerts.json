@@ -1,5 +1,57 @@
 [
   {
+    "alert_id": "ANOM-ee6d2f84",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
+    "alert_id": "ANOM-19ff1b95",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
+    "alert_id": "ANOM-c42fb595",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
+    "alert_id": "ANOM-de907f9b",
+    "entity_id": "person_1",
+    "signal_type": "Analytical Signal",
+    "reason": "ML Anomaly detected: Number of unique contact targets is abnormally high.",
+    "method": "isolation_forest_score",
+    "confidence": 0.7,
+    "evidence": [
+      "e1",
+      "e2",
+      "e3"
+    ]
+  },
+  {
     "alert_id": "ANOM-a969407f",
     "entity_id": "person_1",
     "signal_type": "Analytical Signal",

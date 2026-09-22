@@ -197,11 +197,8 @@ async def run_pipeline_job(job_id: str, saved_files: List[Dict[str, Any]], case_
         # Stage 4: Graph (Batched Neo4j writes using UNWIND)
         await notify_job_progress(job_id, 4, "Graph", f"Building knowledge graph — {len(global_nodes)} nodes, {len(unique_links)} relationships.")
 
-        try:
-            from backend.app.database.neo4j import insert_graph_data
-            await asyncio.to_thread(insert_graph_data, list(global_nodes.values()), unique_links, "pipeline_batch", case_id)
-        except Exception as e:
-            logger.error(f"Failed to persist graph to Neo4j in job {job_id}: {e}")
+        from backend.app.database.neo4j import insert_graph_data
+        await asyncio.to_thread(insert_graph_data, list(global_nodes.values()), unique_links, "pipeline_batch", case_id)
 
         # Stage 5: Analyze
         await notify_job_progress(job_id, 5, "Analyze", "Analyzing subnetworks for high-risk flags...")

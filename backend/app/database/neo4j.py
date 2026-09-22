@@ -69,10 +69,13 @@ def insert_graph_data(nodes: list[dict], links: list[dict], file_name: str = "un
                 "MERGE (n:Entity {id: item.id}) "
                 "SET n.value = item.value, "
                 "    n.confidence = item.confidence, "
+                "    n.case_id = $case_id, "
                 "    n += item.attributes, "
                 "    n.aliases = CASE WHEN size(item.aliases) > 0 THEN item.aliases ELSE n.aliases END, "
                 "    n.source_files = coalesce(n.source_files, []) + [x IN item.source_files WHERE NOT x IN coalesce(n.source_files, [])] "
-                "WITH n "
+                "WITH n, item "
+                "CALL apoc.create.addLabels(n, [item.type]) YIELD node AS updated_node "
+                "WITH updated_node AS n "
                 "MATCH (d:Document {file_name: $file_name, case_id: $case_id}) "
                 "MERGE (n)-[:EXTRACTED_FROM]->(d)"
             )
@@ -97,8 +100,8 @@ def insert_graph_data(nodes: list[dict], links: list[dict], file_name: str = "un
             for rel_type, link_batch in links_by_type.items():
                 batch_rel_query = (
                     "UNWIND $batch AS item "
-                    "MATCH (source:Entity {id: item.source}) "
-                    "MATCH (target:Entity {id: item.target}) "
+                    "MATCH (source {id: item.source}) "
+                    "MATCH (target {id: item.target}) "
                     f"MERGE (source)-[r:{rel_type}]->(target) "
                     "SET r.confidence = item.confidence, "
                     "    r.status = item.status, "

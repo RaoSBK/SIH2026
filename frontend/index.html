@@ -1265,18 +1265,32 @@
       renderSources();
 
       // Fetch Graph Data
-      const res = await fetch(`${API_BASE_URL}/api/cases/${newCaseId}/graph`, {
-         headers: token ? { 'Authorization': 'Bearer ' + token } : {}
-      });
-      if (res.ok) {
-        const graphData = await res.json();
-        NODES = (graphData.nodes || []).map(n => ({
-          ...n,
-          name: n.name || n.value || n.label || n.id,
-          flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
-        }));
-        EDGES = graphData.links || graphData.edges || [];
+      let graphError = null;
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/cases/${newCaseId}/graph`, {
+           headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+        });
+        if (res.ok) {
+          const graphData = await res.json();
+          if (graphData.error) {
+            graphError = graphData.error;
+          } else {
+            NODES = (graphData.nodes || []).map(n => ({
+              ...n,
+              name: n.name || n.value || n.label || n.id,
+              flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
+            }));
+            EDGES = graphData.links || graphData.edges || [];
+          }
+        } else {
+          const errBody = await res.json().catch(() => ({}));
+          graphError = errBody.detail || `HTTP ${res.status}`;
+        }
+      } catch(e) {
+        console.warn(e);
+        graphError = e.message || String(e);
       }
+
     } catch(e) {
       console.warn(e);
     }
@@ -1291,6 +1305,8 @@
       mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
       mlGraph.buildGraph();
       mlGraph.revealGraph();
+    } else if (graphError) {
+      log(`⚠️ Failed to load case graph from database for <b>${newCaseId}</b> (${graphError}).`);
     } else {
       log(`No graph data available for case <b>${newCaseId}</b>. Start by uploading evidence.`);
     }
