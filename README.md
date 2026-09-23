@@ -2,6 +2,9 @@
 
 > Turn unstructured case evidence into clear, actionable criminal network graphs in seconds.
 
+**[Full Documentation](docs/README.md)**
+
+
 ## Problem Statement (SIH26189)
 Investigating criminal networks requires sifting through hundreds of unstructured evidence files like FIRs, call records, and bank transactions. Manual analysis across isolated documents is slow and error-prone, causing investigators to miss hidden links and critical network leads. VERITAS automates this process for Problem Statement SIH26189 (Ministry of Home Affairs).
 
@@ -36,6 +39,20 @@ Evidence Files (PDF/DOCX/CSV/TXT/JSON)
 - **System Diagrams**:
   - ![Architecture Diagram](docs/diagrams/architecture.png)
   - ![Data Flow Diagram](docs/diagrams/data-flow.png)
+
+## Quick Setup (Local Docker)
+```bash
+# 1. Clone the repository
+git clone https://github.com/RaoSBK/SIH2026.git
+cd SIH2026
+
+# 2. Launch full stack via Docker Compose
+docker-compose up --build -d
+```
+Access the local environment:
+- **Frontend Console**: `http://localhost:3000`
+- **Backend API Swagger**: `http://localhost:8000/docs`
+
 
 ## What Makes VERITAS Different
 - **Cross-Source Pattern Fusion**: Merges call detail records, financial transactions, location logs, and FIR narratives into a single unified graph.
