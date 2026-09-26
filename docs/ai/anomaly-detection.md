@@ -6,21 +6,41 @@ VERITAS employs a two-stage anomaly detection architecture to highlight high-ris
 
 Source Code: [`ml/anomaly/anomaly_rules.py`](file:///d:/SIH2026/ml/anomaly/anomaly_rules.py), [`ml/anomaly/anomaly_ml.py`](file:///d:/SIH2026/ml/anomaly/anomaly_ml.py), [`backend/app/api/anomaly.py`](file:///d:/SIH2026/backend/app/api/anomaly.py)
 
+```mermaid
+flowchart TD
+    GraphPayload["Incoming Graph Payload (Nodes & Edges)"] --> Stage1["Stage 1: Rule Engine (anomaly_rules.py)"]
+    GraphPayload --> Stage2["Stage 2: Isolation Forest ML (anomaly_ml.py)"]
+
+    subgraph Stage1Rules ["Deterministic Network Rules"]
+        R1["Hub Detection (Degree >= 5 -> Red, >= 3 -> Orange)"]
+        R2["CDR Call Frequency Bursts"]
+        R3["Smurfing / Structuring Financial Loops"]
+        R4["Multi-Source Implication (FIR + CDR + Bank)"]
+    end
+
+    subgraph Stage2ML ["Unsupervised Outlier Detection"]
+        F1["Node Degree & In/Out Ratio"]
+        F2["Transaction & Call Volume"]
+        F3["Connected Component Topology"]
+        F4["Multi-Evidence Source Count"]
+        IsolationForest["Scikit-Learn Isolation Forest Model"]
+    end
+
+    Stage1 --> Stage1Rules
+    Stage2 --> Stage2ML
+    Stage2ML --> IsolationForest
+
+    Stage1Rules --> MergeAlerts["Merge & Deduplicate Anomaly Alerts"]
+    IsolationForest --> MergeAlerts
+
+    MergeAlerts --> Persist["Save to data/anomaly_alerts.json"]
+    Persist --> UIHighlight["UI Risk Styling (status: REVIEW_REQUIRED, risk_color: red/orange)"]
+
+    style Stage1 fill:#ffcc99,stroke:#ff6600,stroke-width:1.5px
+    style Stage2 fill:#99ccff,stroke:#0066cc,stroke-width:1.5px
+    style UIHighlight fill:#ff9999,stroke:#cc0000,stroke-width:2px
 ```
- Incoming Graph Payload (Nodes & Edges)
-                   │
-         ┌─────────┴─────────┐
-         ▼                   ▼
- Stage 1: Rule Engine   Stage 2: Isolation Forest ML
- (Network Rules)        (Feature Vector Outliers)
-         │                   │
-         └─────────┬─────────┘
-                   ▼
-       Merged Alert Collection
-                   │
-                   ▼
- Risk Assignment & UI Highlighting (red / orange / none)
-```
+
 
 ## Stage 1: Rule-Based Network Engine (`anomaly_rules.py`)
 

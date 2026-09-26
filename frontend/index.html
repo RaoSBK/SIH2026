@@ -1275,12 +1275,24 @@
           if (graphData.error) {
             graphError = graphData.error;
           } else {
-            NODES = (graphData.nodes || []).map(n => ({
-              ...n,
-              name: n.name || n.value || n.label || n.id,
-              flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
+            const rawNodes = graphData.nodes || [];
+            const rawEdges = graphData.links || graphData.edges || [];
+
+            NODES = rawNodes.map(n => {
+              const rawType = (n.type || n.label || 'Entity').toString();
+              const formattedType = rawType.charAt(0).toUpperCase() + rawType.slice(1).toLowerCase();
+              return {
+                ...n,
+                name: n.name || n.value || n.label || n.id,
+                type: formattedType === 'Org' ? 'Organization' : formattedType,
+                flagged: n.flagged || n.status === 'REVIEW_REQUIRED' || n.risk_color === 'red'
+              };
+            });
+
+            EDGES = rawEdges.map(e => ({
+              ...e,
+              line_type: e.flagged || e.status === 'suggested' ? 'dotted' : 'solid'
             }));
-            EDGES = graphData.links || graphData.edges || [];
           }
         } else {
           const errBody = await res.json().catch(() => ({}));
@@ -1298,13 +1310,17 @@
     if (mlGraph) {
       try { mlGraph.simulation && mlGraph.simulation.stop(); } catch(e) {}
       mlGraph = null;
-      document.getElementById('graph').innerHTML = '';
+    }
+
+    const svgContainer = document.getElementById('graph');
+    if (svgContainer) {
+      svgContainer.innerHTML = '<g id="viewport"></g>';
     }
 
     if (NODES.length > 0) {
       mlGraph = new MLGraph('graph', 'viewport', NODES, EDGES, (n) => selectNode(n.id));
       mlGraph.buildGraph();
-      mlGraph.revealGraph();
+      if (mlGraph.revealGraph) mlGraph.revealGraph();
     } else if (graphError) {
       log(`⚠️ Failed to load case graph from database for <b>${newCaseId}</b> (${graphError}).`);
     } else {
@@ -1314,6 +1330,7 @@
     document.getElementById('graphCount').textContent = NODES.length;
     if (typeof updateHeaderCounts === 'function') updateHeaderCounts();
   }
+
   window.switchCase = switchCase;
 
   const caseSelectorBtn = document.getElementById('caseSelectorBtn');

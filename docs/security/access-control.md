@@ -6,7 +6,34 @@ Source Code: [`backend/app/auth/rbac.py`](file:///d:/SIH2026/backend/app/auth/rb
 
 ---
 
+## 0. Authorization Decision Flowchart (Mermaid)
+
+```mermaid
+flowchart TD
+    Req["Incoming API Request"] --> JWTCheck{"Bearer JWT Token Present & Valid?"}
+    JWTCheck -- No / Invalid --> AuthError["401 Unauthorized / 403 Forbidden"]
+    JWTCheck -- Valid --> ExtractRole["Extract user_id & role from JWT Claims"]
+    
+    ExtractRole --> RBACCheck{"Endpoint Requires Specific Role? (require_role)"}
+    RBACCheck -- Role Not Allowed --> RoleError["403 Forbidden (Insufficient Role Privileges)"]
+    
+    RBACCheck -- Role Allowed --> ABACCheck{"Endpoint Touches Specific Case? (require_case_access)"}
+    ABACCheck -- No --> Grant["Grant Access & Execute Endpoint Handler"]
+    
+    ABACCheck -- Yes --> RoleSuper{"Is Role supervisor or system_admin?"}
+    RoleSuper -- Yes --> Grant
+    RoleSuper -- No --> CaseAssigned{"Is user_id mapped in case_assignments table?"}
+    CaseAssigned -- Yes --> Grant
+    CaseAssigned -- No --> CaseError["403 Forbidden (Not assigned to case)"]
+
+    style Grant fill:#99ff99,stroke:#009900,stroke-width:1.5px
+    style AuthError fill:#ff9999,stroke:#cc0000,stroke-width:1.5px
+    style RoleError fill:#ff9999,stroke:#cc0000,stroke-width:1.5px
+    style CaseError fill:#ff9999,stroke:#cc0000,stroke-width:1.5px
+```
+
 ## 1. System Roles & Matrix (RBAC)
+
 
 User roles are assigned in PostgreSQL (`users.role`) and embedded into signed OAuth2 JWT claims (`"role": "investigator"`).
 

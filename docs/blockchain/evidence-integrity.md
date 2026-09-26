@@ -6,24 +6,38 @@ Source Code: [`blockchain/client/fabric_client.py`](file:///d:/SIH2026/blockchai
 
 ## Cryptographic Architecture
 
+```mermaid
+flowchart TD
+    subgraph MerkleTree ["Case Merkle Tree (CASE-102)"]
+        Root["Merkle Root Hash (a8f9b2c3...)"]
+        H12["Hash H1-2"]
+        H34["Hash H3-4"]
+        H1["Hash H1 (FIR_001.pdf)"]
+        H2["Hash H2 (CDR_Log.csv)"]
+        H3["Hash H3 (Bank_Txns.json)"]
+        H4["Hash H4 (Interrogation.txt)"]
+
+        Root --> H12
+        Root --> H34
+        H12 --> H1
+        H12 --> H2
+        H34 --> H3
+        H34 --> H4
+    end
+
+    subgraph EvidenceFiles ["Uploaded Evidence Files"]
+        F1["FIR_001_Faisal_Khan.pdf"] -->|SHA-256| H1
+        F2["CDR_Log_August2024.csv"] -->|SHA-256| H2
+        F3["Bank_Transactions.json"] -->|SHA-256| H3
+        F4["Interrogation_Summary.txt"] -->|SHA-256| H4
+    end
+
+    Root --> Ledger["data/evidence_ledger.json (Tamper-Evident Ledger)"]
+
+    style Root fill:#ff9999,stroke:#cc0000,stroke-width:2px
+    style Ledger fill:#ffff99,stroke:#cc9900,stroke-width:1.5px
 ```
- Uploaded Evidence File (e.g. FIR_001.pdf)
-                    │
-                    ▼
-       Compute SHA-256 Checksum (`sha256.py`)
-                    │
-                    ▼
-       Append Hash to Case Evidence Array
-                    │
-                    ▼
-      Recompute Case Merkle Tree (`merkle_tree.py`)
-                    │
-                    ▼
-       Generate New Merkle Root Hash
-                    │
-                    ▼
- Record Appended to `data/evidence_ledger.json` (Tamper-Evident Ledger)
-```
+
 
 ## Module Component Breakdown
 

@@ -6,24 +6,28 @@ Entity Resolution (ER) merges duplicate mentions of the same real-world entity a
 
 Source Code: [`backend/app/ingestion/resolver.py`](file:///d:/SIH2026/backend/app/ingestion/resolver.py), [`cias_er/`](file:///d:/SIH2026/cias_er/)
 
+```mermaid
+flowchart TD
+    Raw["Raw Extracted Entities (NER / RegEx)"] --> Norm["Standardize & Normalize (E.164 Phones, Case, Account Format)"]
+    Norm --> Match["Multi-Signal Candidate Matching (cias_er)"]
+    
+    Match --> PhoneCheck{"Exact Phone Match?"}
+    PhoneCheck -- Yes --> AutoMerge["Automatic Entity Node Merge (Neo4j)"]
+    
+    PhoneCheck -- No --> ScoreCheck{"Calculate Jaro-Winkler & Double Metaphone Score"}
+    ScoreCheck -- "Score >= 0.85" --> AutoMerge
+    ScoreCheck -- "0.65 <= Score < 0.85" --> ReviewQueue["Queue to /api/review-queue (Human Review)"]
+    ScoreCheck -- "Score < 0.65" --> KeepDistinct["Keep as Distinct Entities"]
+    
+    ReviewQueue --> InvestigatorDecision{"Investigator Choice"}
+    InvestigatorDecision -- "action: 'merge'" --> AutoMerge
+    InvestigatorDecision -- "action: 'reject'" --> KeepDistinct
+
+    style AutoMerge fill:#99ff99,stroke:#009900,stroke-width:1.5px
+    style ReviewQueue fill:#ffff99,stroke:#cc9900,stroke-width:1.5px
+    style KeepDistinct fill:#e0e0e0,stroke:#666666,stroke-width:1px
 ```
- Raw Extracted Entities
-        │
-        ▼
- Standardize & Normalize (E.164 Phones, Name Case, Clean Accounts)
-        │
-        ▼
- Multi-Signal Candidate Matching
- ├── Phone Number Match (Exact E.164) -> Auto-Merge
- ├── Phonetic Encodings (Double Metaphone / Soundex)
- └── Jaro-Winkler Similarity (RapidFuzz / cias_er)
-        │
-        ▼
- Score Evaluation & Action
- ├── Score >= 0.85 ──► Automatic Entity Node Merge
- ├── 0.65 <= Score < 0.85 ──► Queue to /api/review-queue (Human Review)
- └── Score < 0.65 ──► Keep as Distinct Entities
-```
+
 
 ## Resolution Signals & Scoring
 

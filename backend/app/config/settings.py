@@ -1,7 +1,8 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
-    database_url: str = "postgresql://postgres:postgres@postgres:5432/criminal_intel"
+    database_url: str = "postgresql+psycopg2://postgres:postgres@postgres:5432/criminal_intel"
+
     neo4j_uri: str = "bolt://localhost:7687"
     neo4j_user: str = "neo4j"
     neo4j_password: str = "password"

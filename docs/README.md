@@ -14,7 +14,8 @@ This repository documentation is organized into 8 core sections:
 | [**`docs/blockchain/`**](blockchain/evidence-integrity.md) | Cryptographic Evidence Integrity | SHA-256 File Checksums, Merkle Tree Root Calculation, Tamper-Evident Ledger |
 | [**`docs/database/`**](database/postgres-schema.md) | Database & Storage Schemas | Relational PostgreSQL Schemas, Neo4j Graph Ontology, Cypher Query Patterns |
 | [**`docs/demo/`**](demo/demo-script.md) | Evaluator Demo & Test Flows | Step-by-Step Judge Walkthrough Script, Case "Operation Crescent" Test Scenario |
-| [**`docs/diagrams/`**](diagrams/system-architecture.md) | Architecture & Pipeline Diagrams | Mermaid Architecture Flowcharts, Sequence Diagrams, Visual Image References |
+| [**`docs/diagrams/`**](diagrams/README.md) | Architecture & Pipeline Diagrams | Mermaid Architecture Flowcharts, Sequence Diagrams, Visual Image References |
+
 | [**`docs/security/`**](security/access-control.md) | Security, Auth & Access Control | Role-Based Access (RBAC), Case Access (ABAC), Evidence Hashing, PII Masking, Threat Model |
 
 ---

@@ -6,7 +6,44 @@ Source Code: [`GRAPH_SCHEMA.md`](file:///d:/SIH2026/GRAPH_SCHEMA.md), [`backend/
 
 ---
 
+## 0. Graph Ontology Diagram (Mermaid)
+
+```mermaid
+flowchart TD
+    Doc["Document (file_name, case_id)"]
+    Person["PERSON (name, risk_color, status)"]
+    Phone["PHONE (+91XXXXXXXXXX)"]
+    Account["ACCOUNT (ACC-AHMED-4521)"]
+    Vehicle["VEHICLE (MH-12-AB-1234)"]
+    Location["LOCATION (Hyderabad)"]
+    Org["ORG (Crescent Traders)"]
+    FIR["FIR (FIR-2024-0089)"]
+    Aadhaar["AADHAAR (XXXX-XXXX-1234)"]
+
+    Person -->|HAS_PHONE| Phone
+    Person -->|OWNS_VEHICLE| Vehicle
+    Person -->|ASSOCIATED_WITH| Org
+    Person -->|MENTIONED_NEAR| Location
+    Phone -->|CALLED / COMMUNICATED_WITH| Phone
+    Account -->|TRANSFERRED_TO| Account
+    
+    Person -->|EXTRACTED_FROM| Doc
+    Phone -->|EXTRACTED_FROM| Doc
+    Account -->|EXTRACTED_FROM| Doc
+    Vehicle -->|EXTRACTED_FROM| Doc
+    Location -->|EXTRACTED_FROM| Doc
+    Org -->|EXTRACTED_FROM| Doc
+    FIR -->|EXTRACTED_FROM| Doc
+    Aadhaar -->|EXTRACTED_FROM| Doc
+
+    style Person fill:#ff9999,stroke:#cc0000,stroke-width:2px
+    style Phone fill:#99ccff,stroke:#0066cc,stroke-width:1px
+    style Account fill:#99ff99,stroke:#009900,stroke-width:1px
+    style Doc fill:#ffff99,stroke:#cc9900,stroke-width:1px
+```
+
 ## 1. Node Labels & Properties
+
 
 Nodes represent real-world criminal intelligence entities. Merging is performed on property `id`.
 

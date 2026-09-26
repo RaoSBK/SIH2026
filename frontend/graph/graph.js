@@ -105,6 +105,20 @@ export class MLGraph {
     const width = 2400;
     const height = 1800;
 
+    // Ensure all nodes have numeric x, y defaults before simulation ticks
+    this.nodes.forEach((n, idx) => {
+      if (typeof n.x !== 'number' || isNaN(n.x)) {
+        const angle = (idx / (this.nodes.length || 1)) * 2 * Math.PI;
+        const radius = 300 + (idx % 5) * 40;
+        n.x = width / 2 + Math.cos(angle) * radius;
+      }
+      if (typeof n.y !== 'number' || isNaN(n.y)) {
+        const angle = (idx / (this.nodes.length || 1)) * 2 * Math.PI;
+        const radius = 300 + (idx % 5) * 40;
+        n.y = height / 2 + Math.sin(angle) * radius;
+      }
+    });
+
     // Use D3 for live force layout instead of static iteration
     this.simulation = d3.forceSimulation(this.nodes)
       .force("link", d3.forceLink(this.links).id(d => d.id).distance(380).strength(0.5))
@@ -119,10 +133,11 @@ export class MLGraph {
   ticked() {
     this.nodes.forEach(n => {
        const g = this.nodeGroups[n.id];
-       if (g) {
+       if (g && typeof n.x === 'number' && !isNaN(n.x) && typeof n.y === 'number' && !isNaN(n.y)) {
           g.setAttribute('transform', `translate(${n.x},${n.y}) scale(1)`);
        }
     });
+
     
     this.links.forEach(e => {
        if (e._el) {
@@ -409,19 +424,24 @@ export class MLGraph {
     let i = 0;
     this.nodes.forEach(n => {
       const g = this.nodeGroups[n.id];
-      setTimeout(() => {
-        g.style.transition = reduced ? 'opacity 200ms ease' : 'opacity 280ms ease'; // Removed transform transition to prevent fighting with D3
-        g.style.opacity = 1;
-        g.setAttribute('transform', `translate(${n.x},${n.y}) scale(1)`);
-      }, i * 10);
+      if (g) {
+        setTimeout(() => {
+          g.style.transition = reduced ? 'opacity 200ms ease' : 'opacity 280ms ease'; // Removed transform transition to prevent fighting with D3
+          g.style.opacity = 1;
+          const posX = (typeof n.x === 'number' && !isNaN(n.x)) ? n.x : 1200;
+          const posY = (typeof n.y === 'number' && !isNaN(n.y)) ? n.y : 900;
+          g.setAttribute('transform', `translate(${posX},${posY}) scale(1)`);
+        }, i * 10);
+      }
       i++;
     });
     
     this.links.forEach((e, idx) => {
       setTimeout(() => {
-        // Just fade in labels — no dashoffset animation needed anymore
-        e._label.style.transition = 'opacity 300ms ease';
-        e._label.style.opacity = 1;
+        if (e._label) {
+          e._label.style.transition = 'opacity 300ms ease';
+          e._label.style.opacity = 1;
+        }
       }, 260 + idx * 70);
     });
     setTimeout(() => { 
@@ -432,14 +452,25 @@ export class MLGraph {
   }
 
   fitGraphToScreen() {
-    if(this.nodes.length === 0) return;
+    if(!this.nodes || this.nodes.length === 0) return;
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    let validCount = 0;
     this.nodes.forEach(n => {
-      if(n.x < minX) minX = n.x;
-      if(n.x > maxX) maxX = n.x;
-      if(n.y < minY) minY = n.y;
-      if(n.y > maxY) maxY = n.y;
+      if (typeof n.x === 'number' && !isNaN(n.x) && typeof n.y === 'number' && !isNaN(n.y)) {
+        if(n.x < minX) minX = n.x;
+        if(n.x > maxX) maxX = n.x;
+        if(n.y < minY) minY = n.y;
+        if(n.y > maxY) maxY = n.y;
+        validCount++;
+      }
     });
+
+    if (validCount === 0 || !isFinite(minX) || !isFinite(maxX) || !isFinite(minY) || !isFinite(maxY)) {
+      this.panSpringX.set(0);
+      this.panSpringY.set(0);
+      this.zoomSpring.set(1);
+      return;
+    }
     
     const padding = 120;
     const width = maxX - minX + padding * 2;
@@ -447,18 +478,22 @@ export class MLGraph {
     
     const scaleX = 880 / (width || 1);
     const scaleY = 520 / (height || 1);
-    const targetZoom = Math.min(scaleX, scaleY, 1.2); 
+    let targetZoom = Math.min(scaleX, scaleY, 1.2); 
+    if (!isFinite(targetZoom) || isNaN(targetZoom)) targetZoom = 1;
     
     const cx = (minX + maxX) / 2;
     const cy = (minY + maxY) / 2;
     
-    const targetPanX = 880/2 - cx * targetZoom;
-    const targetPanY = 520/2 - cy * targetZoom;
+    let targetPanX = 880/2 - cx * targetZoom;
+    let targetPanY = 520/2 - cy * targetZoom;
+    if (!isFinite(targetPanX) || isNaN(targetPanX)) targetPanX = 0;
+    if (!isFinite(targetPanY) || isNaN(targetPanY)) targetPanY = 0;
     
     this.panSpringX.set(targetPanX);
     this.panSpringY.set(targetPanY);
     this.zoomSpring.set(targetZoom);
   }
+
 
   /* ----- Pan & Zoom Logic ----- */
   initPanning() {
