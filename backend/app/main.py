@@ -15,6 +15,10 @@ async def lifespan(app: FastAPI):
         init_db()
         Base.metadata.create_all(bind=engine)
         
+        # Initialize Neo4j schema indexes and constraints
+        from backend.app.database.neo4j import init_neo4j_schema
+        init_neo4j_schema()
+        
         # Seed default user rao.a
         from backend.app.users.models import User
         from backend.app.auth.authentication import hash_password
@@ -56,3 +60,7 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"status": "ok", "service": "CIAS ML Backend"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}

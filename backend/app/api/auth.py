@@ -25,7 +25,16 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
         raise forbidden("Incorrect username or password")
         
     access_token = create_access_token(data={"sub": user.username, "role": user.role})
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": str(user.id),
+            "username": user.username,
+            "full_name": user.full_name,
+            "role": user.role
+        }
+    }
 
 @router.get("/me", response_model=UserOut)
 def get_me(current_user: User = Depends(get_current_user)):

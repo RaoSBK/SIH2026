@@ -283,3 +283,37 @@ class TestNERUtilities:
     def test_stoplist_bypassed_for_long_spans(self):
         from backend.app.ingestion.ner import _is_probable_entity
         assert _is_probable_entity("Dr. Rajesh Kumar Verma Singh", "PERSON") is True
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Test 10: Neo4j Graph Persistence & Scoped Retrieval
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestGraphPersistence:
+
+    def test_insert_and_retrieve_case_graph(self):
+        """Verify Neo4j writes nodes with case_id & get_case_graph retrieves them without in-memory dependency."""
+        from backend.app.database.neo4j import insert_graph_data
+        from backend.app.api.cases import get_case_graph
+
+        case_id = f"CASE-REGRESSION-{uuid.uuid4().hex[:6].upper()}"
+        person = make_entity("PERSON", "Regression Suspect", eid=f"person:{uuid.uuid4().hex[:8]}")
+        phone = make_entity("PHONE", "+919988776655", eid=f"phone:{uuid.uuid4().hex[:8]}")
+        rel = make_rel("HAS_PHONE", person["id"], phone["id"])
+
+        try:
+            insert_graph_data([person, phone], [rel], "regression_doc.txt", case_id)
+        except Exception as e:
+            pytest.skip(f"Neo4j instance not available in test environment: {e}")
+
+        # Retrieve graph directly from DB
+        graph_data = get_case_graph(case_id)
+        assert isinstance(graph_data, dict)
+        assert "nodes" in graph_data
+        assert "edges" in graph_data
+
+        returned_node_ids = {n["id"] for n in graph_data["nodes"]}
+        assert person["id"] in returned_node_ids
+        assert phone["id"] in returned_node_ids
+        assert len(graph_data["edges"]) >= 1
+

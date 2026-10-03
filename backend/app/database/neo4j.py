@@ -5,99 +5,110 @@ NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
 NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "password")
 
-driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
+driver = GraphDatabase.driver(
+    NEO4J_URI,
+    auth=(NEO4J_USER, NEO4J_PASSWORD),
+    max_connection_pool_size=50,
+    max_connection_lifetime=3600,
+    keep_alive=True
+)
+
+def init_neo4j_schema():
+    """Initializes Neo4j constraints and indexes if missing."""
+    constraints_and_indexes = [
+        "CREATE CONSTRAINT entity_id_unique IF NOT EXISTS FOR (n:Entity) REQUIRE n.id IS UNIQUE",
+        "CREATE INDEX doc_case_idx IF NOT EXISTS FOR (d:Document) ON (d.case_id)",
+        "CREATE INDEX doc_file_idx IF NOT EXISTS FOR (d:Document) ON (d.file_name)",
+        "CREATE INDEX entity_phone_idx IF NOT EXISTS FOR (n:Entity) ON (n.phone)",
+        "CREATE INDEX entity_val_idx IF NOT EXISTS FOR (n:Entity) ON (n.value)",
+    ]
+    try:
+        with driver.session() as session:
+            for stmt in constraints_and_indexes:
+                try:
+                    session.run(stmt)
+                except Exception:
+                    pass
+    except Exception as e:
+        print(f"[Neo4j] Schema init warning: {e}")
 
 def insert_graph_data(nodes: list[dict], links: list[dict], file_name: str = "unknown", case_id: str = None):
     """
-    Persists resolved entities and relationships into Neo4j.
+    Persists resolved entities and relationships into Neo4j using batched UNWIND queries.
     Also links them to a Document node for clean re-ingestion.
     """
     if not nodes and not links:
         return
 
-    try:
-        with driver.session() as session:
-            # Insert Document Node
-            session.run(
-                "MERGE (d:Document {file_name: $file_name, case_id: $case_id})",
-                file_name=file_name, case_id=case_id or "unknown"
+    cid = case_id or "unknown"
+    with driver.session() as session:
+        # 1. Merge Document Node
+        session.run(
+            "MERGE (d:Document {file_name: $file_name, case_id: $case_id})",
+            file_name=file_name, case_id=cid
+        )
+
+        # 2. Batch Insert Nodes via UNWIND
+        if nodes:
+            formatted_nodes = []
+            for n in nodes:
+                node_type = str(n.get("type") or n.get("label") or "Entity").capitalize()
+                if node_type == "Org": node_type = "Organization"
+                formatted_nodes.append({
+                    "id": n["id"],
+                    "value": n.get("value", n["id"]),
+                    "type": node_type,
+                    "confidence": float(n.get("confidence", 1.0)),
+                    "attributes": n.get("attributes", {}),
+                    "aliases": n.get("aliases", []),
+                    "source_files": n.get("source_files", [file_name] if file_name != "unknown" else [])
+                })
+
+            batch_node_query = (
+                "UNWIND $nodes AS item "
+                "MERGE (n:Entity {id: item.id}) "
+                "SET n.value = item.value, "
+                "    n.confidence = item.confidence, "
+                "    n.case_id = $case_id, "
+                "    n += item.attributes, "
+                "    n.aliases = CASE WHEN size(item.aliases) > 0 THEN item.aliases ELSE n.aliases END, "
+                "    n.source_files = coalesce(n.source_files, []) + [x IN item.source_files WHERE NOT x IN coalesce(n.source_files, [])] "
+                "WITH n, item "
+                "CALL apoc.create.addLabels(n, [item.type]) YIELD node AS updated_node "
+                "WITH updated_node AS n "
+                "MATCH (d:Document {file_name: $file_name, case_id: $case_id}) "
+                "MERGE (n)-[:EXTRACTED_FROM]->(d)"
             )
+            session.run(batch_node_query, nodes=formatted_nodes, file_name=file_name, case_id=cid)
 
-            # Insert Nodes
-            for node in nodes:
-                # We use MERGE so we don't duplicate nodes that already exist in Neo4j
-                query = (
-                    f"MERGE (n:{node['type']} {{id: $id}}) "
-                    "SET n.value = $value, "
-                    "    n.confidence = $confidence, "
-                    "    n += $attributes"
-                )
-                session.run(
-                    query,
-                    id=node["id"],
-                    value=node["value"],
-                    confidence=node.get("confidence", 1.0),
-                    attributes=node.get("attributes", {})
-                )
-                
-                # Link entity to the Document
-                session.run(
-                    "MATCH (n {id: $id}), (d:Document {file_name: $file_name, case_id: $case_id}) "
-                    "MERGE (n)-[:EXTRACTED_FROM]->(d)",
-                    id=node["id"], file_name=file_name, case_id=case_id or "unknown"
-                )
-                
-                # If there are aliases, set them (useful for PERSON nodes)
-                if node.get("aliases"):
-                    session.run(
-                        f"MATCH (n:{node['type']} {{id: $id}}) SET n.aliases = $aliases",
-                        id=node["id"],
-                        aliases=node["aliases"]
-                    )
-                    
-                # Update source_files provenance
-                if node.get("source_files"):
-                    session.run(
-                        f"MATCH (n:{node['type']} {{id: $id}}) "
-                        "SET n.source_files = coalesce(n.source_files, []) + [x IN $source_files WHERE NOT x IN coalesce(n.source_files, [])]",
-                        id=node["id"],
-                        source_files=node["source_files"]
-                    )
-
-            # Insert Relationships
-            skipped = []
+        # 3. Batch Insert Relationships via UNWIND grouped by rel_type
+        if links:
+            links_by_type = {}
             for link in links:
-                # Cypher requires relationship types to be static in the query string
-                rel_type = link["type"].replace(" ", "_").upper()
-                query = (
-                    "MATCH (source {id: $source_id}) "
-                    "MATCH (target {id: $target_id}) "
+                rel_type = str(link.get("type") or "LINK").replace(" ", "_").upper()
+                if rel_type not in links_by_type:
+                    links_by_type[rel_type] = []
+                links_by_type[rel_type].append({
+                    "source": link["source"],
+                    "target": link["target"],
+                    "confidence": float(link.get("confidence", 1.0)),
+                    "status": link.get("status", "confirmed"),
+                    "evidence": link.get("evidence", ""),
+                    "attributes": link.get("attributes", {})
+                })
+
+            for rel_type, link_batch in links_by_type.items():
+                batch_rel_query = (
+                    "UNWIND $batch AS item "
+                    "MATCH (source {id: item.source}) "
+                    "MATCH (target {id: item.target}) "
                     f"MERGE (source)-[r:{rel_type}]->(target) "
-                    "SET r.confidence = $confidence, "
-                    "    r.status = $status, "
-                    "    r.evidence = $evidence, "
-                    "    r += $attributes"
+                    "SET r.confidence = item.confidence, "
+                    "    r.status = item.status, "
+                    "    r.evidence = item.evidence, "
+                    "    r += item.attributes"
                 )
-                result = session.run(
-                    query,
-                    source_id=link["source"],
-                    target_id=link["target"],
-                    confidence=link.get("confidence", 1.0),
-                    status=link.get("status", "confirmed"),
-                    evidence=link.get("evidence", ""),
-                    attributes=link.get("attributes", {})
-                )
-                summary = result.consume()
-                if summary.counters.relationships_created == 0 and summary.counters.properties_set == 0:
-                    skipped.append((link["source"], link["target"], rel_type))
-                    
-            if skipped:
-                print(f"[insert_graph_data] WARNING: {len(skipped)}/{len(links)} "
-                      f"relationships had no matching source/target node id:")
-                for s, t, rt in skipped[:15]:
-                    print(f"    {s} --{rt}--> {t}")
-    except Exception as e:
-        print(f"[Neo4j] Failed to persist graph data (is database running?): {e}")
+                session.run(batch_rel_query, batch=link_batch)
 
 def delete_entities_by_source(file_name: str, case_id: str = None):
     """

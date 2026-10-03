@@ -42,14 +42,16 @@ def get_case(
 @router.get("/{case_id}/graph", dependencies=[Depends(require_case_access)])
 def get_case_graph(case_id: str):
     import logging
+    from fastapi import HTTPException
     logger = logging.getLogger(__name__)
     from backend.app.database.neo4j import driver as neo4j_driver
     try:
         with neo4j_driver.session() as session:
             nodes_result = session.run(
-                "MATCH (n)-[:EXTRACTED_FROM]->(:Document {case_id: $case_id}) "
-                "RETURN DISTINCT n.id AS id, n.value AS value, "
-                "       labels(n)[0] AS type, n.confidence AS confidence, "
+                "MATCH (n) WHERE NOT n:Document AND n.id IS NOT NULL AND (n.case_id = $case_id OR (n)-[:EXTRACTED_FROM]->(:Document {case_id: $case_id})) "
+                "RETURN DISTINCT n.id AS id, coalesce(n.value, n.name, n.id) AS value, "
+                "       coalesce(n.type, [lbl IN labels(n) WHERE lbl <> 'Entity'][0], labels(n)[0]) AS type, "
+                "       n.confidence AS confidence, "
                 "       n.status AS status, n.risk_color AS risk_color, "
                 "       n.historical_firs AS historical_firs, "
                 "       n.phone AS phone, n.anomaly_reasons AS anomaly_reasons, "
@@ -59,9 +61,9 @@ def get_case_graph(case_id: str):
             nodes = [dict(r) for r in nodes_result]
 
             edges_result = session.run(
-                "MATCH (a)-[:EXTRACTED_FROM]->(:Document {case_id: $case_id}) "
-                "MATCH (a)-[r]->(b) WHERE type(r) <> 'EXTRACTED_FROM' "
-                "RETURN a.id AS source, b.id AS target, type(r) AS type, "
+                "MATCH (a) WHERE NOT a:Document AND a.id IS NOT NULL AND (a.case_id = $case_id OR (a)-[:EXTRACTED_FROM]->(:Document {case_id: $case_id})) "
+                "MATCH (a)-[r]->(b) WHERE NOT b:Document AND b.id IS NOT NULL AND type(r) <> 'EXTRACTED_FROM' "
+                "RETURN DISTINCT a.id AS source, b.id AS target, type(r) AS type, "
                 "       coalesce(r.relationship_type, CASE WHEN type(r) IN ['CALLED','CALL','CALLING'] THEN 'calling' ELSE type(r) END) AS relationship_type, "
                 "       r.confidence AS confidence, r.status AS status, r.evidence AS evidence",
                 case_id=case_id
@@ -74,7 +76,7 @@ def get_case_graph(case_id: str):
         return {"nodes": nodes, "edges": edges, "case_id": case_id}
     except Exception as e:
         logger.error(f"[get_case_graph] Failed for case {case_id}: {e}")
-        return {"nodes": [], "edges": [], "case_id": case_id, "error": str(e)}
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve graph data for case {case_id}: {str(e)}")
 
 @router.post("/{case_id}/assign", dependencies=[Depends(require_role("supervisor"))])
 def assign_case(
