@@ -75,8 +75,14 @@ def get_case_graph(case_id: str):
 
         return {"nodes": nodes, "edges": edges, "case_id": case_id}
     except Exception as e:
-        logger.error(f"[get_case_graph] Failed for case {case_id}: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to retrieve graph data for case {case_id}: {str(e)}")
+        logger.warning(f"[get_case_graph] Neo4j graph retrieval notice for case {case_id}: {e}")
+        return {
+            "nodes": [],
+            "edges": [],
+            "case_id": case_id,
+            "status": "warning",
+            "message": f"Graph database unavailable or authentication required: {str(e)}"
+        }
 
 @router.post("/{case_id}/assign", dependencies=[Depends(require_role("supervisor"))])
 def assign_case(

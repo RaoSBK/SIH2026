@@ -41,74 +41,77 @@ def insert_graph_data(nodes: list[dict], links: list[dict], file_name: str = "un
         return
 
     cid = case_id or "unknown"
-    with driver.session() as session:
-        # 1. Merge Document Node
-        session.run(
-            "MERGE (d:Document {file_name: $file_name, case_id: $case_id})",
-            file_name=file_name, case_id=cid
-        )
-
-        # 2. Batch Insert Nodes via UNWIND
-        if nodes:
-            formatted_nodes = []
-            for n in nodes:
-                node_type = str(n.get("type") or n.get("label") or "Entity").capitalize()
-                if node_type == "Org": node_type = "Organization"
-                formatted_nodes.append({
-                    "id": n["id"],
-                    "value": n.get("value", n["id"]),
-                    "type": node_type,
-                    "confidence": float(n.get("confidence", 1.0)),
-                    "attributes": n.get("attributes", {}),
-                    "aliases": n.get("aliases", []),
-                    "source_files": n.get("source_files", [file_name] if file_name != "unknown" else [])
-                })
-
-            batch_node_query = (
-                "UNWIND $nodes AS item "
-                "MERGE (n:Entity {id: item.id}) "
-                "SET n.value = item.value, "
-                "    n.confidence = item.confidence, "
-                "    n.case_id = $case_id, "
-                "    n += item.attributes, "
-                "    n.aliases = CASE WHEN size(item.aliases) > 0 THEN item.aliases ELSE n.aliases END, "
-                "    n.source_files = coalesce(n.source_files, []) + [x IN item.source_files WHERE NOT x IN coalesce(n.source_files, [])] "
-                "WITH n, item "
-                "CALL apoc.create.addLabels(n, [item.type]) YIELD node AS updated_node "
-                "WITH updated_node AS n "
-                "MATCH (d:Document {file_name: $file_name, case_id: $case_id}) "
-                "MERGE (n)-[:EXTRACTED_FROM]->(d)"
+    try:
+        with driver.session() as session:
+            # 1. Merge Document Node
+            session.run(
+                "MERGE (d:Document {file_name: $file_name, case_id: $case_id})",
+                file_name=file_name, case_id=cid
             )
-            session.run(batch_node_query, nodes=formatted_nodes, file_name=file_name, case_id=cid)
 
-        # 3. Batch Insert Relationships via UNWIND grouped by rel_type
-        if links:
-            links_by_type = {}
-            for link in links:
-                rel_type = str(link.get("type") or "LINK").replace(" ", "_").upper()
-                if rel_type not in links_by_type:
-                    links_by_type[rel_type] = []
-                links_by_type[rel_type].append({
-                    "source": link["source"],
-                    "target": link["target"],
-                    "confidence": float(link.get("confidence", 1.0)),
-                    "status": link.get("status", "confirmed"),
-                    "evidence": link.get("evidence", ""),
-                    "attributes": link.get("attributes", {})
-                })
+            # 2. Batch Insert Nodes via UNWIND
+            if nodes:
+                formatted_nodes = []
+                for n in nodes:
+                    node_type = str(n.get("type") or n.get("label") or "Entity").capitalize()
+                    if node_type == "Org": node_type = "Organization"
+                    formatted_nodes.append({
+                        "id": n["id"],
+                        "value": n.get("value", n["id"]),
+                        "type": node_type,
+                        "confidence": float(n.get("confidence", 1.0)),
+                        "attributes": n.get("attributes", {}),
+                        "aliases": n.get("aliases", []),
+                        "source_files": n.get("source_files", [file_name] if file_name != "unknown" else [])
+                    })
 
-            for rel_type, link_batch in links_by_type.items():
-                batch_rel_query = (
-                    "UNWIND $batch AS item "
-                    "MATCH (source {id: item.source}) "
-                    "MATCH (target {id: item.target}) "
-                    f"MERGE (source)-[r:{rel_type}]->(target) "
-                    "SET r.confidence = item.confidence, "
-                    "    r.status = item.status, "
-                    "    r.evidence = item.evidence, "
-                    "    r += item.attributes"
+                batch_node_query = (
+                    "UNWIND $nodes AS item "
+                    "MERGE (n:Entity {id: item.id}) "
+                    "SET n.value = item.value, "
+                    "    n.confidence = item.confidence, "
+                    "    n.case_id = $case_id, "
+                    "    n += item.attributes, "
+                    "    n.aliases = CASE WHEN size(item.aliases) > 0 THEN item.aliases ELSE n.aliases END, "
+                    "    n.source_files = coalesce(n.source_files, []) + [x IN item.source_files WHERE NOT x IN coalesce(n.source_files, [])] "
+                    "WITH n, item "
+                    "CALL apoc.create.addLabels(n, [item.type]) YIELD node AS updated_node "
+                    "WITH updated_node AS n "
+                    "MATCH (d:Document {file_name: $file_name, case_id: $case_id}) "
+                    "MERGE (n)-[:EXTRACTED_FROM]->(d)"
                 )
-                session.run(batch_rel_query, batch=link_batch)
+                session.run(batch_node_query, nodes=formatted_nodes, file_name=file_name, case_id=cid)
+
+            # 3. Batch Insert Relationships via UNWIND grouped by rel_type
+            if links:
+                links_by_type = {}
+                for link in links:
+                    rel_type = str(link.get("type") or "LINK").replace(" ", "_").upper()
+                    if rel_type not in links_by_type:
+                        links_by_type[rel_type] = []
+                    links_by_type[rel_type].append({
+                        "source": link["source"],
+                        "target": link["target"],
+                        "confidence": float(link.get("confidence", 1.0)),
+                        "status": link.get("status", "confirmed"),
+                        "evidence": link.get("evidence", ""),
+                        "attributes": link.get("attributes", {})
+                    })
+
+                for rel_type, link_batch in links_by_type.items():
+                    batch_rel_query = (
+                        "UNWIND $batch AS item "
+                        "MATCH (source {id: item.source}) "
+                        "MATCH (target {id: item.target}) "
+                        f"MERGE (source)-[r:{rel_type}]->(target) "
+                        "SET r.confidence = item.confidence, "
+                        "    r.status = item.status, "
+                        "    r.evidence = item.evidence, "
+                        "    r += item.attributes"
+                    )
+                    session.run(batch_rel_query, batch=link_batch)
+    except Exception as e:
+        print(f"[Neo4j] Graph data insertion warning for case {cid}: {e}")
 
 def delete_entities_by_source(file_name: str, case_id: str = None):
     """
