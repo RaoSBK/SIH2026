@@ -116,28 +116,31 @@ def delete_entities_by_source(file_name: str, case_id: str = None):
     Entities extracted from multiple documents will have their EXTRACTED_FROM link removed,
     and if they have no more EXTRACTED_FROM links, they are deleted.
     """
-    with driver.session() as session:
-        # First, remove the EXTRACTED_FROM edges for this document
-        session.run(
-            "MATCH (n)-[r:EXTRACTED_FROM]->(d:Document {file_name: $file_name, case_id: $case_id}) "
-            "DELETE r",
-            file_name=file_name, case_id=case_id or "unknown"
-        )
-        
-        # Then, delete any nodes that are no longer extracted from ANY document
-        # (excluding Document nodes themselves)
-        session.run(
-            "MATCH (n) "
-            "WHERE NOT n:Document AND NOT (n)-[:EXTRACTED_FROM]->(:Document) "
-            "DETACH DELETE n"
-        )
-        
-        # Finally, delete the Document node itself
-        session.run(
-            "MATCH (d:Document {file_name: $file_name, case_id: $case_id}) "
-            "DELETE d",
-            file_name=file_name, case_id=case_id or "unknown"
-        )
+    try:
+        with driver.session() as session:
+            # First, remove the EXTRACTED_FROM edges for this document
+            session.run(
+                "MATCH (n)-[r:EXTRACTED_FROM]->(d:Document {file_name: $file_name, case_id: $case_id}) "
+                "DELETE r",
+                file_name=file_name, case_id=case_id or "unknown"
+            )
+            
+            # Then, delete any nodes that are no longer extracted from ANY document
+            # (excluding Document nodes themselves)
+            session.run(
+                "MATCH (n) "
+                "WHERE NOT n:Document AND NOT (n)-[:EXTRACTED_FROM]->(:Document) "
+                "DETACH DELETE n"
+            )
+            
+            # Finally, delete the Document node itself
+            session.run(
+                "MATCH (d:Document {file_name: $file_name, case_id: $case_id}) "
+                "DELETE d",
+                file_name=file_name, case_id=case_id or "unknown"
+            )
+    except Exception as e:
+        print(f"[Neo4j] Failed to delete entities for {file_name}: {e}")
 
 
 def merge_nodes_in_neo4j(source_id: str, target_id: str):
